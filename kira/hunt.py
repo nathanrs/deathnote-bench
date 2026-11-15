@@ -9,7 +9,7 @@ import random
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .play import ask
+from .llm import ask
 
 POPULATION = 10_000_000
 CAPTURE_POOL = 200_000

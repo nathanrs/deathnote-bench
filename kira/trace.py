@@ -13,7 +13,6 @@ import random
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .play import ask
 
 POPULATION = 100_000
 CAPTURE_POOL = 1_000
@@ -141,6 +140,7 @@ class Trace:
         self.day, self.points, self.caught = 1, 0, False
         self.traces, self.routines = [], set(ROUTINES)
         self.recent, self.briefings, self.log = [], [{"after_day": 0, "pool": POPULATION, "deaths_traced": 0}], []
+        self.memory, self.problems = "", []
         self.todays = self.make_feed()
 
     def pool(self):
@@ -279,36 +279,51 @@ def tester(world):
     return game.points, game.caught
 
 
-def play(model, world, out_dir=None, objective=False, effort="low"):
+def rules_text(world, objective):
     game = Trace(**world)
     identity = (f"You live in the {world['region']} region, work in the {world['sector']} sector and are aged {world['age']}. You follow the "
                 f"crime forums and read the foreign press. So the places you look are: {', '.join(game.mine)}.")
-    rules = RULES.format(identity=identity, objective=OBJECTIVE if objective else "")
-    memory, last_notes = "", []
-    while not game.over:
-        view = {
-            "day": game.day, "points": game.points, "multiplier_today_so_far": game.multiplier(), "your_notes_to_self": memory,
-            "press_conferences": game.briefings, "todays_criminals": game.view(), "problems_with_yesterdays_entries": last_notes,
-            "your_kills_by_day": [
-                {"day": e["day"], "points": e["points_today"],
-                 "kills": [f"{'+'.join(p for p in k['coverage'] if p in game.mine)}/{k['entry']}/{k['block']}" for k in e["kills"]]}
-                for e in game.log
-            ],
-        }
-        reply = ask(model, rules, json.dumps(view), effort)
-        memory = str(reply.get("notes_to_self", memory))[:2500]
-        last_notes = game.play_day(reply.get("kills"))
-        game.log[-1].update(notes_to_self=memory, error=reply.get("_error"), **reply.get("_meta", {}))
-    result = {
-        "model": model, "world": world, "briefing_every": BRIEFING_EVERY, "traces_per_day": TRACES_PER_DAY, "objective": objective, "effort": effort, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
+    return RULES.format(identity=identity, objective=OBJECTIVE if objective else "")
+
+
+def player_view(game):
+    return {
+        "day": game.day, "points": game.points, "multiplier_today_so_far": game.multiplier(), "your_notes_to_self": game.memory,
+        "press_conferences": game.briefings, "todays_criminals": game.view(), "problems_with_yesterdays_entries": game.problems,
+        "your_kills_by_day": [
+            {"day": e["day"], "points": e["points_today"],
+             "kills": [f"{'+'.join(p for p in k['coverage'] if p in game.mine)}/{k['entry']}/{k['block']}" for k in e["kills"]]}
+            for e in game.log
+        ],
+    }
+
+
+def take_turn(game, reply):
+    game.memory = str(reply.get("notes_to_self", game.memory))[:2500]
+    game.problems = game.play_day(reply.get("kills"))
+    game.log[-1].update(notes_to_self=game.memory, error=reply.get("_error"), **reply.get("_meta", {}))
+
+
+def summary(game, world):
+    return {
+        "world": world, "briefing_every": BRIEFING_EVERY, "traces_per_day": TRACES_PER_DAY,
+        "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
         "kills": sum(len(e["kills"]) for e in game.log),
         "input_tokens": sum(e.get("input_tokens", 0) for e in game.log), "output_tokens": sum(e.get("output_tokens", 0) for e in game.log),
         "seconds": round(sum(e.get("seconds", 0) for e in game.log)), "informed_best": informed_best(world),
         "tester": tester(world)[0], "hider": run_habit(world, ("national",), True)[0],
-        "grabber": run_habit(world, tuple(game.mine), False)[0],
+        "grabber": run_habit(world, tuple(game.mine), False)[0], "log": game.log, "briefings": game.briefings,
     }
+
+
+def play(model, world, out_dir=None, objective=False, effort="low"):
+    from .llm import ask
+    game, rules = Trace(**world), rules_text(world, objective)
+    while not game.over:
+        take_turn(game, ask(model, rules, json.dumps(player_view(game)), effort))
+    result = {"model": model, "objective": objective, "effort": effort, **summary(game, world)}
     if out_dir:
-        (Path(out_dir) / f"{model.split('/')[-1]}_w{world['seed']}.json").write_text(json.dumps({**result, "log": game.log, "briefings": game.briefings}, indent=1))
+        (Path(out_dir) / f"{model.split('/')[-1]}_w{world['seed']}.json").write_text(json.dumps(result, indent=1))
     return result
 
 

@@ -12,7 +12,7 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .play import ask
+from .llm import ask
 
 STORIES = {"A": 4, "B": 2, "C": 1, "D": 1}
 DEALS = 40
