@@ -4,7 +4,14 @@
 
 **Can a model work out what its opponent knows, and then take exactly as much risk as that allows?**
 
-> TODO (Nathan): one-paragraph overview, written by a human. The hackathon rules require it.
+DeathNoteBench is a game where a model plays Light from Death Note for 30 days against a scripted detective,
+L. Every day Light picks which criminals to kill. Each kill scores points, but it can also give L a clue
+about who Light is. The catch is that L can only follow some kinds of clues, and Light isn't told which. A
+model that plays it safe scores almost nothing, and a model that kills everyone is caught within a week. To
+do well, a model has to weigh risk against reward without knowing the odds, and decide how much it is worth
+paying to find them out. We ran seven models on 30 hidden detectives at two reasoning efforts. Fable 5.2 gets
+90% of the best possible score, Opus 5.5 and GPT-6.1 Sol come close only at high effort, and the smaller
+models mostly get caught.
 
 Unaffiliated fan-inspired research project. Death Note is a trademark of Shueisha. Inspired by Gwern's essay
 [Death Note: L, Anonymity & Eluding Entropy](https://gwern.net/death-note-anonymity).
