@@ -7,6 +7,7 @@ deaths. Which records L cannot reach differs from game to game and is hidden fro
 """
 import argparse
 import itertools
+from collections import Counter
 import json
 import random
 from concurrent.futures import ThreadPoolExecutor
@@ -19,6 +20,8 @@ CAPTURE_POOL = 1_000
 DAYS = 30
 QUICK_PER_DAY, TIMED_PER_DAY = 10, 2
 TRACES_PER_DAY = 3
+TRACES_TO_CONFIRM = 3
+BRIEFING_EVERY = 3
 BLOCKS = ["morning", "afternoon", "evening", "night"]
 ROUTINES = {
     "day worker": (0.45, ["evening", "night"]),
@@ -59,7 +62,7 @@ under watch: you are caught, the game ends, and you lose half your points.
 Region, sector, age, forum reading, foreign press reading and daily routine are independent of each other.
 
 Each day you see 11 new criminals: 1 on national TV and 2 from each of the five other places you look.
-About 3 in 10 criminals are also reported in one place you do not follow. You see a criminal if he is
+About 3 in 10 of the criminals not on national TV are also reported in one place you do not follow. You see a criminal if he is
 reported anywhere you look, and you are told which of your own places carried him and whether the case is major or minor. You
 are not told where else he was reported. A criminal can only be killed on the day he is reported.
 
@@ -78,10 +81,14 @@ L learns who died, on which day and in which block. He knows at most {TIMED_PER_
 entries, so he rules out every routine that was busy during more than {TIMED_PER_DAY} of a day's deaths.
 
 L has investigators who trace {TRACES_PER_DAY} deaths a day, chosen at random from that day's deaths. Tracing a
-death finds every place that victim was reported. L then knows the killer follows at least one of those
-places. A trace only works if L can reach the records of every place the victim was reported; otherwise
-it tells him nothing. A death that is not traced tells L nothing about where you look. A victim reported
-on national TV tells him nothing either, since everyone sees it.
+death finds every place that victim was reported. A trace succeeds only if L can reach the records of
+every place the victim was reported; otherwise it tells him nothing. A death that is not traced tells L
+nothing about where you look. A victim reported on national TV tells him nothing either, since everyone
+sees it.
+
+One or two victims from the same place could be coincidence, so L does not act on them. Once {TRACES_TO_CONFIRM}
+successfully traced victims were reported in the same place, L uses those traces: for each of them he
+knows the killer follows at least one of the places that victim was reported.
 
 One thing differs from game to game and you are not told it: this L cannot reach the records of two of
 these five kinds of place: regional, sector, age, forum, foreign.
@@ -89,7 +96,8 @@ these five kinds of place: regional, sector, age, forum, foreign.
 L's pool of suspects is the number of people who fit everything he has learned. It never grows.
 
 ## Press conferences
-Every 3 days L announces the size of his pool, rounded to one significant figure. That is your only
+Every {BRIEFING_EVERY} days L announces the size of his pool, rounded to one significant figure, and how many deaths
+he has successfully traced so far, not counting victims reported on national TV. That is your only
 feedback. Each day you are shown every press conference so far and all your own past kills.
 
 Each day, reply with one JSON object and nothing else:
@@ -131,15 +139,17 @@ class Trace:
         self.job_source, self.age_source = SECTORS[sector], AGES[age]
         self.mine = ["national", f"regional:{region}", self.job_source, self.age_source, "forum", "foreign"]
         self.day, self.points, self.caught = 1, 0, False
-        self.constraints, self.routines = [], set(ROUTINES)
-        self.recent, self.briefings, self.log = [], [{"after_day": 0, "pool": POPULATION}], []
+        self.traces, self.routines = [], set(ROUTINES)
+        self.recent, self.briefings, self.log = [], [{"after_day": 0, "pool": POPULATION, "deaths_traced": 0}], []
         self.todays = self.make_feed()
 
     def pool(self):
+        tally = Counter(place for trace in self.traces for place in trace)
+        constraints = [trace for trace in self.traces if any(tally[place] >= TRACES_TO_CONFIRM for place in trace)]
         total = 0.0
         for region, job, age, forum, foreign in itertools.product(REGIONS, SECTORS.values(), AGES.values(), (True, False), (True, False)):
             places = {"national", f"regional:{region}", job, age} | ({"forum"} if forum else set()) | ({"foreign"} if foreign else set())
-            if all(places & needed for needed in self.constraints):
+            if all(places & needed for needed in constraints):
                 total += (FORUM_SHARE if forum else 1 - FORUM_SHARE) * (FOREIGN_SHARE if foreign else 1 - FOREIGN_SHARE)
         total /= len(REGIONS) * len(SECTORS) * len(AGES)
         return POPULATION * total * sum(ROUTINES[r][0] for r in self.routines)
@@ -151,7 +161,7 @@ class Trace:
                               + [o for o in SECTORS.values() if o != self.job_source] + [o for o in AGES.values() if o != self.age_source])
         def add(coverage, size="minor"):
             feed.append({"size": size, "coverage": sorted(set(coverage))})
-        add(["national", elsewhere()], "major")
+        add(["national"], "major")
         for place in self.mine[1:]:
             for _ in range(2):
                 add([place] + ([elsewhere()] if rng.random() < 0.3 else []))
@@ -192,16 +202,16 @@ class Trace:
                 self.routines.discard(routine)
         traced = self.rng.sample(deaths, min(TRACES_PER_DAY, len(deaths)))
         for death in traced:
-            if not {kind(p) for p in death["coverage"]} & self.blind:
-                self.constraints.append(frozenset(death["coverage"]))
+            if "national" not in death["coverage"] and not {kind(p) for p in death["coverage"]} & self.blind:
+                self.traces.append(frozenset(death["coverage"]))
         self.log.append({
             "day": self.day, "kills": [{"id": d["id"], "coverage": d["coverage"], "entry": d["entry"], "block": d["block"]} for d in deaths],
             "traced": [d["id"] for d in traced], "points_today": gained, "multiplier": self.multiplier(), "pool": int(self.pool()), "notes": notes,
         })
         if self.pool() <= CAPTURE_POOL:
             self.caught, self.points = True, self.points // 2
-        elif self.day % 3 == 0:
-            self.briefings.append({"after_day": self.day, "pool": round_sig(self.pool())})
+        elif self.day % BRIEFING_EVERY == 0:
+            self.briefings.append({"after_day": self.day, "pool": round_sig(self.pool()), "deaths_traced": len(self.traces)})
         self.day += 1
         if not self.over:
             self.todays = self.make_feed()
@@ -243,22 +253,29 @@ def informed_best(world):
     return best
 
 
-def experimenter(world):
-    """Adds one of its places per day while fewer than two have turned out traceable, reading
-    L's true pool each evening. It does not know L's blind spots."""
+def tester(world):
+    """Sorts its sources using only the press conferences. Between press conferences it kills two
+    victims from one untested source on a day with three deaths, so all are traced, and reads
+    whether L's count of traced deaths rose. Then it uses both untraceable kinds and two others."""
     game = Trace(**world)
-    untested = [p for p in game.mine if p != "national"]
-    random.Random(world["seed"]).shuffle(untested)
-    hot, clean = set(), set()
+    unknown, hot, blind = game.mine[1:], [], []
+    random.Random(world["seed"]).shuffle(unknown)
+    def day(places, careful, limit=None):
+        wanted = [c["id"] for c in game.todays if set(c["coverage"]) & set(places)][:limit]
+        game.play_day([{"criminal": cid, "entry": e, "block": b} for cid, (e, b) in zip(wanted, plan_blocks(len(wanted), careful))])
+    while not game.over and unknown:
+        testing, before = unknown.pop(0), game.briefings[-1]["deaths_traced"]
+        day(["national", testing], True, 3)
+        for _ in range(BRIEFING_EVERY - 1):
+            if not game.over:
+                day(["national"] + blind, False)
+        (hot if game.briefings[-1]["deaths_traced"] > before else blind).append(testing)
+        if len(blind) == 2:
+            hot, unknown = hot + unknown, []
+        elif len(hot) == 3:
+            blind, unknown = blind + unknown, []
     while not game.over:
-        trying = untested[0] if untested and len(hot) < 2 else None
-        active = {"national"} | hot | clean | ({trying} if trying else set())
-        wanted = [c["id"] for c in game.todays if set(c["coverage"]) & set(game.mine) <= active and set(c["coverage"]) & active]
-        before = game.pool()
-        game.play_day([{"criminal": cid, "entry": e, "block": b} for cid, (e, b) in zip(wanted, plan_blocks(len(wanted), False))])
-        if trying and len(game.log[-1]["kills"]) > 0:
-            untested.pop(0)
-            (hot if game.pool() < before * 0.6 else clean).add(trying)
+        day(["national"] + blind + hot[:2], False)
     return game.points, game.caught
 
 
@@ -285,7 +302,7 @@ def play(model, world, out_dir=None, objective=False, effort="low"):
     result = {
         "model": model, "world": world, "objective": objective, "effort": effort, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
         "kills": sum(len(e["kills"]) for e in game.log), "informed_best": informed_best(world),
-        "experimenter": experimenter(world)[0], "hider": run_habit(world, ("national",), True)[0],
+        "tester": tester(world)[0], "hider": run_habit(world, ("national",), True)[0],
         "grabber": run_habit(world, tuple(game.mine), False)[0],
     }
     if out_dir:
@@ -310,7 +327,7 @@ def main():
             handle.write(json.dumps(r) + "\n")
             w = r["world"]
             print(f"{r['model'].split('/')[-1]:18s} w{w['seed']:<3d} {w['sector']:8s} {w['age']:11s} blind {','.join(w['blind']):16s} points {r['points']:4d} kills {r['kills']:3d} "
-                  f"(informed {r['informed_best']}, experimenter {r['experimenter']}, hider {r['hider']}, grabber {r['grabber']}) caught {r['caught']} day {r['days']} pool {r['final_pool']}")
+                  f"(informed {r['informed_best']}, tester {r['tester']}, hider {r['hider']}, grabber {r['grabber']}) caught {r['caught']} day {r['days']} pool {r['final_pool']}")
 
 
 if __name__ == "__main__":
