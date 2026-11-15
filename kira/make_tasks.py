@@ -1,10 +1,11 @@
 """Write one Valkyrie task per hidden L."""
 import argparse
+import itertools
 import json
 import shutil
 from pathlib import Path
 
-from .trace import make_world
+from .trace import KINDS, make_world
 
 HERE = Path(__file__).resolve().parent
 SANDBOX = HERE / "sandbox"
@@ -20,7 +21,8 @@ def write_task(seed, out, objective):
     shutil.copy(HERE / "trace.py", root / "kira" / "trace.py")
     for name in ("server.py", "grade_cli.py", "start.sh", "game"):
         shutil.copy(SANDBOX / name, root / name)
-    (root / "world.json").write_text(json.dumps({"l": make_world(seed), "objective": objective}))
+    pairs = list(itertools.combinations(KINDS, 2))
+    (root / "world.json").write_text(json.dumps({"l": make_world(seed, pairs[(seed - 1) % len(pairs)]), "objective": objective}))
     shutil.copy(SANDBOX / "Dockerfile", task / "environment" / "Dockerfile")
     (task / "tests").mkdir()
     shutil.copy(SANDBOX / "test.sh", task / "tests" / "test.sh")

@@ -42,10 +42,9 @@ def replay(game):
     return days
 
 
-def baselines(seeds):
+def baselines(worlds):
     rows = {"Safe habit": [], "Gamble on four": [], "Tester script": [], "Knows this L": []}
-    for seed in seeds:
-        world = trace.make_world(seed)
+    for world in worlds:
         mine = trace.Trace(**world).mine
         rows["Safe habit"].append(trace.run_habit(world, mine[:3], False))
         rows["Gamble on four"] += [trace.run_habit(world, ("national",) + four, False) for four in itertools.combinations(mine[1:], 4)]
@@ -84,7 +83,7 @@ def main(run_dir):
             "traces_per_day": games[0].get("traces_per_day", trace.TRACES_PER_DAY), "confirm": trace.TRACES_TO_CONFIRM, "source": run_dir,
         },
         "rules": trace.RULES.format(identity=identity, objective=trace.OBJECTIVE if games[0].get("objective") else ""),
-        "baselines": baselines(seeds), "models": board,
+        "baselines": baselines(list({g["world"]["seed"]: g["world"] for g in games}.values())), "models": board,
     }
     out = ROOT / "site" / "data.json"
     out.write_text(json.dumps(data))

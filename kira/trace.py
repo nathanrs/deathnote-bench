@@ -123,12 +123,10 @@ def kind(place):
     return "sector" if place in SECTORS.values() else "age" if place in AGES.values() else place
 
 
-def make_world(seed):
+def make_world(seed, blind=None):
     rng = random.Random(seed)
-    return {
-        "seed": seed, "region": rng.choice(REGIONS), "sector": rng.choice(list(SECTORS)), "age": rng.choice(list(AGES)),
-        "blind": sorted(rng.sample(KINDS, 2)),
-    }
+    world = {"seed": seed, "region": rng.choice(REGIONS), "sector": rng.choice(list(SECTORS)), "age": rng.choice(list(AGES)), "blind": sorted(rng.sample(KINDS, 2))}
+    return {**world, "blind": sorted(blind)} if blind else world
 
 
 class Trace:
