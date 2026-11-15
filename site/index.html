@@ -93,16 +93,15 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <p class="abstract">A model plays Light Yagami for thirty days against a detective whose reach it does not know. Every kill scores; every traced kill tells L a little more about who is writing the names.</p>
 <div class="meta" id="meta"></div>
 
-<p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. Gwern's essay on the series explains why: each choice of victim leaks a few bits about the killer, and it takes only seventeen bits to pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game. The model sees criminals in the news it follows and decides, each day, whom to kill. A scripted L traces the deaths back to the places they were reported and narrows his list of suspects.</p>
-<p>What L can reach differs from game to game and is hidden. Two of the five kinds of source a model follows are closed to this L; the other three give it away. A player who knew which was which would score about a thousand points every game. A player who hides scores thirty. The question the benchmark asks is how a model spends risk to find out: whether it tests one source at a time and reads L's daily press conference, or guesses, or takes everything and hopes.</p>
-<p>The answer depends on the model and on how hard it thinks. Fable 5.2 runs a test on day 1 in 59 of 60 games and scores 800 or more in 55 of them. Opus 5.5 and GPT-6.1 Sol find the same test at high reasoning effort, where they average 820 and 814, and mostly miss it at low effort, where they average 411 and 372. GPT-6.1 Terra and Sonnet 5.5 take everything and then guess. GPT-6 Luna takes everything and was caught in all 60 of its games.</p>
+<p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. Gwern's essay on the series explains why: each choice of victim leaks a few bits about the killer, and seventeen bits pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game.</p>
+<p>A player who knew what this L can trace would score about a thousand points every game. One who takes everything is caught within a week. The benchmark measures how a model spends risk to find out: whether it tests one source at a time, guesses, or takes everything and hopes.</p>
 
 <h2 id="rules">How it works</h2>
 <ul>
   <li>Light is one of <span class="num" data-m="population"></span> people. The game lasts <span class="num" data-m="days"></span> days.</li>
   <li>Each day he sees 11 criminals: one on national television and two from each of five places only some people follow (his region, his sector's outlet, his age band's outlet, the crime forums, the foreign press).</li>
   <li>L traces each death with probability <span class="num" data-m="trace_chance"></span>%, however many or few died that day. A trace finds every place the victim was reported. After <span class="num" data-m="confirm"></span> traced victims from one place, L concludes the killer follows it, and his pool of suspects shrinks by a factor of four or five.</li>
-  <li>Hidden: this L cannot reach the records of two of the five kinds of place. Every L is equally strong.</li>
+  <li>Hidden from Light: each L cannot reach the records of two of the five kinds of place, so traces through them tell him nothing.</li>
   <li>Each kill scores one point, doubled at 30 deaths in the last five days and quadrupled at 40.</li>
   <li>If L's pool reaches <span class="num" data-m="capture"></span>, Light is caught and keeps half his points.</li>
   <li>The only feedback is L's press conference: the size of his pool, rounded, and how many deaths he has traced.</li>
@@ -112,7 +111,7 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <ul id="aboutlist"></ul>
 
 <h2 id="leaderboard">Leaderboard</h2>
-<p class="note">Mean points over the same hidden L's. Whiskers are 90% bootstrap intervals over games. Rows in italics are scripts, for scale. Select a model to see its games.</p>
+<p class="note">Mean points over 30 hidden L's, with 90% bootstrap intervals. Rows in italics are scripts. Select a model to see its games.</p>
 <div class="filters" id="effort"><span>Reasoning effort</span><button data-effort="high">high</button><button data-effort="low">low</button></div>
 <div class="board" id="board"></div>
 <p class="note" id="boardnote"></p>
@@ -266,14 +265,12 @@ Promise.all(["high", "low"].map(e => fetch(`data_${e}.json`).then(r => r.json())
   document.getElementById("rulestext").textContent = d.rules;
   document.getElementById("f-model").innerHTML = `<option value="">any</option>` + d.models.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
   const about = [
-    `One model plays Light. L is a program, so every model faces exactly the same detective on the same ${m.seeds.length} games.`,
-    `Models get no tools and write no code. Each day they receive the day's criminals, every press conference so far and their own past kills, and reply with the names to write. Their only memory is a note to themselves of at most 2,500 characters.`,
-    `Every model ran twice, at its lab's "high" and "low" reasoning effort. The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.`,
-    `Scripts for scale. <i>Safe</i> uses two sources and can never be caught. <i>Gamble</i> uses four sources from day 1, averaged over which one is left out. <i>Tester</i> kills the two victims from one untested source each day and reads whether L's trace count rose; after three quiet days it calls the source closed. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
-    `The ${m.seeds.length} hidden L's cover each of the ten possible pairs of closed sources three times.`,
-    `Caveats. Fable 5.2 reaches 90% of a player who knows L at high effort, so the room above it is small. Each model played each L once per effort. Reasoning summaries are shortened or missing in some games; kills and notes are complete. Fable 5.2 was also the coding assistant for this project; when it plays it sees only the prompt below.`,
-    `Every game ran on Valkyrie, one sandbox per game. L and his records live in a process the player cannot read; the model reaches the game only through a command that shows the day and takes its reply.`,
-    `Code, prompts and every game log are in the repository.`,
+    `No tools. Each day the model gets the day's criminals, every press conference so far and its own past kills, and replies with the names to write. Its only memory is a note to itself of at most 2,500 characters.`,
+    `L is a script, so every model faces the same ${m.seeds.length} detectives. They cover each of the ten possible pairs of closed sources three times.`,
+    `Every model ran at "high" and "low" reasoning effort. The prompt says the result is the average over many games and that finishing uncaught is worth nothing in itself.`,
+    `Scripts for scale. <i>Safe</i> uses two sources and is never caught. <i>Gamble</i> uses four sources from day 1. <i>Tester</i> tests one source a day and calls it closed after three quiet days. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
+    `Caveats. Fable 5.2 reaches 90% of a player who knows L at high effort, so the room above it is small. Each model played each L once per effort. Reasoning summaries are shortened or missing in some games; kills and notes are complete. Fable 5.2 was also the coding assistant for this project; when it plays it sees only the prompt.`,
+    `Every game ran on Valkyrie, one sandbox per game. L's records live in a process the model cannot read.`,
   ];
   document.getElementById("aboutlist").innerHTML = about.filter(t => !t.startsWith("Caveats.")).map(t => `<li>${t}</li>`).join("");
   document.getElementById("caveatstext").innerHTML = about.find(t => t.startsWith("Caveats.")).slice(9);
