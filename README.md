@@ -1,5 +1,7 @@
 # DeathNoteBench
 
+**Results and replays: https://nathanrs.github.io/deathnote-bench/**
+
 **Can a model work out what its opponent knows, and then take exactly as much risk as that allows?**
 
 > TODO (Nathan): one-paragraph overview, written by a human. The hackathon rules require it.
@@ -37,8 +39,8 @@ unreachable kinds are withheld.
 ### Why it is hard
 
 Killing everything confirms all three kinds L can reach. Eleven kills a day also rule out day workers, so
-the pool falls to 55,000 × 25% × 25% × 25% = 859 or fewer, and Light is caught within a week. Using only national TV and two places is always safe and
-scores 150.
+the pool falls to 55,000 × 25% × 25% × 25% = 859 or fewer, and Light is caught within a week. Using only
+national TV and two places is always safe and scores 150.
 
 The high-scoring line sits between the two. Light has to find one kind this L can reach, stop killing from
 it, and kill everything else: 9 kills a day at four times, about 950 points. Finding that kind takes a
@@ -98,21 +100,22 @@ Intervals are 90% bootstrap intervals over the 30 games. Tokens are input plus o
 
 ### What the games show
 
-- **Games are won or lost in the first few days.** Scores are bimodal. A game ends above 800 or below 200,
-  with little between.
+- **Games are won or lost in the first few days.** Scores are bimodal. At high effort 166 of 180 games end
+  at 800 or more or under 200.
 - **Fable 5.2 finds the experiment at either effort.** It opened with a three-kill test day in 59 of 60
   games and scored 800 or more in 29 of 30 at high effort and 26 of 30 at low. It tests one kind a day
   until the count rises, drops that kind for good, and kills the other nine a day.
-- **Opus 5.5 and GPT-6.1 Sol need high effort to find it.** Each scores 800 or more in about 25 of 30 games
-  at high effort and in 6 of 30 at low. At low effort GPT-6.1 Sol opens by killing 10 or 11 in 29 of 30
+- **Opus 5.5 and GPT-6.1 Sol need high effort to find it.** They score 800 or more in 25 and 24 of 30 games
+  at high effort, and each in 6 of 30 at low. At low effort GPT-6.1 Sol opens by killing 10 or 11 in 29 of 30
   games.
 - **The winning plan needs one positive result.** A flat count only sends the model on to the next kind, so
   the uncertain zero costs test days, not captures.
-- **Three models beat the Tester script at high effort.** The script spends up to three days on each place.
-  The models stop testing after the first rise.
-- **The captures of the top three share one cause.** The probe leaves one or two traces on the place the
-  model drops. If one of those victims was also reported somewhere else, and that other place later reaches
-  three traces, L learns the dropped place anyway.
+- **Three models beat the Tester script at high effort, and Fable 5.2 also at low.** The script spends up to
+  three days on each place. The models stop testing after the first rise.
+- **Careful play is caught one way.** The probe leaves one or two traces on the place the model drops. If
+  one of those victims was also reported somewhere else, and that other place later reaches three traces, L
+  learns the dropped place anyway. All 3 of Fable 5.2's captures and all 5 of Opus 5.5's at high effort
+  happened this way. GPT-6.1 Sol lost 1 of its 4 this way and 3 by using three reachable kinds.
 - **GPT-6.1 Terra and Sonnet 5.5 gamble.** At high effort they open by killing 10 or 11 in 26 and 23 of 30
   games, then drop one place on a guess. Each was caught in 17 games.
 - **GPT-6 Luna never adapts.** It was caught in all 60 games, 48 of them within a week.
@@ -129,8 +132,8 @@ kinds. On day 7 the count rises, on day 8 it isolates the place, and from day 9 
 
 **Fable 5.2, high effort, L blind to forums and foreign press: 64 points, caught on day 7.** Both sector
 victims are traced on day 1, so Fable drops its sector outlet. One of the two was also reported in another
-region's news. That other place reaches three traces within a week, and L has his third fact. Opus 5.5 and
-GPT-6.1 Sol lost the same game the same way.
+region's news. That other place reaches three traces within a week, and L has his third fact. Opus 5.5
+lost the same game the same way.
 
 **GPT-6.1 Terra, high effort, L blind to sectors and foreign press: 23 points, caught on day 4.** It kills
 all 11 on day 1, then drops its sector outlet without testing it. Sectors are one of the two kinds this L
@@ -217,7 +220,7 @@ Run ids for the twelve runs above are in [results/trace_valkyrie/runs.txt](resul
 | `tasks_trace/` | The 30 tasks, dataset `deathnotebench/trace@v2` |
 | `results/trace_valkyrie/` | Every game from the twelve Valkyrie runs |
 | `analysis/` | Download, table, charts and site export |
-| `site/` | Static results site with day-by-day replays |
+| `site/` | Static results site with day-by-day replays, deployed to GitHub Pages on push |
 
 ## Earlier games
 
@@ -225,3 +228,5 @@ Run ids for the twelve runs above are in [results/trace_valkyrie/runs.txt](resul
   gave a certain answer. Opus 5.5 scored 830 and GPT-6.1 Sol 791 at high effort, 332 and 239 at low.
 - [docs/one_move.md](docs/one_move.md): a 7-day game with one move, scored in bits leaked to L.
 - [docs/ten_levels.md](docs/ten_levels.md): the first version, ten levels with relays and raids.
+
+Built for the Vals AI hackathon by Nathan Barry, Sahil Parikh and Anish Rajeev.
