@@ -146,16 +146,18 @@ const LAB = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
 const fmt = n => n == null ? "" : n.toLocaleString("en-US");
 const esc = s => String(s).replace(/[&<>]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;"}[c]));
 const HIGHLIGHTS = [
-  {id: "claude-opus-5-5-w6", day: 1, title: "The calculated gamble",
-   text: "Opus prices the risk on day 1: leave out the sector outlet, take the other four, and accept being caught if this L can trace all of them. It never tests a source. This L could not trace two of the four, and the plan ran for thirty days."},
-  {id: "gpt-6.1-sol-w1", day: 5, title: "Take everything, then guess",
-   text: "GPT-6.1 kills all eleven criminals for four days to reach the top multiplier. By then L has confirmed two facts and the trace count cannot say which. It drops one source and hopes that is the dangerous one. Here it was."},
-  {id: "gpt-6.1-sol-w2", day: 5, title: "The same opening against a different L",
-   text: "Three days of taking everything, a pool of 3,000, then a probe of the foreign press that comes back traced. One more day and L has the third fact."},
-  {id: "claude-opus-5-5-w5", day: 4, title: "Misled by a rounded number",
-   text: "L announces 60,000 and then 3,000. Opus reads that as a factor of twenty, which only the 20% sector slice can produce, and concludes its sector is known. The true pool was 3,437: L had confirmed its region and age outlet, and the sector was one of the two kinds this L could not trace. Opus retreats to the sector outlet anyway, which keeps it alive, on 134 points. Use Reveal what L knew to see the gap."},
-  {id: "claude-sonnet-5-5-w2", day: 4, title: "Everything, every day",
-   text: "Sonnet sees the pool at 2,000, notes that 1,000 means capture, and keeps killing all eleven for the multiplier. It is caught the next day."},
+  {id: "claude-opus-5-5-w18", day: 4, title: "The one that ran the experiment",
+   text: "Opus spends three quiet days killing from one kind of source at a time and reading L's count of traced deaths. Foreign press: the count rises. Forums: nothing. Age outlet: nothing. Two kinds are closed to L, so it now knows all five. From day 4 it takes nine a day and is never in danger. Opus played this way in 2 of its 30 games; no other model did in any."},
+  {id: "claude-opus-5-5-w23", day: 5, title: "Panic, then a deduction",
+   text: "Opus gambles on four sources from day 1. On day 3 the pool falls to 3,000 and it retreats to one kill a day. Then it looks at the numbers again: only 6 of about 13 traces succeeded, so two of its four sources must be closed to L, which makes the one it never touched the dangerous one. It goes back to nine a day and finishes on 892."},
+  {id: "gpt-6.1-sol-w15", day: 6, title: "Take everything, then guess",
+   text: "GPT-6.1 kills all eleven criminals for five days to reach the top multiplier. L confirms two facts along the way, and the trace count cannot say which. It drops the forums and calls it a gamble. The forums were the third source this L could trace, so the guess was right."},
+  {id: "gpt-6.1-sol-w14", day: 4, title: "The same opening against a different L",
+   text: "Three days of taking everything, the same fall to 3,000, the same decision to drop one source and hope. This time the guess was wrong, and L had his third fact by the end of day 4. GPT-6.1 opened this way in most of its games and was caught in 22 of 30."},
+  {id: "claude-haiku-5-5-w12", day: 3, title: "Scared off on day 2",
+   text: "Haiku kills five and then six on the first two days, sees the pool at 9,000, and from then on kills almost nothing but the national criminal. It is never caught and scores 40. The safe habit, which also cannot be caught, scores 150."},
+  {id: "gpt-6-luna-w3", day: 3, title: "Everything, every day",
+   text: "GPT-6 Luna counts its multiplier, notes that L's pool is still large, and keeps taking all eleven. It was caught in all 30 of its games, here on day 5."},
 ];
 let DATA, GAMES = [];
 
@@ -244,7 +246,7 @@ fetch("data.json").then(r => r.json()).then(d => {
   DATA = d;
   d.models.forEach(m => m.games.forEach(g => GAMES.push({...g, model: m})));
   const m = d.meta;
-  document.getElementById("meta").innerHTML = `<b>${m.games}</b> games · <b>${d.models.length}</b> models · <b>${m.seeds.length}</b> hidden L's each · reasoning effort <b>${m.effort}</b> · status: <i>preliminary</i>`;
+  document.getElementById("meta").innerHTML = `<b>${m.games}</b> games · <b>${d.models.length}</b> models · <b>${m.seeds.length}</b> hidden L's each · reasoning effort <b>${m.effort}</b> · run on Valkyrie`;
   document.querySelectorAll("[data-m]").forEach(e => e.textContent = fmt(m[e.dataset.m]));
   document.getElementById("rulestext").textContent = d.rules;
   document.getElementById("f-model").innerHTML = `<option value="">any</option>` + d.models.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
@@ -253,7 +255,9 @@ fetch("data.json").then(r => r.json()).then(d => {
     `Models get no tools and write no code. Each day they receive the day's criminals, every press conference so far and their own past kills, and reply with the names to write. Their only memory is a note to themselves of at most 2,500 characters.`,
     `Every model runs at its lab's "${m.effort}" reasoning effort.` + (m.objective ? ` The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.` : ""),
     `Scripts for scale. <i>Safe</i> uses two sources and can never be caught. <i>Gamble</i> uses four sources from day 1, averaged over which one is left out. <i>Tester</i> kills two victims from one untested source on a quiet day and reads whether L's trace count rose. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
-    `Caveats. ${m.seeds.length} games per model is few, and the intervals are wide. The scripts are simple; a model could beat the tester.`,
+    `The ${m.seeds.length} hidden L's cover each of the ten possible pairs of closed sources three times.`,
+    `Caveats. Scores swing between about 50 and about 1,000 from game to game, so intervals are wide even at ${m.seeds.length} games. The scripts are simple; a model could beat the tester.`,
+    `Every game ran on Valkyrie, one sandbox per game. L and his records live in a process the player cannot read; the model reaches the game only through a command that shows the day and takes its reply.`,
     `Code, prompts and every game log are in the repository.`,
   ].map(t => `<li>${t}</li>`).join("");
   ["f-model", "f-out", "f-sort"].forEach(id => document.getElementById(id).onchange = list);
