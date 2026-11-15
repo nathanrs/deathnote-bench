@@ -3,4 +3,3 @@
 cd "$(dirname "$0")/.."
 .venv/bin/python analysis/collect.py $(.venv/bin/python -c "import json;print(' '.join(json.load(open('results/runs.json')).values()))") --out results/rollouts.jsonl > /dev/null
 .venv/bin/python analysis/plots.py
-.venv/bin/python analysis/export_site.py
