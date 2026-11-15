@@ -19,9 +19,9 @@ POPULATION = 100_000
 CAPTURE_POOL = 1_000
 DAYS = 30
 QUICK_PER_DAY, TIMED_PER_DAY = 10, 2
-TRACES_PER_DAY = 3
+TRACES_PER_DAY = 5
 TRACES_TO_CONFIRM = 3
-BRIEFING_EVERY = 3
+BRIEFING_EVERY = 1
 BLOCKS = ["morning", "afternoon", "evening", "night"]
 ROUTINES = {
     "day worker": (0.45, ["evening", "night"]),
@@ -96,7 +96,7 @@ these five kinds of place: regional, sector, age, forum, foreign.
 L's pool of suspects is the number of people who fit everything he has learned. It never grows.
 
 ## Press conferences
-Every {BRIEFING_EVERY} days L announces the size of his pool, rounded to one significant figure, and how many deaths
+{"Every day" if BRIEFING_EVERY == 1 else f"Every {BRIEFING_EVERY} days"} L announces the size of his pool, rounded to one significant figure, and how many deaths
 he has successfully traced so far, not counting victims reported on national TV. That is your only
 feedback. Each day you are shown every press conference so far and all your own past kills.
 
@@ -300,7 +300,7 @@ def play(model, world, out_dir=None, objective=False, effort="low"):
         last_notes = game.play_day(reply.get("kills"))
         game.log[-1]["notes_to_self"], game.log[-1]["error"] = memory, reply.get("_error")
     result = {
-        "model": model, "world": world, "objective": objective, "effort": effort, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
+        "model": model, "world": world, "briefing_every": BRIEFING_EVERY, "traces_per_day": TRACES_PER_DAY, "objective": objective, "effort": effort, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
         "kills": sum(len(e["kills"]) for e in game.log), "informed_best": informed_best(world),
         "tester": tester(world)[0], "hider": run_habit(world, ("national",), True)[0],
         "grabber": run_habit(world, tuple(game.mine), False)[0],
