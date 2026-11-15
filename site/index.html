@@ -72,6 +72,24 @@ tr.open + tr .daynotes { display: block; }
 .hl { border-left: 2px solid var(--rule); padding: 2px 0 2px 18px; margin: 0 0 26px; }
 .hl h3 { margin: 0 0 4px; }
 .hl blockquote { margin: 8px 0; font-size: 15.5px; color: var(--soft); font-style: italic; }
+.flow { border: 1px dotted var(--dot); background: var(--panel); padding: 16px 18px; margin: 8px 0 22px; font-size: 15.5px; }
+.flowhead, .flowfoot { display: flex; justify-content: space-between; gap: 16px; color: var(--soft); }
+.flowhead span:last-child, .flowfoot span:last-child { text-align: right; }
+.flowhead b, .flowfoot b { color: var(--ink); font-weight: 600; }
+.frow { display: grid; grid-template-columns: 116px 60px 1fr 70px 110px; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid #262626; }
+.frow:first-child { border-top: 1px solid #262626; margin-top: 10px; }
+.frow .st { text-align: right; color: var(--soft); font-size: 13.5px; }
+.frow .arrow { height: 1px; background: var(--rule); position: relative; opacity: 0; transition: opacity .4s; }
+.frow .arrow.hit { opacity: 1; background: var(--bad); } .frow .arrow.miss { opacity: 1; }
+.dots { display: flex; gap: 7px; } .dots.r { justify-content: flex-end; }
+.dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s, box-shadow .4s; }
+.dot.dead { background: var(--ink); border-color: var(--ink); }
+.dot.traced { box-shadow: 0 0 0 3px var(--panel), 0 0 0 4.5px var(--soft); }
+.dot.hit { background: var(--bad); border-color: var(--bad); box-shadow: 0 0 0 3px var(--panel), 0 0 0 4.5px var(--bad); }
+.pip { width: 14px; height: 14px; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s; }
+.pip.on { background: var(--bad); border-color: var(--bad); }
+.frow.blind .pip { border-style: dotted; opacity: .5; }
+.flowfoot { margin-top: 12px; } .flow .cap { margin: 12px 0 12px; min-height: 3.2em; text-indent: 0; text-align: left; color: var(--ink); }
 pre.rules { white-space: pre-wrap; font: 13.5px/1.5 var(--mono); color: var(--soft); background: var(--panel); border: 1px dotted var(--dot); padding: 16px; }
 details > summary { cursor: pointer; color: var(--soft); }
 ul { margin: 0 0 14px; padding-left: 1.3em; } li { margin-bottom: 5px; }
@@ -94,7 +112,7 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <div class="meta" id="meta"></div>
 
 <p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. <a href="https://gwern.net/death-note-anonymity">Gwern's essay</a> on the series explains why: each choice of victim leaks a few bits about the killer, and seventeen bits pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game.</p>
-<p>Each game hides which records L can reach. A player told the answer scores about a thousand points. A player who kills everyone is caught within a week. The benchmark measures how a model spends risk to find out: whether it tests one source at a time, guesses, or takes everything and hopes.</p>
+<p>Light does not know which of his kills L can trace. If he knew, he could score about a thousand points a game. If he ignores the question and kills everyone, he is caught within a week. The benchmark measures how a model spends risk to find out: whether it tests one source at a time, guesses, or takes everything and hopes.</p>
 
 <h2 id="rules">How it works</h2>
 <ul>
@@ -107,6 +125,14 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
   <li>The only feedback is L's press conference: the size of his pool, rounded, and how many deaths he has traced.</li>
 </ul>
 <details><summary>The full prompt the models receive</summary><pre class="rules" id="rulestext"></pre></details>
+<h3>One game, day by day</h3>
+<div class="flow" id="flow">
+  <div class="flowhead"><span><b>Light</b> sees 11 criminals and chooses whom to kill</span><span><b>L</b> traces deaths and counts them by place</span></div>
+  <div id="fl-rows"></div>
+  <div class="flowfoot"><span id="fl-light"></span><span id="fl-l"></span></div>
+  <p class="cap" id="fl-cap"></p>
+  <div class="filters" style="margin:0"><button id="fl-play">Pause</button><span id="fl-src"></span></div>
+</div>
 <h3>How the models were run</h3>
 <ul id="aboutlist"></ul>
 
@@ -237,6 +263,53 @@ function show(id, scroll) {
   history.replaceState(null, "", "#game=" + id);
 }
 
+const KIND = p => p.startsWith("regional:") ? "regional" : ["docket", "hospital", "blotter", "wire", "gazette"].includes(p) ? "sector" : ["clips", "podcasts", "cable", "radio"].includes(p) ? "age" : p;
+const KIND_NAME = {national: "National TV", regional: "Region", sector: "Sector", age: "Age band", forum: "Forums", foreign: "Foreign press"};
+function flow() {
+  const g = GAMES.find(x => x.id === "claude-fable-5-2-w1-high");
+  if (!g) return;
+  const counts = d => d.kills.filter(k => k.traced && !k.places.includes("national") && !k.places.some(p => g.blind.includes(KIND(p))));
+  let last = g.log.findIndex(d => d.confirmed.filter(p => g.mine.includes(p)).length >= 2);
+  last = Math.min(last < 0 ? 8 : last + 1, g.log.length - 1);
+  let day = 0, step = 0, playing = true;
+  document.getElementById("fl-src").textContent = `A real game: ${g.model.name}, high effort, ${fmt(g.points)} points.`;
+  function draw() {
+    const d = g.log[day], shown = step === 3 ? day : day - 1;
+    const tally = {}, done = shown >= 0 ? g.log[shown].confirmed : [];
+    g.log.slice(0, shown + 1).forEach(x => counts(x).forEach(k => k.places.forEach(p => tally[p] = (tally[p] || 0) + 1)));
+    document.getElementById("fl-rows").innerHTML = g.mine.map(place => {
+      const kills = d.kills.filter(k => k.places.find(p => g.mine.includes(p)) === place), hits = counts(d);
+      const dots = Array.from({length: place === "national" ? 1 : 2}, (_, i) => {
+        const k = kills[i];
+        return `<i class="dot ${k && step >= 1 ? "dead" : ""} ${k && step >= 2 && k.traced ? (hits.includes(k) ? "hit" : "traced") : ""}"></i>`;
+      }).join("");
+      const blind = g.blind.includes(KIND(place)), anyHit = kills.some(k => hits.includes(k)), anyTraced = kills.some(k => k.traced);
+      const pips = place === "national" ? "" : [0, 1, 2].map(i => `<i class="pip ${(tally[place] || 0) > i ? "on" : ""}"></i>`).join("");
+      const status = place === "national" ? "everyone sees it" : blind ? "no records" : done.includes(place) ? `<span class="caught">confirmed</span>` : "";
+      return `<div class="frow ${blind ? "blind" : ""}"><span>${KIND_NAME[KIND(place)]}</span><span class="dots">${dots}</span>
+        <span class="arrow ${step >= 2 && anyHit ? "hit" : step >= 2 && anyTraced ? "miss" : ""}"></span><span class="dots r">${pips}</span><span class="st">${status}</span></div>`;
+    }).join("");
+    const points = g.log.slice(0, day + (step >= 1)).reduce((a, x) => a + x.points, 0), brief = g.briefings.filter(b => b.after_day <= shown + 1).pop();
+    document.getElementById("fl-light").innerHTML = `Day <b>${d.day}</b> of 30 · <b>${fmt(points)}</b> points${step >= 1 && d.multiplier > 1 ? ` · ×${d.multiplier} today` : ""}`;
+    document.getElementById("fl-l").innerHTML = `Suspects: <b>${fmt(brief.pool)}</b> · caught at ${fmt(DATA.meta.capture)}`;
+    const traced = d.kills.filter(k => k.traced).length, rose = counts(d).length;
+    document.getElementById("fl-cap").textContent = [
+      `Day ${d.day}. Light sees one criminal on national TV and two from each of his five other sources.`,
+      `Light kills ${d.kills.length} of the 11.${d.kills.length <= 3 ? " A small day is a test: one source at a time." : " He leaves out the one source he has proven L can trace."}`,
+      `L traces each death on a coin flip: ${traced} of ${d.kills.length} today. ${rose} ${rose === 1 ? "leads" : "lead"} through records he can reach.`,
+      `Press conference: ${fmt(brief.pool)} suspects, ${brief.deaths_traced} deaths traced so far.${rose && d.kills.length <= 3 ? " The count rose, so Light knows this source is dangerous and drops it." : d.kills.length <= 3 ? " No change, so Light tests another source tomorrow." : ""}`,
+    ][step];
+  }
+  function tick() {
+    if (!playing) return;
+    step = (step + 1) % 4;
+    if (step === 0) day = day >= last ? 0 : day + 1;
+    draw();
+  }
+  document.getElementById("fl-play").onclick = e => { playing = !playing; e.target.textContent = playing ? "Pause" : "Play"; };
+  draw();
+  setInterval(tick, 1900);
+}
 function highlights() {
   document.getElementById("hl").innerHTML = HIGHLIGHTS.map(h => {
     const g = GAMES.find(x => x.id === h.id);
@@ -278,6 +351,7 @@ Promise.all(["high", "low"].map(e => fetch(`data_${e}.json`).then(r => r.json())
   document.querySelectorAll("#effort button").forEach(b => b.onclick = () => setEffort(b.dataset.effort));
   setEffort("high");
   highlights();
+  flow();
   const fromHash = () => { const hash = location.hash.match(/^#game=(.+)$/); if (hash) show(hash[1], true); };
   window.addEventListener("hashchange", fromHash);
   fromHash();
