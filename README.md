@@ -13,6 +13,10 @@ paying to find them out. We ran seven models on 30 hidden detectives at two reas
 90% of the best possible score, GPT-6 Astra, Opus 5.5 and GPT-6.1 Sol come close only at high effort, and
 the smaller models mostly get caught.
 
+[![Watch the two-minute explainer](https://img.youtube.com/vi/_6_Frdmb2rY/maxresdefault.jpg)](https://youtu.be/_6_Frdmb2rY)
+
+**[Watch the two-minute explainer](https://youtu.be/_6_Frdmb2rY)**
+
 Unaffiliated fan-inspired research project. Death Note is a trademark of Shueisha. Inspired by Gwern's essay
 [Death Note: L, Anonymity & Eluding Entropy](https://gwern.net/death-note-anonymity).
 
