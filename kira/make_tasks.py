@@ -39,7 +39,7 @@ def main():
     args = parser.parse_args()
     for seed in args.seeds:
         write_task(seed, args.out, not args.no_objective)
-    shutil.copy(HERE / "llm.py", HERE.parent / "agents" / "lightloop" / "llm.py")
+    (HERE.parent / "agents" / "lightloop" / "run.py").write_text((HERE / "llm.py").read_text() + "\n\n" + (SANDBOX / "agent_loop.py").read_text())
     print(len(args.seeds), "tasks ->", args.out)
 
 

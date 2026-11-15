@@ -1,6 +1,8 @@
 """Download Valkyrie run results and flatten them to one row per rollout."""
 import argparse
+import base64
 import json
+import lzma
 import subprocess
 import tempfile
 from pathlib import Path
@@ -20,6 +22,9 @@ def rows(run):
         output = result["metadata"].get("verifier_output", "")
         marker = [line for line in output.splitlines() if line.startswith("DNB_RESULT ")]
         detail = json.loads(marker[-1][len("DNB_RESULT "):]) if marker else {}
+        packed = [line for line in output.splitlines() if line.startswith("DNB_LOG ")]
+        if packed:
+            detail.update(json.loads(lzma.decompress(base64.urlsafe_b64decode(packed[-1][len("DNB_LOG "):]))))
         yield {**config, "task": task_id, "reward": result["rewards"].get("reward"), "exit": result.get("agent_caused_exit_reason"),
                "agent_seconds": result["task_breakdown"].get("agent_run_duration"), **detail}
     for task_id, error in run.get("task_errors", {}).items():

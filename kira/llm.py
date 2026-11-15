@@ -20,7 +20,7 @@ def ask(model, system, user, effort="low"):
             if provider == "anthropic":
                 import anthropic
                 with anthropic.Anthropic().messages.stream(
-                    model=name, max_tokens=32000, system=system, thinking={"type": "adaptive"},
+                    model=name, max_tokens=32000, system=system, thinking={"type": "adaptive", "display": "summarized"},
                     output_config={"effort": effort}, messages=[{"role": "user", "content": user}],
                 ) as stream:
                     reply = stream.get_final_message()
