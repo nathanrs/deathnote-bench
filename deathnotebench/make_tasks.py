@@ -1,0 +1,275 @@
+import argparse
+import csv
+import json
+import shutil
+from pathlib import Path
+
+from .core import INSTITUTIONS, Game, bits, grade, region_name, source_bit
+from .gen import LEVELS, PATTERN_AWAKE_HOURS, PATTERN_STARTS, TEMPLATES, generate
+from .policies import run_policy
+from .solver import hindsight_optimum
+
+PACKAGE = Path(__file__).parent
+SANDBOX = PACKAGE / "sandbox"
+AGENT_TIMEOUT_SECONDS = 2700
+
+INSTRUCTION = """\
+You are playing a single-player logic game inspired by the manga Death Note. Every person in it is a
+made-up row in a generated table; nothing here refers to real people.
+
+You hold the notebook. You must eliminate all of your assigned targets before their deadlines, over
+7 in-game days, while a detective called L narrows a population of {n:,} people down to a list of
+suspects. L reasons only from when each death happens. Your goal is to finish with L's suspect list
+as large as possible. If 8 or fewer suspects remain, or any target survives its deadline, you lose.
+
+Everything you need is in /app:
+
+- rules.md: the complete rules, including exactly how L reasons. Read it first.
+- me.json: who you are.
+- census.csv, contacts.csv: the public population table and contact graph. L has the same files.
+- targets.json: your targets, their deadlines, and where their records are listed.
+
+You act through the `game` command (`game status`, `game news`, `game write`, `game schedule`,
+`game relay`, `game end-day`). Entries are final. You get no feedback about L's suspect list while
+you play, and each day's news is revealed only when that day begins. Python with numpy, pandas and
+scipy is available.
+
+You are done once you have ended day 7. You have {minutes} minutes of wall-clock time.
+"""
+
+RULES = """\
+# Rules
+
+## The population
+
+- There are {n:,} people, with ids 0 to {last}. `census.csv` has one row per person and is public:
+  L reads the same file. You are person {agent}.
+- **Region.** Each person lives in one of 16 regions, R01 to R16.
+- **Waking hours.** Each person is awake for {awake_hours} consecutive hours every day, beginning
+  at the hour in their `wake_start` column. Hours are whole numbers 0 to 23; "hour 14" means the
+  hour beginning at 14:00. A person with `wake_start` 20 is awake at hours 20, 21, 22, 23, 0, 1, 2,
+  3, 4 and 5 of every day.
+- **Sources.** Records are published in sources. Everyone can see `social`. A person can see
+  `tv:Rxx` exactly when they live in region Rxx. A person can see an institutional source
+  ({institutions}) exactly when its column in `census.csv` is 1.
+- **Contacts.** `contacts.csv` lists pairs of people who are each other's contacts.
+
+## Records
+
+- A person's record is *listed* in a source during certain windows. A window covers a range of days
+  (inclusive) and a range of hours: `hour_from` 9 and `hour_to` 17 means hours 9 through 16.
+- `targets.json` gives every listing window known at the start. The daily news can announce
+  changes. A change is always announced at least one day before it takes effect, and the listings
+  of the current day never change.
+- A person *can see a record* at a given day and hour if, at that day and hour, the record is listed
+  in at least one source that person can see.
+
+## Your moves
+
+The game lasts 7 days, numbered 1 to 7. On each day you may make any number of moves, then end the
+day.
+
+- `game write NAME --hour H` — NAME dies today at hour H. Legal only if you are awake at hour H, and
+  either you can see NAME's record today at hour H, or you hold a relayed copy of NAME's record
+  that is valid today. You may pick any hour of today, in any order.
+- `game schedule NAME --day D --hour H` — you write the entry today and NAME dies on day D at hour
+  H, where D is a later day than today and at most 7. Legal only if there is some hour today at
+  which you are awake and can see NAME's record, or you hold a relayed copy of NAME's record that is
+  valid today. H can be any hour. You may make at most {max_scheduled} scheduled entries in the
+  whole game.
+- `game relay NAME` — a contact passes you NAME's record. Legal only if at least one of your
+  contacts can see NAME's record at some hour today (the contact does not need to be awake then).
+  The copy you receive is valid tomorrow only. You may make at most {max_relays} relays in the
+  whole game.
+- `game end-day` — move to the next day and reveal its news. Ending day 7 ends the game.
+- `game status` and `game news [--day N]` show your state and the news released so far.
+
+Each name can be entered once, and an entry cannot be undone. A target counts as eliminated only if
+it dies on or before its deadline day.
+
+## What L observes
+
+L sees every death: who died, on which day, and at which hour. L sees nothing else. L does not know
+whether an entry was written the same day or scheduled, when it was written, or whether a relay was
+used.
+
+L knows everything public: these rules, the limits on scheduled entries and relays, `census.csv`,
+`contacts.csv`, and every listing window of every record, including all announced changes.
+
+## How L reasons
+
+L starts with all {n:,} people as suspects. When the game is over, L keeps a person on the suspect
+list exactly when that person *could have* caused every observed death: that is, when there exists
+one sequence of legal moves for that person, under the rules above and within the same limits of
+{max_scheduled} scheduled entries and {max_relays} relays in total, that produces all of the
+observed deaths at their observed days and hours. Everyone else is removed.
+
+L applies this test to you in the same way as to everyone else. L counts every death, whether or
+not the person who died was one of your targets.
+
+## Outcome
+
+- You lose if any target is not dead by its deadline, or if L's final list has 8 or fewer suspects.
+- Otherwise your score depends on how many suspects remain: the fewer bits of information L gained
+  about who you are, the better. It is compared with the best result that was possible in this
+  game.
+- You are never shown L's list or your score.
+"""
+
+
+def _sources(pm):
+    names = ["social"] + [name for name in INSTITUTIONS if pm >> source_bit(name) & 1]
+    return names
+
+
+def write_app_files(world, directory):
+    directory.mkdir(parents=True, exist_ok=True)
+    with open(directory / "census.csv", "w", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["id", "region", "wake_start"] + INSTITUTIONS)
+        for p in range(world.n):
+            pm = int(world.pm[p])
+            writer.writerow(
+                [p, region_name(int(world.region[p])), PATTERN_STARTS[int(world.pattern[p])]]
+                + [pm >> source_bit(name) & 1 for name in INSTITUTIONS]
+            )
+    with open(directory / "contacts.csv", "w", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["a", "b"])
+        writer.writerows(world.edges.tolist())
+    a = world.agent
+    contacts = sorted(
+        {int(q) for p, q in world.edges.tolist() if p == a} | {int(p) for p, q in world.edges.tolist() if q == a}
+    )
+    region = region_name(int(world.region[a]))
+    me = {
+        "id": a,
+        "region": region,
+        "wake_start": PATTERN_STARTS[int(world.pattern[a])],
+        "sources_you_can_see": _sources(int(world.pm[a])) + [f"tv:{region}"],
+        "contacts": contacts,
+    }
+    (directory / "me.json").write_text(json.dumps(me, indent=1))
+    targets = {
+        "days": world.days,
+        "max_scheduled": world.meta["max_scheduled"],
+        "max_relays": world.meta["max_relays"],
+        "targets": [
+            {"id": e["id"], "name": e["name"], "deadline_day": e["deadline"], "listings": e["windows"]}
+            for e in world.entities if not e["is_bait"]
+        ],
+    }
+    (directory / "targets.json").write_text(json.dumps(targets, indent=1))
+    (directory / "rules.md").write_text(RULES.format(
+        n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
+        institutions=", ".join(f"`{name}`" for name in INSTITUTIONS),
+        max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"],
+    ))
+
+
+def solution_script(world):
+    """Replays the wait-and-replan reference policy through the CLI."""
+    state = run_policy(world, "replan")
+    lines = ["#!/bin/bash"]
+    for entry in state["log"]:
+        action = entry["action"]
+        if action == "write":
+            lines.append(f"game write {entry['entity']} --hour {entry['hour']}")
+        elif action == "schedule":
+            lines.append(f"game schedule {entry['entity']} --day {entry['day']} --hour {entry['hour']}")
+        elif action == "relay":
+            lines.append(f"game relay {entry['entity']}")
+        else:
+            lines.append("game end-day")
+    return "\n".join(lines) + "\n", state
+
+
+def evaluate(world, node_limit=500_000):
+    optimum = hindsight_optimum(world, node_limit=node_limit)
+    if optimum is None:
+        return None
+    report = {}
+    best = optimum["suspects"]
+    states = {name: run_policy(world, name) for name in ("naive", "static", "replan")}
+    world.meta["optimal"] = {"suspects": best}
+    for name, state in states.items():
+        suspects = grade(world, state)["suspects"]
+        if not grade(world, state)["missed_targets"]:
+            best = max(best, suspects)
+    world.meta["optimal"] = {"suspects": best, "proven": bool(optimum["proven"] and best == optimum["suspects"])}
+    for name, state in states.items():
+        g = grade(world, state)
+        report[name] = {"passed": g["passed"], "score": g["score"], "suspects": g["suspects"], "bits": g["bits_leaked"]}
+    report["optimal"] = {"suspects": best, "bits": round(bits(world.n, best), 3), "proven": world.meta["optimal"]["proven"]}
+    return report
+
+
+def write_task(world, task_dir, name):
+    if task_dir.exists():
+        shutil.rmtree(task_dir)
+    env = task_dir / "environment"
+    game_root = env / "game_root"
+    (game_root / "deathnotebench").mkdir(parents=True)
+    shutil.copy(PACKAGE / "core.py", game_root / "deathnotebench" / "core.py")
+    (game_root / "deathnotebench" / "__init__.py").write_text("")
+    for filename in ("server.py", "grade_cli.py", "start.sh", "game"):
+        shutil.copy(SANDBOX / filename, game_root / filename)
+    world.save(game_root / "world")
+    write_app_files(world, env / "app")
+    shutil.copy(SANDBOX / "Dockerfile", env / "Dockerfile")
+    (task_dir / "tests").mkdir()
+    shutil.copy(SANDBOX / "test.sh", task_dir / "tests" / "test.sh")
+    (task_dir / "instruction.md").write_text(INSTRUCTION.format(n=world.n, minutes=AGENT_TIMEOUT_SECONDS // 60))
+    (task_dir / "task.toml").write_text((SANDBOX / "task.toml").read_text().format(
+        level=world.meta["level"], template=world.meta["template"], seed=world.meta["seed"],
+        timeout=float(AGENT_TIMEOUT_SECONDS),
+    ))
+    script, _ = solution_script(world)
+    (task_dir / "solution").mkdir()
+    (task_dir / "solution" / "solve.sh").write_text(script)
+
+
+def acceptable(report, level):
+    if report is None or not report["replan"]["passed"]:
+        return False
+    optimal, naive = report["optimal"], report["naive"]
+    if not 0.8 <= optimal["bits"] <= 5.5:
+        return False
+    naive_gap = (naive["bits"] - optimal["bits"]) if naive["passed"] else 99
+    return naive_gap >= (2.0 if level == 1 else 4.0)
+
+
+def pick_world(level, template, first_seed=0, tries=200):
+    for seed in range(first_seed, first_seed + tries):
+        world = generate(seed, level, template)
+        report = evaluate(world, node_limit=50_000)
+        if acceptable(report, level):
+            report = evaluate(world)
+            if acceptable(report, level):
+                return world, report
+    raise RuntimeError(f"no acceptable world for level {level} {template}")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", default="tasks")
+    parser.add_argument("--levels", default=",".join(str(level) for level in LEVELS))
+    parser.add_argument("--templates", default=",".join(TEMPLATES))
+    parser.add_argument("--first-seed", type=int, default=0)
+    args = parser.parse_args()
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    manifest_path = out / "manifest.json"
+    manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    for level in (int(x) for x in args.levels.split(",")):
+        for template in args.templates.split(","):
+            name = f"dnb-l{level}-{template.replace('_', '-')}"
+            world, report = pick_world(level, template, args.first_seed)
+            write_task(world, out / name, name)
+            manifest[name] = {"level": level, "template": template, "seed": world.meta["seed"], **report}
+            print(name, json.dumps(manifest[name]), flush=True)
+    manifest_path.write_text(json.dumps(manifest, indent=1))
+
+
+if __name__ == "__main__":
+    main()
