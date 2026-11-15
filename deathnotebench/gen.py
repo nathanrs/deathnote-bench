@@ -17,6 +17,7 @@ LEVELS = {
     5: dict(targets=5, max_scheduled=2, max_relays=2, deadlines=True, events=3, bait=1, noise=4),
     6: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=5, bait=2, noise=5),
     7: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=12, bait=2, noise=5, days=10),
+    8: dict(targets=6, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=3, decoys=3, raids=True),
 }
 TEMPLATES = ["small_region", "odd_hours", "insider"]
 
@@ -160,6 +161,14 @@ def _baits(rng, cfg, days, agent_region):
     return baits
 
 
+def _decoys(rng, cfg, days):
+    decoys = []
+    for k in range(cfg.get("decoys", 0)):
+        windows = [_decoy_window(rng, None, days) for _ in range(2)] + [_public_window(rng, days) for _ in range(int(rng.integers(1, 3)))]
+        decoys.append({"id": f"W{k + 1}", "name": NAMES[-1 - k], "deadline": None, "is_bait": True, "decoy": True, "windows": windows})
+    return decoys
+
+
 def _window_text(window):
     days = f"day {window['day_from']}" if window["day_from"] == window["day_to"] else f"days {window['day_from']}-{window['day_to']}"
     return f"{window['source']} on {days} from {window['hour_from']:02d}:00 to {window['hour_to']:02d}:00"
@@ -182,7 +191,7 @@ def _news(rng, cfg, days, entities, events):
                 f"{eid}'s record will additionally be listed on {_window_text(event['window'])}."
             )
         news[str(event["announce_day"])].append(text)
-    for bait in (e for e in entities if e["is_bait"]):
+    for bait in (e for e in entities if e["is_bait"] and not e.get("decoy")):
         window = bait["windows"][0]
         news[str(bait["appears_day"])].append(
             f"BROADCAST: a man calling himself {bait['name']} ({bait['id']}) appeared on television, said the killer is a coward, "
@@ -208,10 +217,13 @@ def generate(seed, level, template, n=10_000):
     days = cfg.get("days", DAYS)
     targets = _targets(rng, template, cfg, days, int(region[agent]), int(pm[agent]))
     events = _events(rng, cfg, targets)
-    entities = targets + _baits(rng, cfg, days, int(region[agent]))
+    entities = targets + _decoys(rng, cfg, days)
+    if cfg.get("raids"):
+        entities = [entities[i] for i in rng.permutation(len(entities))]
+    entities += _baits(rng, cfg, days, int(region[agent]))
     meta = {
         "seed": seed, "level": level, "template": template, "days": days, "agent": agent,
-        "max_scheduled": cfg["max_scheduled"], "max_relays": cfg["max_relays"],
+        "max_scheduled": cfg["max_scheduled"], "max_relays": cfg["max_relays"], "raids": bool(cfg.get("raids")),
         "awake": _awake_table().tolist(), "pattern_starts": PATTERN_STARTS,
         "entities": entities, "events": events,
         "news": _news(rng, cfg, days, entities, events),

@@ -25,9 +25,9 @@ class Planner:
         self.relays_held = relays_held or {}
         a = world.agent
         self.a_awake = world.awake[world.pattern[a]]
-        self.a_own = self.lf.own[:, :, :, a]
-        self.a_own_write = self.lf.own_write[:, :, a]
-        self.a_relayable = self.lf.relayable[:, :, a]
+        self.a_own = (lm & world.pm[a]) != 0
+        self.a_own_write = (self.a_own & self.a_awake).any(axis=2)
+        self.a_relayable = (self.lf.day_or & world.cm[a]) != 0
 
     def agent_routes(self, e, d, h):
         """Ways the agent can still cause a death of e at (d, h): mode -> action days."""

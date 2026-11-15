@@ -98,7 +98,7 @@ L knows everything public: these rules, the limits on scheduled entries and rela
 `contacts.csv`, and every listing window of every record, including all announced changes.
 
 {l_section}
-## Outcome
+{raid_section}## Outcome
 
 - You lose if any target is not dead by its deadline, or if L's final list has 8 or fewer suspects.
 - Otherwise your score depends on how many suspects remain: the fewer bits of information L gained
@@ -107,6 +107,32 @@ L knows everything public: these rules, the limits on scheduled entries and rela
 - You are never shown L's list or your score.
 """
 
+
+RAIDS = """\
+## L acts too
+
+`targets.json` has a `watch_list`: the people L believes are at risk, in a fixed order. It contains
+your targets and some people who are not your targets. L does not know which are which.
+
+After every day on which at least one person died (except the last day), L seals one record
+overnight. There is no advance notice: the seal appears in the next morning's news and already
+applies that day. L chooses by this public procedure:
+
+1. L computes its suspect list from all deaths up to and including that day, by the rule above.
+2. L considers every living person on the watch list whose record will be listed in two or more
+   different sources at any hours of the next day. If there is none, L does nothing.
+3. Among them, L picks the person whose record the most current suspects could see at some hour
+   of the next day (counting a suspect whether or not they are awake then). On a tie, L picks the
+   one that comes first in `watch_list`.
+4. Of the sources that will list that person the next day, L keeps the one that the fewest current
+   suspects can see. On a tie, L keeps the first in this order: social, {institution_order}, then
+   tv:R01 to tv:R16. From the next day onward, that person's record is listed only in the kept
+   source, at the days and hours that source already listed it.
+
+A person with a scheduled entry that has not yet taken effect is still living. Seals are public, so
+L's final test uses the listings as they actually were on each day.
+
+"""
 
 L_EXPLICIT = """\
 ## How L reasons
@@ -176,19 +202,25 @@ def write_app_files(world, directory, rules_style="explicit"):
             for e in world.entities if not e["is_bait"]
         ],
     }
+    if world.meta.get("raids"):
+        targets["watch_list"] = [e["id"] for e in world.entities]
+        targets["others_on_watch_list"] = [
+            {"id": e["id"], "name": e["name"], "listings": e["windows"]} for e in world.entities if e.get("decoy")
+        ]
     (directory / "targets.json").write_text(json.dumps(targets, indent=1))
     counts = dict(n=world.n, max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"])
     l_section = (L_EXPLICIT if rules_style == "explicit" else L_IMPLICIT).format(**counts)
+    raid_section = RAIDS.format(institution_order=", ".join(INSTITUTIONS)) if world.meta.get("raids") else ""
     (directory / "rules.md").write_text(RULES.format(
-        l_section=l_section, days=world.days, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
+        l_section=l_section, raid_section=raid_section, days=world.days, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
         institutions=", ".join(f"`{name}`" for name in INSTITUTIONS),
         max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"],
     ))
 
 
 def solution_script(world):
-    """Replays the wait-and-replan reference policy through the CLI."""
-    state = run_policy(world, "replan")
+    """Replays the reference policy through the CLI."""
+    state = run_policy(world, "lookahead" if world.meta.get("raids") else "replan")
     lines = ["#!/bin/bash"]
     for entry in state["log"]:
         action = entry["action"]
@@ -204,22 +236,29 @@ def solution_script(world):
 
 
 def evaluate(world, node_limit=500_000):
-    optimum = hindsight_optimum(world, node_limit=node_limit)
-    if optimum is None:
-        return None
-    report = {}
-    best = optimum["suspects"]
-    states = {name: run_policy(world, name) for name in ("naive", "static", "replan")}
+    """Scores the scripted policies and stores the best plan found as world.meta["optimal"]."""
+    raids = world.meta.get("raids")
+    names = ["naive", "static", "replan"] + (["lookahead"] if raids else [])
+    if raids:
+        from .raid import best_known
+        best, proven = max(best_known(world)[0], 1), False
+    else:
+        optimum = hindsight_optimum(world, node_limit=node_limit)
+        if optimum is None:
+            return None
+        best, proven = optimum["suspects"], optimum["proven"]
+    states = {name: run_policy(world, name) for name in names}
     world.meta["optimal"] = {"suspects": best}
-    for name, state in states.items():
-        suspects = grade(world, state)["suspects"]
-        if not grade(world, state)["missed_targets"]:
-            best = max(best, suspects)
-    world.meta["optimal"] = {"suspects": best, "proven": bool(optimum["proven"] and best == optimum["suspects"])}
+    for state in states.values():
+        g = grade(world, state)
+        if not g["missed_targets"] and g["suspects"] > best:
+            best, proven = g["suspects"], False
+    world.meta["optimal"] = {"suspects": best, "proven": bool(proven)}
+    report = {}
     for name, state in states.items():
         g = grade(world, state)
         report[name] = {"passed": g["passed"], "score": g["score"], "suspects": g["suspects"], "bits": g["bits_leaked"]}
-    report["optimal"] = {"suspects": best, "bits": round(bits(world.n, best), 3), "proven": world.meta["optimal"]["proven"]}
+    report["optimal"] = {"suspects": best, "bits": round(bits(world.n, best), 3), "proven": bool(proven)}
     return report
 
 
@@ -249,7 +288,10 @@ def write_task(world, task_dir, rules_style="explicit"):
 
 
 def acceptable(report, level):
-    if report is None or not report["replan"]["passed"]:
+    if report is None:
+        return False
+    reference = "lookahead" if "lookahead" in report else "replan"
+    if not report[reference]["passed"]:
         return False
     optimal, naive = report["optimal"], report["naive"]
     if not 0.8 <= optimal["bits"] <= 5.5:
@@ -257,6 +299,8 @@ def acceptable(report, level):
     naive_gap = (naive["bits"] - optimal["bits"]) if naive["passed"] else 99
     if naive_gap < (2.0 if level == 1 else 4.0):
         return False
+    if reference == "lookahead":
+        return report["replan"]["score"] <= 0.7 and report["lookahead"]["score"] >= 0.95
     if level >= 4 and (report["static"]["score"] > 0.7 or report["replan"]["score"] < 0.95):
         return False
     return True
@@ -267,7 +311,8 @@ def pick_world(level, template, first_seed=0, tries=200):
         world = generate(seed, level, template)
         report = evaluate(world, node_limit=50_000)
         if acceptable(report, level):
-            report = evaluate(world)
+            if not world.meta.get("raids"):
+                report = evaluate(world)
             if acceptable(report, level):
                 return world, report
     raise RuntimeError(f"no acceptable world for level {level} {template}")
@@ -281,6 +326,7 @@ def main():
     parser.add_argument("--first-seed", type=int, default=0)
     parser.add_argument("--rules", choices=["explicit", "implicit"], default="explicit")
     parser.add_argument("--prefix", default="dnb")
+    parser.add_argument("--suffix", default="")
     args = parser.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -288,12 +334,13 @@ def main():
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     for level in (int(x) for x in args.levels.split(",")):
         for template in args.templates.split(","):
-            name = f"{args.prefix}-l{level}-{template.replace('_', '-')}"
+            name = f"{args.prefix}-l{level}-{template.replace('_', '-')}{args.suffix}"
             world, report = pick_world(level, template, args.first_seed + 1000 * level)
             write_task(world, out / name, args.rules)
             manifest[name] = {"level": level, "template": template, "seed": world.meta["seed"], **report}
             print(name, json.dumps(manifest[name]), flush=True)
-    manifest_path.write_text(json.dumps(manifest, indent=1))
+        current = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+        manifest_path.write_text(json.dumps({**current, **manifest}, indent=1, sort_keys=True))
 
 
 if __name__ == "__main__":

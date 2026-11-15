@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeathNoteBench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a case file. Ledger tables on the left edge, one replay column that reads top to bottom by day. */
+:root {
+  color-scheme: dark;
+  --bg: #101216; --panel: #181b21; --line: #2a2e37; --fg: #e9e7e1; --muted: #9a9ca3;
+  --accent: #d9a441; --leak: #e0604c; --safe: #5fb58a;
+  --display: "Space Grotesk", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 40px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 56px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 3.2rem); letter-spacing: -0.02em; }
+h2 { font-size: 1.35rem; }
+.tag { color: var(--accent); font-family: var(--mono); font-size: 0.95rem; }
+p { margin: 0; max-width: 65ch; color: var(--muted); }
+p strong { color: var(--fg); font-weight: 600; }
+section { display: flex; flex-direction: column; gap: 16px; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 500 0.72rem var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+td.num, th.num { text-align: right; font-family: var(--mono); }
+tr.pick { cursor: pointer; }
+tr.pick:hover td, tr.pick:focus-visible td { background: var(--panel); }
+tr.on td { background: var(--panel); box-shadow: inset 2px 0 var(--accent); }
+.bar { display: inline-block; height: 8px; border-radius: 2px; background: var(--accent); vertical-align: middle; margin-right: 8px; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; }
+select { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font: inherit; }
+select:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.verdict { font: 500 0.8rem var(--mono); }
+.verdict.ok { color: var(--safe); } .verdict.bad { color: var(--leak); }
+.day { border-left: 1px solid var(--line); padding: 4px 0 20px 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.day h3 { margin: 0; font: 500 0.8rem var(--mono); color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+.news { color: var(--muted); font-size: 0.88rem; }
+.news.real { color: var(--fg); }
+.move { font-family: var(--mono); font-size: 0.86rem; }
+.death { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.death .row { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; font-family: var(--mono); font-size: 0.86rem; }
+.meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--safe); }
+.leak { color: var(--leak); }
+footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--line); padding-top: 20px; }
+a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <section>
+      <span class="tag">How many bits does an AI leak about itself?</span>
+      <h1>DeathNoteBench</h1>
+      <p>An agent holds the notebook and must eliminate its targets among 10,000 people while a detective, L, watches only <strong>when each death happens</strong>. L keeps everyone who could have caused every death. The score is how close the agent stays to the largest suspect list any plan could have left.</p>
+    </section>
+  </header>
+  <section>
+    <h2>Leaderboard</h2>
+    <p>Score 1.0 matches the best possible plan. Score 0 means the agent was caught (8 or fewer suspects) or missed a deadline. Click a row to filter the games.</p>
+    <div class="scroll"><table id="board"></table></div>
+  </section>
+  <section>
+    <h2>Games</h2>
+    <div class="controls">
+      <select id="f-config" aria-label="Configuration"></select>
+      <select id="f-level" aria-label="Level"></select>
+    </div>
+    <div class="scroll"><table id="games"></table></div>
+  </section>
+  <section id="replay-section">
+    <h2 id="replay-title">Replay</h2>
+    <p id="replay-sub">Pick a game above. Each death shows L's suspect list shrinking and the bits that single action leaked.</p>
+    <div id="replay"></div>
+  </section>
+  <footer>
+    Inspired by Gwern's essay <a href="https://gwern.net/death-note-anonymity">Death Note: L, Anonymity &amp; Eluding Entropy</a>.
+    Unaffiliated fan-inspired research project. Death Note is a trademark of Shueisha.
+  </footer>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+const N = 10000;
+let data, picked = null;
+
+function board() {
+  const groups = {};
+  for (const r of data.rollouts) (groups[r.config] ||= []).push(r);
+  const rows = Object.entries(groups).map(([config, rs]) => ({
+    config, games: rs.length, score: mean(rs.map((r) => r.score)),
+    bits: mean(rs.filter((r) => r.bits != null).map((r) => r.bits)),
+    lost: rs.filter((r) => !r.passed).length,
+  })).sort((a, b) => b.score - a.score);
+  $("board").innerHTML = "<tr><th>Configuration</th><th class=num>Mean score</th><th class=num>Mean bits leaked</th><th class=num>Lost</th><th class=num>Games</th></tr>" +
+    rows.map((r) => `<tr class="pick" tabindex="0" data-config="${esc(r.config)}"><td>${esc(r.config)}</td><td class=num><span class="bar" style="width:${Math.round(r.score * 80)}px"></span>${r.score.toFixed(2)}</td><td class=num>${r.bits.toFixed(2)}</td><td class=num>${r.lost}</td><td class=num>${r.games}</td></tr>`).join("");
+  for (const tr of $("board").querySelectorAll("tr.pick")) {
+    const go = () => { $("f-config").value = tr.dataset.config; games(); };
+    tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); };
+  }
+}
+
+function filters() {
+  const configs = [...new Set(data.rollouts.map((r) => r.config))].sort();
+  const levels = [...new Set(data.rollouts.map((r) => r.level))].sort();
+  $("f-config").innerHTML = "<option value=''>All configurations</option>" + configs.map((c) => `<option>${esc(c)}</option>`).join("");
+  $("f-level").innerHTML = "<option value=''>All levels</option>" + levels.map((l) => `<option value="${l}">Level ${l}</option>`).join("");
+  $("f-config").onchange = $("f-level").onchange = games;
+}
+
+function verdict(r) {
+  if (r.error) return "<span class='verdict bad'>run error</span>";
+  if (r.missed.length) return `<span class='verdict bad'>missed ${esc(r.missed.join(", "))}</span>`;
+  if (r.caught) return "<span class='verdict bad'>caught</span>";
+  return "<span class='verdict ok'>escaped</span>";
+}
+
+function games() {
+  const c = $("f-config").value, l = $("f-level").value;
+  const rows = data.rollouts.map((r, i) => [r, i]).filter(([r]) => (!c || r.config === c) && (!l || String(r.level) === l));
+  $("games").innerHTML = "<tr><th>Task</th><th>Configuration</th><th>Outcome</th><th class=num>Score</th><th class=num>Suspects left</th><th class=num>Best possible</th></tr>" +
+    rows.map(([r, i]) => `<tr class="pick${i === picked ? " on" : ""}" tabindex="0" data-i="${i}"><td>${esc(r.task)}</td><td>${esc(r.config)}</td><td>${verdict(r)}</td><td class=num>${r.score.toFixed(2)}</td><td class=num>${r.suspects ?? "–"}</td><td class=num>${data.tasks[r.task].optimal.suspects}</td></tr>`).join("");
+  for (const tr of $("games").querySelectorAll("tr.pick")) {
+    const go = () => { picked = +tr.dataset.i; games(); replay(); $("replay-section").scrollIntoView({ behavior: "smooth" }); };
+    tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); };
+  }
+}
+
+function replay() {
+  const r = data.rollouts[picked], task = data.tasks[r.task];
+  $("replay-title").textContent = `Replay: ${r.config} on ${r.task}`;
+  $("replay-sub").innerHTML = `Finished with <strong>${r.suspects ?? "?"} suspects</strong> (${(r.bits ?? 0).toFixed(2)} bits leaked). The best possible plan leaves ${task.optimal.suspects} (${task.optimal.bits.toFixed(2)} bits). Score ${r.score.toFixed(2)}.`;
+  const deathsByDay = {}, movesByDay = {};
+  for (const e of r.events) (deathsByDay[e.day] ||= []).push(e);
+  for (const m of r.log) if (m.action !== "end-day") (movesByDay[m.on_day] ||= []).push(m);
+  const names = Object.fromEntries(task.targets.map((t) => [t.id, t.name]));
+  let html = "";
+  for (let d = 1; d <= task.days; d++) {
+    html += `<div class="day"><h3>Day ${d}</h3>`;
+    for (const item of task.news[d] || []) html += `<div class="news${/^(PROTECTIVE|LEAK|BROADCAST)/.test(item) ? " real" : ""}">${esc(item)}</div>`;
+    for (const m of movesByDay[d] || []) {
+      const what = m.action === "relay" ? `asked a contact to relay ${m.entity}` : m.action === "schedule" ? `scheduled ${m.entity} to die on day ${m.day} at ${String(m.hour).padStart(2, "0")}:00` : `wrote ${m.entity} for ${String(m.hour).padStart(2, "0")}:00 today`;
+      html += `<div class="move">agent ${esc(what)}</div>`;
+    }
+    for (const e of deathsByDay[d] || []) {
+      html += `<div class="death"><div class="row"><span>${esc(e.entity)} ${esc(names[e.entity] || "")} dies at ${String(e.hour).padStart(2, "0")}:00</span><span>${e.suspects.toLocaleString()} suspects <span class="leak">+${e.bits.toFixed(2)} bits</span></span></div><div class="meter"><i style="width:${Math.max(0.5, 100 * Math.log2(Math.max(e.suspects, 1)) / Math.log2(N))}%"></i></div></div>`;
+    }
+    html += "</div>";
+  }
+  $("replay").innerHTML = html;
+}
+
+fetch("data.json").then((r) => r.json()).then((d) => {
+  data = d; board(); filters(); games();
+  const worst = data.rollouts.map((r, i) => [r, i]).filter(([r]) => r.events.length).sort((a, b) => a[0].score - b[0].score)[0];
+  if (worst) { picked = worst[1]; games(); replay(); }
+});
+</script>
+</body>
+</html>

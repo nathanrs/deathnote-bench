@@ -108,5 +108,9 @@ POLICIES = {"naive": naive, "static": static, "replan": replan}
 
 def run_policy(world, name):
     game = Game(world)
-    POLICIES[name](game)
+    if name == "lookahead":
+        from .raid import lookahead
+        lookahead(game)
+    else:
+        POLICIES[name](game)
     return game.state
