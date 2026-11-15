@@ -82,3 +82,21 @@ def test_game_seals_match_realized_schedule():
     state = run_policy(world, "naive")
     deaths = {eid: tuple(when) for eid, when in state["deaths"].items()}
     assert state["seals"] == realize(world, deaths, through_day=world.days - 1)[1]
+
+
+def test_beliefs_equal_a_standard_filter_on_what_l_can_see():
+    """An L unaware of relays and with no view of two sources is the standard rule
+    with zero relays, applied to the listings minus those sources."""
+    from deathnotebench.core import World, source_mask
+
+    world = generate(seed=4, level=3, template="small_region", n=2000)
+    hidden = ["social", "corporate"]
+    blind = World({**world.meta, "l": {"max_relays": 0, "logged": ["social"], "ignored": ["corporate"]}}, world.region, world.pattern, world.pm, world.cm, world.edges)
+    plain = World({**world.meta, "max_relays": 0}, world.region, world.pattern, world.pm, world.cm, world.edges)
+    lm = world.listing()
+    visible = lm & ~np.uint32(source_mask(hidden))
+    rng = np.random.default_rng(2)
+    for _ in range(4):
+        deaths = [(int(e), int(rng.integers(1, world.days + 1)), int(rng.integers(HOURS))) for e in rng.permutation(len(world.entities))[:3]]
+        expected = np.array([could_have_caused(plain, visible, p, deaths) for p in range(world.n)])
+        assert (LFilter(blind, lm).suspects(deaths) == expected).all()

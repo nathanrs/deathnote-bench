@@ -19,6 +19,7 @@ LEVELS = {
     7: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=12, bait=2, noise=5, days=10),
     8: dict(targets=6, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=3, decoys=3, raids=True),
     9: dict(targets=5, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=0, cases=18),
+    10: dict(targets=5, max_scheduled=2, max_relays=2, deadlines=True, events=3, bait=1, noise=4, cases=18),
 }
 L_KINDS = [
     "logged_social_informants", "logged_tempting_informants", "logged_tempting_relay_blind", "unknown_tempting_logged_social",

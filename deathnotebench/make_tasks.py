@@ -290,7 +290,10 @@ def evaluate_unknown_l(world, node_limit):
     follow(informed, optimum["plan"])
     follow(standard, assumed["plan"] if assumed else [], believed_world=standard_world)
     report = {}
-    for name, state in (("naive", run_policy(world, "naive")), ("standard", standard.state), ("informed", informed.state)):
+    played = [("naive", run_policy(world, "naive")), ("standard", standard.state), ("informed", informed.state)]
+    if world.meta["events"]:
+        played.append(("replan", run_policy(world, "replan")))
+    for name, state in played:
         g = grade(world, state)
         report[name] = {"passed": g["passed"], "score": g["score"], "suspects": g["suspects"], "bits": g["bits_leaked"]}
     report["optimal"] = {"suspects": optimum["suspects"], "bits": round(bits(world.n, optimum["suspects"]), 3), "proven": bool(optimum["proven"])}
