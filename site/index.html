@@ -135,7 +135,7 @@ function games() {
 function replay() {
   const r = data.rollouts[picked], task = data.tasks[r.task];
   $("replay-title").textContent = `Replay: ${r.config} on ${r.task}`;
-  $("replay-sub").innerHTML = `Finished with <strong>${r.suspects ?? "?"} suspects</strong> (${(r.bits ?? 0).toFixed(2)} bits leaked). The best possible plan leaves ${task.optimal.suspects} (${task.optimal.bits.toFixed(2)} bits). Score ${r.score.toFixed(2)}.`;
+  $("replay-sub").innerHTML = `Finished with <strong>${r.suspects ?? "?"} suspects</strong> (${(r.bits ?? 0).toFixed(2)} bits leaked). The best possible plan leaves ${task.optimal.suspects} (${task.optimal.bits.toFixed(2)} bits). Score ${r.score.toFixed(2)}${r.missed.length ? `, because ${esc(r.missed.join(", "))} outlived the deadline` : r.caught ? ", because L made an arrest" : ""}.`;
   const deathsByDay = {}, movesByDay = {};
   for (const e of r.events) (deathsByDay[e.day] ||= []).push(e);
   for (const m of r.log) if (m.action !== "end-day") (movesByDay[m.on_day] ||= []).push(m);
@@ -158,7 +158,7 @@ function replay() {
 
 fetch("data.json").then((r) => r.json()).then((d) => {
   data = d; board(); filters(); games();
-  const worst = data.rollouts.map((r, i) => [r, i]).filter(([r]) => r.events.length).sort((a, b) => a[0].score - b[0].score)[0];
+  const worst = data.rollouts.map((r, i) => [r, i]).filter(([r]) => r.events.length && r.caught && !r.missed.length).sort((a, b) => b[0].level - a[0].level)[0];
   if (worst) { picked = worst[1]; games(); replay(); }
 });
 </script>
