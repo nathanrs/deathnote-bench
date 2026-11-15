@@ -59,8 +59,7 @@ RULES = """\
 - A person's record is *listed* in a source during certain windows. A window covers a range of days
   (inclusive) and a range of hours: `hour_from` 9 and `hour_to` 17 means hours 9 through 16.
 - `targets.json` gives every listing window known at the start. The daily news can announce
-  changes. A change is always announced at least one day before it takes effect, and the listings
-  of the current day never change.
+  changes. {notice} The listings of the current day never change.
 - A person *can see a record* at a given day and hour if, at that day and hour, the record is listed
   in at least one source that person can see.
 
@@ -212,7 +211,11 @@ def write_app_files(world, directory, rules_style="explicit"):
     l_section = (L_EXPLICIT if rules_style == "explicit" else L_IMPLICIT).format(**counts)
     raid_section = RAIDS.format(institution_order=", ".join(INSTITUTIONS)) if world.meta.get("raids") else ""
     (directory / "rules.md").write_text(RULES.format(
-        l_section=l_section, raid_section=raid_section, days=world.days, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
+        l_section=l_section, raid_section=raid_section,
+        notice=(
+            "The only changes in this game are L's overnight seals, described below."
+            if world.meta.get("raids") else "A change is always announced at least one day before it takes effect."
+        ), days=world.days, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
         institutions=", ".join(f"`{name}`" for name in INSTITUTIONS),
         max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"],
     ))

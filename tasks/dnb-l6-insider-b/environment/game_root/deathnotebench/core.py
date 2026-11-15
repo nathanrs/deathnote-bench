@@ -184,6 +184,55 @@ class LFilter:
         return counts
 
 
+def source_names(mask):
+    names = ["social"] + INSTITUTIONS + [f"tv:{region_name(r)}" for r in range(N_REGIONS)]
+    return [name for bit, name in enumerate(names) if mask >> bit & 1]
+
+
+def raid_choice(world, lm, deaths, day):
+    """L's overnight move after a day with a death: (entity index, source bit) or None.
+
+    Among living listed people whose record will show in two or more sources
+    tomorrow, L takes the one most of its current suspects could see tomorrow
+    (first in list order on a tie) and leaves it only the source the fewest
+    current suspects can see (first in source order on a tie).
+    """
+    lf = LFilter(world, lm)
+    past = sorted((d, h, world.index[eid]) for eid, (d, h) in deaths.items() if d <= day)
+    suspects = lf.suspects([(e, d, h) for d, h, e in past])
+    best = None
+    for e, entity in enumerate(world.entities):
+        dead = entity["id"] in deaths and deaths[entity["id"]][0] <= day
+        if dead or entity.get("appears_day", 1) > day:
+            continue
+        mask = int(lf.day_or[e, day + 1])
+        if bin(mask).count("1") < 2:
+            continue
+        visible = int((suspects & lf.sees(mask)).sum())
+        if best is None or visible > best[0]:
+            bit = min((b for b in range(32) if mask >> b & 1), key=lambda b: (int((suspects & lf.sees(1 << b)).sum()), b))
+            best = (visible, e, bit)
+    return best and best[1:]
+
+
+def realize(world, deaths, through_day=None):
+    """The schedule that actually unfolds given the deaths: announced events plus L's raids."""
+    lm = world.listing()
+    seals = []
+    if not world.meta.get("raids"):
+        return lm, seals
+    last = world.days - 1 if through_day is None else min(through_day, world.days - 1)
+    for day in range(1, last + 1):
+        if not any(d == day for d, _ in deaths.values()):
+            continue
+        choice = raid_choice(world, lm, deaths, day)
+        if choice:
+            e, bit = choice
+            lm[e, day + 1:] &= np.uint32(1 << bit)
+            seals.append({"effective_day": day + 1, "entity": world.entities[e]["id"], "source": source_names(1 << bit)[0]})
+    return lm, seals
+
+
 def bits(n, suspects):
     return math.log2(n / max(suspects, 1))
 
@@ -204,18 +253,21 @@ class GameError(Exception):
 class Game:
     def __init__(self, world, state=None):
         self.world = world
-        self.lm = world.listing()
         self.pm = int(world.pm[world.agent])
         self.cm = int(world.cm[world.agent])
         self.awake = world.awake[world.pattern[world.agent]]
         self.state = state or {
             "day": 1, "ended": False, "deaths": {}, "relays": {},
-            "sched_used": 0, "relay_used": 0, "log": [],
+            "sched_used": 0, "relay_used": 0, "log": [], "seals": [],
         }
+        self.lm, _ = realize(world, self._deaths(), through_day=self.day - 1)
 
     @property
     def day(self):
         return self.state["day"]
+
+    def _deaths(self):
+        return {eid: tuple(when) for eid, when in self.state["deaths"].items()}
 
     def _entity(self, name):
         """Accepts an id (T1) or a full name; returns the id and entity index."""
@@ -282,15 +334,23 @@ class Game:
         self.state["log"].append({"action": "end-day", "on_day": self.day})
         if self.day >= self.world.days:
             self.state["ended"] = True
-        else:
-            self.state["day"] += 1
+            return
+        self.lm, self.state["seals"] = realize(self.world, self._deaths(), through_day=self.day)
+        self.state["day"] += 1
 
     def news(self, day=None):
-        return self.world.meta["news"].get(str(day or self.day), [])
+        day = day or self.day
+        raids = [
+            f"RAID: overnight, L sealed the records of {seal['entity']}. From day {day} onward, {seal['entity']}'s record is "
+            f"listed only in: {seal['source']}, and only at the days and hours that source already listed it."
+            for seal in self.state["seals"] if seal["effective_day"] == day
+        ]
+        return raids + self.world.meta["news"].get(str(day), [])
 
 
 def grade(world, state):
-    lf = LFilter(world, world.listing())
+    lm, _ = realize(world, {eid: tuple(when) for eid, when in state["deaths"].items()})
+    lf = LFilter(world, lm)
     deaths = sorted(
         ((d, h, eid) for eid, (d, h) in state["deaths"].items()),
     )

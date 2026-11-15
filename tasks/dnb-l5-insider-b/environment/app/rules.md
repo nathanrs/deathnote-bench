@@ -19,8 +19,7 @@
 - A person's record is *listed* in a source during certain windows. A window covers a range of days
   (inclusive) and a range of hours: `hour_from` 9 and `hour_to` 17 means hours 9 through 16.
 - `targets.json` gives every listing window known at the start. The daily news can announce
-  changes. A change is always announced at least one day before it takes effect, and the listings
-  of the current day never change.
+  changes. A change is always announced at least one day before it takes effect. The listings of the current day never change.
 - A person *can see a record* at a given day and hour if, at that day and hour, the record is listed
   in at least one source that person can see.
 

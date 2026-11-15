@@ -44,6 +44,8 @@ class World:
         self.entities = meta["entities"]
         self.index = {e["id"]: i for i, e in enumerate(self.entities)}
         self.awake = np.array(meta["awake"], dtype=bool)
+        self.awake_by_person = self.awake[pattern]
+        self.cache = {}
 
     def save(self, directory):
         directory = Path(directory)
@@ -89,34 +91,68 @@ def _add_window(lm_entity, window):
 
 class LFilter:
     """L's rule: a person stays a suspect if some legal sequence of their own
-    actions could have produced every observed death (entity, day, hour)."""
+    actions could have produced every observed death (entity, day, hour).
+
+    Per-person vectors are cached on the world by listing content, so filters
+    built on different schedules of the same world share work.
+    """
 
     def __init__(self, world, lm):
         self.world = world
+        self.lm = lm
         self.max_sched = world.meta["max_scheduled"]
         self.max_relay = world.meta["max_relays"]
-        self.awake = world.awake[world.pattern]
-        self.own = (world.pm[None, None, None, :] & lm[..., None]) != 0
-        own_write = (self.own & self.awake.T[None, None]).any(axis=2)
-        day_or = np.bitwise_or.reduce(lm, axis=2)
-        self.relayable = (world.cm[None, None, :] & day_or[..., None]) != 0
-        self.own_write = own_write
-        zeros = np.zeros_like(own_write[:, :1])
-        # sched_own[e, d]: could have written e on some day before d from own access
-        self.sched_own = np.concatenate([zeros, np.logical_or.accumulate(own_write, axis=1)[:, :-1]], axis=1)
-        # sched_relay[e, d]: a relay requested on day y could be written on y+1 < d
-        rel_cum = np.logical_or.accumulate(self.relayable, axis=1)
-        self.sched_relay = np.concatenate([zeros, zeros, rel_cum[:, :-2]], axis=1)
+        self.awake = world.awake_by_person
+        self.day_or = np.bitwise_or.reduce(lm, axis=2)
+        self.none = np.zeros(world.n, dtype=bool)
+
+    def _cached(self, key, compute):
+        cache = self.world.cache
+        if key not in cache:
+            cache[key] = compute()
+        return cache[key]
+
+    def sees(self, mask):
+        return self._cached(("sees", int(mask)), lambda: (self.world.pm & np.uint32(mask)) != 0)
+
+    def contact_sees(self, mask):
+        return self._cached(("contact", int(mask)), lambda: (self.world.cm & np.uint32(mask)) != 0)
+
+    def own_write(self, e, x):
+        """Could write e on day x from own access: awake at an hour when they see the record."""
+        row = self.lm[e, x]
+
+        def compute():
+            result = self.none.copy()
+            for mask in np.unique(row):
+                if mask:
+                    result |= self.sees(mask) & self.awake[:, row == mask].any(axis=1)
+            return result
+
+        return self._cached(("write", row.tobytes()), compute)
+
+    def sched_own(self, e, d):
+        def compute():
+            result = self.none.copy()
+            for x in range(1, d):
+                result |= self.own_write(e, x)
+            return result
+
+        return self._cached(("sched", self.lm[e, 1:d].tobytes()), compute)
+
+    def relayable(self, e, x):
+        return self.contact_sees(self.day_or[e, x]) if x >= 1 else self.none
+
+    def sched_relay(self, e, d):
+        """A relay requested on day y could be written on y+1 < d."""
+        return self.contact_sees(np.bitwise_or.reduce(self.day_or[e, 1:d - 1])) if d >= 3 else self.none
 
     def modes(self, e, d, h):
         awake = self.awake[:, h]
-        direct_own = awake & self.own[e, d, h]
-        direct_relay = awake & self.relayable[e, d - 1] if d >= 2 else np.zeros_like(awake)
-        sched_own = self.sched_own[e, d] if self.max_sched else np.zeros_like(awake)
-        sched_relay = self.sched_relay[e, d] if self.max_sched else np.zeros_like(awake)
-        if not self.max_relay:
-            direct_relay = np.zeros_like(awake)
-            sched_relay = np.zeros_like(awake)
+        direct_own = awake & self.sees(self.lm[e, d, h])
+        direct_relay = awake & self.relayable(e, d - 1) if self.max_relay else self.none
+        sched_own = self.sched_own(e, d) if self.max_sched else self.none
+        sched_relay = self.sched_relay(e, d) if self.max_sched and self.max_relay else self.none
         return direct_own, direct_relay, sched_own, sched_relay
 
     def initial_state(self):
@@ -148,6 +184,55 @@ class LFilter:
         return counts
 
 
+def source_names(mask):
+    names = ["social"] + INSTITUTIONS + [f"tv:{region_name(r)}" for r in range(N_REGIONS)]
+    return [name for bit, name in enumerate(names) if mask >> bit & 1]
+
+
+def raid_choice(world, lm, deaths, day):
+    """L's overnight move after a day with a death: (entity index, source bit) or None.
+
+    Among living listed people whose record will show in two or more sources
+    tomorrow, L takes the one most of its current suspects could see tomorrow
+    (first in list order on a tie) and leaves it only the source the fewest
+    current suspects can see (first in source order on a tie).
+    """
+    lf = LFilter(world, lm)
+    past = sorted((d, h, world.index[eid]) for eid, (d, h) in deaths.items() if d <= day)
+    suspects = lf.suspects([(e, d, h) for d, h, e in past])
+    best = None
+    for e, entity in enumerate(world.entities):
+        dead = entity["id"] in deaths and deaths[entity["id"]][0] <= day
+        if dead or entity.get("appears_day", 1) > day:
+            continue
+        mask = int(lf.day_or[e, day + 1])
+        if bin(mask).count("1") < 2:
+            continue
+        visible = int((suspects & lf.sees(mask)).sum())
+        if best is None or visible > best[0]:
+            bit = min((b for b in range(32) if mask >> b & 1), key=lambda b: (int((suspects & lf.sees(1 << b)).sum()), b))
+            best = (visible, e, bit)
+    return best and best[1:]
+
+
+def realize(world, deaths, through_day=None):
+    """The schedule that actually unfolds given the deaths: announced events plus L's raids."""
+    lm = world.listing()
+    seals = []
+    if not world.meta.get("raids"):
+        return lm, seals
+    last = world.days - 1 if through_day is None else min(through_day, world.days - 1)
+    for day in range(1, last + 1):
+        if not any(d == day for d, _ in deaths.values()):
+            continue
+        choice = raid_choice(world, lm, deaths, day)
+        if choice:
+            e, bit = choice
+            lm[e, day + 1:] &= np.uint32(1 << bit)
+            seals.append({"effective_day": day + 1, "entity": world.entities[e]["id"], "source": source_names(1 << bit)[0]})
+    return lm, seals
+
+
 def bits(n, suspects):
     return math.log2(n / max(suspects, 1))
 
@@ -168,18 +253,21 @@ class GameError(Exception):
 class Game:
     def __init__(self, world, state=None):
         self.world = world
-        self.lm = world.listing()
         self.pm = int(world.pm[world.agent])
         self.cm = int(world.cm[world.agent])
         self.awake = world.awake[world.pattern[world.agent]]
         self.state = state or {
             "day": 1, "ended": False, "deaths": {}, "relays": {},
-            "sched_used": 0, "relay_used": 0, "log": [],
+            "sched_used": 0, "relay_used": 0, "log": [], "seals": [],
         }
+        self.lm, _ = realize(world, self._deaths(), through_day=self.day - 1)
 
     @property
     def day(self):
         return self.state["day"]
+
+    def _deaths(self):
+        return {eid: tuple(when) for eid, when in self.state["deaths"].items()}
 
     def _entity(self, name):
         """Accepts an id (T1) or a full name; returns the id and entity index."""
@@ -246,15 +334,23 @@ class Game:
         self.state["log"].append({"action": "end-day", "on_day": self.day})
         if self.day >= self.world.days:
             self.state["ended"] = True
-        else:
-            self.state["day"] += 1
+            return
+        self.lm, self.state["seals"] = realize(self.world, self._deaths(), through_day=self.day)
+        self.state["day"] += 1
 
     def news(self, day=None):
-        return self.world.meta["news"].get(str(day or self.day), [])
+        day = day or self.day
+        raids = [
+            f"RAID: overnight, L sealed the records of {seal['entity']}. From day {day} onward, {seal['entity']}'s record is "
+            f"listed only in: {seal['source']}, and only at the days and hours that source already listed it."
+            for seal in self.state["seals"] if seal["effective_day"] == day
+        ]
+        return raids + self.world.meta["news"].get(str(day), [])
 
 
 def grade(world, state):
-    lf = LFilter(world, world.listing())
+    lm, _ = realize(world, {eid: tuple(when) for eid, when in state["deaths"].items()})
+    lf = LFilter(world, lm)
     deaths = sorted(
         ((d, h, eid) for eid, (d, h) in state["deaths"].items()),
     )
