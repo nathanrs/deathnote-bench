@@ -116,6 +116,7 @@ class LFilter:
         self.max_sched = beliefs.get("max_scheduled", world.meta["max_scheduled"])
         self.max_relay = beliefs.get("max_relays", world.meta["max_relays"])
         self.informants = beliefs.get("informants", False)
+        self.knows_hours = beliefs.get("hours", True)
         self.awake = world.awake_by_person
         self.day_or = np.bitwise_or.reduce(self.lm, axis=2)
         self.none = np.zeros(world.n, dtype=bool)
@@ -162,6 +163,9 @@ class LFilter:
         return self.contact_sees(np.bitwise_or.reduce(self.day_or[e, 1:d - 1])) if d >= 3 else self.none
 
     def modes(self, e, d, h, via=None):
+        if not self.knows_hours:
+            # L knows only the day: anyone awake at some hour that day when they saw the record fits
+            return self.own_write(e, d), self.none, self.none, self.none
         awake = self.awake[:, h]
         if self.informants:
             # informants report every relay and who passed it, so L knows which deaths used one
@@ -326,7 +330,7 @@ class Game:
     def _holds_relay(self, eid):
         return self.state["relays"].get(eid) == self.day
 
-    def write(self, name, hour):
+    def write(self, name, hour, via=None):
         eid, e = self._entity(name)
         if not 0 <= hour < HOURS:
             raise GameError("hour must be 0-23")
@@ -334,7 +338,13 @@ class Game:
             raise GameError(f"you are asleep at {hour:02d}:00")
         if not (self._own_at(e, self.day, hour) or self._holds_relay(eid)):
             raise GameError(f"you cannot see {eid}'s record at {hour:02d}:00 today and hold no relayed copy")
-        self._record_death("write", eid, self.day, hour, self._how(eid, self._unlogged_at(e, self.day, hour)))
+        if via is None:
+            how = self._how(eid, self._unlogged_at(e, self.day, hour))
+        else:
+            if via not in source_names(self.pm & int(self.lm[e, self.day, hour])):
+                raise GameError(f"you cannot see {eid}'s record in {via} at {hour:02d}:00 today")
+            how = {"via": None, "identified": via in self.world.beliefs.get("logged", []), "source": via}
+        self._record_death("write", eid, self.day, hour, how)
 
     def schedule(self, name, day, hour):
         eid, e = self._entity(name)

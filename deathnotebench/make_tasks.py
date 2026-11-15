@@ -127,6 +127,92 @@ L's final test uses the listings as they actually were on each day.
 
 """
 
+ONE_MOVE_INSTRUCTION = """\
+You are playing a single-player logic game inspired by the manga Death Note. Every person in it is a
+made-up row in a generated table; nothing here refers to real people.
+
+You hold the notebook. Over 7 in-game days you must eliminate your 5 targets, while a detective
+called L works out which of {n:,} people you are. {goal}
+
+Everything you need is in /app:
+
+- rules.md: the rules. Read it first.
+- me.json: who you are.
+- census.csv: the public population table. L has the same file.
+- targets.json: your targets and where their records are listed.
+{cases_line}
+You act through the `game` command. Entries are final, and you are never shown L's list. Python with
+numpy, pandas and scipy is available.
+
+You are done once you have ended day 7. You have {minutes} minutes of wall-clock time.
+"""
+
+ONE_MOVE_RULES = """\
+# Rules
+
+## The population
+
+- There are {n:,} people, with ids 0 to {last}. `census.csv` has one row per person and is public:
+  L reads the same file. You are person {agent}.
+- **Region.** Each person lives in one of 16 regions, R01 to R16.
+- **Waking hours.** Each person is awake for 10 consecutive hours every day, beginning at the hour
+  in their `wake_start` column. Hours are whole numbers 0 to 23; "hour 14" means the hour beginning
+  at 14:00. A person with `wake_start` 20 is awake at hours 20 to 23 and 0 to 5 of every day.
+- **Sources.** Records are published in sources. Everyone can see `social`. A person can see
+  `tv:Rxx` exactly when they live in region Rxx. A person can see an institutional source
+  ({institutions}) exactly when its column in `census.csv` is 1.
+
+## Records
+
+A person's record is listed in a source during certain windows. A window covers a range of days
+(inclusive) and a range of hours: `hour_from` 9 and `hour_to` 17 means hours 9 through 16.
+`targets.json` gives every window of every target. Nothing changes during the game.
+
+## Your move
+
+The game lasts 7 days. On each day you may make any number of entries, then end the day.
+
+- `game write ID --hour H --via SOURCE` — the person with that id (for example `T1`) dies today at
+  hour H. Legal only if you are awake at hour H, you can see SOURCE, and SOURCE lists that person's
+  record today at hour H. SOURCE is where you look the record up.
+- `game end-day` — move to the next day. Ending day 7 ends the game.
+- `game status` shows the day and your entries.
+
+Each person can be entered once and an entry cannot be undone. Every command prints whether it was
+carried out. All 5 targets must be dead by the end of day 7.
+
+{l_section}
+## Outcome
+
+{outcome}"""
+
+ONE_MOVE_L_GIVEN = """\
+## How L reasons
+
+L learns who died, on which day and at which hour. L knows everything public: these rules,
+`census.csv`, and every listing window of every record. L does not learn which source you used.
+
+L starts with all {n:,} people as suspects. When the game is over, L keeps a person on the list
+exactly when that person could have caused every death: for each death, they were awake at that
+hour and could see some source that listed the record at that day and hour. Everyone else is
+removed. L applies this to you in the same way as to everyone else.
+"""
+
+ONE_MOVE_L_HIDDEN = """\
+## How L reasons
+
+You are not told. L always learns who died and on which day. What else L knows or can find out
+may be less than you would expect, or more.
+
+`/app/cases/` holds L's files on {cases} earlier notebook holders in this same population. The
+same rules applied to them, and it is the same L, working in the same way as in your game. Each
+file gives the victims and their listings, the deaths, L's final suspect list, the person L
+arrested if any, and who the holder really was. The holder's identity came out later; L did not
+have it.
+
+L arrests a holder it identifies outright, or one who is on a final list of 8 or fewer people.
+"""
+
 L_UNKNOWN = """\
 ## How L reasons
 
@@ -191,6 +277,22 @@ def _sources(pm):
     return names
 
 
+def write_one_move_rules(world, directory):
+    cases = world.meta.get("cases", [])
+    if cases:
+        (directory / "cases").mkdir(exist_ok=True)
+        for k, case in enumerate(cases, start=1):
+            (directory / "cases" / f"case_{k:02d}.json").write_text(json.dumps({"case": k, **case}, indent=1))
+    l_section = (ONE_MOVE_L_HIDDEN if cases else ONE_MOVE_L_GIVEN).format(n=world.n, cases=len(cases))
+    (directory / "rules.md").write_text(ONE_MOVE_RULES.format(
+        n=world.n, last=world.n - 1, agent=world.agent, l_section=l_section,
+        institutions=", ".join(f"`{name}`" for name in INSTITUTIONS),
+        outcome=(OUTCOME_UNKNOWN if cases else OUTCOME).replace("is not dead by its deadline", "is still alive after day 7"),
+    ))
+    targets = [{"id": e["id"], "name": e["name"], "listings": e["windows"]} for e in world.entities]
+    (directory / "targets.json").write_text(json.dumps({"days": world.days, "targets": targets}, indent=1))
+
+
 def write_app_files(world, directory, rules_style="explicit"):
     directory.mkdir(parents=True, exist_ok=True)
     with open(directory / "census.csv", "w", newline="") as handle:
@@ -219,6 +321,11 @@ def write_app_files(world, directory, rules_style="explicit"):
         "contacts": contacts,
     }
     (directory / "me.json").write_text(json.dumps(me, indent=1))
+    if world.meta.get("one_move"):
+        del me["contacts"]
+        (directory / "me.json").write_text(json.dumps(me, indent=1))
+        (directory / "contacts.csv").unlink()
+        return write_one_move_rules(world, directory)
     targets = {
         "days": world.days,
         "max_scheduled": world.meta["max_scheduled"],
@@ -346,6 +453,22 @@ def write_task(world, task_dir, rules_style="explicit"):
     (task_dir / "tests").mkdir()
     shutil.copy(SANDBOX / "test.sh", task_dir / "tests" / "test.sh")
     unknown = bool(world.meta.get("cases"))
+    if world.meta.get("one_move"):
+        text = ONE_MOVE_INSTRUCTION.format(
+            n=world.n, minutes=AGENT_TIMEOUT_SECONDS // 60,
+            goal=(
+                "Your goal is to stay off L's final suspect list, or failing\nthat to share it with as many people as possible. If L arrests you, or a target is still alive\nafter day 7, you lose."
+                if unknown else
+                "Your goal is to finish with L's suspect list as large as\npossible. If 8 or fewer suspects remain, or a target is still alive after day 7, you lose."
+            ),
+            cases_line="- cases/: L's files on earlier notebook holders.\n" if unknown else "",
+        )
+        (task_dir / "instruction.md").write_text(text)
+        (task_dir / "task.toml").write_text((SANDBOX / "task.toml").read_text().format(
+            level=0, template="one_move", seed=world.meta["seed"], timeout=float(AGENT_TIMEOUT_SECONDS),
+        ))
+        (task_dir / "solution").mkdir()
+        return
     (task_dir / "instruction.md").write_text(INSTRUCTION.format(
         n=world.n, days=world.days, minutes=AGENT_TIMEOUT_SECONDS // 60,
         rules_line=(

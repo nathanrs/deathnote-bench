@@ -22,11 +22,12 @@ def status(game):
     meta = game.world.meta
     lines = [
         f"Day {game.day} of {game.world.days}" + (" (game over)" if game.state["ended"] else ""),
-        f"Scheduled entries left: {meta['max_scheduled'] - game.state['sched_used']}",
-        f"Relays left: {meta['max_relays'] - game.state['relay_used']}",
     ]
-    held = [eid for eid, day in game.state["relays"].items() if day == game.day]
-    lines.append("Relayed copies valid today: " + (", ".join(held) or "none"))
+    if not meta.get("one_move"):
+        lines.append(f"Scheduled entries left: {meta['max_scheduled'] - game.state['sched_used']}")
+        lines.append(f"Relays left: {meta['max_relays'] - game.state['relay_used']}")
+        held = [eid for eid, day in game.state["relays"].items() if day == game.day]
+        lines.append("Relayed copies valid today: " + (", ".join(held) or "none"))
     lines.append("Notebook entries:")
     entries = [f"  {eid}: dies day {d} at {h:02d}:00" for eid, (d, h) in game.state["deaths"].items()]
     lines += entries or ["  none"]
@@ -51,6 +52,14 @@ usage:
 ID is a person's id such as T1."""
 
 
+ONE_MOVE_USAGE = """\
+usage:
+  game status
+  game write ID --hour H --via SOURCE
+  game end-day
+ID is a person's id such as T1. SOURCE is a source you can see, such as social or police."""
+
+
 def run(game, argv):
     """Returns (carried_out, text)."""
     parser = argparse.ArgumentParser(prog="game", exit_on_error=False, add_help=False)
@@ -61,6 +70,7 @@ def run(game, argv):
     p = sub.add_parser("write")
     p.add_argument("name", metavar="ID")
     p.add_argument("--hour", type=int, required=True)
+    p.add_argument("--via")
     p = sub.add_parser("schedule")
     p.add_argument("name", metavar="ID")
     p.add_argument("--day", type=int, required=True)
@@ -71,14 +81,16 @@ def run(game, argv):
     try:
         args = parser.parse_args(argv)
     except (argparse.ArgumentError, SystemExit):
-        return False, USAGE
+        return False, ONE_MOVE_USAGE if game.world.meta.get("one_move") else USAGE
     try:
         if args.command == "status":
             return True, status(game)
         if args.command == "news":
             return True, news(game, args.day or game.day)
         if args.command == "write":
-            game.write(args.name, args.hour)
+            if game.world.meta.get("one_move") and not args.via:
+                return False, "Not done: say which source you looked the record up in, for example --via social."
+            game.write(args.name, args.hour, args.via)
             reply = f"Written. {args.name} dies today (day {game.day}) at {args.hour:02d}:00."
         elif args.command == "schedule":
             game.schedule(args.name, args.day, args.hour)
@@ -90,6 +102,8 @@ def run(game, argv):
             game.end_day()
             if game.state["ended"]:
                 reply = f"Day {game.day} is over and the game has ended. Your result is computed after you finish."
+            elif game.world.meta.get("one_move"):
+                reply = f"It is now day {game.day}."
             else:
                 reply = f"It is now day {game.day}.\n" + news(game, game.day)
     except GameError as error:
