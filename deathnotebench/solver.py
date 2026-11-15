@@ -30,7 +30,7 @@ class Planner:
         # a view through a logged source identifies the agent, so the planner never relies on one
         self.a_own = (lm & world.pm[a] & ~np.uint32(world.logged_mask)) != 0
         self.a_own_write = (self.a_own & self.a_awake).any(axis=2)
-        self.a_relayable = (self.lf.day_or & world.cm[a]) != 0
+        self.a_relayable = (np.bitwise_or.reduce(lm, axis=2) & world.cm[a]) != 0
 
     def agent_routes(self, e, d, h):
         """Ways the agent can still cause a death of e at (d, h): mode -> action days."""
