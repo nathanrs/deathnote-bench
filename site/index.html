@@ -73,32 +73,23 @@ tr.open + tr .daynotes { display: block; }
 .hl h3 { margin: 0 0 4px; }
 .hl blockquote { margin: 8px 0; font-size: 15.5px; color: var(--soft); font-style: italic; }
 .flow { border: 1px dotted var(--dot); background: var(--panel); padding: 16px 18px; margin: 8px 0 22px; font-size: 15.5px; }
-.flowhead, .flowfoot { display: flex; justify-content: space-between; gap: 16px; color: var(--soft); }
-.flowhead span:last-child, .flowfoot span:last-child { text-align: right; }
-.flowhead b, .flowfoot b { color: var(--ink); font-weight: 600; }
-.frow { display: grid; grid-template-columns: 116px 60px 1fr 70px 110px; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid #262626; }
-.frow:first-child { border-top: 1px solid #262626; margin-top: 10px; }
-.frow .st { text-align: right; color: var(--soft); font-size: 13.5px; }
-.frow .arrow { height: 1px; background: var(--rule); position: relative; opacity: 0; transition: opacity .4s; }
-.frow .arrow.hit { opacity: 1; background: var(--bad); }
-.frow { transition: opacity .4s; } .frow.idle { opacity: .35; }
-.steps { display: flex; gap: 6px; flex-wrap: wrap; font-size: 13.5px; }
-.steps span { padding: 3px 10px; border: 1px dotted var(--dot); color: var(--faint); }
-.steps span.on { border: 1px solid var(--ink); color: var(--ink); }
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
-.stats div { color: var(--soft); font-size: 13.5px; }
-.stats b { display: block; font: 600 24px var(--serif); color: var(--ink); transition: color .6s; }
-.stats b.changed { color: var(--bad); }
-.legend .dot, .legend .pip { display: inline-block; vertical-align: -2px; margin-right: 7px; }
+.flowday { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; } .flowday b { font: 600 22px var(--serif); min-width: 70px; }
+.flowday i { display: inline-block; width: 22px; height: 4px; margin-right: 4px; background: var(--rule); } .flowday i.on { background: var(--ink); }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; font-size: 13.5px; margin-bottom: 6px; }
+.steps span { padding: 6px 10px; border: 1px solid var(--rule); color: var(--faint); transition: color .3s, border-color .3s; }
+.steps span b { display: block; font-weight: 600; } .steps span.on { border-color: var(--ink); color: var(--ink); }
+.frow { display: grid; grid-template-columns: 116px 60px 1fr 70px; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid #262626; transition: opacity .4s; }
+.frow.idle { opacity: .35; }
+.frow .arrow { height: 1px; background: var(--bad); opacity: 0; transition: opacity .4s; } .frow .arrow.hit { opacity: 1; }
 .dots { display: flex; gap: 7px; } .dots.r { justify-content: flex-end; }
-.dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s, box-shadow .4s; }
-.dot.dead { background: var(--ink); border-color: var(--ink); }
-.dot.traced { box-shadow: 0 0 0 3px var(--panel), 0 0 0 4.5px var(--soft); }
-.dot.hit { background: var(--bad); border-color: var(--bad); box-shadow: 0 0 0 3px var(--panel), 0 0 0 4.5px var(--bad); }
+.dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s; }
+.dot.dead { background: var(--ink); border-color: var(--ink); } .dot.hit { background: var(--bad); border-color: var(--bad); }
 .pip { width: 14px; height: 14px; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s; }
-.pip.on { background: var(--bad); border-color: var(--bad); }
-.frow.blind .pip { border-style: dotted; opacity: .5; }
-.flow .cap { margin: 12px 0 14px; min-height: 3.2em; text-indent: 0; text-align: left; color: var(--ink); font-size: 17.5px; }
+.pip.on { background: var(--bad); border-color: var(--bad); } .frow.blind .pip { border-style: dotted; opacity: .5; }
+.flowfoot { display: flex; justify-content: space-between; margin-top: 12px; color: var(--soft); }
+.flowfoot b { font: 600 24px var(--serif); color: var(--ink); transition: color .6s; } .flowfoot b.changed, #fl-end { color: var(--bad); }
+#fl-end { font-style: normal; font-weight: 600; margin-left: 10px; }
+@media (max-width: 720px) { .steps { grid-template-columns: repeat(2, 1fr); } }
 pre.rules { white-space: pre-wrap; font: 13.5px/1.5 var(--mono); color: var(--soft); background: var(--panel); border: 1px dotted var(--dot); padding: 16px; }
 details > summary { cursor: pointer; color: var(--soft); }
 ul { margin: 0 0 14px; padding-left: 1.3em; } li { margin-bottom: 5px; }
@@ -136,13 +127,14 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <details><summary>The full prompt the models receive</summary><pre class="rules" id="rulestext"></pre></details>
 <h3>One game, day by day</h3>
 <div class="flow" id="flow">
-  <div class="steps" id="fl-steps"></div>
-  <p class="cap" id="fl-cap"></p>
-  <div class="flowhead"><span><b>Light</b>: today's criminals, by where he saw them</span><span><b>L</b>: traces per place, hidden from Light</span></div>
+  <div class="flowday"><b id="fl-day"></b><span id="fl-days"></span></div>
+  <div class="steps" id="fl-steps">
+    <span><b>1 News</b>11 criminals are reported</span><span><b>2 Light</b>kills the ones he chooses</span>
+    <span><b>3 L</b>traces about half the deaths</span><span><b>4 Press conference</b>L announces his suspects</span>
+  </div>
   <div id="fl-rows"></div>
-  <div class="stats" id="fl-stats"></div>
-  <div class="legend" style="margin:12px 0"><span><i class="dot"></i> criminal</span><span><i class="dot dead"></i> killed</span><span><i class="dot dead traced"></i> traced, dead end</span><span><i class="dot hit"></i> traced, counts</span><span><i class="pip on"></i> one trace against a place; three confirm it</span></div>
-  <div class="filters" style="margin:0"><button id="fl-play">Pause</button><span id="fl-src"></span></div>
+  <div class="flowfoot"><span><b id="fl-points"></b> points for Light</span><span><b id="fl-pool"></b> suspects for L<i id="fl-end"></i></span></div>
+  <p class="note" style="margin:10px 0 0">White: killed. Red: a death L traced to its source. Three red squares confirm a source and cut the suspects. Dotted squares: records this L cannot reach. A real game: Opus 5.5 tests one source, drops it, and is still caught on day 6.</p>
 </div>
 <h3>How the models were run</h3>
 <ul id="aboutlist"></ul>
@@ -277,53 +269,38 @@ function show(id, scroll) {
 const KIND = p => p.startsWith("regional:") ? "regional" : ["docket", "hospital", "blotter", "wire", "gazette"].includes(p) ? "sector" : ["clips", "podcasts", "cable", "radio"].includes(p) ? "age" : p;
 const KIND_NAME = {national: "National TV", regional: "Region", sector: "Sector", age: "Age band", forum: "Forums", foreign: "Foreign press"};
 function flow() {
-  const g = GAMES.find(x => x.id === "claude-fable-5-2-w1-high");
+  const g = GAMES.find(x => x.id === "claude-opus-5-5-w14-high");
   if (!g) return;
   const counts = d => d.kills.filter(k => k.traced && !k.places.includes("national") && !k.places.some(p => g.blind.includes(KIND(p))));
-  let last = g.log.findIndex(d => d.confirmed.filter(p => g.mine.includes(p)).length >= 2);
-  last = Math.min(last < 0 ? 8 : last + 1, g.log.length - 1);
-  let day = 0, step = 0, playing = true;
-  document.getElementById("fl-src").textContent = `A real game: ${g.model.name}, high effort, ${fmt(g.points)} points.`;
+  const row = k => k.places.find(p => g.mine.includes(p)), steps = [...document.querySelectorAll("#fl-steps span")];
+  let day = 0, step = 0, hold = 0;
   function draw() {
-    const d = g.log[day], shown = step === 3 ? day : day - 1;
-    const tally = {}, done = shown >= 0 ? g.log[shown].confirmed : [];
+    const d = g.log[day], shown = step === 3 ? day : day - 1, end = day === g.log.length - 1 && step === 3, tally = {};
     g.log.slice(0, shown + 1).forEach(x => counts(x).forEach(k => k.places.forEach(p => tally[p] = (tally[p] || 0) + 1)));
     document.getElementById("fl-rows").innerHTML = g.mine.map(place => {
-      const kills = d.kills.filter(k => k.places.find(p => g.mine.includes(p)) === place), hits = counts(d);
-      const dots = Array.from({length: place === "national" ? 1 : 2}, (_, i) => {
-        const k = kills[i];
-        return `<i class="dot ${k && step >= 1 ? "dead" : ""} ${k && step >= 2 && k.traced ? (hits.includes(k) ? "hit" : "traced") : ""}"></i>`;
-      }).join("");
-      const blind = g.blind.includes(KIND(place)), anyHit = kills.some(k => hits.includes(k)), anyTraced = kills.some(k => k.traced);
+      const kills = d.kills.filter(k => row(k) === place), hits = counts(d);
+      const dots = Array.from({length: place === "national" ? 1 : 2}, (_, i) => `<i class="dot ${kills[i] && step >= 1 ? "dead" : ""} ${kills[i] && step >= 2 && hits.includes(kills[i]) ? "hit" : ""}"></i>`).join("");
       const pips = place === "national" ? "" : [0, 1, 2].map(i => `<i class="pip ${(tally[place] || 0) > i ? "on" : ""}"></i>`).join("");
-      const deadEnd = step >= 2 && anyTraced && !anyHit;
-      const status = place === "national" ? (deadEnd ? "public news" : "") : blind ? (deadEnd ? "no records" : "") : done.includes(place) ? `<span class="caught">confirmed</span>` : "";
-      return `<div class="frow ${blind ? "blind" : ""} ${step >= 1 && !kills.length ? "idle" : ""}"><span>${KIND_NAME[KIND(place)]}</span><span class="dots">${dots}</span>
-        <span class="arrow ${step >= 2 && anyHit ? "hit" : ""}"></span><span class="dots r">${pips}</span><span class="st">${status}</span></div>`;
+      return `<div class="frow ${g.blind.includes(KIND(place)) ? "blind" : ""} ${step >= 1 && !kills.length ? "idle" : ""}"><span>${KIND_NAME[KIND(place)]}</span><span class="dots">${dots}</span>
+        <span class="arrow ${step >= 2 && kills.some(k => hits.includes(k)) ? "hit" : ""}"></span><span class="dots r">${pips}</span></div>`;
     }).join("");
-    const points = g.log.slice(0, day + (step >= 1)).reduce((a, x) => a + x.points, 0), brief = g.briefings.filter(b => b.after_day <= shown + 1).pop();
-    const before = g.briefings.filter(b => b.after_day <= day).pop(), news = step === 3;
-    document.getElementById("fl-steps").innerHTML = ["1 Feed", "2 Light kills", "3 L traces", "4 Press conference"].map((t, i) => `<span class="${i === step ? "on" : ""}">${t}</span>`).join("");
-    document.getElementById("fl-stats").innerHTML = `<div><b>${d.day} / 30</b>day</div><div><b>${fmt(points)}</b>points${step >= 1 && d.multiplier > 1 ? `, ×${d.multiplier} today` : ""}</div>
-      <div><b class="${news && brief.deaths_traced > before.deaths_traced ? "changed" : ""}">${brief.deaths_traced}</b>deaths traced, as L announces</div>
-      <div><b class="${news && brief.pool < before.pool ? "changed" : ""}">${fmt(brief.pool)}</b>suspects, caught at ${fmt(DATA.meta.capture)}</div>`;
-    const traced = d.kills.filter(k => k.traced).length, rose = counts(d).length;
-    document.getElementById("fl-cap").textContent = [
-      `Day ${d.day}. Light sees one criminal on national TV and two from each of his five other sources.`,
-      `Light kills ${d.kills.length} of the 11.${d.kills.length <= 3 ? " A small day is a test: one source at a time." : " He leaves out the one source he has proven L can trace."}`,
-      `L traces each death on a coin flip: ${traced} of ${d.kills.length} today. ${rose ? rose : "None"} ${rose === 1 ? "leads" : "lead"} through records he can reach.`,
-      `Press conference: ${fmt(brief.pool)} suspects, ${brief.deaths_traced} deaths traced so far.${rose && d.kills.length <= 3 ? " The count rose, so Light knows this source is dangerous and drops it." : d.kills.length <= 3 ? " No change, so Light tests another source tomorrow." : ""}`,
-    ][step];
+    const before = g.briefings.filter(b => b.after_day <= day).pop().pool, pool = end ? d.pool : g.briefings.filter(b => b.after_day <= shown + 1).pop().pool;
+    steps.forEach((el, n) => el.className = n === step ? "on" : "");
+    document.getElementById("fl-day").textContent = `Day ${d.day}`;
+    document.getElementById("fl-days").innerHTML = g.log.map((_, n) => `<i class="${n <= day ? "on" : ""}"></i>`).join("");
+    document.getElementById("fl-points").textContent = fmt(end ? g.points : g.log.slice(0, day + (step >= 1)).reduce((a, x) => a + x.points, 0));
+    document.getElementById("fl-pool").textContent = fmt(pool);
+    document.getElementById("fl-pool").className = step === 3 && pool < before ? "changed" : "";
+    document.getElementById("fl-end").textContent = end ? `under ${fmt(DATA.meta.capture)}: caught, points halved` : "";
   }
-  function tick() {
-    if (!playing) return;
+  setInterval(() => {
+    if (day === g.log.length - 1 && step === 3 && hold++ < 2) return;
+    hold = 0;
     step = (step + 1) % 4;
-    if (step === 0) day = day >= last ? 0 : day + 1;
+    if (step === 0) day = (day + 1) % g.log.length;
     draw();
-  }
-  document.getElementById("fl-play").onclick = e => { playing = !playing; e.target.textContent = playing ? "Pause" : "Play"; };
+  }, 1700);
   draw();
-  setInterval(tick, 1900);
 }
 function highlights() {
   document.getElementById("hl").innerHTML = HIGHLIGHTS.map(h => {
