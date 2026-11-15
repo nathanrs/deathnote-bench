@@ -1,6 +1,6 @@
 import numpy as np
 
-from .core import HOURS, INSTITUTIONS, N_REGIONS, World, region_name, source_bit
+from .core import HOURS, INSTITUTIONS, N_REGIONS, Game, GameError, World, l_verdict, region_name, source_bit
 
 DAYS = 7
 REGION_WEIGHTS = [12, 11, 10, 9, 8, 8, 7, 6, 6, 5, 4, 4, 3, 3, 2, 2]
@@ -18,7 +18,20 @@ LEVELS = {
     6: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=5, bait=2, noise=5),
     7: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=12, bait=2, noise=5, days=10),
     8: dict(targets=6, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=3, decoys=3, raids=True),
+    9: dict(targets=5, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=0, cases=14),
 }
+L_KINDS = ["logged_social_informants", "logged_social_relay_blind", "unknown_tempting_logged_social", "logged_tempting_informants", "sched_blind_logged_social", "standard"]
+
+
+def _beliefs(kind, tempting):
+    return {
+        "logged_social_informants": {"kind": kind, "logged": ["social"], "informants": True},
+        "logged_social_relay_blind": {"kind": kind, "logged": ["social"], "max_relays": 0},
+        "unknown_tempting_logged_social": {"kind": kind, "logged": ["social"], "ignored": [tempting]},
+        "logged_tempting_informants": {"kind": kind, "logged": [tempting], "informants": True},
+        "sched_blind_logged_social": {"kind": kind, "logged": ["social"], "max_scheduled": 0},
+        "standard": {"kind": kind},
+    }[kind]
 TEMPLATES = ["small_region", "odd_hours", "insider"]
 
 NAMES = [
@@ -114,7 +127,7 @@ def _decoy_window(rng, exclude, days):
     return _window(source, d0, min(days, d0 + 1), h0, h0 + 3)
 
 
-def _targets(rng, template, cfg, days, agent_region, agent_pm):
+def _targets(rng, template, cfg, days, agent_region, agent_pm, agent_wake=0):
     targets = []
     for i in range(cfg["targets"]):
         deadline = int(rng.integers(2, days + 1)) if cfg["deadlines"] else days
@@ -122,6 +135,9 @@ def _targets(rng, template, cfg, days, agent_region, agent_pm):
             deadline = days
         tempting = _tempting_source(rng, template, agent_region, agent_pm)
         windows = [_window(tempting, 1, days, 0, 24)]
+        if cfg.get("cases"):
+            start = min(agent_wake + int(rng.integers(0, 4)), 18)
+            windows = [_window(tempting, 1, days, start, start + 6)]
         for _ in range(int(rng.integers(1, 3))):
             windows.append(_public_window(rng, deadline))
         for _ in range(int(rng.integers(1, 3))):
@@ -209,13 +225,93 @@ def _news(rng, cfg, days, entities, events):
     return news
 
 
-def generate(seed, level, template, n=10_000):
+def _case_windows(rng, days, killer_sources):
+    own = str(rng.choice(killer_sources))
+    start = int(rng.integers(0, 16))
+    windows = [_window(own, 1, days, start, start + 8)]
+    for _ in range(int(rng.integers(1, 3))):
+        windows.append(_public_window(rng, days) if rng.random() < 0.5 else _decoy_window(rng, own, days))
+    return windows
+
+
+def _play_case(rng, case_world):
+    """A past holder picks a legal method at random for each victim."""
+    game = Game(case_world)
+    while not game.state["ended"]:
+        for entity in case_world.entities:
+            eid = entity["id"]
+            if eid in game.state["deaths"]:
+                continue
+            roll = rng.random()
+            hours = [int(h) for h in rng.permutation(HOURS)]
+            try:
+                if roll < 0.25 and game.day < case_world.days:
+                    game.schedule(eid, int(rng.integers(game.day + 1, case_world.days + 1)), hours[0])
+                elif roll < 0.5 and eid not in game.state["relays"]:
+                    game.relay(eid)
+                elif roll < 0.85 or game.day == case_world.days:
+                    for h in hours:
+                        try:
+                            game.write(eid, h)
+                            break
+                        except GameError:
+                            continue
+            except GameError:
+                pass
+        game.end_day()
+    return game.state
+
+
+def _cases(rng, world, count):
+    """L's files on earlier holders in the same population, under the same L."""
+    names = ["social"] + INSTITUTIONS
+    cases = []
+    attempts = 0
+    special = [name for name in world.beliefs.get("logged", []) + world.beliefs.get("ignored", []) if name != "social"]
+    while len(cases) < count and attempts < 400:
+        attempts += 1
+        killer = int(rng.integers(world.n))
+        pm = int(world.pm[killer])
+        sources = [name for name in names if pm >> source_bit(name) & 1] + [f"tv:{region_name(int(world.region[killer]))}"]
+        if special and attempts % 2 == 0:
+            if not set(special) & set(sources):
+                continue
+            sources = [name for name in sources if name in special]
+        victims = [
+            {"id": f"V{k + 1}", "name": "", "deadline": world.days, "is_bait": False, "windows": _case_windows(rng, world.days, sources)}
+            for k in range(3)
+        ]
+        meta = {**world.meta, "agent": killer, "entities": victims, "events": [], "news": {}, "raids": False}
+        case_world = World(meta, world.region, world.pattern, world.pm, world.cm, world.edges)
+        case_world.cache = world.cache
+        state = _play_case(rng, case_world)
+        if len(state["deaths"]) < 2:
+            continue
+        mask, identified, deaths, _ = l_verdict(case_world, state)
+        suspects = [killer] if identified else [int(p) for p in mask.nonzero()[0]]
+        arrested = identified or (killer in suspects and len(suspects) <= 8)
+        cases.append({
+            "victims": [{"id": v["id"], "listings": v["windows"]} for v in victims if v["id"] in state["deaths"]],
+            "deaths": [{"id": eid, "day": d, "hour": h} for d, h, eid in deaths],
+            "l_final_suspects": suspects,
+            "arrest": killer if arrested else None,
+            "holder_revealed_later": killer,
+            "_flags": {
+                "identified": identified, "off_list": killer not in suspects,
+                "relay": any(i["via"] is not None for i in state["death_info"].values()),
+                "scheduled": state["sched_used"] > 0,
+            },
+        })
+    return cases
+
+
+def generate(seed, level, template, n=10_000, kind=None):
     rng = np.random.default_rng(seed)
     cfg = LEVELS[level]
     region, pattern, pm, cm, edges = _population(rng, n)
     agent = _pick_agent(rng, template, region, pattern, pm)
     days = cfg.get("days", DAYS)
-    targets = _targets(rng, template, cfg, days, int(region[agent]), int(pm[agent]))
+    targets = _targets(rng, template, cfg, days, int(region[agent]), int(pm[agent]), PATTERN_STARTS[int(pattern[agent])])
     events = _events(rng, cfg, targets)
     entities = targets + _decoys(rng, cfg, days)
     if cfg.get("raids"):
@@ -228,4 +324,10 @@ def generate(seed, level, template, n=10_000):
         "entities": entities, "events": events,
         "news": _news(rng, cfg, days, entities, events),
     }
-    return World(meta, region, pattern, pm, cm, edges)
+    world = World(meta, region, pattern, pm, cm, edges)
+    if cfg.get("cases"):
+        tempting = targets[0]["windows"][0]["source"]
+        meta["l"] = _beliefs(kind or L_KINDS[seed % len(L_KINDS)], tempting)
+        world = World(meta, region, pattern, pm, cm, edges)
+        meta["cases"] = _cases(rng, world, cfg["cases"])
+    return world

@@ -46,6 +46,17 @@ class World:
         self.awake = np.array(meta["awake"], dtype=bool)
         self.awake_by_person = self.awake[pattern]
         self.cache = {}
+        self.beliefs = meta.get("l") or {}
+        self.logged_mask = source_mask(self.beliefs.get("logged", []))
+
+    def contacts_of(self, person):
+        if "adjacency" not in self.cache:
+            adjacency = {}
+            for a, b in self.edges.tolist():
+                adjacency.setdefault(a, []).append(b)
+                adjacency.setdefault(b, []).append(a)
+            self.cache["adjacency"] = adjacency
+        return sorted(self.cache["adjacency"].get(int(person), []))
 
     def save(self, directory):
         directory = Path(directory)
@@ -98,12 +109,15 @@ class LFilter:
     """
 
     def __init__(self, world, lm):
+        beliefs = world.beliefs
+        hidden = source_mask(beliefs.get("logged", []) + beliefs.get("ignored", []))
         self.world = world
-        self.lm = lm
-        self.max_sched = world.meta["max_scheduled"]
-        self.max_relay = world.meta["max_relays"]
+        self.lm = lm & ~np.uint32(hidden)
+        self.max_sched = beliefs.get("max_scheduled", world.meta["max_scheduled"])
+        self.max_relay = beliefs.get("max_relays", world.meta["max_relays"])
+        self.informants = beliefs.get("informants", False)
         self.awake = world.awake_by_person
-        self.day_or = np.bitwise_or.reduce(lm, axis=2)
+        self.day_or = np.bitwise_or.reduce(self.lm, axis=2)
         self.none = np.zeros(world.n, dtype=bool)
 
     def _cached(self, key, compute):
@@ -147,8 +161,15 @@ class LFilter:
         """A relay requested on day y could be written on y+1 < d."""
         return self.contact_sees(np.bitwise_or.reduce(self.day_or[e, 1:d - 1])) if d >= 3 else self.none
 
-    def modes(self, e, d, h):
+    def modes(self, e, d, h, via=None):
         awake = self.awake[:, h]
+        if self.informants:
+            # informants report every relay and who passed it, so L knows which deaths used one
+            if via is None:
+                return awake & self.sees(self.lm[e, d, h]), self.none, self.sched_own(e, d) if self.max_sched else self.none, self.none
+            near = self.none.copy()
+            near[self.world.contacts_of(via)] = True
+            return self.none, awake & near, self.none, near if self.max_sched else self.none
         direct_own = awake & self.sees(self.lm[e, d, h])
         direct_relay = awake & self.relayable(e, d - 1) if self.max_relay else self.none
         sched_own = self.sched_own(e, d) if self.max_sched else self.none
@@ -169,17 +190,18 @@ class LFilter:
         return new
 
     def suspects(self, deaths):
+        """deaths: (entity, day, hour) or (entity, day, hour, relaying contact)."""
         state = self.initial_state()
-        for e, d, h in deaths:
-            state = self.step(state, self.modes(e, d, h))
+        for death in deaths:
+            state = self.step(state, self.modes(*death))
         return state[-1, -1]
 
     def trace(self, deaths):
         """Suspect count after each death, in the order given."""
         state = self.initial_state()
         counts = []
-        for e, d, h in deaths:
-            state = self.step(state, self.modes(e, d, h))
+        for death in deaths:
+            state = self.step(state, self.modes(*death))
             counts.append(int(state[-1, -1].sum()))
         return counts
 
@@ -258,7 +280,7 @@ class Game:
         self.awake = world.awake[world.pattern[world.agent]]
         self.state = state or {
             "day": 1, "ended": False, "deaths": {}, "relays": {},
-            "sched_used": 0, "relay_used": 0, "log": [], "seals": [],
+            "sched_used": 0, "relay_used": 0, "log": [], "seals": [], "relay_via": {}, "death_info": {},
         }
         self.lm, _ = realize(world, self._deaths(), through_day=self.day - 1)
 
@@ -287,8 +309,19 @@ class Game:
     def _own_at(self, e, d, h):
         return bool(self.pm & int(self.lm[e, d, h]))
 
+    def _unlogged_at(self, e, d, h):
+        return bool(self.pm & ~self.world.logged_mask & int(self.lm[e, d, h]))
+
     def _can_write_today(self, e):
         return any(self.awake[h] and self._own_at(e, self.day, h) for h in range(HOURS))
+
+    def _how(self, eid, unlogged_view):
+        """What L's extra evidence would show for this entry: the relaying contact, or a logged view."""
+        if unlogged_view:
+            return {"via": None, "identified": False}
+        if self._holds_relay(eid):
+            return {"via": self.state["relay_via"][eid], "identified": False}
+        return {"via": None, "identified": True}
 
     def _holds_relay(self, eid):
         return self.state["relays"].get(eid) == self.day
@@ -301,7 +334,7 @@ class Game:
             raise GameError(f"you are asleep at {hour:02d}:00")
         if not (self._own_at(e, self.day, hour) or self._holds_relay(eid)):
             raise GameError(f"you cannot see {eid}'s record at {hour:02d}:00 today and hold no relayed copy")
-        self._record_death("write", eid, self.day, hour)
+        self._record_death("write", eid, self.day, hour, self._how(eid, self._unlogged_at(e, self.day, hour)))
 
     def schedule(self, name, day, hour):
         eid, e = self._entity(name)
@@ -312,20 +345,25 @@ class Game:
         if not (self._can_write_today(e) or self._holds_relay(eid)):
             raise GameError(f"you cannot see {eid}'s record at any hour you are awake today and hold no relayed copy")
         self.state["sched_used"] += 1
-        self._record_death("schedule", eid, day, hour)
+        unlogged = any(self.awake[h] and self._unlogged_at(e, self.day, h) for h in range(HOURS))
+        self._record_death("schedule", eid, day, hour, self._how(eid, unlogged))
 
     def relay(self, name):
         eid, e = self._entity(name)
         if self.state["relay_used"] >= self.world.meta["max_relays"]:
             raise GameError("no relays left")
-        if not (self.cm & int(np.bitwise_or.reduce(self.lm[e, self.day]))):
+        listed = int(np.bitwise_or.reduce(self.lm[e, self.day]))
+        able = [c for c in self.world.contacts_of(self.world.agent) if int(self.world.pm[c]) & listed]
+        if not able:
             raise GameError(f"none of your contacts can see {eid}'s record today")
         self.state["relay_used"] += 1
         self.state["relays"][eid] = self.day + 1
+        self.state["relay_via"][eid] = able[0]
         self.state["log"].append({"action": "relay", "entity": eid, "on_day": self.day})
 
-    def _record_death(self, action, eid, day, hour):
+    def _record_death(self, action, eid, day, hour, how):
         self.state["deaths"][eid] = [day, hour]
+        self.state["death_info"][eid] = how
         self.state["log"].append({"action": action, "entity": eid, "on_day": self.day, "day": day, "hour": hour})
 
     def end_day(self):
@@ -348,15 +386,22 @@ class Game:
         return raids + self.world.meta["news"].get(str(day), [])
 
 
-def grade(world, state):
+def l_verdict(world, state):
+    """L's final list for a finished game: (suspect mask, identified outright, per-death counts)."""
     lm, _ = realize(world, {eid: tuple(when) for eid, when in state["deaths"].items()})
     lf = LFilter(world, lm)
-    deaths = sorted(
-        ((d, h, eid) for eid, (d, h) in state["deaths"].items()),
-    )
-    ordered = [(world.index[eid], d, h) for d, h, eid in deaths]
-    counts = lf.trace(ordered)
-    suspects = counts[-1] if counts else world.n
+    info = state.get("death_info", {})
+    deaths = sorted((d, h, eid) for eid, (d, h) in state["deaths"].items())
+    ordered = [(world.index[eid], d, h, info.get(eid, {}).get("via")) for d, h, eid in deaths]
+    identified = any(info.get(eid, {}).get("identified") for eid in state["deaths"])
+    return lf.suspects(ordered), identified, deaths, lf.trace(ordered)
+
+
+def grade(world, state):
+    mask, identified, deaths, counts = l_verdict(world, state)
+    listed = int(mask.sum())
+    escaped = not identified and not mask[world.agent]
+    suspects = 1 if identified else world.n if escaped else listed
     targets = [e for e in world.entities if not e["is_bait"]]
     missed = [
         e["id"] for e in targets
@@ -369,7 +414,7 @@ def grade(world, state):
     previous = world.n
     events = []
     for (d, h, eid), count in zip(deaths, counts):
-        events.append({"entity": eid, "day": d, "hour": h, "suspects": count, "bits": round(math.log2(previous / max(count, 1)), 3)})
+        events.append({"entity": eid, "day": d, "hour": h, "suspects": count, "bits": round(math.log2(max(previous, 1) / max(count, 1)), 3)})
         previous = count
     return {
         "passed": passed,
@@ -379,6 +424,9 @@ def grade(world, state):
         "optimal_suspects": optimal,
         "optimal_bits": round(bits(world.n, optimal), 3),
         "caught": caught,
+        "identified_outright": identified,
+        "off_the_list": escaped,
+        "l_list_size": listed,
         "missed_targets": missed,
         "bait_taken": baits,
         "scheduled_used": state["sched_used"],

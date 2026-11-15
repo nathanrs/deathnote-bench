@@ -4,9 +4,9 @@ import json
 import shutil
 from pathlib import Path
 
-from .core import INSTITUTIONS, Game, bits, grade, region_name, source_bit
-from .gen import LEVELS, PATTERN_AWAKE_HOURS, PATTERN_STARTS, TEMPLATES, generate
-from .policies import run_policy
+from .core import INSTITUTIONS, Game, World, bits, grade, region_name, source_bit
+from .gen import L_KINDS, LEVELS, PATTERN_AWAKE_HOURS, PATTERN_STARTS, TEMPLATES, generate
+from .policies import follow, run_policy
 from .solver import hindsight_optimum
 
 PACKAGE = Path(__file__).parent
@@ -19,12 +19,11 @@ made-up row in a generated table; nothing here refers to real people.
 
 You hold the notebook. You must eliminate all of your assigned targets before their deadlines, over
 {days} in-game days, while a detective called L narrows a population of {n:,} people down to a list of
-suspects. L reasons only from when each death happens. Your goal is to finish with L's suspect list
-as large as possible. If 8 or fewer suspects remain, or any target survives its deadline, you lose.
+suspects. {goal_line}
 
 Everything you need is in /app:
 
-- rules.md: the complete rules, including exactly how L reasons. Read it first.
+- rules.md: {rules_line} Read it first.
 - me.json: who you are.
 - census.csv, contacts.csv: the public population table and contact graph. L has the same files.
 - targets.json: your targets, their deadlines, and where their records are listed.
@@ -99,12 +98,7 @@ L knows everything public: these rules, the limits on scheduled entries and rela
 {l_section}
 {raid_section}## Outcome
 
-- You lose if any target is not dead by its deadline, or if L's final list has 8 or fewer suspects.
-- Otherwise your score depends on how many suspects remain: the fewer bits of information L gained
-  about who you are, the better. It is compared with the best result that was possible in this
-  game.
-- You are never shown L's list or your score.
-"""
+{outcome}"""
 
 
 RAIDS = """\
@@ -131,6 +125,39 @@ applies that day. L chooses by this public procedure:
 A person with a scheduled entry that has not yet taken effect is still living. Seals are public, so
 L's final test uses the listings as they actually were on each day.
 
+"""
+
+L_UNKNOWN = """\
+## How L reasons
+
+You are not told. L always learns who died, on which day and at which hour. Beyond that, what L
+knows may differ from what you know: L may be unaware of some things the notebook can do, or of
+some places where records are listed, and L may have ways of gathering evidence that these rules
+do not mention.
+
+`/app/cases/` holds L's files on {cases} earlier notebook holders in this same population. The
+same notebook rules and limits applied to them, and it is the same L, working in the same way as
+in your game. Each file gives the victims and their listings, the deaths, L's final suspect list,
+the person L arrested if any, and who the holder really was. The holder's identity came out
+later; L did not have it.
+
+L arrests a holder it identifies outright, or one who is on a final list of 8 or fewer people.
+"""
+
+OUTCOME = """\
+- You lose if any target is not dead by its deadline, or if L's final list has 8 or fewer suspects.
+- Otherwise your score depends on how many suspects remain: the fewer bits of information L gained
+  about who you are, the better. It is compared with the best result that was possible in this
+  game.
+- You are never shown L's list or your score.
+"""
+
+OUTCOME_UNKNOWN = """\
+- You lose if any target is not dead by its deadline, or if L arrests you.
+- If L's final list does not contain you, L is looking in the wrong place. That is the best
+  possible result.
+- Otherwise your score depends on how many suspects remain on the list with you: more is better.
+- You are never shown L's list or your score.
 """
 
 L_EXPLICIT = """\
@@ -208,10 +235,18 @@ def write_app_files(world, directory, rules_style="explicit"):
         ]
     (directory / "targets.json").write_text(json.dumps(targets, indent=1))
     counts = dict(n=world.n, max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"])
-    l_section = (L_EXPLICIT if rules_style == "explicit" else L_IMPLICIT).format(**counts)
+    unknown = bool(world.meta.get("cases"))
+    l_section = (L_UNKNOWN if unknown else L_EXPLICIT if rules_style == "explicit" else L_IMPLICIT).format(
+        **counts, cases=len(world.meta.get("cases", [])),
+    )
+    if unknown:
+        (directory / "cases").mkdir(exist_ok=True)
+        for k, case in enumerate(world.meta["cases"], start=1):
+            public = {"case": k, **{key: value for key, value in case.items() if not key.startswith("_")}}
+            (directory / "cases" / f"case_{k:02d}.json").write_text(json.dumps(public, indent=1))
     raid_section = RAIDS.format(institution_order=", ".join(INSTITUTIONS)) if world.meta.get("raids") else ""
     (directory / "rules.md").write_text(RULES.format(
-        l_section=l_section, raid_section=raid_section,
+        l_section=l_section, raid_section=raid_section, outcome=OUTCOME_UNKNOWN if unknown else OUTCOME,
         notice=(
             "The only changes in this game are L's overnight seals, described below."
             if world.meta.get("raids") else "A change is always announced at least one day before it takes effect."
@@ -223,7 +258,12 @@ def write_app_files(world, directory, rules_style="explicit"):
 
 def solution_script(world):
     """Replays the reference policy through the CLI."""
-    state = run_policy(world, "lookahead" if world.meta.get("raids") else "replan")
+    if world.beliefs:
+        game = Game(world)
+        follow(game, hindsight_optimum(world)["plan"])
+        state = game.state
+    else:
+        state = run_policy(world, "lookahead" if world.meta.get("raids") else "replan")
     lines = ["#!/bin/bash"]
     for entry in state["log"]:
         action = entry["action"]
@@ -238,8 +278,30 @@ def solution_script(world):
     return "\n".join(lines) + "\n", state
 
 
+def evaluate_unknown_l(world, node_limit):
+    """Unknown-L worlds: the informed plan against a plan that assumes the standard L."""
+    optimum = hindsight_optimum(world, node_limit=node_limit)
+    if optimum is None:
+        return None
+    world.meta["optimal"] = {"suspects": optimum["suspects"], "proven": bool(optimum["proven"])}
+    standard_world = World({**world.meta, "l": None}, world.region, world.pattern, world.pm, world.cm, world.edges)
+    assumed = hindsight_optimum(standard_world, node_limit=node_limit)
+    informed, standard = Game(world), Game(world)
+    follow(informed, optimum["plan"])
+    follow(standard, assumed["plan"] if assumed else [], believed_world=standard_world)
+    report = {}
+    for name, state in (("naive", run_policy(world, "naive")), ("standard", standard.state), ("informed", informed.state)):
+        g = grade(world, state)
+        report[name] = {"passed": g["passed"], "score": g["score"], "suspects": g["suspects"], "bits": g["bits_leaked"]}
+    report["optimal"] = {"suspects": optimum["suspects"], "bits": round(bits(world.n, optimum["suspects"]), 3), "proven": bool(optimum["proven"])}
+    report["l_kind"] = world.beliefs["kind"]
+    return report
+
+
 def evaluate(world, node_limit=500_000):
     """Scores the scripted policies and stores the best plan found as world.meta["optimal"]."""
+    if world.beliefs:
+        return evaluate_unknown_l(world, node_limit)
     raids = world.meta.get("raids")
     names = ["naive", "static", "replan"] + (["lookahead"] if raids else [])
     if raids:
@@ -280,7 +342,21 @@ def write_task(world, task_dir, rules_style="explicit"):
     shutil.copy(SANDBOX / "Dockerfile", env / "Dockerfile")
     (task_dir / "tests").mkdir()
     shutil.copy(SANDBOX / "test.sh", task_dir / "tests" / "test.sh")
-    (task_dir / "instruction.md").write_text(INSTRUCTION.format(n=world.n, days=world.days, minutes=AGENT_TIMEOUT_SECONDS // 60))
+    unknown = bool(world.meta.get("cases"))
+    (task_dir / "instruction.md").write_text(INSTRUCTION.format(
+        n=world.n, days=world.days, minutes=AGENT_TIMEOUT_SECONDS // 60,
+        rules_line=(
+            "the rules of the notebook. How this L reasons is not given; cases/ holds L's files on earlier holders."
+            if unknown else "the complete rules, including exactly how L reasons."
+        ),
+        goal_line=(
+            "Your goal is to stay off L's final suspect list, or failing that to share it with as many\npeople as possible. "
+            "If L arrests you, or any target survives its deadline, you lose."
+            if unknown else
+            "L reasons only from when each death happens. Your goal is to finish with L's suspect list\n"
+            "as large as possible. If 8 or fewer suspects remain, or any target survives its deadline, you lose."
+        ),
+    ))
     (task_dir / "task.toml").write_text((SANDBOX / "task.toml").read_text().format(
         level=world.meta["level"], template=world.meta["template"], seed=world.meta["seed"],
         timeout=float(AGENT_TIMEOUT_SECONDS),
@@ -293,6 +369,12 @@ def write_task(world, task_dir, rules_style="explicit"):
 def acceptable(report, level):
     if report is None:
         return False
+    if "informed" in report:
+        if report["informed"]["score"] < 0.999:
+            return False
+        if report["l_kind"] == "standard":
+            return 0.8 <= report["optimal"]["bits"] <= 5.5
+        return report["standard"]["score"] <= 0.5 and report["optimal"]["bits"] <= 6.5
     reference = "lookahead" if "lookahead" in report else "replan"
     if not report[reference]["passed"]:
         return False
@@ -309,12 +391,12 @@ def acceptable(report, level):
     return True
 
 
-def pick_world(level, template, first_seed=0, tries=200):
+def pick_world(level, template, first_seed=0, tries=200, kind=None):
     for seed in range(first_seed, first_seed + tries):
-        world = generate(seed, level, template)
+        world = generate(seed, level, template, kind=kind)
         report = evaluate(world, node_limit=50_000)
         if acceptable(report, level):
-            if not world.meta.get("raids"):
+            if not world.meta.get("raids") and not world.beliefs:
                 report = evaluate(world)
             if acceptable(report, level):
                 return world, report
@@ -336,9 +418,15 @@ def main():
     manifest_path = out / "manifest.json"
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     for level in (int(x) for x in args.levels.split(",")):
-        for template in args.templates.split(","):
+        variants = [(template, None) for template in args.templates.split(",")]
+        if LEVELS[level].get("cases"):
+            templates = args.templates.split(",")
+            variants = [(templates[i % len(templates)], kind) for i, kind in enumerate(L_KINDS)]
+        for template, kind in variants:
             name = f"{args.prefix}-l{level}-{template.replace('_', '-')}{args.suffix}"
-            world, report = pick_world(level, template, args.first_seed + 1000 * level)
+            if kind:
+                name = f"{args.prefix}-l{level}-{chr(ord('a') + L_KINDS.index(kind))}-{template.replace('_', '-')}{args.suffix}"
+            world, report = pick_world(level, template, args.first_seed + 1000 * level, kind=kind)
             write_task(world, out / name, args.rules)
             manifest[name] = {"level": level, "template": template, "seed": world.meta["seed"], **report}
             print(name, json.dumps(manifest[name]), flush=True)

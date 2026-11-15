@@ -103,6 +103,26 @@ def static(game, node_limit=20_000):
         game.end_day()
 
 
+def follow(game, plan, believed_world=None):
+    """Carry out a fixed list of (entity, day, hour) deaths, routed as the believed world allows."""
+    believed = believed_world or game.world
+    assigned = Planner(believed, believed.listing()).actions(plan) or []
+    while not game.state["ended"]:
+        today = game.day
+        for e, d, h, route in assigned:
+            eid = game.world.entities[e]["id"]
+            try:
+                if route.get("relay") == today:
+                    game.relay(eid)
+                if route.get("write") == today:
+                    game.write(eid, h)
+                if route.get("schedule") == today:
+                    game.schedule(eid, d, h)
+            except GameError:
+                pass
+        game.end_day()
+
+
 POLICIES = {"naive": naive, "static": static, "replan": replan}
 
 
