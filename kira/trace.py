@@ -136,20 +136,15 @@ class Trace:
 
     def make_feed(self):
         rng, feed = self.rng, []
-        other_region = lambda: f"regional:{rng.choice([r for r in REGIONS if r != self.region])}"
+        def elsewhere():
+            return rng.choice([f"regional:{r}" for r in REGIONS if r != self.region]
+                              + [o for o in SECTORS.values() if o != self.job_source] + [o for o in AGES.values() if o != self.age_source])
         def add(coverage, size="minor"):
             feed.append({"size": size, "coverage": sorted(set(coverage))})
-        add(["national", other_region(), "docket", "forum"], "major")
-        for _ in range(2):
-            add([f"regional:{self.region}"] + (["forum"] if rng.random() < 0.3 else []))
-        for _ in range(2):
-            add([self.job_source] + ([other_region()] if rng.random() < 0.3 else []))
-        for _ in range(2):
-            add([self.age_source] + (["forum"] if rng.random() < 0.3 else []))
-        for _ in range(2):
-            add(["forum"] + ([rng.choice(["foreign", other_region()])] if rng.random() < 0.4 else []))
-        for _ in range(2):
-            add(["foreign"] + (["forum"] if rng.random() < 0.3 else []))
+        add(["national", elsewhere()], "major")
+        for place in self.mine[1:]:
+            for _ in range(2):
+                add([place] + ([elsewhere()] if rng.random() < 0.3 else []))
         rng.shuffle(feed)
         for i, c in enumerate(feed):
             c["id"] = f"d{self.day}-{i + 1}"
