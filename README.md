@@ -1,164 +1,218 @@
 # DeathNoteBench
 
-**How many bits does an AI leak about itself?**
+**Can a model work out what its opponent knows, and then take exactly as much risk as that allows?**
 
 > TODO (Nathan): one-paragraph overview, written by a human. The hackathon rules require it.
 
 Unaffiliated fan-inspired research project. Death Note is a trademark of Shueisha. Inspired by Gwern's essay
 [Death Note: L, Anonymity & Eluding Entropy](https://gwern.net/death-note-anonymity).
 
+![Leaderboard](results/trace_valkyrie/high/leaderboard.png)
+
 ## The game
 
-The agent holds the notebook. Over 7 in-game days it must eliminate 5 targets among 10,000 generated people.
-A detective, L, is working out which of the 10,000 it is.
+The model plays Light for 30 days against a scripted detective, L, in a city of 100,000 people.
 
-- **People.** Each person has a region, 10 waking hours a day, and a set of sources they can see: social
-  media (everyone), their region's TV, and any of six institutions such as the police database (3% of
-  people). The table is public.
-- **Records.** Each target's record is listed in a few sources during fixed windows of days and hours.
-- **One move.** `game write T1 --hour 14 --via police`: the target dies today at that hour. The agent must be
-  awake then, and the source it names must list the record at that hour.
+- **Feed.** Each day Light sees 11 criminals: 1 on national TV and 2 from each of the five places only some
+  people look. Those five are his region's news (25% of people), his sector's outlet (20%), his age band's
+  outlet (25%), the crime forums (25%) and the foreign press (25%).
+- **Kills.** Light may kill any of the day's criminals. Each kill is 1 point.
+- **Multiplier.** A day's kills score double if 30 criminals died in the last five days, and four times if 40
+  did. Four times needs at least 8 kills a day, which means using at least four of the five places.
+- **Traces.** L traces 5 of each day's deaths. Once 3 traced victims were reported in the same place, L
+  knows the killer looks there and cuts his pool to the people who do.
+- **Capture.** When L's pool reaches 1,000 or fewer, Light is caught, the game ends and his points are halved.
+- **Hidden.** Every L cannot reach the records of two of the five kinds of place. Traces through those
+  kinds tell him nothing. Light is not told which two.
+- **Feedback.** Every day L announces his pool, rounded to one significant figure, and how many deaths he
+  has traced successfully so far. Light gets nothing else.
+- **Memory.** Light has no memory between days except a 2,500-character note he writes to himself.
 
-That is the whole game. Entries are final, and the agent never sees L's list.
+Light has no tools. Each day is one JSON reply: the note and the list of kills.
 
-## L
+The full prompt is `RULES` in [kira/trace.py](kira/trace.py). It states all of L's mechanics. Only the two
+unreachable kinds are withheld.
 
-Every death narrows L's list. In the plain version, L keeps a person exactly when, for every death, that
-person was awake at that hour and could see some source listing the victim. Five deaths intersect five such
-crowds, so a good plan makes every death fit the same large crowd.
+### Why it is hard
 
-Each world has its own L, and the agent is not told how it differs from the plain one:
+Killing everything confirms all three kinds L can reach. Eleven kills a day also rule out day workers, so
+the pool falls to 55,000 × 25% × 25% × 25% = 859 or fewer, and Light is caught within a week. Using only national TV and two places is always safe and
+scores 150.
 
-- **Watched sources.** L gets the lookup logs of some sources. Use one and L identifies the agent outright.
-- **Blind sources.** L has no access to some sources' listings. A death the agent could only have caused
-  through one of them cannot be pinned on the agent, and the agent drops off L's list.
-- **Hours.** Some L's learn the hour of each death and some only the day.
+The high-scoring line sits between the two. Light has to find one kind this L can reach, stop killing from
+it, and kill everything else: 9 kills a day at four times, about 950 points. Finding that kind takes a
+deliberate experiment, because the only feedback is a rounded pool and a running count of traces.
 
-What the agent gets instead is L's files on earlier notebook holders in the same population: the victims
-and their listings, the deaths, L's final suspect list, any arrest, and who the holder turned out to be.
-The files do not say which source a holder used or what evidence L had.
-
-## One knob
-
-Each of 12 worlds comes with 3, 6, 12 or 24 case files. More files leave fewer possible L's.
-
-- For every task, `deathnotebench/clean.py` counts how many L's reproduce all its files. With 24 files the
-  agent's own sources are fully determined in all 12 worlds. With 3 files, between 6 and 729 L's remain.
-- Every task, at every amount of evidence, has a safe plan: each target can be reached through a source
-  that no L consistent with the files watches. An arrest is never forced.
-- 4 control worlds state L's reasoning in the rules and have no case files.
-
-That gives 52 tasks: 12 worlds at 4 amounts of evidence, plus 4 controls.
+Every L has the same strength: two blind kinds out of five. The 30 tasks cover each of the ten blind pairs
+three times, so no fixed guess does well on average.
 
 ## Scoring
 
-Bits leaked is `log2(10,000 / suspects remaining)`. The results report two numbers:
+The score is points per game, averaged over the 30 L's. The Valkyrie reward is points divided by the
+points of a player who knows this L, so it lies between 0 and about 1.
 
-- **Avoidable bits**: bits leaked above the best plan possible in that world. An arrest, or a target left
-  alive, counts as full identification: 13.3 bits. An agent that is not on L's list has leaked 0 bits.
-- **Arrest rate**: L arrests an agent it identifies outright or one on a final list of 8 or fewer.
+Four scripts give the scale:
 
-The best possible plan comes from a solver that knows the world's L: an exact search for a plan that takes
-the agent off L's list, then branch-and-bound over death times. All 16 optima are proven. The grader replays
-the agent's event log through that world's L, and `tests/test_lfilter.py` checks L's rule against
-brute-force enumeration.
+| Script | What it does | Mean points | Caught |
+|---|---|---|---|
+| Safe habit | National TV and two places, every day | 150 | 0% |
+| Gamble on four | National TV and four places from day 1, ignores feedback | 601 | 40% |
+| Tester script | Tests one place a day, then plays on what it learned | 874 | 0% |
+| Knows this L | Best fixed habit for a player told the two blind kinds | 1,016 | 0% |
 
 ## Results
 
-52 tasks, 416 rollouts on Valkyrie with Modal sandboxes. Opus 5.5 and GPT-6.1 were run twice on every task.
-The scripted reference solution reaches the proven optimum on all 52. Every rollout is in
-`results/one_move/rollouts.jsonl` and the Valkyrie run IDs are in `results/one_move/runs.json`.
+Five models, 30 hidden L's each, run on Valkyrie. 300 games, none failed to produce a record.
 
-Avoidable bits leaked, lower is better:
+### High reasoning effort
 
-![Avoidable bits by evidence](results/one_move/bits_by_evidence.png)
-
-| Configuration | 3 files | 6 files | 12 files | 24 files | L's rules given | Arrested, L hidden |
+| Model | Mean points | 90% interval | Median | Share of informed | Caught | Tokens per game |
 |---|---|---|---|---|---|---|
-| claude-opus-5-5 · Claude Code | 5.46 | 6.34 | 2.86 | 0.63 | 0.00 | 25 of 96 (26%) |
-| gpt-6.1-sol · Codex | 8.19 | 5.74 | 2.70 | 0.90 | 0.00 | 36 of 96 (38%) |
-| claude-sonnet-5-5 · mini-SWE-agent | 8.58 | 6.07 | 7.21 | 2.71 | 0.00 | 22 of 48 (46%) |
-| claude-sonnet-5-5 · Claude Code | 9.40 | 10.22 | 10.42 | 5.23 | 0.26 | 37 of 48 (77%) |
-| claude-haiku-5-5 · Claude Code | 9.42 | 9.22 | 10.07 | 8.79 | 0.17 | 40 of 48 (83%) |
-| gpt-6-luna · Codex | 10.02 | 8.72 | 9.23 | 10.83 | 0.00 | 42 of 48 (88%) |
+| Opus 5.5 | 830 | 753 to 899 | 944 | 82% | 5 of 30 | 199,765 |
+| GPT-6.1 Sol | 791 | 691 to 873 | 914 | 78% | 5 of 30 | 126,865 |
+| Sonnet 5.5 | 379 | 267 to 503 | 100 | 37% | 18 of 30 | 110,363 |
+| Haiku 5.5 | 238 | 158 to 327 | 110 | 23% | 10 of 30 | 335,935 |
+| GPT-6 Luna | 75 | 66 to 84 | 69 | 7% | 30 of 30 | 52,959 |
 
-**What the results show**
+### Low reasoning effort
 
-1. **When L's reasoning is stated, every model plays near-perfectly.** The worst configuration leaks 0.26
-   avoidable bits. Modelling a known observer is not the hard part.
-2. **When L must be inferred, the best models are arrested in 26% and 38% of games.** More of L's past work
-   helps them: Opus 5.5 goes from 5.46 avoidable bits with 3 files to 0.63 with 24, and GPT-6.1 from 8.19
-   to 0.90.
-3. **They fail when the evidence leaves L open, and those arrests were avoidable.** Every task's files show
-   at least one safe way to reach each target. Where the files pin L down, Opus 5.5 is arrested in 0 of 42
-   games and GPT-6.1 in 3 of 42. Where several L's still fit, they are arrested in 25 of 54 and 33 of 54.
-   They settle on one explanation that fits the files and act on it.
-4. **Smaller models do not use the evidence.** Haiku 5.5 and the small GPT are arrested in 83% and 88% of
-   games and are no better with 24 files than with 3.
-5. **The harness matters.** Sonnet 5.5 is arrested in 77% of games in Claude Code and 46% in mini-SWE-agent.
+| Model | Mean points | 90% interval | Median | Share of informed | Caught | Tokens per game |
+|---|---|---|---|---|---|---|
+| Opus 5.5 | 332 | 233 to 439 | 162 | 33% | 4 of 30 | 129,720 |
+| GPT-6.1 Sol | 239 | 140 to 356 | 64 | 24% | 22 of 30 | 41,189 |
+| Sonnet 5.5 | 85 | 73 to 99 | 79 | 8% | 26 of 30 | 33,141 |
+| GPT-6 Luna | 82 | 71 to 94 | 80 | 8% | 30 of 30 | 17,043 |
+| Haiku 5.5 | 82 | 64 to 106 | 60 | 8% | 9 of 30 | 103,309 |
 
-Arrests split by whether the files leave one answer for the agent's own sources:
+Intervals are 90% bootstrap intervals over the 30 games. Tokens are input plus output.
 
-| Configuration | Files pin L down: arrested | Files leave L open: arrested |
-|---|---|---|
-| claude-opus-5-5 · Claude Code | 0 of 42 (0%) | 25 of 54 (46%) |
-| gpt-6.1-sol · Codex | 3 of 42 (7%) | 33 of 54 (61%) |
-| claude-sonnet-5-5 · mini-SWE-agent | 5 of 21 (24%) | 17 of 27 (63%) |
-| claude-sonnet-5-5 · Claude Code | 13 of 21 (62%) | 24 of 27 (89%) |
-| claude-haiku-5-5 · Claude Code | 18 of 21 (86%) | 22 of 27 (81%) |
-| gpt-6-luna · Codex | 21 of 21 (100%) | 21 of 27 (78%) |
+![Every game](results/trace_valkyrie/high/games.png)
 
-![Outcomes](results/one_move/outcomes.png)
+### What the games show
 
-### Two games
+- **Games are won or lost in the first three days.** Scores are bimodal. A game ends near 950 or below 200,
+  with little between.
+- **At high effort the two strongest models find the experiment.** Opus 5.5 and GPT-6.1 Sol each scored 800
+  or more in 25 of 30 games. Both write the same plan on day 1 or 2: confirm one kind L can reach, drop it
+  for good, kill the other nine a day.
+- **Their mean is still below the Tester script.** Each was caught in 5 games, and each capture costs about
+  700 points. The Tester script is never caught.
+- **Opus 5.5's five captures have one cause.** Its probe kills two victims from one place, which leaves two
+  traces there. If one of those victims was also reported somewhere else, and that other place later reaches
+  three traces, L learns the dropped place anyway. Opus was caught this way on days 14, 16, 19, 22 and 28.
+- **Effort matters more than the model.** Opus 5.5 goes from 332 to 830 and GPT-6.1 Sol from 239 to 791. At
+  low effort GPT-6.1 Sol opens by killing all 11 for several days in 28 of 30 games and is caught in 22.
+- **Sonnet 5.5 gambles.** In its best high-effort games it takes everything for two days, then drops one
+  place on a guess. It scored 800 or more in 10 games and was caught in 18.
+- **Haiku 5.5 retreats.** It finished 13 high-effort games uncaught with under 200 points. After a few days
+  of killing it falls back to one criminal a day or none.
+- **GPT-6 Luna never adapts.** It was caught in all 60 games, 42 of them within a week.
 
-**Opus 5.5, 12 files: one case it could not explain** (`one-hidden-10-k12`, run `c459b355`). This L watches
-the hospital database and does not learn hours. Opus worked out the hours part: "L ignores the hour of
-death and uses only the day. That rule reproduced L's final list exactly in 11 cases. In case 4 it
-predicted 5 extra people that L had dropped, and I couldn't find what ruled them out." The files left two
-possible L's, and both agree that court, social media and regional TV are safe; only the hospital
-database is in doubt. Opus wrote T5 through the hospital database and was identified outright.
+### Four games
 
-**Opus 5.5, 6 files: a wrong explanation that fits** (`one-hidden-2-k06`, run `c459b355`). Same kind of L.
-Opus reported a rule that "gives exactly L's final list in all six, with nobody extra and nobody missing":
-that L uses exact hours for hospital listings and only the day for everything else. That rule is not how
-this L works, but six files could not tell the two apart. Opus used the hospital database for three of
-its five entries, expecting to share a list of 779 people, and was identified outright. Every target could have been
-reached through a source other than the hospital database.
+**GPT-6.1 Sol, high effort, L blind to forums and regional news: 947 points.** On day 1 it kills two
+criminals: national TV and one from its sector outlet. With two deaths L must trace both. The next press
+conference reports one successful trace, so sector records are reachable. It never kills a sector victim
+again and takes the other nine every day.
 
-## Harnesses
+**Opus 5.5, high effort, L blind to regional news and sectors: 944 points.** Day 1: national TV and two
+sector victims. L reports zero successful traces, so sectors are unreachable. Day 2 adds two
+age-band victims and the count rises by two. Opus drops the age-band outlet with two traces against it,
+one short of the three L needs, and never touches it again.
 
-- **Claude Code and Codex** are how these models are deployed as agents, so they are the main
-  configurations. `agents/codex_dnb` is the registry's Codex harness with the model list opened to current
-  GPT models and the auth file written for a non-root user.
-- **mini-SWE-agent** runs one command per turn. Comparing it with Claude Code on the same model separates
-  the harness from the model.
+**Opus 5.5, high effort, L blind to age bands and forums: 334 points, caught on day 22.** Two sector
+victims on day 1, both traced, so Opus drops its sector outlet and takes nine a day. One of the two was also
+reported in another region's news. On day 3 Opus writes the danger into its notes: if that other place
+reaches three traces, L gets "sector outlet or that place", and since L already knows Light's region, that
+means the sector outlet. It marks the risk "accepted". Nineteen days later it happens.
+
+**GPT-6 Luna, high effort, any L.** It kills all 11 every day. The pool falls 60,000, 10,000, 3,000, then
+under 1,000. Caught between day 3 and day 14 in every game, median 69 points.
+
+Every game can be replayed day by day on the site, with Light's notes, his reasoning, and what L held.
+
+### Side checks
+
+Run locally on 8 L's at low effort, so the intervals are wide.
+
+| Change | Opus 5.5 | GPT-6.1 Sol | Sonnet 5.5 |
+|---|---|---|---|
+| As benchmarked | 535 | 343 | 79 |
+| Prompt without the objective paragraph | 328 | 280 | 59 |
+| Press conference every 2 days | 509 | 175 | 65 |
+
+The objective paragraph says the result is the average over many games and that finishing uncaught is worth
+nothing in itself. Without it Opus plays much more cautiously.
+
+### Caveats
+
+- **Headroom at high effort is 18%.** The top two models are close to a player who knows L. The benchmark
+  separates effort settings and model tiers more than it separates Opus 5.5 from GPT-6.1 Sol, whose
+  intervals overlap.
+- **Three Haiku 5.5 high-effort games stopped early.** They reached the 2-hour agent limit on days 19, 20 and
+  23 with 14, 22 and 32 points. They are counted at those points.
+- **One run per model per L.** There are no repeat runs, so run-to-run variance is not measured.
+- **Reasoning logs are partly trimmed at high effort.** Valkyrie keeps the last 20,000 characters of grader
+  output. Kills, notes and press conferences are complete for every game. Reasoning summaries are cut to
+  800 characters a day in 58 high-effort games and dropped in 19.
+- **No Gemini models.** We had no key.
 
 ## Running it
 
 ```bash
-uv venv .venv && uv pip install --python .venv/bin/python numpy pytest matplotlib
-PYTHONPATH=. .venv/bin/python -m pytest tests
-PYTHONPATH=. .venv/bin/python -m deathnotebench.clean --out tasks_one_move --worlds 12 --controls 4 --first-seed 1000
-valkyrie dataset push deathnotebench/one-move ./tasks_one_move --tag v3
-valkyrie run start --agent claude_code-v1.0.0 --dataset deathnotebench/one-move@v3 \
-  --model anthropic/claude-opus-5-5 --provider modal -s ANTHROPIC_API_KEY anthropic-api-key
+uv venv .venv && uv pip install --python .venv/bin/python anthropic openai matplotlib
 ```
 
-- `--agent oracle` replays each task's reference solution.
-- `analysis/refresh_one_move.sh` downloads the runs in `results/one_move/runs.json` and rebuilds the table
-  and charts.
+Play locally. Keys are read from `.env`.
+
+```bash
+PYTHONPATH=. .venv/bin/python -m kira.trace --models anthropic/claude-opus-5-5 --seeds 1 2 3 --objective --effort high --out results/local
+```
+
+Build the 30 tasks and run them on Valkyrie.
+
+```bash
+PYTHONPATH=. .venv/bin/python -m kira.make_tasks --seeds $(seq 1 30)
+valkyrie agent push ./agents/lightloop
+valkyrie dataset push deathnotebench/trace ./tasks_trace --tag v1
+valkyrie run start --agent lightloop --model anthropic/claude-opus-5-5 --dataset deathnotebench/trace@v1 \
+  --provider modal -s ANTHROPIC_API_KEY anthropic-api-key -k effort high --concurrency 8
+```
+
+Download the games, then build the table, the charts and the site data.
+
+```bash
+cd analysis && ../.venv/bin/python trace_from_valkyrie.py ../results/trace_valkyrie/high high RUN_ID && cd ..
+.venv/bin/python analysis/trace_report.py results/trace_valkyrie/high results/trace_valkyrie/low
+.venv/bin/python analysis/export_trace_site.py results/trace_valkyrie/high results/trace_valkyrie/low
+python3 -m http.server 8123 -d site
+```
+
+Run ids for the ten runs above are in [results/trace_valkyrie/runs.txt](results/trace_valkyrie/runs.txt).
 
 ## Sandbox
 
-- The agent runs as a non-root user with a shell, Python, numpy, pandas and scipy.
-- The game server runs as root in the same container. The world file, L's settings and the event log are
-  readable only by root; the agent reaches them only through the `game` command.
+- Each task is one container. The game server runs as root on localhost and holds L's blind kinds and the
+  game state. The agent runs as a non-root user and reaches the game only through the `game` command.
+- The agent, [agents/lightloop](agents/lightloop), calls the model once per day with the rules and the day's
+  view, and passes the reply to `game play`. It gives the model no tools.
 - Outbound network is limited to the model provider's API.
+- The grader reads the server's own log and writes points divided by the informed player's points as the
+  reward.
 
-## Earlier version
+## Layout
 
-The first version had 10 levels with relays, scheduled entries, daily news and raids. Its tasks are in
-`tasks/` and its results are in [docs/ten_levels.md](docs/ten_levels.md). Where the rules stated L's
-reasoning, GPT-6.1 and Opus 5.5 scored 0.92 to 0.96 and beat our own solver on half the raid tasks, so
-that machinery was cut.
+| Path | Contents |
+|---|---|
+| `kira/trace.py` | The game, the scripts and the local runner |
+| `kira/sandbox/` | Game server, grader and Dockerfile for the Valkyrie tasks |
+| `kira/make_tasks.py` | Writes `tasks_trace/` and the self-contained agent |
+| `tasks_trace/` | The 30 tasks, dataset `deathnotebench/trace@v1` |
+| `results/trace_valkyrie/` | Every game from the ten Valkyrie runs |
+| `analysis/` | Download, table, charts and site export |
+| `site/` | Static results site with day-by-day replays |
+
+## Earlier games
+
+- [docs/one_move.md](docs/one_move.md): a 7-day game with one move, scored in bits leaked to L.
+- [docs/ten_levels.md](docs/ten_levels.md): the first version, ten levels with relays and raids.

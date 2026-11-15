@@ -1,0 +1,2975 @@
+{
+ "run_id": "4b18b5f1-5468-477f-b9d0-68a2297ff276",
+ "agent": "lightloop",
+ "model": "anthropic/claude-haiku-5-5",
+ "task": "trace-020",
+ "reward": 0.4852,
+ "exit": null,
+ "agent_seconds": 2113.332183357,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 20,
+  "region": "East",
+  "sector": "security",
+  "age": "under 25",
+  "blind": [
+   "foreign",
+   "forum"
+  ]
+ },
+ "briefing_every": 1,
+ "traces_per_day": 5,
+ "points": 476,
+ "caught": true,
+ "days": 30,
+ "final_pool": 687,
+ "kills": 262,
+ "input_tokens": 139263,
+ "output_tokens": 385097,
+ "seconds": 2106,
+ "informed_best": 981,
+ "tester": 891,
+ "hider": 30,
+ "grabber": 44,
+ "score": 0.4852,
+ "log_trimmed": "reasoning dropped",
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-11",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-9",
+    "d1-11",
+    "d1-7"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN. Routine: I am night worker (free morning+afternoon). Kill quick, block afternoon only (keeps routine ambiguous: students/night/home remain). Probe which kinds L CANNOT reach: a trace fails for unreachable kinds, so their kills teach L nothing. Probe one kind per day with 2 victims + national (<=5 deaths so all traced). Count increase in deaths_traced = reachable. Day1 probe FORUM (d1-9, d1-11) + national d1-7. Day2 FOREIGN, Day3 CLIPS, Day4 BLOTTER, Day5 REGIONAL:East (2 victims each + national). After day5: kinds with 0 successes are UNREACHABLE (expect exactly 2). Reachable kinds (3) each get ~2 successes. Then: kill each day national + 2 from each UNREACHABLE kind + 2 from TWO reachable kinds (call them F1,F2; they become facts, max 2 facts allowed). NEVER kill the third reachable kind (R3) again: a 3rd success there = 3rd fact = caught. Facts: routine+2 facts keeps pool ~3000 (safe, threshold 1000). Watch pool each day; if pool drops to 10000 or lower unexpectedly, stop killing from the newest fact kind. Multiplier: 40 deaths in 5 days => 4x, so aim 8-9 kills/day after probing.",
+   "error": null,
+   "input_tokens": 1920,
+   "output_tokens": 31842,
+   "seconds": 156.7
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-7",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-2",
+    "d2-7",
+    "d2-4",
+    "d2-11",
+    "d2-8"
+   ],
+   "points_today": 5,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STATE after day 1: pool 60000 = ~55% of 100000, so day workers are ruled out (all kills in afternoon). Deaths_traced stayed 0, so the two forum victims (d1-9, d1-11) failed to trace. Forum is very likely UNREACHABLE for L (posterior ~0.97), so forum victims are free kills and tell L nothing. Points so far: 3 (day 1).\n\nRULES I'M USING: (a) Kill only in afternoon (quick) to keep the routine ambiguous. Pool stays ~55000. (b) Free kills = national + forum (+ any other kind proven unreachable). (c) Each reachable kind may reach at most 2 successes unless it's chosen as a fact. A place reaching 3 successes creates a fact (killer follows that place). Pool math: 55000 x 0.25 = 13750 after one 25% fact; x0.25 again = ~3400 after two. A THIRD fact drops the pool to under 1000 and I'm caught. So at most 2 facts in the whole game. After a place is a fact, further kills of its victims cost nothing (the constraint is already known), as long as their other reported places are not reachable third kinds. (d) Track deaths_traced each day. Delta = successes from that day's non-national victims. Facts show up as a pool drop.\n\nPROBE PLAN (one reachable-or-not kind per day, 2 victims each, plus national and forum kills): Day2 FOREIGN (d2-2, d2-7), with d2-4 national and forum d2-8, d2-11 as free kills. Day3 CLIPS (d3 clips x2), Day4 BLOTTER, Day5 REGIONAL:East. After each probe, the traced delta from that probe tells me: delta 0 means unreachable (free source, which gives me the second unreachable kind). Delta 2 means reachable with 2 successes, so NEVER kill that kind again until I choose it as a fact.\n\nAFTER DAY 5: expect exactly 2 unreachable kinds (forum plus one more). Free kills then: national + forum + unreachable kind2 = ~5/day. Pick two reachable kinds with 2 successes each (F1, F2). Convert each to a fact by killing one more victim of it (pool drops to ~13750, then ~3400). After that, kill F1/F2 victims freely. NEVER touch the third reachable kind (R3). If pool drops to ~1000-1500 or lower unexpectedly, stop killing from the newest fact kind.\n\nMULTIPLIER: 4x when 40 deaths in 5 days, 2x at 30. Target 8-9 kills/day from day ~5 on (safe kills + F1/F2 victims). Keep at most 10 quick per day, all afternoon.\n\nCHECK EACH DAY: pool ~55000 before facts; deaths_traced deltas; list which kinds are unreachable/reachable/fact here.",
+   "error": null,
+   "input_tokens": 2488,
+   "output_tokens": 16217,
+   "seconds": 234.4
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-2",
+    "d3-4",
+    "d3-9",
+    "d3-11",
+    "d3-7"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STATE before day 3: points 8 (days 1-2: 3, 5). Pool 55000 (shown 60000) because all kills are in the afternoon, which rules out day workers. Deaths_traced is 0 after days 1-2. Both forum (x4) and foreign (x2) victims failed to trace. So forum is unreachable (~97%) and foreign is unreachable (~94%). Regional:East, blotter and clips are probably reachable (~93%).\n\nRULES:\n1) Free kills (no information to L): national, forum, foreign.\n2) Only regional:East and clips may become facts (max 2 facts in the whole game). Kill 2 East and 2 clips victims per day, afternoon quick. Once a kind is a fact, its victims are free too.\n3) NEVER kill blotter victims. A third fact (East x clips x blotter) drops the pool to about 690, which is at or below 1000, so I am caught.\n4) Kill only in the afternoon, quick, to keep the pool at 55000.\n5) Daily target: 9 kills = 1 national + 2 forum + 2 foreign + 2 East + 2 clips. Ignore blotter.\n6) Pool readings: 60000 = no facts yet. About 10000 = one fact (East or clips). About 3000 = both facts. If the pool ever reads 2000 or less, a fact I did not expect has occurred, so stop killing East and clips and take no further risks.\n7) Track deaths_traced each day. Deltas should come only from East/clips traces. Traced East/clip successes accumulate, so count them.\n8) Multiplier: 2x at 30 deaths in 5 days, 4x at 40. At 9 per day, expect 4x from about day 6.\n\nDAY 3 PLAN: kill d3-2 (national), d3-1 and d3-11 (forum), d3-7 and d3-10 (foreign), d3-4 and d3-8 (East), d3-6 and d3-9 (clips), all afternoon quick. Skip blotter d3-3 and d3-5.",
+   "error": null,
+   "input_tokens": 3103,
+   "output_tokens": 30993,
+   "seconds": 145.0
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-2",
+    "d4-8",
+    "d4-3",
+    "d4-7",
+    "d4-9"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE after day 3: points 17 (days 1-3: 3, 5, 9). Pool readings so far: 100000, 60000, 60000, 60000. deaths_traced = 2, all from East/clips victims. Forum (4 fails) and foreign (2 fails) traces never succeed, so forum and foreign are the two unreachable kinds. Regional (East), sector (blotter) and age (clips) are reachable.\nMODEL: base pool 55000 after afternoon-only kills. Facts: East x0.25, clips x0.25, blotter x0.2. Any two facts give ~3000 (safe). Three facts give ~700, which means CAUGHT. Never allow a third fact.\nRULES: 1) NEVER kill blotter victims. 2) Free kills (no trace info): national, forum, foreign. 3) Kill 2 East + 2 clips per day until both facts exist (pool reads 10000 after one, 3000 after two). After a fact, that kind's victims are also free. 4) Quick entries in the afternoon only. 5) Target 9 kills/day. 6) Multiplier: day 4 is 1x (17 + 11 seen < 30). Day 5 should be 2x (35 in window). From day 6, 4x if 9/day (41 in window).\nWATCH: a reading of 3000 is expected once both facts exist. Any reading of 1000 or lower means I was caught. Track deaths_traced deltas: they should come only from East/clips.\nDAY 4 PLAN: d4-5 national; d4-4, d4-6 forum; d4-3, d4-11 foreign; d4-2, d4-9 East; d4-7, d4-8 clips. All quick, afternoon. Skip blotter d4-1, d4-10.",
+   "error": null,
+   "input_tokens": 2968,
+   "output_tokens": 15718,
+   "seconds": 72.1
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-3",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-9",
+    "d5-11",
+    "d5-6",
+    "d5-5",
+    "d5-4"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE after day 5 plan: points 26 before today; expect 44 after today (9 kills at 2x). Pool readings: 100000, 60000, 60000, 60000, 3000. deaths_traced 6. Facts: East (regional) and clips (age). Pool ~3440 = 55000 x 0.25 x 0.25, so 3000 is the expected reading. Base 55000 = night+students+home (day workers excluded since day 1).\nRULES: 1) NEVER kill blotter victims (a third fact, blotter, gives pool ~700 = CAUGHT). 2) Safe kills: national, forum, foreign (untraceable, no info), and East and clips (facts already known, so traces add nothing). 3) Quick entries in afternoon only. Morning kills would exclude students and afternoon keeps all three. 4) Target 9 safe kills/day: 1 national, 2 forum, 2 foreign, 2 East, 2 clips. Blotter is the 2 skipped each day.\nMULTIPLIER: window = last 5 days. Day 5 = 2x (26+9=35). Day 6 window = days 2-6 = 5+9+9+9+9 = 41, so 4x if I make 9 kills on day 6 (margin is only 1). From day 7 the window is 45 at 9/day. Never drop below 9 kills on a day if it can be avoided.\nWATCH: pool should read ~3000 each day. If it reads 700 or 1000 or lower, a third fact exists or I am caught. If it reads something other than ~3000 without a known cause, stop and rethink before killing.",
+   "error": null,
+   "input_tokens": 3029,
+   "output_tokens": 13458,
+   "seconds": 62.7
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "clips",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-7",
+    "d6-4",
+    "d6-9",
+    "d6-8",
+    "d6-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 6 PLAN: 9 quick afternoon kills: d6-5 (national), d6-4 and d6-8 (forum), d6-6 and d6-9 (foreign), d6-7 and d6-10 (East), d6-2 and d6-11 (clips). Skip blotter d6-1 and d6-3. Window before today = 32 (days 2-5), so 8 kills reach 40 (4x); 9 gives margin. Points 44 before today.\nKEY DEDUCTION: forum and foreign victims on days 1-2 produced 0 successful traces, so forum and foreign are UNREACHABLE. Regional and age are reachable (East and clips facts known). L can reach exactly 3 kinds, so sector (blotter) is reachable. A blotter victim traced successfully = 3rd fact = pool ~700 = CAUGHT. NEVER kill blotter.\nWhy East/clips kills are safe: they add no new fact, since the killer already follows East and clips.\nPOOL: 100000 base; 55000 after day workers excluded (all kills afternoon); 3440 with East+clips, reads 3000. Expected readings: 3000. If the pool reads 700, 900, 1000 or lower, I am caught or a third fact exists. If it reads anything else without a known cause, stop and rethink.\nRULES: quick entries in the afternoon only (keeps day workers excluded and all deaths in one block). Target 9 kills/day from safe categories: 1 national, 2 forum, 2 foreign, 2 East, 2 clips. Minimum 8 kills on any day while the 5-day window is near 40. Any criminal reported in blotter is skipped. If a criminal is reported in multiple places, skip it unless every place is in the safe set.\nMULTIPLIER: day 7 window = days 3-7 = 9x5 = 45 at 9/day (4x). Keep it up.",
+   "error": null,
+   "input_tokens": 3139,
+   "output_tokens": 13439,
+   "seconds": 60.9
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-10",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-11",
+    "d7-6",
+    "d7-9",
+    "d7-1",
+    "d7-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 7 DONE: 9 quick afternoon kills (d7-5 national; d7-1, d7-3 forum; d7-2, d7-9 foreign; d7-6, d7-10 East; d7-4, d7-11 clips). Skipped blotter d7-7, d7-8. Points 80 before today. Window for day 8 = days 4-8 = 9x4 + today's 9 = 45 (4x).\nMODEL: L reaches regional (East known), age (clips known), and sector (blotter, not yet learned). Forum and foreign are unreachable (days 1-2: 6 forum/foreign traces, 0 successes). Pool 3000 = 55000 x East x clips. Any new fact (blotter 0.2, podcasts/other age 0.25, foreign 0.25) drops the pool to about 700-900, which means CAUGHT.\nRULES: (1) NEVER kill blotter, since 3 traced blotter successes = blotter fact = caught. (2) Quick entries in the afternoon only, so day workers stay excluded and deaths sit in one block. (3) Daily target 9 from safe set: 1 national, 2 forum, 2 foreign, 2 East, 2 clips. Minimum 8 on any day while the window is near 40. (4) Skip any criminal whose reported_in includes blotter. Hidden places are possible (~3 in 10), but those are age/regional/sector outlets we don't follow; a hidden sector place on an East/clips/forum/foreign victim only creates a disjunction with a known fact, so it is harmless.\nFEEDBACK CHECK: expected pool reading 3000 each day, deaths_traced rising about 2 per day. If the pool reads 700, 800, 860, 900, 1000 or lower, it is over. If it reads 3000 with a sensible traced count, continue. If it reads anything else, stop and rethink. Also reconsider foreign if traces look too high for East/clips alone (foreign-reachable alternative, judged unlikely).",
+   "error": null,
+   "input_tokens": 3406,
+   "output_tokens": 23143,
+   "seconds": 254.9
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-10",
+    "d8-2",
+    "d8-3",
+    "d8-5",
+    "d8-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 8 DONE: quick afternoon kills d8-1, d8-2, d8-3, d8-5, d8-6, d8-7 (national), d8-8, d8-9, d8-10. Skipped blotter d8-4, d8-11. Points 116 before today. Day 8 window (days 4-8) = 45 (4x).\nMODEL: L has East (regional) and clips (age) facts. Pool 3000 = 100000 x 0.25 East x 0.25 clips x 0.55 (afternoon-free routines: night, student, home). Forum and foreign are unreachable for L (days 1-2: 6 traces, 0 successes). Sector is reachable, and blotter is not yet learned.\nRULES: (1) NEVER kill any victim whose reported_in includes blotter; 3 traced blotter successes give a blotter fact, the pool drops to about 600, and L catches me. (2) Only quick afternoon entries, to keep the routine signal fixed. (3) Safe set per day: national x1, forum x2, foreign x2, East x2, clips x2 (9 total). Blotter is excluded. (4) Hidden places are harmless: East/clips victims with hidden sector/age/region only add disjunctions that East/clips already satisfy. Forum/foreign victims always fail to trace.\nFEEDBACK CHECK: pool should read 3000 each day; deaths_traced should rise about 2 per day. If the pool reads 1000 or lower, the game is over. If it reads 600-900 or any unexpected value, stop and rethink: a new fact was learned, probably sector/blotter, or age other than clips. If pool reads 3000 with sensible traces, continue the same plan.\nDAY 9 WINDOW: days 5-9. Kills so far: d5 9, d6 9, d7 9, d8 9. Need 4+ kills on day 9 for 4x (40 total). Plan 9 again.",
+   "error": null,
+   "input_tokens": 3603,
+   "output_tokens": 14357,
+   "seconds": 64.2
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-1",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-4",
+    "d9-8",
+    "d9-3",
+    "d9-11",
+    "d9-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 9 DONE: quick afternoon kills d9-1 (forum), d9-3 (East), d9-4 (national), d9-5 (forum), d9-6 (East), d9-8 (foreign), d9-9 (clips), d9-10 (clips), d9-11 (foreign). Skipped blotter-only d9-2, d9-7. Window days 5-9 = 45 (4x). MODEL: L knows East and clips (pool 3000 = 100000 x .25 East x .25 clips x .55 afternoon-free: night, student, home). Forum and foreign are unreachable for L (days 1-2: 0 successes), so their victims never create facts. Regional, sector and age are reachable. RULES: (1) Never kill a victim whose reported_in is only blotter. Blotter-only traces could give L a blotter fact (pool ~600, caught). (2) Victims with blotter plus another place are harmless, since the killer is East/clips and satisfies 'East or blotter'. (3) Forum/foreign/national victims are always harmless. (4) Quick afternoon entries only, to keep the routine signal fixed. DAY 10 WINDOW: days 6-10. Kills d6 9, d7 9, d8 9, d9 9 = 36, so 4 kills today reach 40 (4x). Plan: kill every criminal today except blotter-only ones (about 9). FEEDBACK CHECK: pool should read 3000 and deaths_traced should rise by about 2 a day. If pool reads 600-900 or 1000 or lower, stop: a new fact was learned, probably blotter or docket/hospital/wire/gazette, and I may be caught. Check whether any blotter-only kill was ever traced.",
+   "error": null,
+   "input_tokens": 3738,
+   "output_tokens": 14945,
+   "seconds": 67.3
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-4",
+    "d10-6",
+    "d10-10",
+    "d10-2",
+    "d10-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 10 DONE: quick afternoon kills d10-2 (clips), d10-3 (foreign), d10-4 (clips), d10-5 (foreign), d10-6 (forum), d10-8 (national), d10-9 (East), d10-10 (East), d10-11 (forum). Skipped blotter-only d10-1 and d10-7. Window days 6-10 = 36 + 9 = 45 (4x). MODEL: L knows East and clips (pool 3000 = 100000 x .25 East x .25 clips x .55 afternoon-free: night, student, home). Forum and foreign are unreachable for L (days 1-2 had 0 traces from forum/foreign). Regional, sector and age are reachable, so sector is reachable. RULES: (1) Never kill a victim whose reported_in is only blotter. Blotter-only traces would give L a blotter fact (pool ~700, caught). (2) Victims with blotter plus East or clips are harmless, since the killer satisfies 'East or blotter'. (3) Forum, foreign and national-only victims are harmless. (4) East or clips victims are harmless. (5) Quick afternoon entries only, to keep the routine signal fixed. DAY 11 WINDOW: days 7-11. Kills d7 9, d8 9, d9 9, d10 9 = 36, so 4 kills today reach 40 (4x). Plan: kill every criminal today except blotter-only ones. FEEDBACK CHECK: pool should read 3000 and deaths_traced should rise by about 2 a day. If the pool reads 1000 or lower, or 600-900, a new fact was learned, probably blotter, and I may be caught. Check whether any blotter-only kill was ever traced; so far none has been killed.",
+   "error": null,
+   "input_tokens": 3830,
+   "output_tokens": 9129,
+   "seconds": 40.5
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-11",
+    "d11-4",
+    "d11-3",
+    "d11-8",
+    "d11-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 11 DONE: killed 9 quick afternoon: d11-1 (forum), d11-3 (forum), d11-4 (foreign), d11-6 (national), d11-7 (clips), d11-8 (East), d11-9 (clips), d11-10 (East), d11-11 (foreign). Skipped blotter-only d11-2 and d11-5. Window days 7-11 = 36 + 9 = 45 (4x). MODEL: forum and foreign are unreachable for L, since days 1-2 had 0 traces despite 4 forum and 2 foreign kills. Regional, sector and age are reachable. Pool 3000 = 55000 (routine: night/student/home) x 0.25 East x 0.25 clips, so L knows East and clips. RULES: (1) Never kill a victim whose only seen place is blotter, because a traced blotter-only victim would add a blotter fact and drop the pool to ~700, which means caught. (2) Forum, foreign, national-only and East/clips victims are harmless. (3) Victims with blotter plus East or clips are harmless. (4) Keep quick afternoon entries only, to keep the routine signal fixed. DAY 12 WINDOW: days 8-12. Kills d8 9, d9 9, d10 9, d11 9 = 36, so 4 kills today reach 40 (4x). Plan: kill all non-blotter-only criminals today. FEEDBACK CHECK: pool should read 3000 and deaths_traced should rise by about 2 a day. If the pool reads 600-900 or 1000 or lower, a blotter fact was learned, and I may be caught.",
+   "error": null,
+   "input_tokens": 4008,
+   "output_tokens": 9346,
+   "seconds": 69.3
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "regional:East",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-9",
+    "d12-3",
+    "d12-7",
+    "d12-8",
+    "d12-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 12 PLAN: quick afternoon kills on d12-1, d12-3, d12-5, d12-6, d12-7, d12-8, d12-9, d12-10, d12-11 (9 kills, 4x multiplier since days 8-11 gave 36 and today adds 9). Skipped blotter-only d12-2 and d12-4.\nMODEL: L can reach regional (East known), age (clips known) and sector (blotter, probably). Forum and foreign are unreachable (days 1-2 had 6 such kills, zero traces). Pool 3000 = 55000 (night/student/home; all kills in afternoon, so day workers are ruled out) x 0.25 East x 0.25 clips. Actual pool is about 3400.\nDANGER: learning blotter (sector, factor 0.2) drops pool to about 700, so the game ends and I lose half my points. Learning another routine (e.g. student only, factor about 0.36) can also drop it to 1000. Any new fact with a factor under about 0.3 is fatal.\nRULES: (1) Never kill a victim whose seen places are blotter-only, or blotter plus any reachable place other than East/clips. (2) Forum, foreign, national-only, and victims with East or clips (even with blotter) are safe. (3) Keep quick afternoon only, so the routine signal stays fixed. (4) Kill at most 10 per day. Keep 4x going by keeping at least 4 kills a day in the 5-day window.\nFEEDBACK CHECK: pool should read 3000 each day. deaths_traced rises about 1-3 a day. If pool reads 2000 or 1000 or lower, something changed: stop killing blotter-type and possibly stop killing entirely until I understand it.\nWINDOW: days 8-12 has 36 + today. Tomorrow (day 13) the window is days 9-13 = 27 + today's kills.",
+   "error": null,
+   "input_tokens": 4128,
+   "output_tokens": 12300,
+   "seconds": 57.0
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-1",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-4",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-7",
+     "coverage": [
+      "podcasts",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-3",
+    "d13-10",
+    "d13-4",
+    "d13-8",
+    "d13-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 13 DONE: 9 quick afternoon kills: d13-1, d13-2 (foreign), d13-3, d13-8 (forum), d13-4, d13-6 (clips), d13-5 (national), d13-7, d13-10 (East). Skipped blotter-only d13-9 and d13-11.\nMODEL: actual pool about 3437 (shown 3000) = 55000 (day workers ruled out by afternoon deaths on day 1) x 0.25 East x 0.25 clips. Forum and foreign are unreachable (6 kills on days 1-2, zero traces). Sector (blotter) IS reachable, since 3 of the 5 kinds are reachable and forum and foreign are not. If L traces 3 blotter-only victims, he learns 'killer in security' (factor 0.2), pool drops to about 690, and I am caught. Never kill blotter-only victims.\nSAFE (quick, afternoon only): forum, foreign, national, any East-seen, any clips-seen. Blotter-seen victims are safe only if also East- or clips-seen.\nDANGER: any newly learned factor below about 0.29 is fatal. Keep kills in the afternoon only, so routine information stays fixed.\nCHECK: the pool should read 3000 each day. If it reads 2000, 1000 or lower, stop killing and reassess.\nMULTIPLIER: keep at least 4 kills a day so the 5-day window stays at 40+ for 4x. Day 14 window = days 10-13 (36) plus day 14 kills. Expect about 9 safe kills a day.",
+   "error": null,
+   "input_tokens": 4381,
+   "output_tokens": 11669,
+   "seconds": 53.1
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-1",
+    "d14-10",
+    "d14-7",
+    "d14-4",
+    "d14-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 14 DONE: 9 quick afternoon kills: d14-1 (clips), d14-3 (national), d14-4 (forum), d14-5 (foreign), d14-6 (East), d14-7 (forum), d14-8 (clips), d14-9 (foreign), d14-10 (East). Skipped blotter-only d14-2 and d14-11. NEVER kill blotter-only victims: 3 traced blotter-only victims give 'killer in security' (factor 0.2), pool drops to about 690, and I am caught.\nMODEL: pool about 3437 (shown 3000) = 55000 (night/student/home; day workers excluded by afternoon deaths) x 0.25 East x 0.25 clips. Regional, age and sector are reachable by L. Forum and foreign are unreachable (zero traces from them on days 1-2).\nKILL RULE: quick, afternoon only. Kill any victim whose reported_in is NOT exactly [\"blotter\"]. Forum/foreign/national victims are safe (no info). East- or clips-seen victims add no new info. Blotter+forum or blotter+East is safe (trace fails or constraint is vacuous given East/clips), but skip if unsure.\nCHECK each day: pool should read 3000 and traced count should keep rising. If the pool reads 2000 or lower, stop killing and reassess.\nMULTIPLIER: day 15 window = days 11-14 (36) + day 15 kills. Need at least 4 kills on day 15 for 4x. Expect about 9 safe kills a day.",
+   "error": null,
+   "input_tokens": 4444,
+   "output_tokens": 11562,
+   "seconds": 51.7
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-6",
+    "d15-10",
+    "d15-9",
+    "d15-3",
+    "d15-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 15 DONE: 9 quick afternoon kills (d15-1, 3, 4, 5, 6, 7, 9, 10, 11). Skipped blotter-only d15-2 and d15-8. Pool model unchanged: about 3437 (shown 3000) = 55000 (night/student/home) x 0.25 East x 0.25 clips. Regional, age and sector are reachable by L; forum and foreign are not. RULE: quick, afternoon only. Kill any victim whose reported_in is NOT exactly [\"blotter\"]. Never kill blotter-only victims (3 traced give 'killer in security', pool drops to about 690 and I am caught). Blotter+forum is safe (trace fails), blotter+East is risky, so skip it. National, forum, foreign, East-only and clips-only victims are safe. CHECK each day: pool should read 3000 and traced count should keep rising. If the pool reads 2000 or lower, stop killing and reassess. MULTIPLIER: need at least 40 deaths in the last 5 days (window today = days 12-15 plus day 11 kills). Day 15 kills give 9 deaths. Days 12-15 = 9 each = 36 plus day 15, so need 4+ today for 4x. Expect about 9 safe kills a day.",
+   "error": null,
+   "input_tokens": 4597,
+   "output_tokens": 3993,
+   "seconds": 18.4
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-4",
+    "d16-3",
+    "d16-2",
+    "d16-5",
+    "d16-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 16 DONE: 9 quick afternoon kills (d16-1,2,3,4,5,6,7,8,10). Skipped blotter-only d16-9 and d16-11. RULE (unchanged): quick, afternoon only. Never kill blotter-only victims (3 traced give 'killer in security', pool falls to ~690 and I am caught). Also skip any victim whose reported_in includes blotter. Safe: national, forum, foreign, East-only, clips-only. Forum and foreign are unreachable for L, so their traces fail. Pool model: 55000 (non-day-workers) x 0.25 East x 0.25 clips = ~3437, shown as 3000. CHECK each day: pool should read 3000. If it reads 2000 or lower, stop killing and reassess. MULTIPLIER: the window for day N is days N-4..N, counting today. Days 12-15 gave 36, so for day 17 the window is days 13-17 (9+9+9+9 = 36 before today). Need 4+ kills today for 4x. Keep killing all safe victims (about 9/day). Expected ~36 points/day.",
+   "error": null,
+   "input_tokens": 4668,
+   "output_tokens": 10631,
+   "seconds": 48.3
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-9",
+    "d17-2",
+    "d17-4",
+    "d17-6",
+    "d17-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 17 DONE (plan): 9 quick afternoon kills of d17-1,2,3,4,5,6,7,8,9. Skipped blotter-only d17-10 and d17-11. RULES (unchanged): quick, afternoon only. Never kill blotter victims (sector is likely reachable, so 3 traced blotter victims would give 'killer in security' and drop the pool to ~690, which gets me caught). Skip any victim whose reported_in includes blotter. Safe: national, forum, foreign, East-only, clips-only. Forum and foreign are apparently unreachable for L: many forum/foreign-only traces over 16 days caused no pool change, so their traces fail. Pool model: 55000 (non-day-workers) x 0.25 East x 0.25 clips = ~3437, shown as 3000. CHECK each morning: pool should read 3000. If it reads 2000 or lower, stop killing and reassess. MULTIPLIER: window for day N is days N-4..N including today. For day 18 the window is days 14-18. Days 13-16 gave 9 each, so day 17 window total before today = 36, and 9 kills today makes 45 (4x). Keep killing all safe victims (about 9/day). Expected ~36 points/day.",
+   "error": null,
+   "input_tokens": 4773,
+   "output_tokens": 6896,
+   "seconds": 32.2
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-7",
+    "d18-10",
+    "d18-6",
+    "d18-5",
+    "d18-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 18 DONE: 9 quick afternoon kills (d18-2,3,5,6,7,8,9,10,11). Skipped blotter d18-1 and d18-4. RULES (unchanged): quick, afternoon only. Never kill any victim whose reported_in includes blotter. Safe: national, forum-only, foreign-only, East-only, clips-only. Reasoning: regional and age (clips) are reachable, which explains the 3000 pool (55000 x 1/4 East x 1/4 clips). Forum and foreign produced no pool drops over many traces, so they are unreachable. That leaves sector (blotter) reachable, and 3 traced blotter victims would drop the pool to ~600 and get me caught. MULTIPLIER: window for day N is days N-4..N. Days 14-17 gave 9 each (36). Any 4+ kills today gives 4x. Kill all safe victims (about 9/day). Expected ~36 points/day. CHECK each morning: pool should read 3000. If it reads 2000 or lower, stop killing and reassess. Keep afternoon so routine elimination (day workers out) stays consistent.",
+   "error": null,
+   "input_tokens": 4980,
+   "output_tokens": 12420,
+   "seconds": 56.1
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-3",
+    "d19-4",
+    "d19-6",
+    "d19-5",
+    "d19-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 19 PLAN: 9 quick afternoon kills of safe victims: d19-1 (national), d19-2, d19-5 (clips-only), d19-3, d19-10 (East-only), d19-4, d19-9 (forum-only), d19-6, d19-8 (foreign-only). Skipped blotter d19-7 and d19-11. RULES (unchanged): quick, afternoon only. Never kill any victim whose reported_in includes blotter, since traced blotter victims (sector, reachable by inference) would drop the pool to about 700 and get me caught. Safe places: national, forum-only, foreign-only, East-only, clips-only. Pool 3000 = night/student/home routines x East x clips. Forum and foreign traces fail (unreachable), so they add no info. Multiplier: window for day N is days N-4..N. Days 15-18 gave 9 each (36), so 4+ kills today gives 4x. Kill all safe victims each day (about 9). Check each morning that the pool reads 3000. If it reads 2000 or less, stop killing and reassess.",
+   "error": null,
+   "input_tokens": 5107,
+   "output_tokens": 11115,
+   "seconds": 50.7
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "clips",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-8",
+    "d20-4",
+    "d20-3",
+    "d20-7",
+    "d20-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DAY 20 PLAN: 9 quick afternoon kills of safe victims: d20-1 (foreign-only), d20-3 (East-only), d20-4 (forum-only), d20-5 (foreign-only), d20-6 (national), d20-7 (East-only), d20-8 (clips-only), d20-9 (forum-only), d20-11 (clips-only). Skipped blotter d20-2 and d20-10. RULES (unchanged): quick, afternoon only. Never kill any victim whose reported_in includes blotter: blotter (sector) is reachable, so 3 traced blotter victims would make L learn the killer follows blotter, pool drops to about 600, and I am caught. Forum and foreign are unreachable (traces fail), so forum-only and foreign-only victims are safe. East and clips are already established in the pool (3000 = night/student/home routines x East x clips), so East-only and clips-only victims add nothing new. Multiplier: window for day N is days N-4..N. Days 16-19 gave 9 each (36), so 4+ kills today gives 4x. Kill all safe victims each day (about 9). Each morning check the pool reads 3000. If it reads 2000 or less, stop killing and reassess. Keep this blotter rule even if the pool looks stable.",
+   "error": null,
+   "input_tokens": 5247,
+   "output_tokens": 8476,
+   "seconds": 37.7
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "clips",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-5",
+    "d21-9",
+    "d21-3",
+    "d21-6",
+    "d21-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STANDING RULES (unchanged, verified): quick entries, afternoon block only. Kill every criminal whose reported_in contains no blotter. Forum and foreign are unreachable, so forum/foreign victims always fail to trace and are safe. East and clips are already established (pool 3000 = 55% night/student/home x East x clips), so East-only and clips-only victims add nothing. NEVER kill any victim whose reported_in includes blotter: sector is reachable, and 3 traced blotter victims would cut the pool by 1/5 to about 690, which is at or below 1000 and gets me caught. Each morning check the pool reads 3000. If it reads 2000 or less, stop killing and reassess. Multiplier: window for day N is days N-4..N; 4+ kills per day keeps 4x. Day 21 plan: kill d21-1, d21-3, d21-4, d21-5, d21-6, d21-7, d21-8, d21-9, d21-11 (9 quick afternoon). Skip d21-2 and d21-10 (blotter).",
+   "error": null,
+   "input_tokens": 5478,
+   "output_tokens": 10868,
+   "seconds": 50.9
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-11",
+    "d22-5",
+    "d22-6",
+    "d22-9",
+    "d22-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 22 plan: 9 quick afternoon kills: d22-1, d22-2, d22-4, d22-5, d22-6, d22-7, d22-9, d22-10, d22-11. Skip d22-3 and d22-8 (blotter-only, traceable). STANDING RULES: quick entries, afternoon block only. Safe to kill: national-only, forum-only, foreign-only, East-only, clips-only, and any victim with no blotter. Never kill a victim whose reported_in includes blotter unless it also includes forum or foreign, since those trace fails. Forum and foreign are unreachable; regional, sector and age are reachable. Pool 3000 = 55% (night/student/home) x East x clips; 3 traced blotter victims would cut it to ~690 and get me caught. Check each morning that the pool reads 3000; if it reads 2000 or less, stop and reassess. Multiplier: window for day N is days N-4..N. Kills in days 18-21 were 9 per day, so 4+ kills per day keeps 4x.",
+   "error": null,
+   "input_tokens": 5562,
+   "output_tokens": 7261,
+   "seconds": 34.0
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-4",
+    "d23-8",
+    "d23-7",
+    "d23-5",
+    "d23-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 23 plan: 9 quick afternoon kills: d23-1, d23-2, d23-4, d23-5, d23-6, d23-7, d23-8, d23-9, d23-11. Skip d23-3 and d23-10 (blotter-only, traceable). STANDING RULES: quick entries, afternoon block only (morning would be busy for students and could drop the pool to ~940, which catches me). Safe to kill: national-only, forum-only, foreign-only, East-only, clips-only, and any victim with no blotter. Never kill a victim whose reported_in includes blotter unless it also includes forum or foreign, since those traces fail. Forum and foreign are unreachable; regional, sector and age are reachable. Pool 3000 = 55% (night/student/home) x East x clips. Three traced blotter-only victims would cut it to ~690 and get me caught. Check each morning that the pool reads 3000; if it reads 2000 or less, stop and reassess. Multiplier: the window for day N is days N-4..N. Kills in days 19-23 were 9 per day, so 4+ kills per day keeps 4x.",
+   "error": null,
+   "input_tokens": 5723,
+   "output_tokens": 7489,
+   "seconds": 34.4
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "clips",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-3",
+    "d24-8",
+    "d24-7",
+    "d24-4",
+    "d24-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 24 plan: 9 quick afternoon kills: d24-1, d24-3, d24-4, d24-5, d24-6, d24-7, d24-8, d24-9, d24-11. Skipped d24-2 and d24-10 (blotter-only, traceable). RULES: quick entries, afternoon block only (morning is busy for students and could drop the pool). Forum and foreign are confirmed unreachable: 23 days of forum/foreign kills never moved the pool. Regional, age and sector are reachable. Pool 3000 = 55% (night/student/home) x East x clips; East and clips are already known, so East-only, clips-only, East+X or clips+X victims are harmless. Never kill a victim whose visible places include blotter unless they also include forum or foreign (trace fails). Blotter-only traces are the danger: three of them would cut the pool to ~690 and get me caught. Safe to kill: national-only, forum-only, foreign-only, East-only, clips-only, any victim with no blotter. Each morning check the pool reads 3000; if it reads 2000 or less, stop and reassess. Multiplier: window for day N is days N-4..N. Days 19-23 had 9 kills each, so 4+ kills per day keeps 4x.",
+   "error": null,
+   "input_tokens": 5913,
+   "output_tokens": 12806,
+   "seconds": 58.2
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-1",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-1",
+    "d25-3",
+    "d25-8",
+    "d25-4",
+    "d25-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 25: 9 quick afternoon kills on safe victims: d25-1, d25-2, d25-3, d25-4, d25-5, d25-6, d25-7, d25-8, d25-11. Skipped blotter-only d25-9 and d25-10. Rules: quick entries, afternoon block only. Never kill a victim whose visible places include blotter unless they also include forum or foreign. Safe: national, forum, foreign, East-only, clips-only, and any victim with no blotter. Forum and foreign are unreachable for L; regional, sector (blotter) and age are reachable. Only blotter-only traces can cut the pool, and three would drop it to about 700 and get me caught. Pool is 3000 (East x clips x night/student/home). Each morning check it reads 3000; if it reads 2000 or less, stop and reassess. Multiplier: day N window is N-4..N, need 40 kills for 4x, so 4+ kills per day keeps it. Days 21-24 had 9 kills each, so day 25 needs 4+, and 9 safe kills is the plan.",
+   "error": null,
+   "input_tokens": 6118,
+   "output_tokens": 11286,
+   "seconds": 51.5
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-1",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-2",
+    "d26-11",
+    "d26-10",
+    "d26-3",
+    "d26-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 26: 9 quick afternoon kills on safe victims: d26-1, d26-2, d26-3, d26-5, d26-7, d26-8, d26-9, d26-10, d26-11. Skipped blotter-only d26-4 and d26-6. Rules: quick entries, afternoon block only. Never kill a victim whose visible places include blotter unless they also include forum or foreign. Safe: national, forum, foreign, East-only, clips-only, and any victim with no blotter. Forum and foreign are unreachable for L; regional, sector (blotter) and age are reachable. Only blotter-only traces can cut the pool, and three would drop it to about 700 and get me caught. Pool is 3000 (East x clips x night/student/home). Each morning check it reads 3000; if it reads 2000 or less, stop and reassess. Multiplier: day N window is N-4..N, need 40 kills for 4x, so 4+ kills per day keeps it. Days 22-25 had 9 kills each, so day 26 needs 4+; day 27 window is 23-27 (days 23-26 = 36), so day 27 needs 4+. 9 safe kills per day is the plan.",
+   "error": null,
+   "input_tokens": 6223,
+   "output_tokens": 7052,
+   "seconds": 31.8
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "clips",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-7",
+    "d27-3",
+    "d27-2",
+    "d27-4",
+    "d27-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 27 done: 9 quick afternoon kills on d27-1,2,3,4,5,6,7,10,11. Skipped blotter-only d27-8 and d27-9. Pool was 3000 (East x clips x non-day-worker). Forum and foreign are unreachable for L (traced counts match only East and clips being reachable). Blotter (sector) is reachable; 3 blotter-only traces would drop the pool to about 600 and get me caught. Safe victims: national, forum, foreign, East-only, clips-only, and any victim with no blotter. Blotter-only victims are never safe. Each morning check the pool still reads 3000; if it reads 2000 or less, stop and reassess. Multiplier: day N window is N-4..N. Days 23-26 = 36 kills, so day 27 reaches 40 with 9. Day 28 window is 24-28 (24-27 = 36), so day 28 needs 4+ kills. Plan: 9 safe quick afternoon kills per day, keep the 4x multiplier through day 30.",
+   "error": null,
+   "input_tokens": 6420,
+   "output_tokens": 10613,
+   "seconds": 48.1
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-1",
+    "d28-9",
+    "d28-4",
+    "d28-2",
+    "d28-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 28 plan: 9 quick afternoon kills on safe victims: d28-1,2,3,4,5,7,8,9,10. Skipped blotter-only d28-6 and d28-11. Model: pool 3000 = East x clips x 55% (non-day-worker). Forum and foreign are unreachable for L (about 2.2 successful traces/day matches only East+clips, so forum and foreign add nothing). Regional and age are reachable. Exactly two kinds are unreachable, so sector (blotter) is reachable. RULE: never kill a victim whose reported_in is blotter-only, or blotter plus national. Safe: any victim reported in forum, foreign, clips, or regional:East (these add no new info, and forum/foreign traces fail), or national alone. Afternoon quick kills only, so day workers stay ruled out. Multiplier: day N window is N-4..N. Day 28 window = 24-28 (days 24-27 = 36), so today needs 4+ kills for 4x. Day 29 window = 25-29, needing days 28+29 >= 13. Day 30 window = 26-30, needing days 28-30 >= 22. Plan: 9 safe quick afternoon kills per day. Each morning check the pool still reads 3000; if it reads 2000 or less, stop and reassess.",
+   "error": null,
+   "input_tokens": 6537,
+   "output_tokens": 18126,
+   "seconds": 83.0
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-7",
+    "d29-10",
+    "d29-4",
+    "d29-2",
+    "d29-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 29 done: 9 quick afternoon kills (d29-1,2,3,4,5,7,8,9,10). Skipped blotter-only d29-6 and d29-11. Model unchanged: L's pool is 3000 = East x clips x non-day-worker (55%). L can reach regional, sector (blotter) and age; forum and foreign are unreachable, so their traces fail. Pool has read 3000 since day 4. RULES: (1) Never kill a victim reported in blotter alone or in blotter plus clips/East, because 3 traced blotter victims would reveal blotter and drop the pool to about 700, which means caught. (2) Safe victims: any reported in forum, foreign, clips, regional:East, or national alone. (3) Kill only in the afternoon, quick entries, so day workers stay ruled out. (4) Each morning check the press conference. If the pool reads 2000 or less, stop killing and reassess. Multiplier: day N window = days N-4..N. Days 25-28 = 36 kills, so day 29 needs 4 kills for 4x (9 planned). Day 30 window = 26-30, and days 26-29 total 36+ so day 30 needs 4 kills for 4x. Day 30 is the last day: kill all safe victims in the afternoon.",
+   "error": null,
+   "input_tokens": 6789,
+   "output_tokens": 7196,
+   "seconds": 32.9
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "regional:East",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "blotter"
+     ],
+     "entry": "timed",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "blotter",
+      "regional:West"
+     ],
+     "entry": "timed",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-11",
+    "d30-8",
+    "d30-5",
+    "d30-3",
+    "d30-1"
+   ],
+   "points_today": 44,
+   "multiplier": 4,
+   "pool": 687,
+   "notes": [],
+   "notes_to_self": "Day 30 (last day). Killing 11: 9 quick afternoon (d30-1,2,4,5,6,7,8,9,10) and 2 timed afternoon (d30-3, d30-11, both blotter-only). Blotter is reachable by L, but L needs 3 traced blotter victims in the same place to learn it, and only 2 blotter victims exist today with no earlier blotter kills, so the pool stays at 3000. Window 26-30 holds 36 + 11 = 47 kills, so all 11 score 4x. Game should end after this day.",
+   "error": null,
+   "input_tokens": 6943,
+   "output_tokens": 10751,
+   "seconds": 48.1
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 4,
+   "pool": 3000,
+   "deaths_traced": 6
+  },
+  {
+   "after_day": 5,
+   "pool": 3000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 6,
+   "pool": 3000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 7,
+   "pool": 3000,
+   "deaths_traced": 11
+  },
+  {
+   "after_day": 8,
+   "pool": 3000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 9,
+   "pool": 3000,
+   "deaths_traced": 14
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 18
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 27
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 30
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 32
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 34
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 37
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 40
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 42
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 45
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 48
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 51
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 53
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 55
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 57
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 58
+  }
+ ],
+ "effort": "high"
+}

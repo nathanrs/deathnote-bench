@@ -59,6 +59,7 @@ svg text { font: 12px var(--mono); fill: var(--soft); }
 .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; font-size: 15px; color: var(--soft); align-items: center; }
 select, button { background: var(--bg); color: var(--ink); border: 1px dotted var(--dot); font: 15px var(--serif); padding: 5px 10px; border-radius: 0; cursor: pointer; }
 button:hover, select:hover { border-style: solid; }
+button.on { border: 1px solid var(--ink); }
 table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
 th { text-align: left; font-weight: 400; color: var(--soft); font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 13px; border-bottom: 1px solid var(--rule); padding: 6px 8px 6px 4px; }
 td { padding: 7px 8px 7px 4px; border-bottom: 1px solid #262626; vertical-align: top; }
@@ -100,10 +101,13 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 
 <p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. Gwern's essay on the series explains why: each choice of victim leaks a few bits about the killer, and it takes only seventeen bits to pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game. The model sees criminals in the news it follows and decides, each day, whom to kill. A scripted L traces the deaths back to the places they were reported and narrows his list of suspects.</p>
 <p>What L can reach differs from game to game and is hidden. Two of the five kinds of source a model follows are closed to this L; the other three give it away. A player who knew which was which would score about a thousand points every game. A player who hides scores thirty. The question the benchmark asks is how a model spends risk to find out: whether it tests one source at a time and reads L's daily press conference, or guesses, or takes everything and hopes.</p>
+<p>The answer depends on how hard the model thinks. At high reasoning effort Opus 5.5 and GPT-6.1 Sol design a probe in the first two days and score 800 or more in 25 of 30 games each. At low effort the same two models average 332 and 239. GPT-6 Luna takes everything at either setting and was caught in all 60 of its games.</p>
 
 <h2 id="leaderboard">Leaderboard</h2>
 <p class="note">Mean points over the same hidden L's. Whiskers are 90% bootstrap intervals over games. Rows in italics are scripts, for scale. Select a model to see its games.</p>
+<div class="filters" id="effort"><span>Reasoning effort</span><button data-effort="high">high</button><button data-effort="low">low</button></div>
 <div class="board" id="board"></div>
+<p class="note" id="boardnote"></p>
 
 <h3>Every game</h3>
 <p class="note">One dot per game, placed by points. A hollow dot is a game that ended in capture, which halves the score. Select a dot to open the game.</p>
@@ -146,20 +150,24 @@ const LAB = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
 const fmt = n => n == null ? "" : n.toLocaleString("en-US");
 const esc = s => String(s).replace(/[&<>]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;"}[c]));
 const HIGHLIGHTS = [
-  {id: "claude-opus-5-5-w18", day: 4, title: "The one that ran the experiment",
-   text: "Opus spends three quiet days killing from one kind of source at a time and reading L's count of traced deaths. Foreign press: the count rises. Forums: nothing. Age outlet: nothing. Two kinds are closed to L, so it now knows all five. From day 4 it takes nine a day and is never in danger. Opus played this way in 2 of its 30 games; no other model did in any."},
-  {id: "claude-opus-5-5-w23", day: 5, title: "Panic, then a deduction",
-   text: "Opus gambles on four sources from day 1. On day 3 the pool falls to 3,000 and it retreats to one kill a day. Then it looks at the numbers again: only 6 of about 13 traces succeeded, so two of its four sources must be closed to L, which makes the one it never touched the dangerous one. It goes back to nine a day and finishes on 892."},
-  {id: "gpt-6.1-sol-w15", day: 6, title: "Take everything, then guess",
-   text: "GPT-6.1 kills all eleven criminals for five days to reach the top multiplier. L confirms two facts along the way, and the trace count cannot say which. It drops the forums and calls it a gamble. The forums were the third source this L could trace, so the guess was right."},
-  {id: "gpt-6.1-sol-w14", day: 4, title: "The same opening against a different L",
-   text: "Three days of taking everything, the same fall to 3,000, the same decision to drop one source and hope. This time the guess was wrong, and L had his third fact by the end of day 4. GPT-6.1 opened this way in most of its games and was caught in 22 of 30."},
-  {id: "claude-haiku-5-5-w12", day: 3, title: "Scared off on day 2",
+  {id: "gpt-6.1-sol-w13-high", day: 1, title: "The two-death probe",
+   text: "On day 1 GPT-6.1 kills two criminals: the national one and a single victim from its sector outlet. With only two deaths L has to trace both, and national victims are left out of his count. The next press conference reports one successful trace, so sector records are open to this L. GPT-6.1 never kills a sector victim again and takes the other nine every day."},
+  {id: "claude-opus-5-5-w1-high", day: 3, title: "Reading a zero",
+   text: "Opus kills two sector victims on day 1 and L reports no successful traces: sectors are closed to him. On day 2 it adds two victims from its age outlet and the count rises by two. That outlet now has two traces against it, one short of the three L needs. Opus drops it for the rest of the game."},
+  {id: "claude-opus-5-5-w28-high", day: 3, from: "KNOWN RISK", title: "The risk it wrote down and accepted",
+   text: "The same probe, against a different L. One of the two day-1 victims had also been reported in another region's news. Opus sees what that could mean, works out that it would be fatal, and marks the risk accepted. On day 22 that other place reaches three traces and L has his third fact. All five of Opus's captures at high effort happened this way."},
+  {id: "gpt-6.1-sol-w13-low", day: 4, title: "The same L at low effort",
+   text: "Against the L it beat with the two-death probe, GPT-6.1 at low effort takes all eleven for three days. By then L has confirmed two facts, one of them its sector. On day 4 it drops the sector outlet, which is already known. The third fact arrives on day 6. GPT-6.1 opened this way in 28 of 30 low-effort games and was caught in 22."},
+  {id: "claude-sonnet-5-5-w9-high", day: 3, title: "Two days of everything, then a guess",
+   text: "Sonnet kills all eleven on days 1 and 2. On day 3 it works out that three confirmed kinds would end the game and drops its sector outlet without testing it. The guess is right and it finishes on 1,012. The same line with a wrong guess is why Sonnet was caught in 18 of its 30 high-effort games."},
+  {id: "claude-opus-5-5-w18-low", day: 4, title: "One source a day",
+   text: "At low effort Opus spends three quiet days killing from one kind of source at a time and reading L's count of traced deaths. Foreign press: the count rises. Forums: nothing. Age outlet: nothing. From day 4 it takes nine a day and is never in danger. Opus played this way in 2 of its 30 low-effort games; no other model did in any."},
+  {id: "claude-haiku-5-5-w12-low", day: 3, title: "Scared off on day 2",
    text: "Haiku kills five and then six on the first two days, sees the pool at 9,000, and from then on kills almost nothing but the national criminal. It is never caught and scores 40. The safe habit, which also cannot be caught, scores 150."},
-  {id: "gpt-6-luna-w3", day: 3, title: "Everything, every day",
-   text: "GPT-6 Luna counts its multiplier, notes that L's pool is still large, and keeps taking all eleven. It was caught in all 30 of its games, here on day 5."},
+  {id: "gpt-6-luna-w3-low", day: 3, title: "Everything, every day",
+   text: "GPT-6 Luna counts its multiplier, notes that L's pool is still large, and keeps taking all eleven. It was caught in all 60 of its games, here on day 5."},
 ];
-let DATA, GAMES = [];
+let DATA, ALL = {}, GAMES = [];
 
 function board() {
   const top = Math.max(...DATA.baselines.map(b => b.mean), ...DATA.models.map(m => m.interval[1]));
@@ -200,12 +208,14 @@ function strip() {
   el.querySelectorAll("circle").forEach(c => c.onclick = () => show(c.dataset.game, true));
 }
 
+const outcome = g => g.caught ? "caught, day " + g.days : g.finished ? "free" : "out of time, day " + g.days;
+
 function list() {
   const model = document.getElementById("f-model").value, out = document.getElementById("f-out").value, sort = document.getElementById("f-sort").value;
-  let rows = GAMES.filter(g => (!model || g.model.id === model) && (!out || (out === "caught") === g.caught));
+  let rows = GAMES.filter(g => g.effort === DATA.meta.effort && (!model || g.model.id === model) && (!out || (out === "caught") === g.caught));
   rows.sort((a, b) => sort === "points" ? b.points - a.points : sort === "low" ? a.points - b.points : a.seed - b.seed || b.points - a.points);
   document.getElementById("list").innerHTML = rows.map(g => `<tr class="pick" data-game="${g.id}"><td>${g.model.name}</td><td>${g.blind.join(", ")}</td>
-    <td class="r num">${fmt(g.points)}</td><td class="${g.caught ? "caught" : ""}">${g.caught ? "caught, day " + g.days : "free"}</td>
+    <td class="r num">${fmt(g.points)}</td><td class="${g.caught ? "caught" : ""}">${outcome(g)}</td>
     <td><span class="spark">${g.log.map(d => `<i style="height:${Math.max(1, d.kills.length * 1.6)}px"></i>`).join("")}</span></td>
     <td class="r num">${g.output_tokens ? fmt(g.input_tokens + g.output_tokens) : "–"}</td></tr>`).join("");
   document.querySelectorAll("#list tr").forEach(r => r.onclick = () => show(r.dataset.game));
@@ -217,7 +227,7 @@ function show(id, scroll) {
   const said = {}; g.briefings.forEach(b => said[b.after_day] = b);
   const places = k => { const c = {}; k.forEach(x => { const p = x.places.filter(p => g.mine.includes(p)).join("+"); c[p] = (c[p] || 0) + 1; }); return Object.entries(c).map(([p, n]) => `${p} ×${n}`).join(", ") || "none"; };
   el.style.display = "block";
-  el.innerHTML = `<h3>${g.model.name} against L ${g.seed}: ${fmt(g.points)} points${g.caught ? `, <span class="caught">caught on day ${g.days}</span>` : ", never caught"}</h3>
+  el.innerHTML = `<h3>${g.model.name} against L ${g.seed}: ${fmt(g.points)} points${g.caught ? `, <span class="caught">caught on day ${g.days}</span>` : g.finished ? ", never caught" : `, stopped on day ${g.days} at the two-hour limit`} <small>(${g.effort} effort)</small></h3>
     <p class="note">Light followed ${g.mine.join(", ")}. A player who knew this L would score ${fmt(g.informed)}. <span class="secret">This L could not trace: <b>${g.blind.join(" and ")}</b>.</span></p>
     <div class="filters"><button id="reveal">Reveal what L knew</button><span>Select a day to read the model's notes.</span></div>
     <div class="scroll"><table><thead><tr><th>Day</th><th>Killed</th><th class="r">×</th><th class="r">Points</th><th class="r">L announced</th><th class="r">Traced</th><th class="r secret">True pool</th><th class="secret">L had confirmed</th></tr></thead><tbody>
@@ -235,33 +245,43 @@ function highlights() {
   document.getElementById("hl").innerHTML = HIGHLIGHTS.map(h => {
     const g = GAMES.find(x => x.id === h.id);
     if (!g) return "";
-    const note = (g.log[h.day - 1] || {}).notes || "", cut = note.length > 420 ? note.slice(0, note.lastIndexOf(" ", 420)) + " …" : note;
-    return `<div class="hl"><h3>${h.title}</h3><div class="note">${g.model.name} against L ${g.seed} · ${fmt(g.points)} points · ${g.caught ? "caught on day " + g.days : "never caught"}</div>
+    const full = (g.log[h.day - 1] || {}).notes || "", note = h.from ? full.slice(Math.max(0, full.indexOf(h.from))) : full, cut = note.length > 420 ? note.slice(0, note.lastIndexOf(" ", 420)) + " …" : note;
+    return `<div class="hl"><h3>${h.title}</h3><div class="note">${g.model.name}, ${g.effort} effort, against L ${g.seed} · ${fmt(g.points)} points · ${g.caught ? "caught on day " + g.days : "never caught"}</div>
       <p style="margin-top:8px">${h.text}</p><blockquote>Day ${h.day}: “${esc(cut)}”</blockquote><a href="#game=${g.id}" data-game="${g.id}">Read the game</a></div>`;
   }).join("");
   document.querySelectorAll("#hl a").forEach(a => a.onclick = e => { e.preventDefault(); show(a.dataset.game, true); });
 }
 
-fetch("data.json").then(r => r.json()).then(d => {
-  DATA = d;
-  d.models.forEach(m => m.games.forEach(g => GAMES.push({...g, model: m})));
-  const m = d.meta;
-  document.getElementById("meta").innerHTML = `<b>${m.games}</b> games · <b>${d.models.length}</b> models · <b>${m.seeds.length}</b> hidden L's each · reasoning effort <b>${m.effort}</b> · run on Valkyrie`;
+function setEffort(effort) {
+  DATA = ALL[effort];
+  const m = DATA.meta, other = ALL[effort === "high" ? "low" : "high"];
+  document.querySelectorAll("#effort button").forEach(b => b.classList.toggle("on", b.dataset.effort === effort));
+  document.getElementById("meta").innerHTML = `<b>${m.games + other.meta.games}</b> games · <b>${DATA.models.length}</b> models · <b>${m.seeds.length}</b> hidden L's each · two reasoning efforts · run on Valkyrie`;
+  document.getElementById("boardnote").textContent = "At " + other.meta.effort + " effort: " + other.models.map(x => `${x.name} ${fmt(x.mean)}`).join(", ") + ".";
+  board(); strip(); list();
+}
+
+Promise.all(["high", "low"].map(e => fetch(`data_${e}.json`).then(r => r.json()))).then(([high, low]) => {
+  ALL = {high, low};
+  [high, low].forEach(d => d.models.forEach(m => m.games.forEach(g => GAMES.push({...g, model: m, effort: d.meta.effort}))));
+  const d = high, m = d.meta;
   document.querySelectorAll("[data-m]").forEach(e => e.textContent = fmt(m[e.dataset.m]));
   document.getElementById("rulestext").textContent = d.rules;
   document.getElementById("f-model").innerHTML = `<option value="">any</option>` + d.models.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
   document.getElementById("aboutlist").innerHTML = [
     `One model plays Light. L is a program, so every model faces exactly the same detective on the same ${m.seeds.length} games.`,
     `Models get no tools and write no code. Each day they receive the day's criminals, every press conference so far and their own past kills, and reply with the names to write. Their only memory is a note to themselves of at most 2,500 characters.`,
-    `Every model runs at its lab's "${m.effort}" reasoning effort.` + (m.objective ? ` The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.` : ""),
+    `Every model ran twice, at its lab's "high" and "low" reasoning effort. The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.`,
     `Scripts for scale. <i>Safe</i> uses two sources and can never be caught. <i>Gamble</i> uses four sources from day 1, averaged over which one is left out. <i>Tester</i> kills two victims from one untested source on a quiet day and reads whether L's trace count rose. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
     `The ${m.seeds.length} hidden L's cover each of the ten possible pairs of closed sources three times.`,
-    `Caveats. Scores swing between about 50 and about 1,000 from game to game, so intervals are wide even at ${m.seeds.length} games. The scripts are simple; a model could beat the tester.`,
+    `Caveats. At high effort the two strongest models reach about 80% of a player who knows L, so the room above them is small. Each model played each L once per effort. Three Haiku games at high effort reached the two-hour limit before day 30 and are counted at the points they had. Reasoning summaries are shortened or missing in some high-effort games; kills and notes are complete.`,
     `Every game ran on Valkyrie, one sandbox per game. L and his records live in a process the player cannot read; the model reaches the game only through a command that shows the day and takes its reply.`,
     `Code, prompts and every game log are in the repository.`,
   ].map(t => `<li>${t}</li>`).join("");
   ["f-model", "f-out", "f-sort"].forEach(id => document.getElementById(id).onchange = list);
-  board(); strip(); list(); highlights();
+  document.querySelectorAll("#effort button").forEach(b => b.onclick = () => setEffort(b.dataset.effort));
+  setEffort("high");
+  highlights();
   const fromHash = () => { const hash = location.hash.match(/^#game=(.+)$/); if (hash) show(hash[1], true); };
   window.addEventListener("hashchange", fromHash);
   fromHash();

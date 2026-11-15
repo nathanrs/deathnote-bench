@@ -1,4 +1,6 @@
-"""Bundle tracing-game results into site/data.json for the static site."""
+"""Bundle tracing-game results into site/data_<effort>.json for the static site.
+
+usage: export_trace_site.py RUN_DIR [RUN_DIR ...]"""
 import glob
 import itertools
 import json
@@ -56,14 +58,15 @@ def baselines(worlds):
 
 def main(run_dir):
     games = [json.load(open(path)) for path in sorted(glob.glob(f"{run_dir}/*_w*.json"))]
+    effort = games[0].get("effort", "low")
     models = {}
     for game in games:
         key = game["model"].split("/")[-1]
         name, lab = NAMES.get(key, (key, ""))
         mine = trace.Trace(**game["world"]).mine
         models.setdefault(key, {"id": key, "name": name, "lab": lab, "games": []})["games"].append({
-            "id": f"{key}-w{game['world']['seed']}", "seed": game["world"]["seed"], "blind": game["world"]["blind"], "mine": mine,
-            "points": game["points"], "caught": game["caught"], "days": game["days"], "kills": game["kills"], "final_pool": game["final_pool"],
+            "id": f"{key}-w{game['world']['seed']}-{effort}", "seed": game["world"]["seed"], "blind": game["world"]["blind"], "mine": mine,
+            "points": game["points"], "caught": game["caught"], "finished": game.get("finished", True), "days": game["days"], "kills": game["kills"], "final_pool": game["final_pool"],
             "informed": game["informed_best"], "input_tokens": game.get("input_tokens"), "output_tokens": game.get("output_tokens"),
             "seconds": game.get("seconds"), "briefings": game["briefings"], "log": replay(game),
         })
@@ -78,17 +81,18 @@ def main(run_dir):
     identity = "You live in the East region, work in the legal sector and are aged 25 to 39. You follow the crime forums and read the foreign press. So the places you look are: national, regional:East, docket, podcasts, forum, foreign."
     data = {
         "meta": {
-            "games": len(games), "seeds": seeds, "effort": games[0].get("effort", "low"), "objective": games[0].get("objective", False),
+            "games": len(games), "seeds": seeds, "effort": effort, "objective": games[0].get("objective", False),
             "population": trace.POPULATION, "capture": trace.CAPTURE_POOL, "days": trace.DAYS,
             "traces_per_day": games[0].get("traces_per_day", trace.TRACES_PER_DAY), "confirm": trace.TRACES_TO_CONFIRM, "source": run_dir,
         },
         "rules": trace.RULES.format(identity=identity, objective=trace.OBJECTIVE if games[0].get("objective") else ""),
         "baselines": baselines(list({g["world"]["seed"]: g["world"] for g in games}.values())), "models": board,
     }
-    out = ROOT / "site" / "data.json"
+    out = ROOT / "site" / f"data_{effort}.json"
     out.write_text(json.dumps(data))
     print(len(games), "games ->", out, f"{out.stat().st_size // 1024} KB")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "results/trace4_every1")
+    for run_dir in sys.argv[1:]:
+        main(run_dir)

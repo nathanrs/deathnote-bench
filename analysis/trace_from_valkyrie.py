@@ -15,10 +15,12 @@ def main(out_dir, effort, run_ids):
         run = fetch(run_id)
         done = failed = 0
         for row in rows(run):
-            if "points" not in row or not row.get("finished"):
+            if "points" not in row:
                 failed += 1
-                print("  not finished:", row.get("model"), row["task"], str(row.get("error") or row.get("exit"))[:100])
+                print("  no game record:", row.get("model"), row["task"], str(row.get("error") or row.get("exit"))[:100])
                 continue
+            if not row["finished"]:
+                print(f"  stopped on day {row['days']} with {row['points']} points:", row["model"], row["task"], row.get("exit"))
             done += 1
             name = f"{row['model'].split('/')[-1]}_w{row['world']['seed']}.json"
             (out / name).write_text(json.dumps({**row, "effort": effort}, indent=1))

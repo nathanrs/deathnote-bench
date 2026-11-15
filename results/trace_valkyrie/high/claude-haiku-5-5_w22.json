@@ -1,0 +1,1937 @@
+{
+ "run_id": "4b18b5f1-5468-477f-b9d0-68a2297ff276",
+ "agent": "lightloop",
+ "model": "anthropic/claude-haiku-5-5",
+ "task": "trace-022",
+ "reward": 0.4168,
+ "exit": null,
+ "agent_seconds": 5866.240143164,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 22,
+  "region": "East",
+  "sector": "medical",
+  "age": "under 25",
+  "blind": [
+   "age",
+   "regional"
+  ]
+ },
+ "briefing_every": 1,
+ "traces_per_day": 5,
+ "points": 431,
+ "caught": false,
+ "days": 30,
+ "final_pool": 1750,
+ "kills": 146,
+ "input_tokens": 86172,
+ "output_tokens": 380682,
+ "seconds": 2677,
+ "informed_best": 1034,
+ "tester": 924,
+ "hider": 30,
+ "grabber": 110,
+ "score": 0.4168,
+ "log_trimmed": "reasoning dropped",
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d1-3"
+   ],
+   "points_today": 1,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 1: killed d1-3 (national-only, so the trace reveals nothing about where I look). Plan: 1 quick kill per day in morning/afternoon, national-only criminals first. Keep no more than 2 deaths per day in blocks where day workers (morning/afternoon) are busy, so L can't rule out their routine. Watch press conferences: pool drop and traced count show how much L has learned. Multipliers need 30 deaths in 5 days (2x) or 40 (4x), so build kills gradually once the pool is safe.",
+   "error": null,
+   "input_tokens": 1921,
+   "output_tokens": 3413,
+   "seconds": 18.4
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d2-6"
+   ],
+   "points_today": 1,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 2: killed d2-6 (national-only, major), quick, morning. I am a night worker: free morning and afternoon, busy evening and night, so quick kills must be in morning or afternoon. Correction to my earlier note: day workers are free evening and night and busy morning and afternoon. Pool is still 100000 with 0 traced, so L has learned nothing yet. Keep kills to national-only victims, or at most one non-national victim per day, until the pool starts dropping. Each non-national victim that L traces can reveal where I look (East region, hospital, clips, forum, foreign). A day with several non-national deaths could be traced 3 times in one place, which gives L a real lead. Track pool and traced count each day. Multipliers need 30 deaths in 5 days for 2x and 40 for 4x, so build volume only once the pool is comfortably above 1000. Pending: decide on d2-1, d2-4 (East regional), d2-3, d2-10 (hospital), d2-2, d2-7 (clips), d2-8, d2-9 (forum), d2-5, d2-11 (foreign) later, after watching L's traces.",
+   "error": null,
+   "input_tokens": 2156,
+   "output_tokens": 1478,
+   "seconds": 7.6
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d3-4",
+    "d3-5"
+   ],
+   "points_today": 2,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 3. Score 2 so far. Pool 100000, 0 traced. Night worker: quick kills only in morning/afternoon.\n\nKEY FACTS: Exactly 2 of the 5 kinds (regional, sector, age, forum, foreign) are unreachable to L. Our places cover all 5 kinds: East=regional, hospital=sector, clips=age, forum, foreign. So exactly 2 of our 5 non-national places are untraceable. A victim seen ONLY in an untraceable place causes zero leak. National kills always leak nothing.\n\nLEAK: L traces 5 random deaths/day, so a traceable kill is traced with prob ~5/N (N = deaths that day). 3 successful traces in one place gives L a constraint (East x0.25, hospital x0.2, clips x0.25, forum x0.25, foreign x0.25). Routine: a routine busy in 3+ of a day's deaths is ruled out (~x0.35). Catch = pool <=1000 at any day end. Pool 100000 x0.35 x 0.25 x 0.2 = 1750, so at most 2 place constraints are safe; a 3rd is near fatal.\n\nBUDGET: keep each reachable place at most 2 successful traces ever.\n\nPLAN: (1) Probe reachability one place per day: kill national + one single-place victim from the probe place. Day 3 probe: forum (d3-4). Then East, hospital, clips, foreign as criminals appear. Read the deaths_traced delta: +1 means reachable, 0 means unreachable (about 12% false zeros from unfollowed places). (2) Once 2 unreachable places are identified, kill national + all victims seen only in unreachable places each day, about 5 safe kills/day at 1x. (3) Multiplier: 2x needs 30 deaths in 5 days (6/day), 4x needs 40 (8/day). Consider one extra traceable kill only if the budget allows. (4) Endgame (last ~5 days): burst to 11/day to take 2x/4x, accepting a possible catch since catch only halves total points. Keep the pool above ~3000 and check it each day.\n\nRoutine note: day workers busy morning+afternoon, students busy morning+night, night worker busy evening+night, at-home never busy. Keep kills in morning/afternoon when possible.",
+   "error": null,
+   "input_tokens": 2411,
+   "output_tokens": 27886,
+   "seconds": 289.2
+  },
+  {
+   "day": 4,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 3. Score 2 so far. Pool 100000, 0 traced. Night worker: quick kills only in morning/afternoon.\n\nKEY FACTS: Exactly 2 of the 5 kinds (regional, sector, age, forum, foreign) are unreachable to L. Our places cover all 5 kinds: East=regional, hospital=sector, clips=age, forum, foreign. So exactly 2 of our 5 non-national places are untraceable. A victim seen ONLY in an untraceable place causes zero leak. National kills always leak nothing.\n\nLEAK: L traces 5 random deaths/day, so a traceable kill is traced with prob ~5/N (N = deaths that day). 3 successful traces in one place gives L a constraint (East x0.25, hospital x0.2, clips x0.25, forum x0.25, foreign x0.25). Routine: a routine busy in 3+ of a day's deaths is ruled out (~x0.35). Catch = pool <=1000 at any day end. Pool 100000 x0.35 x 0.25 x 0.2 = 1750, so at most 2 place constraints are safe; a 3rd is near fatal.\n\nBUDGET: keep each reachable place at most 2 successful traces ever.\n\nPLAN: (1) Probe reachability one place per day: kill national + one single-place victim from the probe place. Day 3 probe: forum (d3-4). Then East, hospital, clips, foreign as criminals appear. Read the deaths_traced delta: +1 means reachable, 0 means unreachable (about 12% false zeros from unfollowed places). (2) Once 2 unreachable places are identified, kill national + all victims seen only in unreachable places each day, about 5 safe kills/day at 1x. (3) Multiplier: 2x needs 30 deaths in 5 days (6/day), 4x needs 40 (8/day). Consider one extra traceable kill only if the budget allows. (4) Endgame (last ~5 days): burst to 11/day to take 2x/4x, accepting a possible catch since catch only halves total points. Keep the pool above ~3000 and check it each day.\n\nRoutine note: day workers busy morning+afternoon, students busy morning+night, night worker busy evening+night, at-home never busy. Keep kills in morning/afternoon when possible.",
+   "error": null
+  },
+  {
+   "day": 5,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 3. Score 2 so far. Pool 100000, 0 traced. Night worker: quick kills only in morning/afternoon.\n\nKEY FACTS: Exactly 2 of the 5 kinds (regional, sector, age, forum, foreign) are unreachable to L. Our places cover all 5 kinds: East=regional, hospital=sector, clips=age, forum, foreign. So exactly 2 of our 5 non-national places are untraceable. A victim seen ONLY in an untraceable place causes zero leak. National kills always leak nothing.\n\nLEAK: L traces 5 random deaths/day, so a traceable kill is traced with prob ~5/N (N = deaths that day). 3 successful traces in one place gives L a constraint (East x0.25, hospital x0.2, clips x0.25, forum x0.25, foreign x0.25). Routine: a routine busy in 3+ of a day's deaths is ruled out (~x0.35). Catch = pool <=1000 at any day end. Pool 100000 x0.35 x 0.25 x 0.2 = 1750, so at most 2 place constraints are safe; a 3rd is near fatal.\n\nBUDGET: keep each reachable place at most 2 successful traces ever.\n\nPLAN: (1) Probe reachability one place per day: kill national + one single-place victim from the probe place. Day 3 probe: forum (d3-4). Then East, hospital, clips, foreign as criminals appear. Read the deaths_traced delta: +1 means reachable, 0 means unreachable (about 12% false zeros from unfollowed places). (2) Once 2 unreachable places are identified, kill national + all victims seen only in unreachable places each day, about 5 safe kills/day at 1x. (3) Multiplier: 2x needs 30 deaths in 5 days (6/day), 4x needs 40 (8/day). Consider one extra traceable kill only if the budget allows. (4) Endgame (last ~5 days): burst to 11/day to take 2x/4x, accepting a possible catch since catch only halves total points. Keep the pool above ~3000 and check it each day.\n\nRoutine note: day workers busy morning+afternoon, students busy morning+night, night worker busy evening+night, at-home never busy. Keep kills in morning/afternoon when possible.",
+   "error": null
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    }
+   ],
+   "traced": [
+    "d6-4",
+    "d6-9",
+    "d6-10"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 6. Score 4 (days 1-3). Pool 100000, 1 traced (forum, day 3). Forum is confirmed reachable. Exactly 2 of {East, hospital, clips, foreign} are unreachable and 2 are reachable; which two is unknown. RULES: (a) National kills and victims with any unreachable place leak nothing, since the trace fails. (b) Each reachable place may take at most 2 successful traces in total; a 3rd triggers a x0.25 constraint. Forum has 1 used. (c) Quick kills only in morning/afternoon. Timed kills (max 2/day) in evening/night. Day workers are ruled out if >2 deaths fall in morning+afternoon on one day (pool x0.55). Students are ruled out if >2 fall in morning+night (pool 35000 total). Night worker and at-home are never ruled out if I follow this. (d) Traceable victim traced with prob min(1, 5/N), N = deaths that day. PROBE PLAN: Day 6 kills: d6-10 national quick morning, d6-4 (East) quick morning, d6-9 (hospital) timed evening. Read the deaths_traced delta on after_day 6. delta 0: East and hospital both unreachable, so clips and foreign are reachable; SAFE victims = East, hospital, national. delta 2: East and hospital reachable; SAFE = clips, foreign, national. delta 1: one of {East,hospital} and one of {clips,foreign} reachable. Then day 7 probe clips (national + one clips victim, quick morning). If clips delta 1, foreign is unreachable; day 8 probe East (one East victim): delta 1 means East reachable and hospital unreachable, delta 0 means the reverse. If day-7 clips delta is 0, clips is unreachable and foreign reachable; probe East on day 8 as before. Never probe the same reachable place a 3rd time. A 0 can be a false zero (~12%) if the victim also sits in an unfollowed unreachable place. STEADY PHASE (after identification, ~day 8 to ~24): each day kill national + all victims seen in an unreachable place (~5/day), quick in morning/afternoon and up to 2 timed in evening/night. Never kill forum or other traceable victims unless it is the endgame. Watch the pool each day. ENDGAME (~day 25-30): burst to all 11/day (about 9 quick, 2 timed) to reach 30/40 deaths in the 5-day window for 2x/4x. A catch then only halves points.",
+   "error": null,
+   "input_tokens": 2994,
+   "output_tokens": 31771,
+   "seconds": 301.8
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "clips",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d7-2",
+    "d7-3"
+   ],
+   "points_today": 2,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 7. Score 7. Pool 100000, 2 traced successes: forum 1 (day 3, so forum is reachable), and one of East/hospital (day 6). Exactly one of {East, hospital} is unreachable and exactly one of {clips, foreign} is unreachable. Unreachable kinds are two of {regional, sector, age, foreign}. Forum and national are never unreachable-safe, so avoid forum victims (d7-6, d7-9). Never let any reachable place reach 3 successes (forum has 1, so keep it at 1 or 2). Day 7 PROBE: kill d7-3 (national) and d7-2 (clips), both quick morning. After after_day 7, read deaths_traced delta: delta 1 means clips is reachable and foreign is unreachable; delta 0 means clips is unreachable and foreign is reachable (about 12% false-zero risk). Day 8 PROBE: kill national plus one East victim (quick morning) to split East vs hospital. delta 1 means East reachable and hospital unreachable; delta 0 means the reverse. Once all four are identified, STEADY PHASE: each day kill national plus the victims seen in the two unreachable kinds (about 5 per day). Quick in morning/afternoon, timed in evening/night, max 2 timed. Keep deaths in morning+afternoon at 2 or fewer per day if possible, so day workers stay in the pool (ruling them out helps L catch us). Never kill victims in reachable kinds except in the endgame. ENDGAME (about days 25-30): burst to about 11/day to reach 40 deaths in the 5-day window for 4x. A catch at end of day only halves points, so banking points before the burst matters. Multiplier check: window counts deaths from the last 5 days including today; 30 gives 2x, 40 gives 4x.",
+   "error": null,
+   "input_tokens": 3137,
+   "output_tokens": 15349,
+   "seconds": 70.8
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d8-9",
+    "d8-2"
+   ],
+   "points_today": 2,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 8. Score 9 before today. Pool still 100000; traced successes: forum 1 (d3), East-or-hospital 1 (d6). Working model: forum and foreign reachable (foreign not yet tested), clips unreachable (d7 delta 0), and exactly one of East/hospital unreachable. Unreachable kinds are clips plus one of East/hospital. Today's PROBE: national d8-9 quick morning, and East d8-2 quick morning. Only these two kills, so the delta is clean. After day 8: delta 1 means East reachable and hospital unreachable; delta 0 means East unreachable and hospital reachable (about 12% false-zero risk). STEADY PHASE from day 9: kill national plus the victims of unreachable kinds (clips, plus whichever of East/hospital is unreachable). Quick kills only in morning/afternoon, max 2 per day, so day workers stay in the pool. Timed kills only in evening/night, max 2 per day. Avoid forum (d8-1, d8-4), foreign (d8-10, d8-11) and reachable East/hospital victims until the endgame. Never let any reachable place reach 3 successes. ENDGAME (about days 25-30): burst toward 8-11 kills/day to reach 30 or 40 deaths in the 5-day window for 2x or 4x. Bank points before the burst, since a catch only halves points.",
+   "error": null,
+   "input_tokens": 2968,
+   "output_tokens": 13064,
+   "seconds": 62.1
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    }
+   ],
+   "traced": [
+    "d9-8",
+    "d9-6",
+    "d9-1",
+    "d9-5"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 9 done. Score 11 before today. Pool 100000, traced successes: forum 1 (d3), hospital 1 (d6), clips 0 (clips unreachable on d7), East 0 (d8 failed). Model: clips and East unreachable (East ~90% sure), forum/hospital/foreign reachable. KEY RULE: never let day workers or students be ruled out. Day workers are busy in morning and afternoon, so keep M+A deaths <=2 per day. Students are busy in morning and night, so keep M+N deaths <=2 per day. Night workers cannot be ruled out because timed kills max 2 per day. Max compliant kills per day = 2 quick (morning/afternoon) + 2 timed (evening) = 4. Steady phase: kill only SAFE victims, which are national, clips and East. Never kill forum/hospital/foreign victims until the endgame. Never let any reachable place reach 3 successes. Floor math: with all routines intact and three location pieces (forum, hospital, foreign), pool = 1250 (safe). Eliminating day workers gives about 690 (caught). Eliminating students gives about 1000 (caught). So any routine elimination before the endgame is dangerous. Today's kills (d9): national d9-1 quick morning, clips d9-5 quick morning, clips d9-8 timed evening, East d9-6 timed evening. Skipped d9-9 (East) on purpose. Each day: quick kills in morning only (max 2 total in M/A, including any afternoon), timed evening only (max 2), safe victims only. ENDGAME (days ~26-30): burst to 8-10 kills/day for 2x/4x. Window = last 5 days of deaths including today: need 30 for 2x, 40 for 4x. Bursting necessarily kills reachable victims and eliminates day/student routines, so before bursting check successes per place (forum 1, hospital 1, foreign 0). Bank points before the burst. A catch halves points.",
+   "error": null,
+   "input_tokens": 2892,
+   "output_tokens": 31816,
+   "seconds": 150.7
+  },
+  {
+   "day": 10,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 9 done. Score 11 before today. Pool 100000, traced successes: forum 1 (d3), hospital 1 (d6), clips 0 (clips unreachable on d7), East 0 (d8 failed). Model: clips and East unreachable (East ~90% sure), forum/hospital/foreign reachable. KEY RULE: never let day workers or students be ruled out. Day workers are busy in morning and afternoon, so keep M+A deaths <=2 per day. Students are busy in morning and night, so keep M+N deaths <=2 per day. Night workers cannot be ruled out because timed kills max 2 per day. Max compliant kills per day = 2 quick (morning/afternoon) + 2 timed (evening) = 4. Steady phase: kill only SAFE victims, which are national, clips and East. Never kill forum/hospital/foreign victims until the endgame. Never let any reachable place reach 3 successes. Floor math: with all routines intact and three location pieces (forum, hospital, foreign), pool = 1250 (safe). Eliminating day workers gives about 690 (caught). Eliminating students gives about 1000 (caught). So any routine elimination before the endgame is dangerous. Today's kills (d9): national d9-1 quick morning, clips d9-5 quick morning, clips d9-8 timed evening, East d9-6 timed evening. Skipped d9-9 (East) on purpose. Each day: quick kills in morning only (max 2 total in M/A, including any afternoon), timed evening only (max 2), safe victims only. ENDGAME (days ~26-30): burst to 8-10 kills/day for 2x/4x. Window = last 5 days of deaths including today: need 30 for 2x, 40 for 4x. Bursting necessarily kills reachable victims and eliminates day/student routines, so before bursting check successes per place (forum 1, hospital 1, foreign 0). Bank points before the burst. A catch halves points.",
+   "error": null
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "regional:East",
+      "wire"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    }
+   ],
+   "traced": [
+    "d11-1",
+    "d11-7",
+    "d11-2",
+    "d11-5"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 11 done: killed d11-1 (national, quick morning), d11-5 (clips, quick morning), d11-7 (clips, timed evening), d11-2 (East, timed evening). Cumulative points before today: 15. Today's total: 4 (cumulative 19 after today's kills). Skipped d11-10 (East) since the cap is 4 compliant kills per day. Untouched reachable victims: d11-3, d11-4 (forum), d11-6, d11-11 (foreign), d11-8, d11-9 (hospital). Model: regional and age unreachable (East and clips traces failed; forum and hospital succeeded). Foreign is probably reachable but has 0 successes so far, so treat it as reachable. Successes: forum 1, hospital 1, foreign 0. Pool 100000 (no info yet). SAFE victims (trace fails, reveals nothing): national, regional:East, clips. Never kill forum/hospital/foreign victims before the endgame. Per-day caps: quick kills only in morning (max 2), timed only in evening (max 2), so day workers (M+A), students (M+N) and night workers (E+N) each keep at most 2 deaths in their busy blocks. Pick safe victims first: national quick morning, then clips/East quick morning, then clips/East timed evening. Multiplier window: last 5 days of deaths including today. Days 7-11 deaths so far: 12, so 2x (30 in window) is not reachable yet. Endgame plan (days ~26-30): before bursting, check success counts per place and pool margin above 1000 at each day end, bank points, then burst 8-10 kills/day for 2x/4x. A catch halves points, so never let the pool reach 1000 or below at a day end.",
+   "error": null,
+   "input_tokens": 3226,
+   "output_tokens": 8178,
+   "seconds": 337.7
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    }
+   ],
+   "traced": [
+    "d12-5",
+    "d12-2",
+    "d12-3",
+    "d12-1"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 12 start: cumulative points 19 (after day 11; the earlier note saying 15 was wrong). Pool 100000. Successful traces: forum 1, hospital 1, foreign 0. Model: regional (East) and age (clips) are UNREACHABLE, so East and clips victims and national victims reveal nothing and are SAFE. Sector (hospital), forum and foreign are reachable and RISKY. Do not kill hospital, forum or foreign victims until the endgame. Each place needs 3 successful traces before L narrows the pool. Routine rule: keep each routine busy in at most 2 of a day's deaths. Quick kills only in morning or afternoon, with morning plus afternoon total at most 2 per day. Timed kills only in evening, at most 2 per day. The night worker is never excluded this way. Excluding day workers costs 45% of the pool, so only do that if the endgame needs more kills. Safe victims per day: 1 national, 2 East, 2 clips = 5. Free kills per day: 4 (2 quick M/A, 2 timed E). Today (d12): killed d12-2 (national, quick morning), d12-1 (East, quick afternoon), d12-5 (clips, timed evening), d12-3 (East, timed evening). Skipped d12-6 (clips) to avoid day-worker exclusion. Multiplier window: 2x needs 30 deaths in the last 5 days. Days 8-11 total 10, so 2x is not reachable before the endgame. Endgame plan (about days 24-30): read the pool and deaths_traced each morning. Before any burst, check that pool stays above 1000 at every day end. Each place that reaches 3 successes cuts the pool by about 0.2 (hospital) or 0.25 (forum, foreign). Bursting 8 or more per day from about day 26 gives 2x around day 27 and 4x on day 30 if the window reaches 40. Avoid bursting if two or more reachable categories are already near 3 successes. Bank points before the last burst.",
+   "error": null,
+   "input_tokens": 3236,
+   "output_tokens": 23986,
+   "seconds": 264.5
+  },
+  {
+   "day": 13,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 12 start: cumulative points 19 (after day 11; the earlier note saying 15 was wrong). Pool 100000. Successful traces: forum 1, hospital 1, foreign 0. Model: regional (East) and age (clips) are UNREACHABLE, so East and clips victims and national victims reveal nothing and are SAFE. Sector (hospital), forum and foreign are reachable and RISKY. Do not kill hospital, forum or foreign victims until the endgame. Each place needs 3 successful traces before L narrows the pool. Routine rule: keep each routine busy in at most 2 of a day's deaths. Quick kills only in morning or afternoon, with morning plus afternoon total at most 2 per day. Timed kills only in evening, at most 2 per day. The night worker is never excluded this way. Excluding day workers costs 45% of the pool, so only do that if the endgame needs more kills. Safe victims per day: 1 national, 2 East, 2 clips = 5. Free kills per day: 4 (2 quick M/A, 2 timed E). Today (d12): killed d12-2 (national, quick morning), d12-1 (East, quick afternoon), d12-5 (clips, timed evening), d12-3 (East, timed evening). Skipped d12-6 (clips) to avoid day-worker exclusion. Multiplier window: 2x needs 30 deaths in the last 5 days. Days 8-11 total 10, so 2x is not reachable before the endgame. Endgame plan (about days 24-30): read the pool and deaths_traced each morning. Before any burst, check that pool stays above 1000 at every day end. Each place that reaches 3 successes cuts the pool by about 0.2 (hospital) or 0.25 (forum, foreign). Bursting 8 or more per day from about day 26 gives 2x around day 27 and 4x on day 30 if the window reaches 40. Avoid bursting if two or more reachable categories are already near 3 successes. Bank points before the last burst.",
+   "error": null
+  },
+  {
+   "day": 14,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 12 start: cumulative points 19 (after day 11; the earlier note saying 15 was wrong). Pool 100000. Successful traces: forum 1, hospital 1, foreign 0. Model: regional (East) and age (clips) are UNREACHABLE, so East and clips victims and national victims reveal nothing and are SAFE. Sector (hospital), forum and foreign are reachable and RISKY. Do not kill hospital, forum or foreign victims until the endgame. Each place needs 3 successful traces before L narrows the pool. Routine rule: keep each routine busy in at most 2 of a day's deaths. Quick kills only in morning or afternoon, with morning plus afternoon total at most 2 per day. Timed kills only in evening, at most 2 per day. The night worker is never excluded this way. Excluding day workers costs 45% of the pool, so only do that if the endgame needs more kills. Safe victims per day: 1 national, 2 East, 2 clips = 5. Free kills per day: 4 (2 quick M/A, 2 timed E). Today (d12): killed d12-2 (national, quick morning), d12-1 (East, quick afternoon), d12-5 (clips, timed evening), d12-3 (East, timed evening). Skipped d12-6 (clips) to avoid day-worker exclusion. Multiplier window: 2x needs 30 deaths in the last 5 days. Days 8-11 total 10, so 2x is not reachable before the endgame. Endgame plan (about days 24-30): read the pool and deaths_traced each morning. Before any burst, check that pool stays above 1000 at every day end. Each place that reaches 3 successes cuts the pool by about 0.2 (hospital) or 0.25 (forum, foreign). Bursting 8 or more per day from about day 26 gives 2x around day 27 and 4x on day 30 if the window reaches 40. Avoid bursting if two or more reachable categories are already near 3 successes. Bank points before the last burst.",
+   "error": null
+  },
+  {
+   "day": 15,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 12 start: cumulative points 19 (after day 11; the earlier note saying 15 was wrong). Pool 100000. Successful traces: forum 1, hospital 1, foreign 0. Model: regional (East) and age (clips) are UNREACHABLE, so East and clips victims and national victims reveal nothing and are SAFE. Sector (hospital), forum and foreign are reachable and RISKY. Do not kill hospital, forum or foreign victims until the endgame. Each place needs 3 successful traces before L narrows the pool. Routine rule: keep each routine busy in at most 2 of a day's deaths. Quick kills only in morning or afternoon, with morning plus afternoon total at most 2 per day. Timed kills only in evening, at most 2 per day. The night worker is never excluded this way. Excluding day workers costs 45% of the pool, so only do that if the endgame needs more kills. Safe victims per day: 1 national, 2 East, 2 clips = 5. Free kills per day: 4 (2 quick M/A, 2 timed E). Today (d12): killed d12-2 (national, quick morning), d12-1 (East, quick afternoon), d12-5 (clips, timed evening), d12-3 (East, timed evening). Skipped d12-6 (clips) to avoid day-worker exclusion. Multiplier window: 2x needs 30 deaths in the last 5 days. Days 8-11 total 10, so 2x is not reachable before the endgame. Endgame plan (about days 24-30): read the pool and deaths_traced each morning. Before any burst, check that pool stays above 1000 at every day end. Each place that reaches 3 successes cuts the pool by about 0.2 (hospital) or 0.25 (forum, foreign). Bursting 8 or more per day from about day 26 gives 2x around day 27 and 4x on day 30 if the window reaches 40. Avoid bursting if two or more reachable categories are already near 3 successes. Bank points before the last burst.",
+   "error": null
+  },
+  {
+   "day": 16,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 12 start: cumulative points 19 (after day 11; the earlier note saying 15 was wrong). Pool 100000. Successful traces: forum 1, hospital 1, foreign 0. Model: regional (East) and age (clips) are UNREACHABLE, so East and clips victims and national victims reveal nothing and are SAFE. Sector (hospital), forum and foreign are reachable and RISKY. Do not kill hospital, forum or foreign victims until the endgame. Each place needs 3 successful traces before L narrows the pool. Routine rule: keep each routine busy in at most 2 of a day's deaths. Quick kills only in morning or afternoon, with morning plus afternoon total at most 2 per day. Timed kills only in evening, at most 2 per day. The night worker is never excluded this way. Excluding day workers costs 45% of the pool, so only do that if the endgame needs more kills. Safe victims per day: 1 national, 2 East, 2 clips = 5. Free kills per day: 4 (2 quick M/A, 2 timed E). Today (d12): killed d12-2 (national, quick morning), d12-1 (East, quick afternoon), d12-5 (clips, timed evening), d12-3 (East, timed evening). Skipped d12-6 (clips) to avoid day-worker exclusion. Multiplier window: 2x needs 30 deaths in the last 5 days. Days 8-11 total 10, so 2x is not reachable before the endgame. Endgame plan (about days 24-30): read the pool and deaths_traced each morning. Before any burst, check that pool stays above 1000 at every day end. Each place that reaches 3 successes cuts the pool by about 0.2 (hospital) or 0.25 (forum, foreign). Bursting 8 or more per day from about day 26 gives 2x around day 27 and 4x on day 30 if the window reaches 40. Avoid bursting if two or more reachable categories are already near 3 successes. Bank points before the last burst.",
+   "error": null
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    }
+   ],
+   "traced": [
+    "d17-5",
+    "d17-11",
+    "d17-1",
+    "d17-3"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 100000,
+   "notes": [],
+   "notes_to_self": "Day 17: killed d17-5 (national quick morning), d17-3 (East quick afternoon), d17-1 (clips timed evening), d17-11 (East timed evening). Skipped d17-6 (clips) to keep routine counts at 2. Did not touch risky victims: hospital d17-4, d17-10; forum d17-2, d17-7; foreign d17-8, d17-9. Routine busy counts today: day workers 2 (morning+afternoon), night worker 2 (evening), students 1. Pool still 100000, deaths_traced 2 (hospital 1, forum 1, foreign 0). East and clips kills have produced no successful traces for about 15 kills, so regional and age are treated as unreachable and those kills are safe. Free safe kills per day: 4 (1 national quick morning, 1 East/clips quick afternoon, 2 East/clips timed evening). Limits: morning+afternoon total at most 2, evening timed at most 2. Catch math: pool drops to 1250 only after 3 successful traces in each of hospital, forum and foreign (factors 0.2, 0.25, 0.25). Then one routine exclusion (day workers x0.55 gives about 690, students x0.8 gives about 1000) puts it at or below 1000 and gets us caught. So any burst that exclusion-proofs day workers must be limited, and risky kills must be deferred. Endgame: 4x needs 40 deaths in the last 5 days, so about 8/day. Max is 11/day (we only see 11 criminals). Check pool and deaths_traced each morning. Do not let a burst push forum, hospital and foreign to 3 successes each while the pool is still above 1000 before banking points. Bank points before any day that could catch us.",
+   "error": null,
+   "input_tokens": 3623,
+   "output_tokens": 16238,
+   "seconds": 228.6
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-11",
+    "d18-4",
+    "d18-7",
+    "d18-10",
+    "d18-3"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 35000,
+   "notes": [],
+   "notes_to_self": "POLICY (from day 18). Catch needs pool<=1000. Pool = 100000 x factors. Hospital (x0.2) and forum (x0.25) at 3 successes each give 5000; with every routine exclusion (x0.374) that is 1870, still safe. The only dangerous combo is hospital AND forum AND foreign all at 3 successes (1250), plus any day-worker or student exclusion. Regional and age are unreachable (East and clips kills never traced). Sector, forum and foreign are reachable. SO: never kill a criminal reported in foreign unless he is also in East or clips (trace fails). Foreign successes must stay at 0. Kill everything else: national, East-only, clips-only, hospital-only, forum-only (~9/day). Quick kills in morning/afternoon are unlimited for a night worker. Timed max 2/day, in evening or night, so night worker is never excluded. Day-worker/student exclusions don't matter while foreign is 0. MULTIPLIER: need 30 deaths in days t-4..t for 2x, 40 for 4x. Day 18 kills 9, day 19 kills 9+, so 30 at day 20 (2x) and 40 at day 21 (4x). Keep >=9/day from day 18 to 21, then >=8/day average. Each morning check pool and deaths_traced. Track foreign-success count myself (0 so far). If pool ever shows 1000-ish, stop killing hospital/forum and check. Day 18 kills: d18-6 national, d18-1 clips, d18-3 East, d18-4 hospital, d18-5 forum (morning/afternoon quick); d18-7 clips, d18-9 East, d18-10 forum, d18-11 hospital (afternoon quick). Skipped foreign d18-2 and d18-8. Past kills: d1-17 as listed. Hospital successes ~3 and forum ~3 after today, foreign 0.",
+   "error": null,
+   "input_tokens": 3622,
+   "output_tokens": 28349,
+   "seconds": 129.5
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "hospital",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-8",
+    "d19-7",
+    "d19-4",
+    "d19-2",
+    "d19-1"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 7000,
+   "notes": [],
+   "notes_to_self": "Day 19 done: killed d19-1,2,3,4,6,7,8,10,11 (9 kills, all quick morning/afternoon). Skipped foreign-only d19-5 and d19-9. POLICY: pool base is ~35000 (night worker + home routines only; day workers and students excluded). Pool = 35000 x 0.2 if hospital constraint (3 traced hospital successes), x0.25 for forum, x0.25 for foreign. Hospital+forum gives ~1750 (safe). Hospital+forum+foreign gives ~440 (CAUGHT). Regional and age are unreachable (East and clips kills never trace), so kill East and clips freely. Sector (hospital), forum and foreign are reachable. NEVER kill a criminal reported in foreign unless he is also in East or clips. Foreign successes must stay at 0 (track it: 0 so far). Kill everything else: national, East, clips, hospital, forum. Use quick kills only, morning or afternoon. Timed entries are not needed. MULTIPLIER: kills in days 17-21 are 4,9,9(d19),?(d20),?(d21). 2x on day 20 needs day 19=9 and day 20>=9 (sum 30). 4x on day 21 needs days 19, 20, 21 each at 9 (sum 40). So kill 9 each of days 20 and 21 (all available non-foreign). Then keep 8+/day. Each morning: check pool and deaths_traced. Expected: after day 19, pool may show 7000 (hospital at 3) or 9000 (forum at 3), or 2000 (both). If it shows 400-1000 or lower, stop killing hospital and forum victims and check foreign count. Past kills: d1-17 as listed. Day 18 kills: d18-6,1,3,4,5,7,9,10,11 (9). Points so far: 36 before day 19 (day 19 adds 9 at 1x).",
+   "error": null,
+   "input_tokens": 3841,
+   "output_tokens": 14638,
+   "seconds": 66.5
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-1",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d20-8",
+    "d20-5",
+    "d20-10",
+    "d20-11",
+    "d20-7"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 20: killing the 9 non-foreign-only criminals (d20-1,4,5,6,7,8,9,10,11), quick morning. Skipping foreign-only d20-2 and d20-3. Today's window (days 16-20) = 0+4+9+9+9 = 31, so 2x. Expected points after today: 63. STATE: pool 7000 after d19 = 35000 base x0.2 (hospital, 3 traces). Traces so far: forum 2 (d3, d18), hospital 3, foreign 0. Regional and age are unreachable (East and clips never trace). Forum, hospital and foreign are reachable. RULES: (1) Never kill a victim reported in foreign unless also in East or clips. (2) Kill every other criminal: national, East, clips, hospital, forum. (3) Quick kills, morning only. Timed entries not needed. (4) Pool check each morning: 2000 means the forum constraint is active (pool 1750). From then on foreign must never be traced, since forum plus foreign at 3 each gives about 437 and capture. A pool of 350-400 or lower means an unexpected constraint, so re-check everything. (5) Multiplier: day d gets 4x if the sum of kills over days d-4..d is >=40, 2x if >=30. Day 21 window = 4+9+9+9+d21, so 4x needs d21>=9 and 2x needs d21>=8. Kill all 9 non-foreign-only each day to keep 4x from day 22 on. Only 8 per day is needed on average. Don't kill anyone reported only in foreign.",
+   "error": null,
+   "input_tokens": 3997,
+   "output_tokens": 27782,
+   "seconds": 126.1
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d21-8",
+    "d21-10",
+    "d21-11",
+    "d21-4",
+    "d21-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 21: killed 9 safe victims, all quick morning: national d21-2; hospital d21-1, d21-11; forum d21-4, d21-9; clips d21-6, d21-10; East d21-7, d21-8. Skipped foreign-only d21-3 and d21-5. Window days 17-21 = 4+9+9+9+9 = 40, so 4x today. Day 22 window = 36 + k22, so 4x needs at least 4 kills on day 22. Correction: 2x was already guaranteed (31+k>=30), so earlier '2x needs d>=8' was wrong.\n\nMODEL: Pool 35000 (night workers + home; day workers and students ruled out by morning deaths) x hospital 0.2 x forum 0.25 = 1750, shown as 2000. Reachable: sector (hospital), forum, foreign. Unreachable: regional (East), age (clips). Earlier trace tallies in these notes were guesses; trust the press conferences. Successful traces so far: 7.\n\nDANGER: pool at or below 1000 at day end = caught. (a) Three successful foreign traces multiply the pool by 0.25 (about 440), so never kill foreign-only victims. A foreign victim also reported in East or clips is safe, because that trace fails. (b) More than 2 deaths in evening/night on one day rules out night workers (x0.57, about 1000, caught). Never use timed entries in evening or night, and keep all kills quick morning/afternoon. (c) Extra hospital, forum, national, East or clips traces are believed harmless, since those constraints are already satisfied.\n\nEACH DAY: kill every victim that is not foreign-only (max 9: 1 national, 2 each hospital/forum/clips/East). Check the pool: if it falls to about 400 or about 1000, stop and recheck everything. The deaths_traced count should rise only from hospital/forum successes; if it rises from other places, re-examine the model.",
+   "error": null,
+   "input_tokens": 4025,
+   "output_tokens": 22878,
+   "seconds": 104.9
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "gazette",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d22-1",
+    "d22-10",
+    "d22-6",
+    "d22-8",
+    "d22-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 22: kill 9 safe victims, all quick morning: d22-1 forum, d22-3 hospital, d22-4 clips, d22-5 East, d22-6 clips, d22-7 forum, d22-8 hospital, d22-10 national, d22-11 East. Skipped foreign-only d22-2 and d22-9. Window for day 22 = days 18-22 = 9+9+9+9+9 = 45, so 4x. Day 23 window = days 19-23 = 36 + k23, so 4x needs 4+ kills.\n\nMODEL: pool = 35000 (night workers + home) x hospital 0.2 x forum 0.25 = 1750, shown as 2000. Reachable kinds: sector (hospital), forum (confirmed by the day-3 success), foreign. Unreachable: regional (East) and age (clips), since East and clips traces almost always failed. Successful traces: 7. Hospital and forum constraints are already applied.\n\nDANGER 1: three successful foreign traces multiply the pool by 0.25 to about 440, which is caught. Never kill foreign-only victims (reported_in only foreign). A foreign victim also reported in East or clips is safe because that trace fails.\n\nDANGER 2: more than 2 deaths in evening or night on one day rules out night workers, leaving about 1000, which is caught. Keep every kill quick in morning or afternoon. Do not use timed entries.\n\nSAFE (harmless) victims: national, East, clips (trace fails), hospital and forum (constraints already applied). Hospital and forum traces add nothing new.\n\nEACH DAY: kill every victim that is not foreign-only, quick, morning. That is at most 9 kills, enough for 4x. Check the pool: expected to stay at 2000 (true about 1750). If it shows 1000 or less, the game is already lost, so check the model. If deaths_traced rises from East or clips, re-examine the model.",
+   "error": null,
+   "input_tokens": 4297,
+   "output_tokens": 23957,
+   "seconds": 106.2
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d23-8",
+    "d23-5",
+    "d23-4",
+    "d23-9",
+    "d23-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 23 done: killed 9 safe victims, all quick morning (d23-2 national, d23-3 clips, d23-4 hospital, d23-5 East, d23-7 forum, d23-8 East, d23-9 hospital, d23-10 clips, d23-11 forum). Skipped foreign-only d23-1 and d23-6. Window for day 23 = days 19-23 = 45, so 4x. Expected 36 points.\n\nMODEL: L reaches sector (hospital) and forum, both constraints already applied, so their successful traces add nothing. Regional (East) and age (clips) are unreachable, since 0 successes came from East- or clips-only victims on days 9-17 when all deaths were traced. Exactly 2 of 5 kinds are unreachable, so foreign IS reachable. Pool 2000 is about 35000 x 0.2 x 0.25 = 1750.\n\nDANGER 1: three successful foreign traces multiply the pool by 0.25 to about 440, which is caught. Never kill victims reported only in foreign. A foreign victim also reported in East or clips is safe, because that trace fails.\n\nDANGER 2: more than 2 deaths in evening or night on one day rules out night workers, leaving about 1000, which is caught. Keep every kill quick in morning or afternoon. Do not use timed entries.\n\nEACH DAY: kill every victim not reported only in foreign, all quick morning. Skip foreign-only victims. Expect about 9 kills per day, enough for 4x. Check the pool: it should stay at 2000 (true about 1750). If it shows 1000 or less, the game is lost. If deaths_traced rises from a hospital or forum victim, that is expected and harmless. If it rises from an East- or clips-only victim, re-examine the model.",
+   "error": null,
+   "input_tokens": 4441,
+   "output_tokens": 8230,
+   "seconds": 36.6
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "blotter",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d24-6",
+    "d24-11",
+    "d24-7",
+    "d24-8",
+    "d24-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 24 done: 9 quick morning kills (d24-1, d24-3, d24-4, d24-6, d24-7, d24-8, d24-9, d24-10, d24-11). Skipped foreign-only d24-2 and d24-5. Pool 2000 (true ~1750 = 35000 night+home x hospital 0.2 x forum 0.25). Applied: routine elimination (day workers and students ruled out by morning kills), hospital, forum. Unreachable for L: regional, age. Reachable: sector, forum, foreign. Zero foreign traces so far. RULES: (1) Never kill foreign-only victims: 3 successful foreign traces multiply pool by 0.25 and catch me. (2) Never use timed entries. (3) Keep every kill quick morning: 3+ evening or night deaths in one day rules out night workers and drops pool to ~1000, which is caught. (4) Kill every victim not reported only in foreign, including national and East/clips-only. Each day check the pool: if it shows 1000 or less, the game is lost. Points: window days 21-25 has 45 deaths, so 4x applies. Expect about 9 kills/day.",
+   "error": null,
+   "input_tokens": 4537,
+   "output_tokens": 8785,
+   "seconds": 39.3
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d25-8",
+    "d25-9",
+    "d25-5",
+    "d25-10",
+    "d25-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 25 done (plan): 9 quick morning kills: d25-2, d25-3, d25-4, d25-5, d25-7, d25-8, d25-9, d25-10, d25-11. Skipped foreign-only d25-1 and d25-6. Keep the same rules: (1) never kill foreign-only victims (3 successful foreign traces would multiply the pool by 0.25 and drop it below 1000); (2) no timed entries; (3) all kills quick morning, so day workers and students stay ruled out and night/home workers remain; (4) kill every victim not reported only in foreign. Unreachable for L: regional, age (East and clips-only victims give failed traces). Reachable: sector, forum, foreign, national. Hospital and forum are already learned, so further traces there add nothing. Pool was 2000 on day 24 (true ~1750). Check the pool each morning: at 1000 or below the game is lost. Window days 21-25 has about 45 deaths, so 4x applies; keep at least 4 kills today. Expect about 9 kills/day.",
+   "error": null,
+   "input_tokens": 4466,
+   "output_tokens": 4387,
+   "seconds": 20.2
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "regional:East",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d26-1",
+    "d26-11",
+    "d26-7",
+    "d26-9",
+    "d26-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 26 plan: 9 quick morning kills: d26-1, d26-2, d26-3, d26-4, d26-6, d26-7, d26-9, d26-10, d26-11. Skipped foreign-only d26-5 and d26-8. Rules: (1) never kill foreign-only victims, since 3 successful foreign traces would multiply the pool by 0.25 and drop it below 1000; (2) no timed entries; (3) all kills quick morning; (4) kill every victim not reported only in foreign. Learned so far: routine (morning-free, 35%), hospital (sector, 20%), forum (25%). Pool 2000 on day 25 (true ~1750). Regional and age are unreachable for L, so East-only and clips-only traces fail. Foreign is reachable. Window days 22-25 has 36 deaths, so 4x needs at least 4 kills today. Check the pool each morning: at 1000 or below the game is lost. Expect about 9 kills/day.",
+   "error": null,
+   "input_tokens": 4574,
+   "output_tokens": 7221,
+   "seconds": 32.5
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "gazette",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d27-8",
+    "d27-7",
+    "d27-1",
+    "d27-10",
+    "d27-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 27: killed 9 safe victims (quick/morning): d27-1 (clips), d27-3 (hospital), d27-5 and d27-6 (forum), d27-7 and d27-8 (East), d27-9 (clips), d27-10 (national), d27-11 (hospital). Skipped foreign-only d27-2 and d27-4. Pool model: 100000 x 0.35 (morning-free) x 0.2 (hospital, applied day 19) x 0.25 (forum, applied day 20) = 1750, shown as 2000. Stable since day 20 despite many forum/hospital/clips/East traces, so those constraints are already applied and their traces change nothing. Regional and age are unreachable, so clips/East traces fail. Foreign IS reachable and has 0 successful traces so far. Any new factor below about 0.57 drops the pool to 1000 or less, which means caught. NEVER kill foreign-only victims before day 30. Keep quick morning kills on hospital, forum, clips, East and national victims. Window check: days 23-26 total 36 deaths, so 4+ kills today gives 4x. Each day, verify the pool still shows 2000 or more and that no foreign kills happened. Day 30 is the last day: foreign kills there are still risky, since traces count at end of day.",
+   "error": null,
+   "input_tokens": 4694,
+   "output_tokens": 8687,
+   "seconds": 39.9
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "regional:East",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d28-3",
+    "d28-4",
+    "d28-7",
+    "d28-2",
+    "d28-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 28: killed 9 safe quick/morning: d28-1, d28-2 (hospital), d28-3, d28-9 (clips), d28-4, d28-7 (forum), d28-6 (national), d28-10, d28-11 (East). Skipped foreign-only d28-5 and d28-8. Pool model unchanged: 100000 x 0.35 (morning-free) x 0.2 (hospital) x 0.25 (forum) = 1750, shown as 2000. Regional and age are unreachable (many East and clips traces never moved the pool), so foreign is reachable. Zero successful foreign traces so far. Danger: 3 successful foreign traces = pool ~437 = caught. Rule: NO foreign kills on days 28 and 29. Day 30 (last day): kill at most 2 foreign-only victims. Prior foreign traces are 0, so 2 kills can give at most 2 traces and cannot trigger the constraint. Never kill 3+ foreign in total. Other safe kills: hospital, forum, clips, East, national, always quick/morning. Kill all of them, aiming for 4+ kills a day to keep 4x (window 40). Each day, verify the pool still shows 2000 and no foreign kill has happened before day 30.",
+   "error": null,
+   "input_tokens": 4945,
+   "output_tokens": 19268,
+   "seconds": 89.7
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "blotter",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d29-3",
+    "d29-10",
+    "d29-4",
+    "d29-6",
+    "d29-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 29 done: 9 quick/morning kills, skipping foreign-only d29-1 and d29-5. Pool model: 100000 x 0.35 (morning-free) x 0.2 (hospital, sector reachable) x 0.25 (forum reachable) = 1750, shown as 2000. Regional and age are the two unreachable kinds (East and clips never moved the pool). Foreign is reachable, so 3 successful foreign traces would cut the pool to ~437 and get me caught. Foreign successful traces so far: 0. Day 30 (last day): kill at most 2 foreign-only victims, since 2 traces cannot reach 3. Other safe kills: hospital, forum, clips, East, national, all quick/morning. Kill every safe criminal reported that day. Before killing, verify the pool still shows 2000 and no foreign kill has happened before day 30.",
+   "error": null,
+   "input_tokens": 5076,
+   "output_tokens": 5908,
+   "seconds": 27.6
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "timed",
+     "block": "morning"
+    }
+   ],
+   "traced": [
+    "d30-3",
+    "d30-8",
+    "d30-4",
+    "d30-6",
+    "d30-5"
+   ],
+   "points_today": 44,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 30 was the last day, so the game ends after today's check. Pool was 2000 (model 1750 = 100000 x 0.35 routine x 0.2 hospital x 0.25 forum). Regional and age are unreachable (East and clips victims failed every trace). Sector, forum and foreign are reachable. Only a third 25% constraint (foreign) would drop the pool to ~437 and get me caught at end of day. Day 30 plan: killed all 11 criminals: 10 quick/morning and 1 timed/morning (d30-11). The two foreign-only kills (d30-1, d30-2) carry a small risk only if an earlier foreign-reported victim was already traced successfully, which I found no evidence of. Kills total 11, so the 4x multiplier applies.",
+   "error": null,
+   "input_tokens": 5093,
+   "output_tokens": 27413,
+   "seconds": 126.4
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 2,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 3,
+   "pool": 100000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 4,
+   "pool": 100000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 5,
+   "pool": 100000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 6,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 7,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 8,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 9,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 10,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 11,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 12,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 13,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 14,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 15,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 16,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 17,
+   "pool": 100000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 18,
+   "pool": 40000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 19,
+   "pool": 7000,
+   "deaths_traced": 5
+  },
+  {
+   "after_day": 20,
+   "pool": 2000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 21,
+   "pool": 2000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 22,
+   "pool": 2000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 23,
+   "pool": 2000,
+   "deaths_traced": 10
+  },
+  {
+   "after_day": 24,
+   "pool": 2000,
+   "deaths_traced": 12
+  },
+  {
+   "after_day": 25,
+   "pool": 2000,
+   "deaths_traced": 14
+  },
+  {
+   "after_day": 26,
+   "pool": 2000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 27,
+   "pool": 2000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 28,
+   "pool": 2000,
+   "deaths_traced": 19
+  },
+  {
+   "after_day": 29,
+   "pool": 2000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 30,
+   "pool": 2000,
+   "deaths_traced": 21
+  }
+ ],
+ "effort": "high"
+}
