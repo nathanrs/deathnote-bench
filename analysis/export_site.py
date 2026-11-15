@@ -1,9 +1,10 @@
 """Bundle rollouts and task metadata into site/data.json for the static site."""
 import argparse
 import json
+import math
 from pathlib import Path
 
-from plots import config_name, level_of
+from plots import config_name, level_of, load
 
 
 def task_info(task_dir, entry):
@@ -12,7 +13,7 @@ def task_info(task_dir, entry):
         "level": entry["level"], "template": entry["template"], "days": world["days"],
         "targets": [{"id": e["id"], "name": e["name"], "deadline": e["deadline"], "bait": e["is_bait"]} for e in world["entities"]],
         "news": world["news"], "optimal": entry["optimal"],
-        "baselines": {name: entry[name] for name in ("naive", "static", "replan", "lookahead") if name in entry},
+        "baselines": {name: entry[name] for name in ("naive", "static", "replan", "lookahead", "standard", "informed") if name in entry},
     }
 
 
@@ -26,10 +27,10 @@ def main():
     manifest = json.loads((tasks_dir / "manifest.json").read_text())
     tasks = {name: task_info(tasks_dir / name, entry) for name, entry in manifest.items()}
     rollouts = []
-    for line in Path(args.rollouts).read_text().splitlines():
-        row = json.loads(line)
-        if row["agent"] == "oracle" or row["task"] not in tasks:
-            continue
+    rows, best = load(args.rollouts, manifest)
+    for task, suspects in best.items():
+        tasks[task]["optimal"] = {**tasks[task]["optimal"], "suspects": suspects, "bits": round(math.log2(10_000 / suspects), 3)}
+    for row in rows:
         rollouts.append({
             "config": config_name(row), "task": row["task"], "level": level_of(row["task"]), "run_id": row["run_id"],
             "score": row.get("score") or 0.0, "passed": bool(row.get("passed")), "suspects": row.get("suspects"),

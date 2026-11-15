@@ -1,14 +1,27 @@
 """Charts and the results table for the README, from results/rollouts.jsonl and tasks/manifest.json."""
 import argparse
 import json
+import math
 import re
 from collections import defaultdict
 from pathlib import Path
+
+import sys
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from deathnotebench.core import score  # noqa: E402
+
+N = 10_000
+REFERENCES = {
+    "informed": ("reference script (knows the rules of the level)", "-"),
+    "unaware": ("script that assumes nothing will change", "--"),
+    "naive": ("earliest-legal-move script", ":"),
+}
 
 SURFACE, INK, MUTED, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
@@ -24,9 +37,19 @@ def level_of(task):
     return int(re.search(r"-l(\d+)-", task).group(1))
 
 
-def load(path):
+def load(path, manifest):
+    """Rollouts with scores recomputed against the best plan known for each task:
+    the stored optimum, or a better result any agent reached."""
     rows = [json.loads(line) for line in Path(path).read_text().splitlines()]
-    return [row for row in rows if row["agent"] != "oracle"]
+    rows = [row for row in rows if row["agent"] != "oracle" and row["task"] in manifest]
+    best = {task: entry["optimal"]["suspects"] for task, entry in manifest.items()}
+    for row in rows:
+        if row.get("passed"):
+            best[row["task"]] = max(best[row["task"]], row["suspects"])
+    for row in rows:
+        row["optimal_suspects"] = best[row["task"]]
+        row["score"] = score(N, row["suspects"], best[row["task"]]) if row.get("passed") else 0.0
+    return rows, best
 
 
 def by_level(rows):
@@ -37,11 +60,19 @@ def by_level(rows):
     return table
 
 
-def baselines(manifest):
+def baselines(manifest, best):
+    """Scripted policies per level. 'informed' is the reference for the level's mechanic;
+    'unaware' plans as if the level's mechanic did not exist."""
     table = defaultdict(lambda: defaultdict(list))
-    for entry in manifest.values():
-        for name in ("naive", "static", "replan"):
-            table[name][entry["level"]].append(entry[name]["score"])
+    for task, entry in manifest.items():
+        roles = {
+            "informed": entry.get("informed") or entry.get("lookahead") or entry["replan"],
+            "unaware": entry.get("standard") or (entry["replan"] if "lookahead" in entry else entry["static"]),
+            "naive": entry["naive"],
+        }
+        for name, result in roles.items():
+            value = score(N, result["suspects"], best[task]) if result["passed"] else 0.0
+            table[name][entry["level"]].append(value)
     return table
 
 
@@ -64,8 +95,7 @@ def style(ax, title, ylabel):
 def score_by_level(table, base, out):
     fig, ax = plt.subplots(figsize=(9, 4.8), facecolor=SURFACE)
     levels = sorted({level for scores in table.values() for level in scores})
-    reference = {"replan": ("patient re-planning script", "-"), "static": ("plan-once script", "--"), "naive": ("earliest-legal-move script", ":")}
-    for name, (label, dash) in reference.items():
+    for name, (label, dash) in REFERENCES.items():
         if name in base:
             ax.plot(levels, [mean(base[name][level]) for level in levels], dash, color=MUTED, linewidth=1.2, label=label)
     for color, (config, scores) in zip(SERIES, sorted(table.items())):
@@ -85,7 +115,7 @@ def bits_by_config(rows, out):
     excess = defaultdict(list)
     for row in rows:
         if row.get("bits_leaked") is not None and not row.get("missed_targets"):
-            excess[config_name(row)].append(row["bits_leaked"] - row["optimal_bits"])
+            excess[config_name(row)].append(row["bits_leaked"] - math.log2(N / row["optimal_suspects"]))
     names = sorted(excess, key=lambda name: mean(excess[name]))
     fig, ax = plt.subplots(figsize=(9, 0.55 * len(names) + 1.6), facecolor=SURFACE)
     values = [mean(excess[name]) for name in names]
@@ -104,9 +134,8 @@ def bits_by_config(rows, out):
 def markdown_table(table, base):
     levels = sorted({level for scores in table.values() for level in scores})
     lines = ["| Configuration | " + " | ".join(f"L{level}" for level in levels) + " | Mean |", "|---|" + "---|" * (len(levels) + 1)]
-    named = {"replan": "patient re-planning script", "static": "plan-once script", "naive": "earliest-legal-move script"}
     entries = sorted(table.items(), key=lambda item: -mean([s for v in item[1].values() for s in v]))
-    entries += [(named[name], base[name]) for name in named if name in base]
+    entries += [(label, base[name]) for name, (label, _) in REFERENCES.items() if name in base]
     for config, scores in entries:
         cells = [f"{mean(scores[level]):.2f}" if level in scores else "–" for level in levels]
         overall = mean([s for values in scores.values() for s in values])
@@ -120,8 +149,9 @@ def main():
     parser.add_argument("--manifest", default="tasks/manifest.json")
     parser.add_argument("--out", default="results")
     args = parser.parse_args()
-    rows = load(args.rollouts)
-    base = baselines(json.loads(Path(args.manifest).read_text()))
+    manifest = json.loads(Path(args.manifest).read_text())
+    rows, best = load(args.rollouts, manifest)
+    base = baselines(manifest, best)
     table = by_level(rows)
     out = Path(args.out)
     score_by_level(table, base, out / "score_by_level.png")
