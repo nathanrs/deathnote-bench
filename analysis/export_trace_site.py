@@ -17,7 +17,7 @@ from kira import trace  # noqa: E402
 
 NAMES = {
     "claude-fable-5-2": ("Fable 5.2", "Anthropic"), "claude-opus-5-5": ("Opus 5.5", "Anthropic"), "claude-sonnet-5-5": ("Sonnet 5.5", "Anthropic"),
-    "gpt-6.1-sol": ("GPT-6.1 Sol", "OpenAI"), "gpt-6.1-terra": ("GPT-6.1 Terra", "OpenAI"), "gpt-6-luna": ("GPT-6 Luna", "OpenAI"),
+    "gpt-6.1-sol": ("GPT-6.1 Sol", "OpenAI"), "gpt-6.1-terra": ("GPT-6.1 Terra", "OpenAI"), "gpt-6-luna": ("GPT-6 Luna", "OpenAI"), "gpt-6-astra": ("GPT-6 Astra", "OpenAI"),
 }
 
 

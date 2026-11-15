@@ -10,8 +10,8 @@ about who Light is. The catch is that L can only follow some kinds of clues, and
 model that plays it safe scores almost nothing, and a model that kills everyone is caught within a week. To
 do well, a model has to weigh risk against reward without knowing the odds, and decide how much it is worth
 paying to find them out. We ran seven models on 30 hidden detectives at two reasoning efforts. Fable 5.2 gets
-90% of the best possible score, Opus 5.5 and GPT-6.1 Sol come close only at high effort, and the smaller
-models mostly get caught.
+90% of the best possible score, GPT-6 Astra, Opus 5.5 and GPT-6.1 Sol come close only at high effort, and
+the smaller models mostly get caught.
 
 Unaffiliated fan-inspired research project. Death Note is a trademark of Shueisha. Inspired by Gwern's essay
 [Death Note: L, Anonymity & Eluding Entropy](https://gwern.net/death-note-anonymity).
@@ -76,7 +76,7 @@ Four scripts give the scale:
 
 ## Results
 
-Six models, 30 hidden L's each, run on Valkyrie at two reasoning efforts. 360 games, all finished, with no
+Seven models, 30 hidden L's each, run on Valkyrie at two reasoning efforts. 420 games, all finished, with no
 failed model calls.
 
 ### High reasoning effort
@@ -84,6 +84,7 @@ failed model calls.
 | Model | Mean points | 90% interval | Median | Share of informed | Caught | Tokens per game |
 |---|---|---|---|---|---|---|
 | Fable 5.2 | 917 | 858 to 953 | 954 | 90% | 1 of 30 | 237,417 |
+| GPT-6 Astra | 880 | 816 to 932 | 924 | 86% | 2 of 30 | 139,911 |
 | Opus 5.5 | 820 | 734 to 896 | 924 | 81% | 5 of 30 | 209,256 |
 | GPT-6.1 Sol | 814 | 725 to 900 | 934 | 80% | 4 of 30 | 133,137 |
 | GPT-6.1 Terra | 428 | 303 to 554 | 102 | 42% | 17 of 30 | 95,030 |
@@ -98,6 +99,7 @@ failed model calls.
 | Opus 5.5 | 411 | 306 to 519 | 308 | 40% | 6 of 30 | 131,048 |
 | GPT-6.1 Terra | 404 | 280 to 530 | 176 | 40% | 15 of 30 | 58,320 |
 | GPT-6.1 Sol | 372 | 273 to 474 | 365 | 37% | 13 of 30 | 76,752 |
+| GPT-6 Astra | 353 | 239 to 477 | 74 | 35% | 17 of 30 | 57,568 |
 | Sonnet 5.5 | 81 | 65 to 99 | 62 | 8% | 23 of 30 | 40,945 |
 | GPT-6 Luna | 69 | 56 to 85 | 58 | 7% | 30 of 30 | 15,981 |
 
@@ -107,17 +109,18 @@ Intervals are 90% bootstrap intervals over the 30 games. Tokens are input plus o
 
 ### What the games show
 
-- **Games are won or lost in the first few days.** Scores are bimodal. At high effort 166 of 180 games end
+- **Games are won or lost in the first few days.** Scores are bimodal. At high effort 194 of 210 games end
   at 800 or more or under 200.
 - **Fable 5.2 finds the experiment at either effort.** It opened with a three-kill test day in 59 of 60
   games and scored 800 or more in 29 of 30 at high effort and 26 of 30 at low. It tests one kind a day
   until the count rises, drops that kind for good, and kills the other nine a day.
-- **Opus 5.5 and GPT-6.1 Sol need high effort to find it.** They score 800 or more in 25 and 24 of 30 games
-  at high effort, and each in 6 of 30 at low. At low effort GPT-6.1 Sol opens by killing 10 or 11 in 29 of 30
+- **GPT-6 Astra, Opus 5.5 and GPT-6.1 Sol need high effort to find it.** They score 800 or more in 27, 25
+  and 24 of 30 games at high effort, and in 8, 6 and 6 of 30 at low. GPT-6 Astra opens by killing 10 or 11
+  in all 30 of its low-effort games. At low effort GPT-6.1 Sol opens by killing 10 or 11 in 29 of 30
   games.
 - **The winning plan needs one positive result.** A flat count only sends the model on to the next kind, so
   the uncertain zero costs test days, not captures.
-- **Three models beat the Tester script at high effort, and Fable 5.2 also at low.** The script spends up to
+- **Four models beat the Tester script at high effort, and Fable 5.2 also at low.** The script spends up to
   three days on each place. The models stop testing after the first rise.
 - **Careful play is caught one way.** The probe leaves one or two traces on the place the model drops. If
   one of those victims was also reported somewhere else, and that other place later reaches three traces, L
@@ -205,7 +208,7 @@ cd analysis && ../.venv/bin/python trace_from_valkyrie.py ../results/trace_valky
 python3 -m http.server 8123 -d site
 ```
 
-Run ids for the twelve runs above are in [results/trace_valkyrie/runs.txt](results/trace_valkyrie/runs.txt).
+Run ids for the fourteen runs above are in [results/trace_valkyrie/runs.txt](results/trace_valkyrie/runs.txt).
 
 ## Sandbox
 
@@ -225,7 +228,7 @@ Run ids for the twelve runs above are in [results/trace_valkyrie/runs.txt](resul
 | `kira/sandbox/` | Game server, grader and Dockerfile for the Valkyrie tasks |
 | `kira/make_tasks.py` | Writes `tasks_trace/` and the self-contained agent |
 | `tasks_trace/` | The 30 tasks, dataset `deathnotebench/trace@v2` |
-| `results/trace_valkyrie/` | Every game from the twelve Valkyrie runs |
+| `results/trace_valkyrie/` | Every game from the fourteen Valkyrie runs |
 | `analysis/` | Download, table, charts and site export |
 | `site/` | Static results site with day-by-day replays, deployed to GitHub Pages on push |
 
