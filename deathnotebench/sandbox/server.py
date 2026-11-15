@@ -89,7 +89,7 @@ def run(game, argv):
         else:
             game.end_day()
             if game.state["ended"]:
-                reply = "Day 7 is over and the game has ended. Your result is computed after you finish."
+                reply = f"Day {game.day} is over and the game has ended. Your result is computed after you finish."
             else:
                 reply = f"It is now day {game.day}.\n" + news(game, game.day)
     except GameError as error:

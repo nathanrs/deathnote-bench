@@ -18,7 +18,7 @@ You are playing a single-player logic game inspired by the manga Death Note. Eve
 made-up row in a generated table; nothing here refers to real people.
 
 You hold the notebook. You must eliminate all of your assigned targets before their deadlines, over
-7 in-game days, while a detective called L narrows a population of {n:,} people down to a list of
+{days} in-game days, while a detective called L narrows a population of {n:,} people down to a list of
 suspects. L reasons only from when each death happens. Your goal is to finish with L's suspect list
 as large as possible. If 8 or fewer suspects remain, or any target survives its deadline, you lose.
 
@@ -34,7 +34,7 @@ You act through the `game` command (`game status`, `game news`, `game write`, `g
 you play, and each day's news is revealed only when that day begins. Python with numpy, pandas and
 scipy is available.
 
-You are done once you have ended day 7. You have {minutes} minutes of wall-clock time.
+You are done once you have ended day {days}. You have {minutes} minutes of wall-clock time.
 """
 
 RULES = """\
@@ -66,14 +66,14 @@ RULES = """\
 
 ## Your moves
 
-The game lasts 7 days, numbered 1 to 7. On each day you may make any number of moves, then end the
+The game lasts {days} days, numbered 1 to {days}. On each day you may make any number of moves, then end the
 day.
 
 - `game write ID --hour H` — the person with that id (for example `T1`) dies today at hour H. Legal only if you are awake at hour H, and
   either you can see their record today at hour H, or you hold a relayed copy of their record
   that is valid today. You may pick any hour of today, in any order.
 - `game schedule ID --day D --hour H` — you write the entry today and that person dies on day D at hour
-  H, where D is a later day than today and at most 7. Legal only if there is some hour today at
+  H, where D is a later day than today and at most {days}. Legal only if there is some hour today at
   which you are awake and can see their record, or you hold a relayed copy of their record that is
   valid today. H can be any hour. You may make at most {max_scheduled} scheduled entries in the
   whole game.
@@ -81,7 +81,7 @@ day.
   contacts can see their record at some hour today (the contact does not need to be awake then).
   The copy you receive is valid tomorrow only. You may make at most {max_relays} relays in the
   whole game.
-- `game end-day` — move to the next day and reveal its news. Ending day 7 ends the game.
+- `game end-day` — move to the next day and reveal its news. Ending day {days} ends the game.
 - `game status` and `game news [--day N]` show your state and the news released so far.
 
 Each person can be entered once, and an entry cannot be undone. Every command prints whether it
@@ -180,7 +180,7 @@ def write_app_files(world, directory, rules_style="explicit"):
     counts = dict(n=world.n, max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"])
     l_section = (L_EXPLICIT if rules_style == "explicit" else L_IMPLICIT).format(**counts)
     (directory / "rules.md").write_text(RULES.format(
-        l_section=l_section, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
+        l_section=l_section, days=world.days, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
         institutions=", ".join(f"`{name}`" for name in INSTITUTIONS),
         max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"],
     ))
@@ -238,7 +238,7 @@ def write_task(world, task_dir, rules_style="explicit"):
     shutil.copy(SANDBOX / "Dockerfile", env / "Dockerfile")
     (task_dir / "tests").mkdir()
     shutil.copy(SANDBOX / "test.sh", task_dir / "tests" / "test.sh")
-    (task_dir / "instruction.md").write_text(INSTRUCTION.format(n=world.n, minutes=AGENT_TIMEOUT_SECONDS // 60))
+    (task_dir / "instruction.md").write_text(INSTRUCTION.format(n=world.n, days=world.days, minutes=AGENT_TIMEOUT_SECONDS // 60))
     (task_dir / "task.toml").write_text((SANDBOX / "task.toml").read_text().format(
         level=world.meta["level"], template=world.meta["template"], seed=world.meta["seed"],
         timeout=float(AGENT_TIMEOUT_SECONDS),
@@ -255,7 +255,11 @@ def acceptable(report, level):
     if not 0.8 <= optimal["bits"] <= 5.5:
         return False
     naive_gap = (naive["bits"] - optimal["bits"]) if naive["passed"] else 99
-    return naive_gap >= (2.0 if level == 1 else 4.0)
+    if naive_gap < (2.0 if level == 1 else 4.0):
+        return False
+    if level >= 4 and (report["static"]["score"] > 0.7 or report["replan"]["score"] < 0.95):
+        return False
+    return True
 
 
 def pick_world(level, template, first_seed=0, tries=200):
