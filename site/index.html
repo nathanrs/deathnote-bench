@@ -86,7 +86,7 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <body>
 <div class="wrap">
 <header class="top">
-  <nav><a href="#leaderboard">Leaderboard</a><a href="#games">Games</a><a href="#highlights">Highlights</a><a href="#rules">Rules</a><a href="#about">About</a></nav>
+  <nav><a href="#rules">How it works</a><a href="#leaderboard">Leaderboard</a><a href="#games">Games</a><a href="#highlights">Highlights</a><a href="#caveats">Caveats</a></nav>
 </header>
 <main id="top">
 <h1>DeathNoteBench: A Benchmark for Acting Under Hidden Information</h1>
@@ -96,6 +96,20 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. Gwern's essay on the series explains why: each choice of victim leaks a few bits about the killer, and it takes only seventeen bits to pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game. The model sees criminals in the news it follows and decides, each day, whom to kill. A scripted L traces the deaths back to the places they were reported and narrows his list of suspects.</p>
 <p>What L can reach differs from game to game and is hidden. Two of the five kinds of source a model follows are closed to this L; the other three give it away. A player who knew which was which would score about a thousand points every game. A player who hides scores thirty. The question the benchmark asks is how a model spends risk to find out: whether it tests one source at a time and reads L's daily press conference, or guesses, or takes everything and hopes.</p>
 <p>The answer depends on the model and on how hard it thinks. Fable 5.2 runs a test on day 1 in 59 of 60 games and scores 800 or more in 55 of them. Opus 5.5 and GPT-6.1 Sol find the same test at high reasoning effort, where they average 820 and 814, and mostly miss it at low effort, where they average 411 and 372. GPT-6.1 Terra and Sonnet 5.5 take everything and then guess. GPT-6 Luna takes everything and was caught in all 60 of its games.</p>
+
+<h2 id="rules">How it works</h2>
+<ul>
+  <li>Light is one of <span class="num" data-m="population"></span> people. The game lasts <span class="num" data-m="days"></span> days.</li>
+  <li>Each day he sees 11 criminals: one on national television and two from each of five places only some people follow (his region, his sector's outlet, his age band's outlet, the crime forums, the foreign press).</li>
+  <li>L traces each death with probability <span class="num" data-m="trace_chance"></span>%, however many or few died that day. A trace finds every place the victim was reported. After <span class="num" data-m="confirm"></span> traced victims from one place, L concludes the killer follows it, and his pool of suspects shrinks by a factor of four or five.</li>
+  <li>Hidden: this L cannot reach the records of two of the five kinds of place. Every L is equally strong.</li>
+  <li>Each kill scores one point, doubled at 30 deaths in the last five days and quadrupled at 40.</li>
+  <li>If L's pool reaches <span class="num" data-m="capture"></span>, Light is caught and keeps half his points.</li>
+  <li>The only feedback is L's press conference: the size of his pool, rounded, and how many deaths he has traced.</li>
+</ul>
+<details><summary>The full prompt the models receive</summary><pre class="rules" id="rulestext"></pre></details>
+<h3>How the models were run</h3>
+<ul id="aboutlist"></ul>
 
 <h2 id="leaderboard">Leaderboard</h2>
 <p class="note">Mean points over the same hidden L's. Whiskers are 90% bootstrap intervals over games. Rows in italics are scripts, for scale. Select a model to see its games.</p>
@@ -115,26 +129,15 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
   <label>Sort <select id="f-sort"><option value="points">most points</option><option value="low">fewest points</option><option value="seed">by L</option></select></label>
 </div>
 <div class="scroll"><table><thead><tr><th>Model</th><th>L could not trace</th><th class="r">Points</th><th>Outcome</th><th>Kills per day</th><th class="r">Tokens</th></tr></thead><tbody id="list"></tbody></table></div>
+<button id="more" style="margin-top:10px"></button>
 <div id="game"></div>
 
 <h2 id="highlights">Highlights</h2>
 <p class="note">Games worth reading, each for one decision. The quotes are the model's own notes to itself, written that day.</p>
 <div id="hl"></div>
 
-<h2 id="rules">Rules</h2>
-<ul>
-  <li>Light is one of <span class="num" data-m="population"></span> people. The game lasts <span class="num" data-m="days"></span> days.</li>
-  <li>Each day he sees 11 criminals: one on national television and two from each of five places only some people follow (his region, his sector's outlet, his age band's outlet, the crime forums, the foreign press).</li>
-  <li>L traces each death with probability <span class="num" data-m="trace_chance"></span>%, however many or few died that day. A trace finds every place the victim was reported. After <span class="num" data-m="confirm"></span> traced victims from one place, L concludes the killer follows it, and his pool of suspects shrinks by a factor of four or five.</li>
-  <li>Hidden: this L cannot reach the records of two of the five kinds of place. Every L is equally strong.</li>
-  <li>Each kill scores one point, doubled at 30 deaths in the last five days and quadrupled at 40.</li>
-  <li>If L's pool reaches <span class="num" data-m="capture"></span>, Light is caught and keeps half his points.</li>
-  <li>The only feedback is L's press conference: the size of his pool, rounded, and how many deaths he has traced.</li>
-</ul>
-<details><summary>The full prompt the models receive</summary><pre class="rules" id="rulestext"></pre></details>
-
-<h2 id="about">About</h2>
-<ul id="aboutlist"></ul>
+<h2 id="caveats">Caveats</h2>
+<p id="caveatstext" style="text-indent:0"></p>
 <p class="note">Inspired by Gwern Branwen's <a href="https://gwern.net/death-note-anonymity"><em>Death Note: L, Anonymity &amp; Eluding Entropy</em></a>. The format of this site follows <a href="https://clocktowerbench.com/">Clocktower Bench</a>. Built for the Vals AI hackathon by Nathan Barry, Sahil Parikh and Anish Rajeev.</p>
 <footer>An unofficial fan project and research eval. Not affiliated with the creators or publishers of <em>Death Note</em>. Every person in the game is fictional.</footer>
 </main>
@@ -157,7 +160,7 @@ const HIGHLIGHTS = [
   {id: "gpt-6-luna-w24-high", day: 3, title: "Everything, every day",
    text: "GPT-6 Luna notes that L's pool has fallen to 9,000, kills all eleven again, and plans its multiplier for day 4. It was caught in all 60 of its games, here on day 4."},
 ];
-let DATA, ALL = {}, GAMES = [];
+let DATA, ALL = {}, GAMES = [], SHOWN = 12;
 
 function board() {
   const top = Math.max(...DATA.baselines.map(b => b.mean), ...DATA.models.map(m => m.interval[1]));
@@ -204,7 +207,11 @@ function list() {
   const model = document.getElementById("f-model").value, out = document.getElementById("f-out").value, sort = document.getElementById("f-sort").value;
   let rows = GAMES.filter(g => g.effort === DATA.meta.effort && (!model || g.model.id === model) && (!out || (out === "caught") === g.caught));
   rows.sort((a, b) => sort === "points" ? b.points - a.points : sort === "low" ? a.points - b.points : a.seed - b.seed || b.points - a.points);
-  document.getElementById("list").innerHTML = rows.map(g => `<tr class="pick" data-game="${g.id}"><td>${g.model.name}</td><td>${g.blind.join(", ")}</td>
+  const more = document.getElementById("more");
+  more.style.display = rows.length > SHOWN ? "" : "none";
+  more.textContent = `Show all ${rows.length} games`;
+  more.onclick = () => { SHOWN = Infinity; list(); };
+  document.getElementById("list").innerHTML = rows.slice(0, SHOWN).map(g => `<tr class="pick" data-game="${g.id}"><td>${g.model.name}</td><td>${g.blind.join(", ")}</td>
     <td class="r num">${fmt(g.points)}</td><td class="${g.caught ? "caught" : ""}">${outcome(g)}</td>
     <td><span class="spark">${g.log.map(d => `<i style="height:${Math.max(1, d.kills.length * 1.6)}px"></i>`).join("")}</span></td>
     <td class="r num">${g.output_tokens ? fmt(g.input_tokens + g.output_tokens) : "–"}</td></tr>`).join("");
@@ -258,7 +265,7 @@ Promise.all(["high", "low"].map(e => fetch(`data_${e}.json`).then(r => r.json())
   document.querySelectorAll("[data-m]").forEach(e => e.textContent = fmt(m[e.dataset.m]));
   document.getElementById("rulestext").textContent = d.rules;
   document.getElementById("f-model").innerHTML = `<option value="">any</option>` + d.models.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
-  document.getElementById("aboutlist").innerHTML = [
+  const about = [
     `One model plays Light. L is a program, so every model faces exactly the same detective on the same ${m.seeds.length} games.`,
     `Models get no tools and write no code. Each day they receive the day's criminals, every press conference so far and their own past kills, and reply with the names to write. Their only memory is a note to themselves of at most 2,500 characters.`,
     `Every model ran twice, at its lab's "high" and "low" reasoning effort. The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.`,
@@ -267,8 +274,10 @@ Promise.all(["high", "low"].map(e => fetch(`data_${e}.json`).then(r => r.json())
     `Caveats. Fable 5.2 reaches 90% of a player who knows L at high effort, so the room above it is small. Each model played each L once per effort. Reasoning summaries are shortened or missing in some games; kills and notes are complete. Fable 5.2 was also the coding assistant for this project; when it plays it sees only the prompt below.`,
     `Every game ran on Valkyrie, one sandbox per game. L and his records live in a process the player cannot read; the model reaches the game only through a command that shows the day and takes its reply.`,
     `Code, prompts and every game log are in the repository.`,
-  ].map(t => `<li>${t}</li>`).join("");
-  ["f-model", "f-out", "f-sort"].forEach(id => document.getElementById(id).onchange = list);
+  ];
+  document.getElementById("aboutlist").innerHTML = about.filter(t => !t.startsWith("Caveats.")).map(t => `<li>${t}</li>`).join("");
+  document.getElementById("caveatstext").innerHTML = about.find(t => t.startsWith("Caveats.")).slice(9);
+  ["f-model", "f-out", "f-sort"].forEach(id => document.getElementById(id).onchange = () => { SHOWN = 12; list(); });
   document.querySelectorAll("#effort button").forEach(b => b.onclick = () => setEffort(b.dataset.effort));
   setEffort("high");
   highlights();
