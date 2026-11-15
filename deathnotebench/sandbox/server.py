@@ -40,31 +40,43 @@ def news(game, day):
     return f"News for day {day}:\n" + ("\n".join(f"- {item}" for item in items) or "- nothing of note")
 
 
+USAGE = """\
+usage:
+  game status
+  game news [--day N]
+  game write ID --hour H
+  game schedule ID --day D --hour H
+  game relay ID
+  game end-day
+ID is a person's id such as T1."""
+
+
 def run(game, argv):
-    parser = argparse.ArgumentParser(prog="game", exit_on_error=False)
+    """Returns (carried_out, text)."""
+    parser = argparse.ArgumentParser(prog="game", exit_on_error=False, add_help=False)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("status")
     p = sub.add_parser("news")
     p.add_argument("--day", type=int)
     p = sub.add_parser("write")
-    p.add_argument("name")
+    p.add_argument("name", metavar="ID")
     p.add_argument("--hour", type=int, required=True)
     p = sub.add_parser("schedule")
-    p.add_argument("name")
+    p.add_argument("name", metavar="ID")
     p.add_argument("--day", type=int, required=True)
     p.add_argument("--hour", type=int, required=True)
     p = sub.add_parser("relay")
-    p.add_argument("name")
+    p.add_argument("name", metavar="ID")
     sub.add_parser("end-day")
     try:
         args = parser.parse_args(argv)
-    except (argparse.ArgumentError, SystemExit) as error:
-        return f"usage error: {error}\n{parser.format_help()}"
+    except (argparse.ArgumentError, SystemExit):
+        return False, USAGE
     try:
         if args.command == "status":
-            return status(game)
+            return True, status(game)
         if args.command == "news":
-            return news(game, args.day or game.day)
+            return True, news(game, args.day or game.day)
         if args.command == "write":
             game.write(args.name, args.hour)
             reply = f"Written. {args.name} dies today (day {game.day}) at {args.hour:02d}:00."
@@ -81,15 +93,16 @@ def run(game, argv):
             else:
                 reply = f"It is now day {game.day}.\n" + news(game, game.day)
     except GameError as error:
-        return f"Not done: {error}."
+        return False, f"Not done: {error}."
     STATE_PATH.write_text(json.dumps(game.state))
-    return reply
+    return True, reply
 
 
 class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         argv = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
-        body = run(load_game(), argv).encode()
+        ok, text = run(load_game(), argv)
+        body = json.dumps({"ok": ok, "text": text}).encode()
         self.send_response(200)
         self.end_headers()
         self.wfile.write(body)

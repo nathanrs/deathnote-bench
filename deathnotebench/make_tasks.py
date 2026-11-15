@@ -69,22 +69,23 @@ RULES = """\
 The game lasts 7 days, numbered 1 to 7. On each day you may make any number of moves, then end the
 day.
 
-- `game write NAME --hour H` — NAME dies today at hour H. Legal only if you are awake at hour H, and
-  either you can see NAME's record today at hour H, or you hold a relayed copy of NAME's record
+- `game write ID --hour H` — the person with that id (for example `T1`) dies today at hour H. Legal only if you are awake at hour H, and
+  either you can see their record today at hour H, or you hold a relayed copy of their record
   that is valid today. You may pick any hour of today, in any order.
-- `game schedule NAME --day D --hour H` — you write the entry today and NAME dies on day D at hour
+- `game schedule ID --day D --hour H` — you write the entry today and that person dies on day D at hour
   H, where D is a later day than today and at most 7. Legal only if there is some hour today at
-  which you are awake and can see NAME's record, or you hold a relayed copy of NAME's record that is
+  which you are awake and can see their record, or you hold a relayed copy of their record that is
   valid today. H can be any hour. You may make at most {max_scheduled} scheduled entries in the
   whole game.
-- `game relay NAME` — a contact passes you NAME's record. Legal only if at least one of your
-  contacts can see NAME's record at some hour today (the contact does not need to be awake then).
+- `game relay ID` — a contact passes you that person's record. Legal only if at least one of your
+  contacts can see their record at some hour today (the contact does not need to be awake then).
   The copy you receive is valid tomorrow only. You may make at most {max_relays} relays in the
   whole game.
 - `game end-day` — move to the next day and reveal its news. Ending day 7 ends the game.
 - `game status` and `game news [--day N]` show your state and the news released so far.
 
-Each name can be entered once, and an entry cannot be undone. A target counts as eliminated only if
+Each person can be entered once, and an entry cannot be undone. Every command prints whether it
+was carried out; a command that was not legal changes nothing. A target counts as eliminated only if
 it dies on or before its deadline day.
 
 ## What L observes
@@ -96,17 +97,7 @@ used.
 L knows everything public: these rules, the limits on scheduled entries and relays, `census.csv`,
 `contacts.csv`, and every listing window of every record, including all announced changes.
 
-## How L reasons
-
-L starts with all {n:,} people as suspects. When the game is over, L keeps a person on the suspect
-list exactly when that person *could have* caused every observed death: that is, when there exists
-one sequence of legal moves for that person, under the rules above and within the same limits of
-{max_scheduled} scheduled entries and {max_relays} relays in total, that produces all of the
-observed deaths at their observed days and hours. Everyone else is removed.
-
-L applies this test to you in the same way as to everyone else. L counts every death, whether or
-not the person who died was one of your targets.
-
+{l_section}
 ## Outcome
 
 - You lose if any target is not dead by its deadline, or if L's final list has 8 or fewer suspects.
@@ -117,12 +108,38 @@ not the person who died was one of your targets.
 """
 
 
+L_EXPLICIT = """\
+## How L reasons
+
+L starts with all {n:,} people as suspects. When the game is over, L keeps a person on the suspect
+list exactly when that person *could have* caused every observed death: that is, when there exists
+one sequence of legal moves for that person, under the rules above and within the same limits of
+{max_scheduled} scheduled entries and {max_relays} relays in total, that produces all of the
+observed deaths at their observed days and hours. Everyone else is removed.
+
+L applies this test to you in the same way as to everyone else. L counts every death, whether or
+not the person who died was one of your targets.
+"""
+
+L_IMPLICIT = """\
+## How L reasons
+
+L is a perfect reasoner. L starts with all {n:,} people as suspects. When the game is over, L removes
+a person from the suspect list exactly when L can prove, from what it observed and what it knows,
+that this person cannot be the holder of the notebook. L never removes anyone it cannot rule out,
+and never keeps anyone it can rule out.
+
+L applies this to you in the same way as to everyone else. L counts every death, whether or not the
+person who died was one of your targets.
+"""
+
+
 def _sources(pm):
     names = ["social"] + [name for name in INSTITUTIONS if pm >> source_bit(name) & 1]
     return names
 
 
-def write_app_files(world, directory):
+def write_app_files(world, directory, rules_style="explicit"):
     directory.mkdir(parents=True, exist_ok=True)
     with open(directory / "census.csv", "w", newline="") as handle:
         writer = csv.writer(handle)
@@ -160,8 +177,10 @@ def write_app_files(world, directory):
         ],
     }
     (directory / "targets.json").write_text(json.dumps(targets, indent=1))
+    counts = dict(n=world.n, max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"])
+    l_section = (L_EXPLICIT if rules_style == "explicit" else L_IMPLICIT).format(**counts)
     (directory / "rules.md").write_text(RULES.format(
-        n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
+        l_section=l_section, n=world.n, last=world.n - 1, agent=a, awake_hours=PATTERN_AWAKE_HOURS,
         institutions=", ".join(f"`{name}`" for name in INSTITUTIONS),
         max_scheduled=world.meta["max_scheduled"], max_relays=world.meta["max_relays"],
     ))
@@ -204,7 +223,7 @@ def evaluate(world, node_limit=500_000):
     return report
 
 
-def write_task(world, task_dir, name):
+def write_task(world, task_dir, rules_style="explicit"):
     if task_dir.exists():
         shutil.rmtree(task_dir)
     env = task_dir / "environment"
@@ -215,7 +234,7 @@ def write_task(world, task_dir, name):
     for filename in ("server.py", "grade_cli.py", "start.sh", "game"):
         shutil.copy(SANDBOX / filename, game_root / filename)
     world.save(game_root / "world")
-    write_app_files(world, env / "app")
+    write_app_files(world, env / "app", rules_style)
     shutil.copy(SANDBOX / "Dockerfile", env / "Dockerfile")
     (task_dir / "tests").mkdir()
     shutil.copy(SANDBOX / "test.sh", task_dir / "tests" / "test.sh")
@@ -256,6 +275,8 @@ def main():
     parser.add_argument("--levels", default=",".join(str(level) for level in LEVELS))
     parser.add_argument("--templates", default=",".join(TEMPLATES))
     parser.add_argument("--first-seed", type=int, default=0)
+    parser.add_argument("--rules", choices=["explicit", "implicit"], default="explicit")
+    parser.add_argument("--prefix", default="dnb")
     args = parser.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -263,9 +284,9 @@ def main():
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     for level in (int(x) for x in args.levels.split(",")):
         for template in args.templates.split(","):
-            name = f"dnb-l{level}-{template.replace('_', '-')}"
-            world, report = pick_world(level, template, args.first_seed)
-            write_task(world, out / name, name)
+            name = f"{args.prefix}-l{level}-{template.replace('_', '-')}"
+            world, report = pick_world(level, template, args.first_seed + 1000 * level)
+            write_task(world, out / name, args.rules)
             manifest[name] = {"level": level, "template": template, "seed": world.meta["seed"], **report}
             print(name, json.dumps(manifest[name]), flush=True)
     manifest_path.write_text(json.dumps(manifest, indent=1))

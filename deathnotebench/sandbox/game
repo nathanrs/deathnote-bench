@@ -4,4 +4,6 @@ import sys
 import urllib.request
 
 request = urllib.request.Request("http://127.0.0.1:7777/", data=json.dumps(sys.argv[1:]).encode())
-print(urllib.request.urlopen(request, timeout=60).read().decode())
+reply = json.loads(urllib.request.urlopen(request, timeout=60).read())
+print(reply["text"])
+sys.exit(0 if reply["ok"] else 1)

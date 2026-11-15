@@ -181,17 +181,20 @@ class Game:
     def day(self):
         return self.state["day"]
 
-    def _entity(self, eid):
+    def _entity(self, name):
+        """Accepts an id (T1) or a full name; returns the id and entity index."""
+        by_name = {e["name"].lower(): e["id"] for e in self.world.entities}
+        eid = by_name.get(name.strip().lower(), name.strip().upper())
         if eid not in self.world.index:
-            raise GameError(f"unknown name '{eid}'")
+            raise GameError(f"unknown name '{name}'")
         entity = self.world.entities[self.world.index[eid]]
         if entity.get("appears_day", 1) > self.day:
-            raise GameError(f"unknown name '{eid}'")
+            raise GameError(f"unknown name '{name}'")
         if self.state["ended"]:
             raise GameError("the game is over")
         if eid in self.state["deaths"]:
             raise GameError(f"{eid} already has an entry in the notebook")
-        return self.world.index[eid]
+        return eid, self.world.index[eid]
 
     def _own_at(self, e, d, h):
         return bool(self.pm & int(self.lm[e, d, h]))
@@ -202,8 +205,8 @@ class Game:
     def _holds_relay(self, eid):
         return self.state["relays"].get(eid) == self.day
 
-    def write(self, eid, hour):
-        e = self._entity(eid)
+    def write(self, name, hour):
+        eid, e = self._entity(name)
         if not 0 <= hour < HOURS:
             raise GameError("hour must be 0-23")
         if not self.awake[hour]:
@@ -212,8 +215,8 @@ class Game:
             raise GameError(f"you cannot see {eid}'s record at {hour:02d}:00 today and hold no relayed copy")
         self._record_death("write", eid, self.day, hour)
 
-    def schedule(self, eid, day, hour):
-        e = self._entity(eid)
+    def schedule(self, name, day, hour):
+        eid, e = self._entity(name)
         if self.state["sched_used"] >= self.world.meta["max_scheduled"]:
             raise GameError("no scheduled entries left")
         if not (self.day < day <= self.world.days and 0 <= hour < HOURS):
@@ -223,8 +226,8 @@ class Game:
         self.state["sched_used"] += 1
         self._record_death("schedule", eid, day, hour)
 
-    def relay(self, eid):
-        e = self._entity(eid)
+    def relay(self, name):
+        eid, e = self._entity(name)
         if self.state["relay_used"] >= self.world.meta["max_relays"]:
             raise GameError("no relays left")
         if not (self.cm & int(np.bitwise_or.reduce(self.lm[e, self.day]))):
