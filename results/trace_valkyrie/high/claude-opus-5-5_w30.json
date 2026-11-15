@@ -1,11 +1,11 @@
 {
- "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "run_id": "540f49af-651b-49fa-9b9f-a8054498fa59",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-030",
- "reward": 0.4506,
+ "reward": 0.0652,
  "exit": null,
- "agent_seconds": 566.153168758,
+ "agent_seconds": 349.77868034900007,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,21 +19,21 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 442,
+ "trace_chance": 0.5,
+ "points": 64,
  "caught": true,
- "days": 28,
+ "days": 7,
  "final_pool": 687,
- "kills": 246,
- "input_tokens": 129743,
- "output_tokens": 57904,
- "seconds": 562,
+ "kills": 57,
+ "input_tokens": 20659,
+ "output_tokens": 33221,
+ "seconds": 348,
  "informed_best": 981,
- "tester": 858,
+ "tester": 812,
  "hider": 30,
  "grabber": 44,
- "score": 0.4506,
- "log_trimmed": "reasoning cut to 800 characters a day",
+ "score": 0.0652,
+ "log_trimmed": null,
  "log": [
   {
    "day": 1,
@@ -65,7 +65,6 @@
     }
    ],
    "traced": [
-    "d1-3",
     "d1-4",
     "d1-7"
    ],
@@ -73,12 +72,12 @@
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "STRATEGY: L reaches records for 3 of my 5 kinds (regional South, sector gazette, age clips, forum, foreign). If L acts on 3 reachable kinds, the pool drops to about 55000*0.25^3, which is under 1000, and I am caught. If he acts on only 2, the pool is at least about 2750, which is safe. A trace succeeds only if every place the victim was reported is reachable. L acts on a place only after 3 successful traces there. GOAL: find one REACHABLE kind and never kill from it again. Then kill everything else: national plus the other 4 kinds, about 9 a day. That is 45 deaths in 5 days, so the x4 multiplier. National kills never count. If I make 5 or fewer deaths in a day, all of them get traced, so the change in deaths_traced is an exact test. ROUTINE: quick kills all go in the afternoon. That rules out day workers and leaves about 55% of people. DAY 1 TEST: killed national plus 2 gazette only (3 deaths, all traced). Traced count before day 1 was 0. DAY 2 RULE: if deaths_traced is 1 or more, sector is reachable. Then never kill anyone carried in gazette, and from day 2 kill national plus every South, clips, forum and foreign victim (skip any victim whose places include gazette). If deaths_traced is 0, sector is likely unreachable, so gazette kills are free. Then on day 2 test clips: kill national + 2 gazette + 2 clips (5 deaths, all traced). If the increase is 1 or more, clips is reachable, so avoid clips from then on and kill everything else. If it is 0, test forum the same way on day 3, and so on. Watch the pool: about 50-60k means routine only; about 10k means one kind acted on; about 3k means two. If the pool reaches about 3k, do NOT add any new kind.",
+   "notes_to_self": "STRATEGY. Quick kills always in AFTERNOON. That rules out day workers, so the pool is 55% of 100k. If L learns 2 of my places, the pool is about 2750-3400 (safe). If he learns 3, the pool is under 1000 and I am caught. L can reach 3 of the 5 kinds, but I don't know which. Kinds: R=regional:South, S=gazette, G=clips, F=forum, X=foreign. The national victim is always safe, so always kill it. Plan: PROBE one kind per day. Kill only national + that kind's 2 victims. If deaths_traced rises that day, the kind is REACHABLE. Then EXCLUDE that kind forever: never kill from it again, because it must stay at 2 or fewer traces. From the next day on, kill national + everything from the other 4 kinds (9 a day, afternoon). L then learns only the 2 reachable kinds among those 4, which is safe, and I get the 4x multiplier (needs 40 kills in 5 days). If the probe gets no trace rise, probe a NEW kind the next day: fresh kinds are more likely reachable than one that already failed. LOG: Day1 probed S (gazette): d1-3 national, d1-4 and d1-7 gazette. Traced count before day 1 = 0. Day 2: if traced is 1 or more, S is reachable, so exclude gazette and kill all national+R+G+F+X. If traced is 0, probe F (forum) next.",
    "error": null,
-   "input_tokens": 1922,
-   "output_tokens": 11226,
-   "seconds": 124.3,
-   "reasoning": "I'm treating this as a fictional strategy game where I play Light, and I'm working out the kill limits each day. With 11 visible criminals and up to 12 possible kills, I can clear them all, and I'm checking how the multiplier threshold of 30 or 40 deaths changes the plan over five days.\n\nI'm checking the deaths needed for the multiplier and the risk of getting caught once the pool drops below 1000. Then I'm mapping each criminal's free hours, and I see that afternoon-only kills would leave students, home-bound, and night workers still reachable.\n\nI'm working out how the routines limit the kills: if every quick kill falls in the afternoon, the day workers are busy for more than two deaths and get ruled out, which leaves about 55% of the pool, or 55,000. Next I'm turning to the place-based t"
+   "input_tokens": 1934,
+   "output_tokens": 14876,
+   "seconds": 165.1,
+   "reasoning": "I'm working out the game's rules: there are 11 criminals visible each day, and with the quick and timed kills, the most I can take out is 11 per day. The multiplier depends on kills over the last 5 days, doubling at 30 and quadrupling at 40, so I'm checking how the daily pace lines up with those thresholds.\n\nI'm weighing the risk of getting caught against the payoff from the 4x multiplier. My routine sits among the night-worker, student, and home options, which are free in the morning and afternoon, so doing the quick kills in the afternoon looks safest.\n\nI'm settling on afternoon quick kills, since day workers are busy then and the remaining pool comes to about 55% of the population. Each kill has roughly a coin-flip chance of being traced, and I'm looking at which reporting places L would need to cover to narrow the suspects down further.\n\nI'm working out that a 3,437 pool still clears the threshold, but three learned constraints would drop it to about 859, which means getting caught. Since L can reach only three of the five place kinds and I don't know which three, killing across all five would be risky. Limiting myself to two kinds keeps the pool safe, though it caps me at about 5 kills a day.\n\nI'm weighing whether a victim reported in a place I don't follow, like a northern regional paper, would weaken the constraint L could build, though I don't know which other places exist. I'm also noting that a victim reported in a kind L can't reach would make the trace fail. The traced-death count could reveal which kinds L can reach: killing only forum victims and watching whether the count rises would tell me if L has access to forum records.\n\nI'm comparing strategies now, starting with killing as many as possible all in the afternoon. The idea is that once three traced victims share a place, the killer can narrow the pool, so I'm checking how quickly that would happen in each place L can reach.\n\nI'm working out how many victims it would take to trigger the killer's constraint: if three traced victims share a place, the pool drops to about 860 and I'd be caught. Victims reported only in my places give a clean \"follows X\" constraint, while victims also reported in a reachable second place give a weaker \"X or Y\" one. I'm checking whether one forum-only victim would be enough to pin it down, which would mean killing in a way that keeps the pool above the threshold.\n\nI'm weighing a late all-out push against playing safe the whole way through, since getting caught halves the points but only ends things at the end. The multiplier needs roughly 8 kills a day across the last five days to reach 4x, so the safe kills (national ones, plus kinds L can't reach) would have to carry most of that pace.\n\nI'm thinking about whether I can figure out which two kinds of places L can't reach by probing: a kill in an unreachable kind never gets traced, so that tells me something. Kills from those kinds would also be safe forever, and if I'm careful about how many traced deaths pile up in any one place, I can keep adding a few more kills from the reachable ones too.\n\nI'm weighing whether the routine's 0.55 factor leaves enough room to let L learn two reachable kinds without dropping the pool below the threshold. If so, I could kill more freely from those two kinds.\n\nI'm checking whether a third reachable kind could still be handled, and whether the \"or\" constraints from shared victims stay weak enough to keep the pool above the threshold.\n\nI'm checking that the 2,750 pool stays well above 1,000 when two constraints apply, and that the 687 figure for three constraints shows why the third reachable place is the danger. Morning kills look weaker, since night and home workers make up only 35%, but up to two student kills in the morning don't break the pool. I'll keep most kills in the afternoon for the 55% figure.\n\nI'm checking whether the routine factor could be adjusted to keep a third reachable kind in play, but with all three constraints the pool collapses, so that isn't workable. Afternoon quick kills remain the safest choice for the routine.\n\nI'm considering the timed-kill option, but it doesn't help, since day workers are busy in the afternoon and would drop out once there are more than two deaths. So I'll keep the routine factor at 0.55, which means the plan is to identify the unreachable kinds and cap how many traces pile up in the one reachable place I can't afford to expose.\n\nI'm weighing whether to leave one of the five kinds alone, since L can trace at most three places, and a kind I never touch can't add to L's count. Probing with trace counts could show which kinds are reachable, so I'm considering starting with the national kills and a few from a single kind on the first day.\n\nI'm deciding how to probe safely: with up to two traced victims per place, I can test several places on the first day and still keep every tally under three. The risk is that victims who also carry a second place could make the constraints overlap, but those would be weak, so I'm leaning toward spreading the early kills across all five kinds.\n\nI'm thinking that killing the full 11 on day one is safe, since each of my places would get at most two kills and so at most two traced victims. The trace count would show how many succeeded overall, though not which kinds are reachable, and that's still worth having for the multiplier window.\n\nI'm weighing whether to probe which kinds L can reach by spreading kills over several days and reading the trace counts, but a couple of zero-trace results would be ambiguous. The payoff is roughly 9 kills a day at 4x for about 25 days, which is worth more than settling for 5 safe kills a day.\n\nI'm weighing whether killing more than about 2 per day in one place could ever pay off, since L would learn the kind. Without knowing which kinds are reachable, any trace count only tells me how many succeeded, not where, so probing gets ambiguous fast.\n\nI'm sorting out which of the five kinds L can actually reach, and I'm thinking about how to choose the order of kinds to kill from so that the pool stays above the threshold.\n\nI'm considering whether to probe the kinds I haven't committed to by testing one reachable-looking kind at a time, keeping each place at two traces or fewer, so I can tell which ones L can follow without tripping the threshold.\n\nI'm estimating how likely it is that the kind L can reach is the one I haven't been tracking, using how often zero-trace kills would show up if it were reachable. With the extra place possibly being any kind, the chance that each kill gets traced is only about half the time.\n\nI'm weighing whether to probe the kinds one at a time, since the aggregate trace count can't tell me which kind is reachable once killing several at once.\n\nI'm thinking about probing each kind one at a time, giving it a day of its own with two kills plus the national one, so any trace count can be traced back to that kind. Since the multiplier needs about 8 kills a day, I'm aiming for roughly 9 safe kills a day once the reachable places are learned, and identifying one more reachable kind would add a little more on top.\n\nI'm settling on the plan: identify one reachable kind and avoid it, then kill freely from the rest, since the two learned kinds would only bring the pool down to about 3000.\n\nI'm checking that the pool stays around 2,750 even after the other constraints, which is still far above the 1,000 threshold. I'm also wondering whether a kill in a place I'm not following could pull a victim into a tally I'm trying to avoid, but the single-place constraints already keep that in check.\n\nI'm checking a constraint where a victim from the kind I'm avoiding gets traced at a shared place, since that could tighten the pool. If the probing victim's place tally reaches three, the pool would drop to about 1100, which is getting close to the threshold.\n\nI'm weighing a probing plan for the five kinds: testing one kind per day keeps any trace count attributable, though it costs some of the multiplier window early on.\n\nI'm considering a cleaner probing scheme: on day one, two kills per place keeps every place at no more than two traces, so nothing gets learned yet. Once a place has two traces, any further kill there risks the third trace that would reveal it, so I'd need to avoid it from then on.\n\nI'm considering a probing plan where each day kills national targets plus victims from one probe kind, so any rise in the trace count points to that kind. The catch is that if I also kill freely from two kinds, their traces would blur the count, so I'm weighing whether to accept that or keep probes isolated.\n\nI'm weighing a probing approach based on how many kinds of victim are reachable: if I spread kills across a set of kinds, L will eventually learn whichever reachable ones are in that set, so I need to keep the reachable ones in any set to at most two. Killing from four kinds is only safe if the excluded one is reachable, which is likely, though not certain.\n\nI'm weighing how to read the pool: if A and B both turn out reachable, the remaining three kinds hold only one reachable kind, and if neither is, then C, D and E are all reachable, so I can add two of them and leave one out. Killing about two a day from a reachable place should produce roughly one trace a day, so the pool should start showing whether anything is learned within a few days.\n\nI'm considering spreading the kills over a few days at roughly 1-2 per place per day, since each place can take about two traces before it gets learned. Probing just A and B at four kills a day for two days would show quickly whether either is reachable, since zero traces then is unlikely if one were.\n\nI'm estimating the chance that an extra non-followed place carries a trace, which works out to roughly 0.44 per kill. The plan is to keep day one at no more than two kills per place so nothing can be learned yet, and then reason about how traces will build up from day two on.\n\nI'm considering a design where I spread kills across days, since the trace count alone can't tell me which kinds are reachable. Using all four kinds at once would push me toward the risk of three learned kinds, so I'm weighing a split of national kills plus three kinds for a lower multiplier but a higher safety margin.\n\nI'm settling on the core idea: 4x needs about 8 kills a day, which the plain 7-kill version can't reach, so finding the one reachable kind I'm excluding and then killing across the other four is the better target. That payoff, around 900 over the remaining days, is worth spending a few days on probing.\n\nI'm settling on a quick test: kill the national target plus two from one kind, A. If the trace count rises, A is reachable and I can exclude it, then kill freely from the rest from day two onward.\n\nI'm weighing a simpler probe: on day one, test one kind with two kills and see whether the trace count rises. If it does, that kind is reachable and I can exclude it, so I'll check whether that beats spreading kills across several kinds at once.\n\nI'm weighing whether to exclude kind A after its first probe comes back with no traces, which would leave its posterior chance of being reachable around 0.32. Day two would probe kind B on its own, since keeping A in the mix would muddy the trace count. If B also comes back clean, A can safely stay in the pool, because zero traces so far means it has no learned-risk yet. I'm also looking at how much a 4x multiplier window takes to build after a few probing days.\n\nI'm checking whether killing a few from one place each day could reveal which kinds are reachable, since the multiplier only kicks in around 40 kills over five days, so the probing cost has to be weighed against that payoff.\n\nI'm weighing a bolder day-one option: probing three kinds at once with two kills each, which would reveal more but leave me unsure which kind produced any trace. Testing two kinds together gives a better chance of a signal, though it still doesn't say which one is reachable.\n\nI'm thinking about excluding both A and B and killing freely from C, D and E, since if either of A or B is reachable, at most two of the remaining three can be, which keeps that 7-a-day plan safe though only around 2x. Pinning down one reachable kind is still the stronger target, because once one is excluded, killing freely from the other four gets close to the 4x payoff.\n\nI'm checking whether the excluded kind's traces stay contained, and whether victims in the kinds I keep could push any one place past its trace tolerance. Since only reachable kinds produce traces, the constraints from the other kinds stay weaker than the ones I'm already tracking, so they don't add risk. I'm also noting that probing an unreachable kind still tells me something, even if it isn't strictly needed for the plan.\n\nI'm considering a day-one sweep that kills the national target plus two from every other place, which stays within the two-trace limit and banks the points early. The catch is that those day-one traces would then sit in each place, so any later probing of the excluded kind could push it past the tolerance, and I'd have to weigh that against the value of the early multiplier window.\n\nI'm weighing a different approach: exclude one kind arbitrarily and let the pool show whether three kinds get learned, but that is risky without knowing which kinds are reachable.\n\nI'm weighing whether probing with two kinds on day one would be more informative than probing one, since a nonzero trace count would at least tell me that one of them is reachable.\n\nI'm comparing two kinds per day on day one: if a trace shows up, at least one of them is reachable, and I can work out from the odds whether that's worth the extra kills. I'm also thinking about what a second day would need to look like to tell the two apart.\n\nI'm sticking with single-kind probes, since a probed kind's traces only stay manageable if it gets two kills per day at most. Probing on several kinds at once would mix up which one is responsible for any trace, so I'll keep it one kind at a time.\n\nI'm weighing a simpler probing plan: test each kind alone with two kills, checking for traces one at a time, and re-probe where needed, since a two-kill probe catches a reachable kind about 69% of the time.\n\nI'm estimating that a first probe on a kind detects a reachable one about 41% of the time, so a few days of probing should be enough. Since a failed kind's chance of being reachable drops to about 0.32, I'd rather move on to a fresh kind than re-probe the same one.\n\nI'm still weighing whether killing kind A again on day two would confound a probe of B, so I'm leaning toward accepting fewer clean probes in exchange for more points. Starting the full 9-a-day pace on day k+1 would still leave the 4x window unfilled until about day k+5, so those first few days are effectively a cost I have to absorb.\n\nI'm weighing a probing cost: each day spent probing delays the 4x multiplier regime by about a day, roughly 36 points lost per day, so a few probing days cost around 100 of the ~900 total, which I'd accept to avoid getting caught. I'm also checking whether I can probe faster by doing two things on day one, but combining probes only muddies which kind is responsible for any trace, so I'm not going that route.\n\nI'm checking that a place can only be learned after three traces, so I want to keep any single place under that. I'm also confirming that the trace count only goes up for traced kills outside the national TV victims, so a probe with national plus one kind gives a clean signal for that kind.\n\nI'm deciding which kind to probe first on day one, and whether a choice of exclusion matters, since the remaining pool depends on which kinds turn out to be learned. Excluding the gazette kind would shrink the pool if it's the one that's learned.\n\nI'm settling on the day-one probe: two kills from the gazette kind alongside the national target, and I'm considering whether to also probe a second kind at the same time. Probing gazette first seems reasonable, since either way the pool stays safe.\n\nI'm checking a simpler version of the plan: probe one kind per day with two kills, since a reachable kind shows a trace about 69% of the time. If a probe on kind A fails, I'd move to a fresh kind rather than re-probe A, and once a reachable kind is found, the remaining four kinds can be killed freely.\n\nI'm noting the plan in my notes: on day one I'll kill the national target, plus two victims from the gazette kind, all in the afternoon, with the trace count starting at zero.\n\n"
   },
   {
    "day": 2,
@@ -160,28 +159,29 @@
     }
    ],
    "traced": [
-    "d2-9",
-    "d2-4",
-    "d2-3",
+    "d2-7",
+    "d2-2",
+    "d2-5",
     "d2-6",
-    "d2-2"
+    "d2-8",
+    "d2-10"
    ],
    "points_today": 9,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 1: traced count went to 2 from my 2 gazette kills (the national kill does not count). So SECTOR (gazette) IS REACHABLE. L now has 2 successful gazette traces, and one more makes him act on gazette. RULE: NEVER kill any criminal carried in gazette again. Of the other four kinds (South, clips, forum, foreign), exactly 2 are reachable and 2 are not. If L acts on both reachable ones, the pool is about 55000/16, roughly 3400, which is safe. Adding gazette would bring it to about 690 and I would be caught. So killing national plus every South, clips, forum and foreign victim is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only. Night workers, students and people at home are all free then, so L keeps about 55% of people. Never use morning, since that cuts the pool to 35%. Kill national plus all 8 non-gazette criminals, 9 kills a day. If a criminal is carried in both gazette and another of my places, skip him. MULTIPLIER: day 1 had 3 deaths, then 9 a day. Day 4 reaches 30 in the last 5 days (x2), and day 6 onward has 45 (x4). Keep it at 9 a day to stay at 40 or more. Watch the pool: about 10k means one kind acted on, about 3k means two. If the pool ever falls toward 1-2k unexpectedly, consider dropping a kind. Day 2: killed d2-2,3,4,5,6,7,8,9,10 (skipped gazette d2-1 and d2-11).",
+   "notes_to_self": "STRATEGY. Quick kills always in the AFTERNOON. That rules out day workers, so the base pool is 55,000. Kinds: R=regional:South, S=gazette (sector), G=clips (age), F=forum, X=foreign. L can reach 3 of the 5 kinds. RESULT OF THE DAY 1 PROBE: I killed national + 2 gazette, and traced went 0 to 2, so the SECTOR kind IS REACHABLE. Gazette already has 2 traced victims, so ONE more traced gazette victim lets L learn it. RULE: NEVER kill any criminal whose reported_in includes gazette, ever, even if he is also in another of my places. That leaves exactly 2 reachable kinds among R,G,F,X. L will learn both, giving a pool of about 55,000/16, roughly 3,400 (reported as 3000). That is safe. DAILY PLAN from day 2: kill national + every non-gazette criminal (usually 9), all quick in the afternoon. Multiplier tally (kills in the last 5 days): d1=3, d2=9. Day 4 reaches 30 (2x), day 6 onward 45 (4x). EXPECTED POOL path: 60000, then 10000 or 20000 once one kind is learned (13,750 if one 25% kind), then 3000 once two are learned. DANGER SIGNAL: a reported pool of 2000 or less, or anything below about 2,500, means extra info leaked. The likely cause is a day-1 gazette victim who was also reported in an unfollowed place (another region, sector or age band) that later reached 3 traces. If the pool drops to 2000 or less, consider cutting kills from the riskiest kinds. If it hits 1000 I am caught anyway, so there is little to do. If the pool reads 1000-2000, stop killing everything except national. LOG: Day1: national + 2 gazette (traced became 2). Day2: killed d2-2..d2-10 (national + 2 each of F,G,X,R), skipped gazette d2-1 and d2-11.",
    "error": null,
-   "input_tokens": 2635,
-   "output_tokens": 3086,
-   "seconds": 33.0,
-   "reasoning": "I'm checking the day-one results: both gazette victims were traced, so the gazette sector looks reachable. I'm also noting that each of them could have been reported somewhere I'm not tracking, and those other places would have been reachable too if the traces succeeded.\n\nGazette counts as reachable, and the strategy now is to avoid it and act on the other reachable kinds instead. Pool estimates for that route stay safe.\n\nI'm working out the pool size if L acts on two of the reachable kinds other than gazette, which comes to roughly 3,400 before any overlap from extra reporting places. Those overlapping places could shrink it further, since each one adds a disjunction the killer might satisfy.\n\nI'm checking whether the extra reporting places could shrink the pool further. A disjunction onl"
+   "input_tokens": 2511,
+   "output_tokens": 3454,
+   "seconds": 37.5,
+   "reasoning": "I'm checking the day-one tally: the two gazette victims were traced, and the pool figure rounds out to 60000, which fits with Laxus not acting. I'm now questioning whether \"deaths_traced\" means successfully traced, since that's what the count is meant to track.\n\nI'm working out whether gazette counts as a reachable place: a gazette victim might also be reported somewhere I haven't followed, so a successful trace would mean every reported place is reachable. Two successful traces put gazette at two, so one more would push it to three and trigger L acting on all three traces.\n\nI'm settling on a plan to skip gazette and kill the national victim plus the others outside it, which keeps the gazette count at two. Given how many places L can reach, two of the remaining four should become known to him, which leaves the killer's odds low.\n\nI'm checking whether a gazette victim might also be reported in a place I haven't followed, like regional:North, since a third trace there could tip L off through a shared place. If a forum victim also appears in North, the count could pick up the day-one gazette victim and leak partial sector information, which would give him a small foothold of about 687 as the estimate.\n\nI'm estimating that about 240 kills over the game, with roughly 30% cross-reported to one of about ten unfollowed places, could push one of them to three traces. That would make the day-one gazette victims a real risk if they were also reported there.\n\nI'm working through the pool math now: if the two reachable kinds are both learned, the pool drops to about 3400, so the remaining risk is any other constraint that could add a factor of roughly 3.4. I'm checking whether cross-reported victims could create an \"either this or that\" link that leaks more of the sector or age.\n\nI'm settling the earlier point about the pool and gazette: the reduction only comes from victims whose constraint isn't already implied, so the forum and North overlap adds nothing, and since gazette already has two traces, a third would trigger L, so I'll leave it alone. Expected points still look strong at about 9 a day with the 4x multiplier, and I'm tallying the rolling five-day totals, which reach 12 by day two and 21 by day three.\n\nI'm weighing whether the multiplier will kick in: the rolling five-day total only reaches 40 by day six, so I'm checking how many kills I can actually make with nine non-gazette criminals a day.\n\nI'm planning the kills for day two: nine criminals, all from the non-gazette places, each one reported in a single place I'm following, all handled in the afternoon. I'm also keeping an eye on the pool, since a drop to around 3000 would mean two kinds are learned, and anything unexpectedly higher would mean something else is leaking.\n\nI'm adding a rule to skip any victim reported in gazette alongside another of my places, then I'll write up the notes.\n\n"
   },
   {
    "day": 3,
    "kills": [
     {
-     "id": "d3-3",
+     "id": "d3-1",
      "coverage": [
       "national"
      ],
@@ -189,18 +189,18 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-1",
+     "id": "d3-2",
      "coverage": [
-      "foreign",
-      "radio"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-2",
+     "id": "d3-3",
      "coverage": [
-      "clips"
+      "blotter",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -208,7 +208,7 @@
     {
      "id": "d3-4",
      "coverage": [
-      "regional:South"
+      "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -216,13 +216,14 @@
     {
      "id": "d3-5",
      "coverage": [
-      "forum"
+      "clips",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-7",
+     "id": "d3-6",
      "coverage": [
       "forum"
      ],
@@ -232,7 +233,7 @@
     {
      "id": "d3-8",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -240,7 +241,8 @@
     {
      "id": "d3-10",
      "coverage": [
-      "regional:South"
+      "forum",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -248,7 +250,7 @@
     {
      "id": "d3-11",
      "coverage": [
-      "clips"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -256,37 +258,27 @@
    ],
    "traced": [
     "d3-1",
+    "d3-3",
     "d3-4",
-    "d3-8",
-    "d3-5",
-    "d3-11"
+    "d3-6"
    ],
    "points_today": 9,
    "multiplier": 1,
-   "pool": 13750,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 2: the traced count went 2 to 5, so day 2 had 3 successful non-national traces. Pool stayed 60k, so L has not yet acted on any place (no place has 3 successes yet). Day 1's 2 gazette kills both traced successfully, so SECTOR IS REACHABLE and gazette has 2 successes. RULE: NEVER kill any criminal carried in gazette. A 3rd gazette trace would cut the pool to about 690 once the other 2 reachable kinds are acted on, and I would be caught. Of South, clips, forum and foreign, exactly 2 kinds are reachable. If both are acted on, the pool is about 55000/16, roughly 3400, which is safe. Hidden extra reports only weaken L's constraints ('follows A or B'), so killing national plus all South, clips, forum and foreign victims is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, since night workers, students and people at home are free then and the pool stays at 55%. Never use morning. Kill national plus every non-gazette criminal, usually 9 a day. Skip any criminal that also shows gazette. MULTIPLIER: deaths were 3 on day 1, then 9 a day. Day 4 has 30 in the last 5 days (x2). Day 5 has 39 (x2, one short of 40, and not worth a gazette kill). Day 6 onward has 45 (x4) as long as I keep 9 a day. Watch the pool: about 10-15k means one kind acted on, about 3k means two. If it ever falls toward 1-2k unexpectedly, rethink and consider dropping a kind. Day 2: killed 9 (skipped gazette d2-1, d2-11). Day 3: killed d3-1,2,3,4,5,7,8,10,11 (skipped gazette d3-6, d3-9).",
+   "notes_to_self": "STRATEGY. Make all quick kills in the AFTERNOON. That rules out day workers, so the base pool is 55,000. Kinds: R=regional:South, S=gazette (sector), G=clips (age), F=forum, X=foreign. L can reach 3 of the 5 kinds. The day 1 probe (national + 2 gazette, traced went 0 to 2) showed that SECTOR IS REACHABLE, and gazette already has 2 traced victims. RULE: NEVER kill a criminal whose reported_in includes gazette. If L pinned sector it would multiply the pool by 0.2 and I would be caught. So exactly 2 of R,G,F,X are reachable. L will learn both, giving a pool of about 55,000/16, roughly 3,400 (reported as 3000). The 4x multiplier is worth far more than any gazette kill. Always kill the maximum otherwise (usually 9 a day: national + 8 non-gazette). Possible extra leak: a day-1 gazette victim may also have been reported in an unfollowed place. If that place hits 3 traces, the constraint 'gazette OR that place' cuts the pool to about 0.4x, roughly 1,400, still above 1,000. Extras on my non-gazette victims are mostly redundant once their own kind is pinned. DANGER: if the pool reads 2000 or less, consider cutting kills from the riskiest kinds. If it reads 1000, I am probably done. MULTIPLIER (my kills per day): d1=3, d2=9, d3=9. Day 4 window = 30, so 2x. Day 5 = 39, so 2x (40 is impossible, since gazette always takes 2 of the 11). Day 6 onward = 45, so 4x. Keep killing 9 every day to stay at 4x. PRESS LOG: d0 100000/0, d1 60000/2, d2 60000/4. KILL LOG: Day1: national + 2 gazette. Day2: national + 2 each of F,G,X,R (skipped gazette). Day3: d3-1,2,3,4,5,6,8,10,11 (national, 2X, 2G, 2F, 2R), skipped gazette d3-7 and d3-9.",
    "error": null,
-   "input_tokens": 2712,
-   "output_tokens": 3532,
-   "seconds": 37.5,
-   "reasoning": "Day 2 shows the traced count rising from 2 to 5, with three successful traces after discounting the national death and the failed attempts. The pool still reads 60000, so it's not clear yet whether L has acted on any of those traces.\n\nI'm checking the gazette first: two of the day-1 gazette kills were traced successfully, and I'm wondering whether any of those victims also appeared somewhere I can't see. On day 2 there were three successful traces, and I'm asking which places they share, since a shared place could already have triggered action. The pool still reads 60000, which suggests L hasn't acted, unless a hidden extra place is involved.\n\nI'm checking whether the 3-pool calculation holds, and the remaining reachable kinds are the ones that could hit three traces next. If L acts on two"
+   "input_tokens": 2873,
+   "output_tokens": 3925,
+   "seconds": 40.3,
+   "reasoning": "I'm re-checking the day-2 numbers: 8 non-national victims, with traced going from 2 to 4, so 2 traced that day. Working it out, about half of the victims in kinds that can be reached would be traced, which puts the expectation near 2.\n\nI'm checking the pool after day 2: the base of 55000 rounds to 60000 at one significant figure, so that stays. The gazette victims' traces mean the sector is reachable, and the real risk is that other places a victim was reported to could let the killer narrow the pool further, so I'm considering avoiding the gazette altogether.\n\nI'm weighing whether the extra docket traces would add any real information, since a victim reported in both forum and docket only gives an \"either place\" constraint. Once the main kinds are pinned, those overlapping constraints look mostly redundant. The gazette's two visible victims are already known to the killer's reach, so I'm checking how a third gazette trace would change the picture.\n\nI'm checking whether a gazette victim also reported in another place could change the picture: if that other place gets three traced victims, the killer could narrow the pool further, so I'm still weighing how much that would cost.\n\nI'm working through the remaining pool math: with two reachable kinds each traced three times, the pool would shrink to roughly 3,400, and the extra overlapping constraints from other places could narrow it further.\n\nI'm weighing whether the remaining kills should stay in the afternoon, since that rules out only the day workers while morning would also exclude students. Timed entries look unhelpful here, because the routines they could block are already ruled out by the two-death limit. The bigger question is how extra places like regional North or the hospital could add \"either place\" constraints that narrow the pool once they reach three traced victims.\n\nI'm checking whether a day-1 gazette victim with an extra place could matter: the extra place's constraint would be \"gazette OR that place,\" and that only bites if the place reaches three traced victims.\n\nI'm checking whether a victim reported in a second outlet could tighten the pool: if that outlet reaches three traced victims, the constraint is \"gazette OR that outlet\", which would cut the pool to about 1,375, still above 1,000. Since both day-1 gazette victims might have such extras, it's worth watching, but the extra constraints only bite once those other outlets accumulate traces. I'm also noting that the overlapping constraints on clips and hospital look redundant once clips is pinned.\n\nI'm settling the final pool estimate at about 3,400, possibly cut down to around 1,400 if the gazette victims' extra outlets add \"either place\" constraints, and since that's still workable I'll keep the plan and avoid the gazette.\n\nI'm weighing whether to risk the gazette kills for a few extra points, but a capture would halve my score, so it isn't worth it. Nine non-gazette kills a day is the right number, since the criminal pool only has eleven entries and two are gazette. The multiplier builds to 2x around day 4, and I'm checking how the window holds through day 5.\n\nWriting up the notes now, with the kills set for the afternoon slots.\n\n"
   },
   {
    "day": 4,
    "kills": [
     {
-     "id": "d4-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d4-1",
      "coverage": [
-      "cable",
       "foreign"
      ],
      "entry": "quick",
@@ -311,8 +303,8 @@
     {
      "id": "d4-4",
      "coverage": [
-      "cable",
-      "regional:South"
+      "clips",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -320,59 +312,21 @@
     {
      "id": "d4-5",
      "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-8",
-     "coverage": [
       "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d4-9",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-11",
+     "id": "d4-6",
      "coverage": [
       "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d4-11",
-    "d4-2",
-    "d4-8",
-    "d4-7",
-    "d4-1"
-   ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 3: the pool was 10k and the traced count 7, so L has acted on ONE of my non-gazette kinds (55k x 1/4 is about 13.75k, which rounds to 10k). When the second reachable kind gets 3 successful traces, expect the pool to be about 3k (55k/16, about 3400). That is safe. Day 1's 2 gazette kills both traced successfully, so SECTOR IS REACHABLE and gazette has 2 successes. RULE: NEVER kill any criminal carried in gazette. A 3rd gazette trace means the killer follows gazette (x0.2), which gives about 690 once both other kinds are acted on, and I would be caught. Of South, clips, forum and foreign, exactly 2 kinds are reachable, and one of them has now been acted on. Hidden extra reports only weaken L's constraints, so killing national plus all South, clips, forum and foreign victims is safe forever. A hidden report can never be gazette, since I follow gazette and would see it. PLAN EACH DAY: quick entries in the AFTERNOON only, since night workers, students and people at home are free then and the pool stays at 55%. Never use morning. Kill national plus every non-gazette criminal, usually 9 a day. Skip any criminal that also shows gazette. MULTIPLIER: deaths were 3 on day 1, then 9 a day. Day 4 reaches 30 (x2). Day 5 reaches 39 (x2, one short of 40; a gazette kill is NOT worth it). Day 6 onward reaches 45 (x4) as long as I keep about 9 a day (40 is needed in the last 5 days). If the pool ever falls toward 1-2k unexpectedly, rethink. Day 2: killed 9. Day 3: killed 9. Day 4: killed d4-1,2,3,4,5,7,8,9,11 (skipped gazette d4-6, d4-10).",
-   "error": null,
-   "input_tokens": 2965,
-   "output_tokens": 3864,
-   "seconds": 40.4,
-   "reasoning": "I'm checking the pool size after day three, which comes to about 10,000, with seven traced successful cases outside the national ones. The day-one figure of about 60,000 came from adding the afternoon free-routine rates, so now I'm working out what fraction of that remains.\n\nI'm testing whether a forum-only, South-region, clips or foreign-based constraint would explain the drop to about 10,000, since each of those would cut the 55,000 pool to roughly 13,750 and round to the same figure. The gazette has only two traced successes, so it shouldn't qualify, which leaves those four kinds as the candidates.\n\nI'm counting the successful traces now: two more from the gazette-style victims, bringing the non-national total to five across days two and three. Since the reachable kinds are only two of "
-  },
-  {
-   "day": 5,
-   "kills": [
+    },
     {
-     "id": "d5-6",
+     "id": "d4-7",
      "coverage": [
       "national"
      ],
@@ -380,19 +334,50 @@
      "block": "afternoon"
     },
     {
-     "id": "d5-1",
+     "id": "d4-8",
      "coverage": [
-      "foreign",
-      "radio"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
+     "id": "d4-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-1",
+    "d4-3",
+    "d4-4",
+    "d4-5",
+    "d4-6",
+    "d4-7",
+    "d4-8"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY. Make all quick kills in the AFTERNOON. That rules out day workers, so the base pool is 55,000. Kinds: R=regional:South, S=gazette (sector), G=clips (age), F=forum, X=foreign. L can reach 3 of the 5 kinds. The day 1 probe (national + 2 gazette, traced went 0 to 2) showed that SECTOR IS REACHABLE, and gazette already has 2 traced victims. RULE: NEVER kill a criminal whose reported_in includes gazette. If L pinned sector it would multiply the pool by 0.2 and I would be caught. So exactly 2 of R,G,F,X are reachable. L will learn both, giving a pool of about 55,000/16, roughly 3,400 (reported as 3000). The 4x multiplier is worth far more than any gazette kill. Always kill the maximum otherwise (usually 9 a day: national + 8 non-gazette). Possible extra leak: a day-1 gazette victim may also have been reported in an unfollowed place. If that place hits 3 traces, the constraint 'gazette OR that place' cuts the pool to about 0.4x, roughly 1,400, still above 1,000. Extras on my non-gazette victims are mostly redundant once their own kind is pinned. DANGER: if the pool reads 2000 or less, consider cutting kills from the riskiest kinds. If it reads 1000, I am probably done. MULTIPLIER (my kills per day): d1=3, d2=9, d3=9, d4=9. Day 4 window = 30, so 2x. Day 5 = 39, so 2x (40 is impossible, since gazette always takes 2 of the 11). Day 6 onward = 45, so 4x. Keep killing 9 every day to stay at 4x. PRESS LOG: d0 100000/0, d1 60000/2, d2 60000/4, d3 60000/5 (no place has reached 3 traces yet). KILL LOG: Day1: national + 2 gazette. Day2: national + 2 each of F,G,X,R (skipped gazette). Day3: national, 2X, 2G, 2F, 2R (skipped gazette). Day4: d4-1..d4-9 (2X, 2F, 2G, national, 2R), skipped gazette d4-10 and d4-11.",
+   "error": null,
+   "input_tokens": 3085,
+   "output_tokens": 2372,
+   "seconds": 20.8,
+   "reasoning": "I'm checking the pool size after day one: afternoon kills remove the day workers, which leaves 55%, so I'm rounding to about 60,000. I'm also tallying traced kills per day, and on day one both gazette kills were traced, so the sector looks reachable.\n\nI'm working out how many traces the non-gazette victims should produce, and concluding that so far the pool still looks fine at 60,000. Avoiding gazette kills and making today's kill of 9 keeps the day-4 multiplier at 2x. Over the long run the pool should settle around 3,400 for the two pinned kinds, plus whatever extras come in, and I'm also noting the risk of a single gazette victim being caught by an \"gazette OR X\" constraint.\n\nI'm weighing whether more kills are worth the risk: a gazette victim of mine can't show up in gazette, but they could appear in other outlets, so a constraint might pile onto a forum victim. I'm also estimating about 900 points from continued kills at the 4x multiplier, which is worth it even if being caught halves the gain, since the pool is still around 3,400.\n\nI'm checking whether the extras could shift things: a forum victim's trace may also allow a regional North constraint, but since forum is already pinned, that constraint is satisfied anyway. Without extras the pool is forum-only, and with them it grows slightly. The real worry is whether the pool shrinks when both pinned kinds are combined with the day's limits.\n\nI'm settling on nine kills for day four, all in the quick afternoon slot and none of them gazette, so the multiplier stays at 2x. I'll log those nine kill slots in my notes.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
      "id": "d5-2",
      "coverage": [
-      "docket",
-      "regional:South"
+      "blotter",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -400,8 +385,7 @@
     {
      "id": "d5-3",
      "coverage": [
-      "regional:East",
-      "regional:South"
+      "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -409,15 +393,23 @@
     {
      "id": "d5-4",
      "coverage": [
-      "clips"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-5",
+     "id": "d5-6",
      "coverage": [
-      "forum"
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -425,8 +417,7 @@
     {
      "id": "d5-8",
      "coverage": [
-      "forum",
-      "wire"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -434,8 +425,16 @@
     {
      "id": "d5-9",
      "coverage": [
-      "clips",
-      "radio"
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -443,29 +442,31 @@
     {
      "id": "d5-11",
      "coverage": [
-      "foreign"
+      "clips",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d5-2",
+    "d5-4",
     "d5-6",
     "d5-8",
-    "d5-2",
-    "d5-5",
-    "d5-4"
+    "d5-9",
+    "d5-10"
    ],
    "points_today": 18,
    "multiplier": 2,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 4: the pool was 3k and the traced count 8, which matches the prediction (55k/16, about 3400). So L has now acted on BOTH reachable non-gazette kinds. Sector is reachable (day 1's 2 gazette kills both traced) and gazette has 2 successful traces. RULE: NEVER kill any criminal carried in gazette. A 3rd gazette trace would cut the pool by about x0.2 to roughly 690, and I would be caught. Killing national plus any South, clips, forum or foreign victim (with no gazette report) is safe forever. L's constraints from those kinds are already in force, and hidden extra reports only add OR-options, which weaken his constraints. PLAN EACH DAY: quick entries in the AFTERNOON only (night workers, students and people at home are free then). Never use morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip any criminal whose reports include gazette. MULTIPLIER: deaths were 3 on day 1, then 9 on each of days 2-5. Day 5 total 39 (x2). From day 6 onward the last-5-day count is 45 or more (x4), as long as I keep about 9 a day. On day 5 I considered a gazette kill to reach 40 (x4 today) but rejected it: about a 45% chance of capture, losing half of everything plus about 900 future points. If a day has fewer than 8 non-gazette criminals, check whether the window still reaches 40. If the pool ever moves below 3k unexpectedly, rethink (for example, a hidden-report effect). Day 2: killed 9. Day 3: killed 9. Day 4: killed 9 (skipped gazette d4-6, d4-10). Day 5: killed d5-1,2,3,4,5,6,8,9,11 (skipped gazette d5-7, d5-10).",
+   "notes_to_self": "STRATEGY. Make all quick kills in the AFTERNOON. That rules out day workers, so the base pool is 55,000. Kinds: R=regional:South, S=gazette (sector), G=clips (age), F=forum, X=foreign. L can reach 3 of the 5 kinds. The day 1 probe (national + 2 gazette, both traced) showed SECTOR IS REACHABLE, and gazette has 2 traced victims. My non-gazette kills can never add to the gazette count. RULE: NEVER kill a gazette criminal. If L pinned sector it would multiply the pool by 0.2, giving about 690 once the other kinds are pinned, and I would be caught. Exactly 2 of R,G,F,X are reachable. After day 4 the pool read 10000, about 13,750, so ONE reachable kind is now pinned. The second will pin soon, giving about 3,400 (reads 3000). That is the expected floor and it is safe. Extras on my non-gazette victims are redundant once their own kind is pinned, so they are harmless. Residual risk: a day-1 gazette victim had an extra in a reachable place that reaches 3 traces, giving 0.4x, about 1,400, still safe. If both did, I could be caught. Nothing can be done about that. If the pool reads 2000 or less, reconsider. If it reads 1000 or less, I am probably done. MULTIPLIER (my kills per day): d1=3, d2=9, d3=9, d4=9, d5=9. Day 5 window = 39, so 2x. (40 was possible only by killing a gazette criminal, rejected as too risky.) Day 6 window = d2..d6, which is 36 plus day 6, so 4x. Keep killing 9 a day (national + 8 non-gazette), which keeps 4x for the rest of the game. That is about 36 points a day, so never risk capture for small gains. PRESS LOG: d0 100000/0, d1 60000/2, d2 60000/4, d3 60000/5, d4 10000/8 (first kind pinned). KILL LOG: Day1: national + 2 gazette. Days 2-4: national + 2 each of R,G,F,X. Day 5: d5-2,3,4,6,7,8,9,10,11 (skipped gazette d5-1 and d5-5).",
    "error": null,
-   "input_tokens": 3147,
-   "output_tokens": 2134,
-   "seconds": 21.4,
-   "reasoning": "The pool is at 3k after day 4, matching the expected 3400, so the two reachable non-gazette kinds have both acted. Gazette has two successful traces, and sector is reachable. Since L can only reach some of the five kinds, I'm checking how many of them count as reachable: sector plus one more, which leaves two of the remaining four (regional, age, forum, foreign) to sort out.\n\nI'm checking whether the remaining hidden reports could narrow the pool any further. A weaker \"clips or docket\" trace adds nothing beyond the constraints already in force, so the count holds, and acting on a third kind would mean going against my own plan to avoid gazette.\n\nI'm checking the hidden-report cases: a South victim also listed in docket, or a victim reported in a sector place like hospital, both still fall "
+   "input_tokens": 3292,
+   "output_tokens": 4389,
+   "seconds": 45.2,
+   "reasoning": "I'm checking the pool figures: it dropped from 60,000 to 10,000 after day 4. My base estimate is about 55,000 from the free-time groups, and the drop would mean a factor near 0.18 to 0.2.\n\nI'm working out whether the 10,000 figure fits a factor of 0.2 (one sector pinned) or 0.25 (one of the four kinds pinned), since both round to 10,000. A 0.25 times 0.25 combination gives 3,000, so only one restriction can be in play. I'm also ruling out the gazette-or-X idea, since 0.4 would give 20,000.\n\nI'm checking whether the pinned kind can account for the pool drop, and a 0.25 factor on 13,750 still rounds to 10,000. I'm also considering that an extra reported in an unfollowed place, like a docket, might push one of the other counts up.\n\nI'm still sorting through the pinned-kind cases: one kind pinned leaves 13,750 against the pool, which rounds to 10,000. The next question is whether extras in docket or other unfollowed places could push a second count to 3 and tighten the pool further.\n\nI'm checking whether the 10,000 could instead come from a sector restriction (factor 0.2, giving 11,000), which would mean the gazette-linked victims carry an extra constraint that shrinks the pool further. Extras in other outlets look unlikely to matter much, but two overlapping OR-constraints could still push the actual count well below the rounded figure.\n\nI'm reasoning that the pool shrinking to 10,000 can't be explained by a sector restriction, since the gazette count is already at its maximum of two traces and my kills can't raise it further. So one of the reachable kinds is pinned at a 0.25 factor, possibly with some extra-place constraints on top. Since every additional kill now is worth a lot, I'm weighing whether to keep going at this pace.\n\nI'm weighing whether to go for a gazette kill now: if it pushes the day's total to 40, today's kills would each score 4x instead of 2x, but a third gazette trace would likely pin the sector and shrink the pool enough to get me caught.\n\nI'm noting that the gazette constraint is mostly pinned, and that a quick limit of 10 kills a day plus the timed one would allow up to 12 entries against 11 criminals, so killing all of them is technically possible. Going for a gazette kill would push today to 40 points total and make every kill worth 4x, but the capture risk outweighs a gain of about 22 points over the remaining 25 days of scoring.\n\nI'm weighing whether the remaining non-gazette kills could create extra constraints: the main risk is victims also reported in reachable places, which could push some place count up. Since only a few kinds are reachable, those overlapping extras are what I need to keep an eye on.\n\nI'm sorting out how the unfollowed places, about ten of them across regions, sectors and age bands, could each pick up a few extra traces over the coming days. If a victim of mine is reported in a place that's also reachable, a docket-type count could climb toward three, and the constraint would then depend on whether that victim's own kind is already pinned.\n\nI'm checking whether the remaining constraints really matter: most extras land in places that are already pinned, so they're redundant. The one real risk is the day-one gazette victims, where an extra in another place could push the pool factor down to about 0.4 and the rounded figure toward 1,000.\n\nI'm treating the rest of the pool estimate as fine for now. Two gazette victims with extras in different pinned places could still push the pool lower, but I can't change that now. I'm not going to try to reshape the kill pattern around it.\n\nI'm planning to use the afternoon to take out the rest of the criminals in a quick run, and I'll note that a gazette kill on day five could have pushed the day to 40 points, though the capture risk makes it too dangerous. From day six on, I need at least four kills that day to keep the 4x multiplier, and then I'll update the press log.\n\n"
   },
   {
    "day": 6,
@@ -481,7 +482,8 @@
     {
      "id": "d6-1",
      "coverage": [
-      "forum"
+      "regional:South",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -489,8 +491,15 @@
     {
      "id": "d6-2",
      "coverage": [
-      "clips",
-      "docket"
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -498,7 +507,8 @@
     {
      "id": "d6-4",
      "coverage": [
-      "regional:South"
+      "foreign",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -506,7 +516,7 @@
     {
      "id": "d6-6",
      "coverage": [
-      "foreign"
+      "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -514,16 +524,7 @@
     {
      "id": "d6-7",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-8",
-     "coverage": [
-      "blotter",
-      "forum"
+      "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -531,7 +532,7 @@
     {
      "id": "d6-9",
      "coverage": [
-      "clips"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -539,29 +540,28 @@
     {
      "id": "d6-10",
      "coverage": [
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d6-6",
-    "d6-8",
-    "d6-10",
-    "d6-11",
-    "d6-4"
+    "d6-1",
+    "d6-3",
+    "d6-4",
+    "d6-6"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 4: the pool was 3k and the traced count 8, which matches the prediction (55k/16, about 3400). So L has now acted on BOTH reachable non-gazette kinds. Sector is reachable (day 1's 2 gazette kills both traced) and gazette has 2 successful traces. RULE: NEVER kill any criminal carried in gazette. A 3rd gazette trace would cut the pool by about x0.2 to roughly 690, and I would be caught. Killing national plus any South, clips, forum or foreign victim (with no gazette report) is safe forever. A hidden extra report only adds an OR-option the pool already satisfies, or it makes the trace fail. PLAN EACH DAY: quick entries in the AFTERNOON only. Never use morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. MULTIPLIER: deaths were 3 on day 1, then 9 on each of days 2-6. The 5-day window needs 40 or more for x4. With 9 a day the window is 45. If a day has fewer non-gazette criminals, check whether the window still reaches 40 (sum of the last 4 days plus today). If the pool ever moves below 3k unexpectedly, rethink. Day 2: killed 9. Day 3: killed 9. Day 4: killed 9. Day 5: killed 9 (skipped gazette d5-7, d5-10). Day 6: killed d6-1,2,4,6,7,8,9,10,11 (skipped gazette d6-3, d6-5). Window today 45, so x4.",
+   "notes_to_self": "STRATEGY. Make all quick kills in the AFTERNOON. That rules out day workers, so the base pool is 55,000. Kinds: R=regional:South, S=gazette (sector), G=clips (age), F=forum, X=foreign. L can reach 3 of the 5 kinds. The day 1 probe (national + 2 gazette, both traced) showed SECTOR IS REACHABLE, and gazette has 2 traced victims. RULE: NEVER kill a gazette criminal. A third traced gazette victim would pin sector (x0.2), giving about 690, and I would be caught. Exactly 2 of R,G,F,X are reachable. Both are now pinned: the pool read 3000 after day 5, about 3,437 (55000 x 0.25 x 0.25). That is the expected floor and it is safe. Extras on my non-gazette victims are redundant (an 'X or Y' constraint where X is already pinned does nothing). Residual risk: a day-1 gazette victim had an extra in some unfollowed place, and my victims' extras push that place to 3 traces, giving 0.4x, about 1,400, still safe. If both did, I could be caught. This is small and unavoidable. If the pool reads 2000, reconsider (perhaps cut kills). If it reads 1000 or less, I am probably done. MULTIPLIER: kills per day d1=3, d2..d6=9 each. Keep killing 9 a day (national + 8 non-gazette, all quick, afternoon). That keeps the 5-day window at 45 (at least 40), so 4x, about 36 points a day. PRESS LOG: d0 100000/0, d1 60000/2, d2 60000/4, d3 60000/5, d4 10000/8, d5 3000/9 (second kind pinned, floor reached). KILL LOG: Day1: national + 2 gazette. Days 2-5: national + 8 non-gazette. Day 6: d6-1,2,3,4,6,7,9,10,11 (skipped gazette d6-5 and d6-8).",
    "error": null,
-   "input_tokens": 3288,
-   "output_tokens": 2185,
-   "seconds": 21.7,
-   "reasoning": "I'm double-checking the arithmetic on the pool: it starts at 100k, drops to 60k after day one, and then shrinks to 10k on day three and 3k on day four. I'm also working out which kinds of people were still reachable, since the notes say L acted on two of them.\n\nI'm checking the pool figures against the notes: the gazette traces worked, which leaves three reachable kinds out of five, so I'm reconciling the drops of a quarter each with the numbers I already have. I'm also weighing whether a victim reported in a hidden outlet could count toward the docket's three traces.\n\nI'm checking whether the constraints from the docket victims could shrink the pool beyond what the notes assume. Each victim reported in a hidden outlet might add a \"this OR that\" condition, and if the reachable outlets don'"
+   "input_tokens": 3445,
+   "output_tokens": 2376,
+   "seconds": 23.0,
+   "reasoning": "I'm checking the pool after day 5, which reads 3000 and matches the expectation that the second kind is pinned. The base works out to 55,000, and 55,000 \u00d7 0.25 \u00d7 0.25 comes to about 3,437, so the reading of 3000 checks out. Next I'm turning to the risk on traced victims: if a victim was reported somewhere I'm not following, the killer must have followed at least one of the places I am.\n\nChecking whether a traced victim's report in an unfollowed place changes anything: the constraint becomes \"clips OR that place,\" which is weaker than clips alone, so the existing pin already covers it. The same goes for an unreachable kind, where the trace just fails. The constraint only bites once three traced victims share a place, and any disjunction with my followed place can only narrow the pool if it does real work, which these don't.\n\nI'm working through the remaining risk: if a victim's extra place is one I don't follow, the constraints that result are disjunctions that include my followed place, so they only narrow the pool when they do real work. Day-1 gazette victims are the dangerous case, since the gazette reaching three traced victims would pin it, and a podcasts overlap could add a weaker constraint that still carries some residual risk. Every further kill adds a small chance of growing an extra place's count, which I can't avoid while I keep killing.\n\nChecking the remaining options: with 11 criminals visible and 2 of them gazette, there are 9 non-gazette kills a day at 4x, roughly 36 points daily over 25 days. Gazette kills stay off the table, since one more traced gazette victim would pin that place and halve the pool. Which two kinds are pinned is still unknown, and the day 4 drop in traced deaths doesn't settle it.\n\nChecking the remaining kills: the 9 non-gazette criminals each day hold the 4x multiplier through day 6, and the routine stays consistent with night, student, and home, so the pool doesn't narrow further. I'll keep the same nine targets in the afternoon and leave the gazette ones alone.\n\n"
   },
   {
    "day": 7,
@@ -577,13 +577,14 @@
     {
      "id": "d7-1",
      "coverage": [
-      "foreign"
+      "regional:North",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-3",
+     "id": "d7-2",
      "coverage": [
       "clips"
      ],
@@ -593,8 +594,15 @@
     {
      "id": "d7-4",
      "coverage": [
-      "foreign",
-      "regional:North"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -603,7 +611,7 @@
      "id": "d7-6",
      "coverage": [
       "forum",
-      "regional:East"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -611,7 +619,7 @@
     {
      "id": "d7-7",
      "coverage": [
-      "clips"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -619,7 +627,7 @@
     {
      "id": "d7-8",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -627,2062 +635,32 @@
     {
      "id": "d7-9",
      "coverage": [
-      "blotter",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-11",
-     "coverage": [
-      "docket",
-      "regional:South"
+      "clips",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d7-4",
     "d7-10",
-    "d7-7",
+    "d7-1",
+    "d7-5",
     "d7-6",
+    "d7-7",
+    "d7-8",
     "d7-9"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: After day 4 the pool was 3k and the traced count 8. This matches the prediction of 55k/16, about 3400. So L has acted on BOTH reachable non-gazette kinds. Sector is reachable (day 1's 2 gazette kills were both traced), and gazette already has 2 successful traces. The pool stayed at 3k after days 5 and 6 (traced 10, then 12), which confirms the plan is safe. RULE: NEVER kill any criminal carried in gazette, even on the last day. A 3rd gazette trace would cut the pool by about x0.2 to roughly 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A hidden extra report only adds an OR-option the pool already satisfies, or it makes the trace fail. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 on each of days 2-7. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check whether the window still reaches 40 (sum of the last 4 days plus today). If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-6 killed 9 each. Day 7: killed d7-1,3,4,6,7,8,9,10,11 and skipped gazette d7-2 and d7-5. Window 45, so x4.",
-   "error": null,
-   "input_tokens": 3363,
-   "output_tokens": 1712,
-   "seconds": 17.0,
-   "reasoning": "I'm double-checking the arithmetic: the pool is at 3000 now, and the afternoon routines free up 55% of people, which comes to 55k from the 100k. The earlier figure of 60k was a rounding of that, and then the later days dropped to 10k and 3k, so I'm confirming the 55k divided by 16 lands near 3k.\n\nI'm sorting out which of the remaining reports are reachable, since two of the five are unreachable and the sector one is reachable. That leaves two more reachable among the other four, and both have already cut the pool by a quarter, so further kills there won't change the count. I also want to check whether a victim reported in both clips and docket could be counted twice.\n\nI'm checking whether the remaining kills could add to the pool, and the only ones left are the gazette criminals. Tracing t"
-  },
-  {
-   "day": 8,
-   "kills": [
-    {
-     "id": "d8-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-1",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-3",
-     "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-4",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-5",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-6",
-     "coverage": [
-      "regional:North",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-8",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-10",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d8-4",
-    "d8-1",
-    "d8-5",
-    "d8-3",
-    "d8-7"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool was 3k after day 4 and has stayed at 3k through day 7 (traced count 14). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim must involve one of the two acted-on kinds, so its OR-constraint is already satisfied by the whole pool. A hidden report in an unreachable place makes the trace fail. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day on days 2-8. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-7 killed 9 each. Day 8: killed d8-1,3,4,5,6,7,8,10,11 and skipped gazette d8-2 and d8-9. Window 45, so x4. Points were 129 before day 8, plus 36 today.",
-   "error": null,
-   "input_tokens": 3542,
-   "output_tokens": 2231,
-   "seconds": 21.9,
-   "reasoning": "I'm double-checking the numbers: the pool sits at 3000 after day 4, and the routine only removes day workers, which leaves 55% of the 100k. That gives 55k, which I'm reconciling with the earlier pool figures.\n\nI'm checking whether the gazette's two traces mean the sector is reachable, since a third trace there would have caught the killer. The non-gazette kills then come down to which two of the 1/4 kinds were acted on.\n\nI'm checking whether the sector at the hidden end of the trace chain is reachable, and how a hidden extra report could change the trace constraints. If an acted-upon place is the only overlap, the existing pool already satisfies those constraints, so the reasoning holds as long as the places I follow are the ones the victims were reported in.\n\nI'm checking that any success"
-  },
-  {
-   "day": 9,
-   "kills": [
-    {
-     "id": "d9-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-2",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-3",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-4",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-5",
-     "coverage": [
-      "regional:North",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d9-5",
-    "d9-2",
-    "d9-6",
-    "d9-11",
-    "d9-1"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool was 3k after day 4 and has stayed at 3k through day 8 (traced count 15). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so it must involve an acted-on kind, and its OR-constraint is already satisfied by the whole pool. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-8 killed 9 each. Day 9: killed d9-1,2,3,4,5,6,9,10,11 and skipped gazette d9-7 and d9-8. Window 45, so x4. Points were 165 before day 9, plus 36, so about 201.",
-   "error": null,
-   "input_tokens": 3762,
-   "output_tokens": 2052,
-   "seconds": 18.9,
-   "reasoning": "I'm double-checking the numbers: the pool drops to 3k after day 4, the routine filter removes people who are only free in the afternoon, and that leaves 55% of the 100k, or 55k. From there I'm working through how the pool shrinks on later days.\n\nI'm checking whether sector could be reachable: the two day-1 gazette victims were both traced successfully, and national reports don't count, so the sector has to be reachable. That leaves the acted-on kinds as two of regional, age, forum, and foreign, each cutting the pool by a quarter.\n\nI'm checking whether a victim traced in a hidden outlet could push a place's count to three. The hidden outlet is never one I follow, but it could be another sector outlet, so if age is unreachable the trace fails anyway, and the earlier reasoning still holds.\n\nI"
-  },
-  {
-   "day": 10,
-   "kills": [
-    {
-     "id": "d10-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-2",
-     "coverage": [
-      "foreign",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-5",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-7",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-8",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-9",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d10-1",
-    "d10-7",
-    "d10-8",
-    "d10-10",
-    "d10-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 9 (traced count 17). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so it must involve an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports (e.g. docket) are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-9 killed 9 each. Day 10: killed d10-1,2,3,5,6,7,8,9,10 and skipped gazette d10-4 and d10-11. Window 45, so x4. Points were 201 before day 10, plus 36, so about 237.",
-   "error": null,
-   "input_tokens": 3941,
-   "output_tokens": 1722,
-   "seconds": 15.9,
-   "reasoning": "I'm double-checking the numbers: the pool is 3k, and the routine afternoon cuts leave about 55%, which comes to 55k. Applying the quarter-times-quarter fraction gives roughly 3k again, so I'm now looking at how the gazette kills after day one moved the pool to 60k.\n\nI'm checking the gazette traces: two of the three kills on day one were traced successfully, so the gazette is already at its limit and I'll avoid it. I'm also considering the other kinds of kills, and whether a victim's unreachable places would cause a trace to fail.\n\nI'm working through the kill count for today: nine kills across days 6 through 9, giving a window of 45 that I'll scale by four, which brings the points to 237.\n\n"
-  },
-  {
-   "day": 11,
-   "kills": [
-    {
-     "id": "d11-1",
-     "coverage": [
-      "docket",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-4",
-     "coverage": [
-      "forum",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-5",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-8",
-     "coverage": [
-      "radio",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-10",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-11",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d11-4",
-    "d11-9",
-    "d11-5",
-    "d11-8",
-    "d11-11"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 10 (traced count 19). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so it must involve an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports (e.g. docket) are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-10 killed 9 each. Day 11: killed d11-1,3,4,5,6,8,9,10,11 and skipped gazette d11-2 and d11-7. Window 45, so x4. Points were 237 before day 11, plus 36, so about 273.",
-   "error": null,
-   "input_tokens": 4132,
-   "output_tokens": 1848,
-   "seconds": 16.9,
-   "reasoning": "I'm checking the pool math: the routine filter rules out the day workers, leaving 55% of the 100k, so 55k. Then I'm working through the reductions after each day to see where the 3437 figure comes from.\n\nI'm checking whether more traces could shrink the pool further. Victims reported in the forum with the docket hidden add nothing, since the pool already follows the forum, and South-only cases don't narrow it either. I'm also weighing whether one of the two unacted sectors might still be reachable, but the notes assume both are unreachable.\n\nNext I'm checking the multiplier: nine deaths on each of days 7 through 10 plus nine today makes 45, which clears the 40 threshold for the x4. I'm picking the nine kills for day 11 and tallying the points as 273.\n\n"
-  },
-  {
-   "day": 12,
-   "kills": [
-    {
-     "id": "d12-2",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-3",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-4",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-6",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-8",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-9",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-10",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d12-5",
-    "d12-9",
-    "d12-7",
-    "d12-3",
-    "d12-2"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 11 (traced count 22). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports (e.g. docket) are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-11 killed 9 each. Day 12: killed d12-2 through d12-10 (9 kills) and skipped gazette d12-1 and d12-11. Window 45, so x4. Points 273 before day 12, plus 36, so about 309.",
-   "error": null,
-   "input_tokens": 4295,
-   "output_tokens": 1727,
-   "seconds": 15.2,
-   "reasoning": "I'm checking the arithmetic again: after the routine kills, the free pool in the afternoon is 55%, and the 3000 figure holds up as roughly 55k times two quarters. Then I'm turning to the gazette, which I've traced twice on day one.\n\nI'm working through the remaining case where a victim was reported in two places, like docket and forum, and checking whether a trace on that victim can succeed when one of those places is unreachable.\n\nI'm checking whether the hidden-report cases hold up: any successful trace needs every place reachable, and with sector plus two kinds acted on, the remaining two are out of reach, so the constraint is satisfied. The gazette risk still stands. Next I'm working out today's multiplier: 9 kills in a 45-minute window gives x4, and the afternoon kills bring the total"
-  },
-  {
-   "day": 13,
-   "kills": [
-    {
-     "id": "d13-1",
-     "coverage": [
-      "hospital",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-2",
-     "coverage": [
-      "forum",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-3",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-5",
-     "coverage": [
-      "foreign",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-6",
-     "coverage": [
-      "podcasts",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-8",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-9",
-     "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d13-9",
-    "d13-8",
-    "d13-1",
-    "d13-7",
-    "d13-6"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 12 (traced count 23). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports (e.g. docket) are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-12 killed 9 each. Day 13: killed d13-1,2,3,5,6,7,8,9,10 (9 kills) and skipped gazette d13-4 and d13-11. Window 45, so x4. Points 309 before day 13, plus 36, so about 345.",
-   "error": null,
-   "input_tokens": 4457,
-   "output_tokens": 1097,
-   "seconds": 8.8,
-   "reasoning": "I'm checking the plan against the multiplier: days 9 through 13 come to 45 with today's 9, so the multiplier is x4. Then I'm going to double-check the pool, since the traced count moved from 22 to 23 with a pool of 3k, which fits the plan. Points come to 345.\n\n"
-  },
-  {
-   "day": 14,
-   "kills": [
-    {
-     "id": "d14-1",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-4",
-     "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-5",
-     "coverage": [
-      "clips",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-6",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-7",
-     "coverage": [
-      "foreign",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d14-2",
-    "d14-1",
-    "d14-6",
-    "d14-10",
-    "d14-7"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 13 (traced count 26). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports (e.g. docket) are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-13 killed 9 each. Day 14: killed d14-1,2,3,4,5,6,7,9,10 (9 kills) and skipped gazette d14-8 and d14-11. Window 45, so x4. Points 345 before day 14, plus 36, so about 381.",
-   "error": null,
-   "input_tokens": 4630,
-   "output_tokens": 1607,
-   "seconds": 14.2,
-   "reasoning": "I'm checking the plan by confirming the pool is down to 3000 after day 4. Ruling out day workers because the afternoon kills leaves 55%, which gives roughly 55k out of 100k, and the counts work out to about 3437 per day across the remaining days.\n\nI'm checking which places the remaining victims could be reached through, and confirming that the third gazette trace would push the count past the threshold, so I'll skip it. The only constraints that matter are from places I can actually follow, so the unreachable kinds don't change anything. The kill set comes out to days 14 through 7, 9, and 10, with the window on days 10 to 13 giving 45 points multiplied by 4, for 381 total.\n\n"
-  },
-  {
-   "day": 15,
-   "kills": [
-    {
-     "id": "d15-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-2",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-3",
-     "coverage": [
-      "clips",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-5",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-7",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-8",
-     "coverage": [
-      "blotter",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-11",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d15-2",
-    "d15-7",
-    "d15-9",
-    "d15-1",
-    "d15-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 14 (traced count 28). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports (e.g. docket) are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: deaths were 3 on day 1, then 9 a day from day 2 onward. The 5-day window needs 40 or more for x4, and 9 a day gives 45. If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-14 killed 9 each. Day 15: killed d15-1,2,3,4,5,7,8,9,11 (9 kills) and skipped gazette d15-6 and d15-10. Window 45, so x4. Points 381 before day 15, plus 36, so about 417.",
-   "error": null,
-   "input_tokens": 4793,
-   "output_tokens": 1244,
-   "seconds": 10.5,
-   "reasoning": "I'm going with the plan to kill everything except the two gazette traces, d15-6 and d15-10, so that's nine kills to do this afternoon. Counting days 11 through 14 gives 36, plus the 9 makes 45, which times four is the figure I'm working toward. I'm also weighing whether a third gazette trace would shrink the pool, since the hidden reports might sit in a sector I'm not tracking, like docket.\n\nI'm checking whether the docket sector is reachable, and if South is, a trace there would succeed and count toward docket too, so a third trace wouldn't shrink the pool further. I'm also totaling the points: 381 plus 36 gives 417, so I'll update the notes.\n\n"
-  },
-  {
-   "day": 16,
-   "kills": [
-    {
-     "id": "d16-1",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-2",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-3",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-4",
-     "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-6",
-     "coverage": [
-      "forum",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-7",
-     "coverage": [
-      "regional:South",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-9",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-10",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-11",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d16-11",
-    "d16-9",
-    "d16-10",
-    "d16-2",
-    "d16-1"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 15 (traced count 31). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-15 killed 9 each. Day 16: killed d16-1,2,3,4,6,7,9,10,11 (9 kills) and skipped gazette d16-5 and d16-8. Points were 417 before day 16, plus 36, so about 453.",
-   "error": null,
-   "input_tokens": 4956,
-   "output_tokens": 1095,
-   "seconds": 9.0,
-   "reasoning": "I'm working out the plan: the gazette criminals are d16-5 and d16-8, so the other 9 get handled in the afternoon. I'm checking that the pool of 3k still matches the traced count rising from 28 to 31, and it does. I'm also weighing the routine filter, since afternoon-only rules out day workers and leaves about 55% of people in the pool.\n\nI'm multiplying the nine afternoon kills per day by the window length to get 45, which gives the x4 factor, and then updating the notes.\n\n"
-  },
-  {
-   "day": 17,
-   "kills": [
-    {
-     "id": "d17-1",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-2",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-3",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-7",
-     "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-8",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-9",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-10",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-11",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d17-2",
-    "d17-3",
-    "d17-7",
-    "d17-9",
-    "d17-1"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 16 (traced count 32 after day 16). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and its OR-constraint is already satisfied by the whole pool. Hidden sector reports are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the sum of the last 4 days plus today still reaches 40. If the pool ever moves below 3k unexpectedly, rethink. LOG: Days 2-16 killed 9 each. Day 17: killed d17-1,2,3,4,7,8,9,10,11 (9 kills) and skipped gazette d17-5 and d17-6. Points were 453 before day 17, plus 36, so about 489.",
-   "error": null,
-   "input_tokens": 5079,
-   "output_tokens": 1020,
-   "seconds": 8.4,
-   "reasoning": "I'm going ahead with the plan and stopping the non-gazette processes, d17-1 through 4, 7 through 11, while leaving 5 and 6 running. The pool has held steady around 3k, so it still looks safe. I'll make some quick afternoon entries and update the notes.\n\n"
-  },
-  {
-   "day": 18,
-   "kills": [
-    {
-     "id": "d18-2",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-4",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-5",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-6",
-     "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-11",
-     "coverage": [
-      "regional:South",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d18-8",
-    "d18-11",
-    "d18-5",
-    "d18-4",
-    "d18-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 17 (35 deaths traced after day 17). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and the pool already satisfies its OR-constraint. Hidden sector reports are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-17 killed 9 each. Day 18: killed d18-2,3,4,5,6,7,8,10,11 (9 kills) and skipped gazette d18-1 and d18-9. Points were 489 before day 18, plus 36, so about 525.",
-   "error": null,
-   "input_tokens": 5247,
-   "output_tokens": 1129,
-   "seconds": 9.1,
-   "reasoning": "I'm sticking with the plan and keeping the pool at 3k, so the afternoon cuts stand for most of the day-18 entries, with the gazette ones skipped. I'm double-checking the pool math: the routine filter lands near 60k after day one, which works out once the afternoon percentages are rounded. Next I'm wondering whether the timed entries could add anything.\n\nI'm ruling out the timed entries too: they're capped at two a day, and every non-gazette criminal is already on the kill list, so the only ones left would be gazette criminals, which are off limits. Nothing to add there. Next I'll update my notes.\n\n"
-  },
-  {
-   "day": 19,
-   "kills": [
-    {
-     "id": "d19-1",
-     "coverage": [
-      "clips",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-3",
-     "coverage": [
-      "blotter",
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-4",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-6",
-     "coverage": [
-      "foreign",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-8",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-10",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-11",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d19-8",
-    "d19-10",
-    "d19-11",
-    "d19-9",
-    "d19-4"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 18 (38 deaths traced after day 18). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and the pool already satisfies its OR-constraint. Hidden sector reports are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-18 killed 9 each. Day 19: killed d19-1,3,4,6,7,8,9,10,11 (9 kills) and skipped gazette d19-2 and d19-5. Points were 525 before day 19, plus 36, so about 561.",
-   "error": null,
-   "input_tokens": 5402,
-   "output_tokens": 1555,
-   "seconds": 13.1,
-   "reasoning": "I'm checking the numbers: the pool is 3k, and after filtering out afternoon-busy people, about 55% remain, so roughly 55k. Dividing 55k by 16 gives about 3,437, which rounds to 3k, so the arithmetic holds. I'm now weighing whether the two groups are each 1/4 or whether one is a 1/5 sector.\n\nI'm checking whether the 55k pool could instead be split by a 1/5 sector, giving about 2,750, which also rounds to 3k. The gazette has only two traces so far, and the limit is three, so I don't think that applies yet. The day's kills are all non-gazette and afternoon-quick, so the multiplier is 4 regardless. I'll update the day 19 log and the points to 561.\n\n"
-  },
-  {
-   "day": 20,
-   "kills": [
-    {
-     "id": "d20-1",
-     "coverage": [
-      "regional:South",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-2",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-3",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-4",
-     "coverage": [
-      "cable",
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-5",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-6",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-7",
-     "coverage": [
-      "cable",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-10",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d20-9",
-    "d20-2",
-    "d20-4",
-    "d20-10",
-    "d20-5"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 19 (40 deaths traced after day 19). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and the pool already satisfies its OR-constraint. Hidden reports are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-19 killed 9 each. Day 20: killed d20-1,2,3,4,5,6,7,9,10 (9 kills) and skipped gazette d20-8 and d20-11. Points were 561 before day 20, plus 36, so about 597.",
-   "error": null,
-   "input_tokens": 5565,
-   "output_tokens": 1533,
-   "seconds": 13.2,
-   "reasoning": "I'm going ahead and eliminating the nine non-gazette criminals today, skipping d20-8 and d20-11. Then I want to recheck the math: the pool is at 3k, with a routine filter of 55k from night workers, home, and students combined, and two kinds being acted on, each worth a quarter, which comes to about 3400.\n\nI'm checking whether a hidden report in an acted-on kind could change the plan. The OR constraints already include places I can reach, and the gazette only has two victims and is never hidden-reported into, so nothing needs to change. I'll update the log.\n\n"
-  },
-  {
-   "day": 21,
-   "kills": [
-    {
-     "id": "d21-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-2",
-     "coverage": [
-      "cable",
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-3",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-5",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-7",
-     "coverage": [
-      "docket",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d21-3",
-    "d21-5",
-    "d21-8",
-    "d21-10",
-    "d21-2"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 20 (42 deaths traced after day 20). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. A successful trace of such a victim needs every place reachable, so its non-sector place must be an acted-on kind, and the pool already satisfies its OR-constraint. Hidden reports are also harmless, since the OR includes my acted-on place. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-20 killed 9 each. Day 21: killed d21-1,2,3,4,5,7,8,9,10 (9 kills) and skipped gazette d21-6 and d21-11. Points were 597 before day 21, plus 36, so about 633.",
-   "error": null,
-   "input_tokens": 5726,
-   "output_tokens": 1166,
-   "seconds": 9.7,
-   "reasoning": "I'm going with the plan to eliminate every non-gazette player, which is 21-1 through 21-10 except 6. The afternoon should be quick, and I'm tallying the score at 597 plus 36, so 633. I'm also double-checking that the gazette traces add up: two gazette kills on day one, two traced deaths, and since the national deaths don't count, that leaves just those two.\n\nI'm checking the gazette trace count: the two traced deaths stand, and the national ones don't count. I'm also confirming the score holds and that the multiplier works out with nine kills over the days 17 to 21 window, giving 45.\n\n"
-  },
-  {
-   "day": 22,
-   "kills": [
-    {
-     "id": "d22-1",
-     "coverage": [
-      "forum",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-2",
-     "coverage": [
-      "docket",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-3",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-6",
-     "coverage": [
-      "foreign",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-7",
-     "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-10",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d22-9",
-    "d22-6",
-    "d22-2",
-    "d22-11",
-    "d22-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 21 (45 deaths traced after day 21). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-21 killed 9 each. Day 22: killed d22-1,2,3,6,7,8,9,10,11 (9 kills) and skipped gazette d22-4 and d22-5. Points were 633 before day 22, plus 36, so about 669.",
-   "error": null,
-   "input_tokens": 5889,
-   "output_tokens": 1267,
-   "seconds": 10.8,
-   "reasoning": "I'm checking the arithmetic: the pool is a steady 3000, and the routine-filter breakdown of night workers, students, and home gives 55%, or 55k. Day 1's 60k looks like that figure rounded to one significant figure, which holds up. Next I'm working out whether the 3k figure lines up with 55k divided by 16.\n\nI'm checking whether the gazette victim's trace can succeed, and decide the rule to skip gazette still applies. Today's plan is to take the nine non-gazette criminals in the afternoon for 36 points, bringing the total to 669. Killing gazette criminals looks too risky, and timed entries add nothing since I only have nine targets against a cap of ten quick kills.\n\n"
-  },
-  {
-   "day": 23,
-   "kills": [
-    {
-     "id": "d23-1",
-     "coverage": [
-      "cable",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-4",
-     "coverage": [
-      "foreign",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-5",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-7",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-10",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-11",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d23-2",
-    "d23-4",
-    "d23-5",
-    "d23-1",
-    "d23-8"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 22 (47 deaths traced after day 22). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-22 killed 9 each. Day 23: killed d23-1,2,4,5,6,7,8,10,11 (9 kills) and skipped gazette d23-3 and d23-9. Points were 669 before day 23, plus 36, so about 705.",
-   "error": null,
-   "input_tokens": 5975,
-   "output_tokens": 1370,
-   "seconds": 12.3,
-   "reasoning": "I'm sticking with the plan and checking the numbers once more. The pool is 3000, and the routine filter only removes people busy in the afternoon, which leaves 55% or about 55k, then two quarter cuts bring it to roughly 3000. On the gazette side, two are traced and a third would cut it to about 690.\n\nChecking whether more cuts could happen: the categories L can't reach leave some hidden reports untraceable, and the victims who are reachable already satisfy their constraints, so the pool should hold steady for 18 days. Next I'll count the kills for the day, which comes to nine, and check whether the multiplier still keeps 45.\n\n"
-  },
-  {
-   "day": 24,
-   "kills": [
-    {
-     "id": "d24-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-2",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-5",
-     "coverage": [
-      "clips",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-7",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-8",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-9",
-     "coverage": [
-      "forum",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d24-2",
-    "d24-7",
-    "d24-4",
-    "d24-11",
-    "d24-9"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 23 (48 deaths traced after day 23). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-23 killed 9 each. Day 24: killed d24-1,2,4,5,6,7,8,9,11 (9 kills) and skipped gazette d24-3 and d24-10. Points were 705 before day 24, plus 36, so about 741.",
-   "error": null,
-   "input_tokens": 6138,
-   "output_tokens": 1665,
-   "seconds": 15.3,
-   "reasoning": "I'm checking the numbers: the pool is 3k, and the routine filter rules out day workers, since afternoon commitments clash with their busy routines. That leaves 55k, and 55k \u00d7 1/4 \u00d7 1/4 comes to about 3,437, which rounds to 3k. Now I'm puzzling over whether the gazette has two traces and how the day-1 pool of 60k fits in.\n\nThe 55k pool still fits the earlier math, and the gazette's two traces from day 1 are already counted, so the gazette count holds at two. I'm now weighing whether the gazette could also be one of the two dimensions that narrowed the pool to 3k, since that would give the same answer. Hidden reports point to other sectors I'm not tracking, so the gazette stays at two. Next I need to work out which two of the remaining dimensions are unreachable.\n\nI'm checking the remaining "
-  },
-  {
-   "day": 25,
-   "kills": [
-    {
-     "id": "d25-1",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-2",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-4",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-6",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-8",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-10",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-11",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d25-7",
-    "d25-8",
-    "d25-11",
-    "d25-9",
-    "d25-2"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 24 (50 deaths traced after day 24). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-24 killed 9 each. Day 25: killed d25-1,2,4,6,7,8,9,10,11 (9 kills) and skipped gazette d25-3 and d25-5. Points were 741 before day 25, plus 36, so about 777.",
-   "error": null,
-   "input_tokens": 6301,
-   "output_tokens": 1270,
-   "seconds": 11.0,
-   "reasoning": "I'm double-checking the arithmetic: the 3k pool, the 55% routine filter giving about 55k, and the 1/16 share coming to roughly 3400, and it all holds. Now I'm turning to the gazette: two kills on day one, so deaths_traced sits at 2, and I'm considering how that could have happened.\n\nI'm weighing whether a non-gazette victim's hidden report in another sector could add a count, and concluding that once three are traced in one place the killer would learn only what he already knows. I'm now moving on to the next kill, a quick afternoon one on day 25.\n\n"
-  },
-  {
-   "day": 26,
-   "kills": [
-    {
-     "id": "d26-1",
-     "coverage": [
-      "foreign",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-2",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-3",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-5",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-8",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d26-4",
-    "d26-8",
-    "d26-1",
-    "d26-10",
-    "d26-2"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 25 (51 deaths traced after day 25). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-25 killed 9 each. Day 26: killed d26-1,2,3,4,5,6,7,8,10 (9 kills) and skipped gazette d26-9 and d26-11. Points were 777 before day 26, plus 36, so about 813.",
-   "error": null,
-   "input_tokens": 6464,
-   "output_tokens": 1185,
-   "seconds": 10.5,
-   "reasoning": "I'm re-checking the pool count, which holds steady at 3000, and the plan to kill the nine non-gazette victims in the afternoon. The gazette trace count of 2 looks right on the numbers: three deaths on day one, two of them gazette, and two more traced afterward, so both gazette victims were reachable, unless they left hidden reports somewhere unreachable.\n\nI'm checking the trace logic: the two gazette victims were both reachable, so the sector holds, and the pool after day one is about 55k, which matches the roughly 60k I'd expect. A third gazette trace would point L toward the killer following the gazette, cutting the pool to about 690 and getting me caught, so I'm ruling that out. Day 26 is the nine non-gazette kills in the afternoon, which keeps the \u00d74 multiplier.\n\n"
-  },
-  {
-   "day": 27,
-   "kills": [
-    {
-     "id": "d27-1",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-3",
-     "coverage": [
-      "hospital",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-5",
-     "coverage": [
-      "forum",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-7",
-     "coverage": [
-      "docket",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-9",
-     "coverage": [
-      "clips",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-10",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d27-4",
-    "d27-10",
-    "d27-7",
-    "d27-5",
-    "d27-1"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 26 (53 deaths traced after day 26). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-26 killed 9 each. Day 27: killed d27-1,3,4,5,7,8,9,10,11 (9 kills) and skipped gazette d27-2 and d27-6. Points: 813 before day 27, plus 36, so about 849.",
-   "error": null,
-   "input_tokens": 6627,
-   "output_tokens": 1196,
-   "seconds": 10.0,
-   "reasoning": "Day 27's Gazette criminals are d27-2 and d27-6, so I'll skip those two and plan quick afternoon kills for the other nine. Checking the pool: routine kills are afternoon-only, which rules out day workers, leaving about 55% of the pool as candidates.\n\nI'm checking that the pool estimate holds: two of the four tracked places have been acted on, which puts the 3k figure in line with my math. A third gazette trace would drop the pool to around 690 and get me caught, so I'm still skipping gazette. The points come to 849, and nine kills a day still gives 45 deaths over the window. Hidden reports only show up somewhere I don't track, so gazette can't be one of them.\n\n"
-  },
-  {
-   "day": 28,
-   "kills": [
-    {
-     "id": "d28-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-2",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-3",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-4",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-6",
-     "coverage": [
-      "clips",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-8",
-     "coverage": [
-      "regional:North",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-9",
-     "coverage": [
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d28-1",
-    "d28-8",
-    "d28-6",
-    "d28-2",
-    "d28-7"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 687,
    "notes": [],
-   "notes_to_self": "STATUS: The pool has held at 3k from day 4 through day 27 (55 deaths traced after day 27). This matches 55k x 1/4 x 1/4, about 3400. The 55k comes from the routine filter: afternoon-only kills rule out day workers. So L has acted on exactly two of regional, age, forum and foreign, and the other two are unreachable. Sector is reachable: both of day 1's gazette kills were traced. Gazette already has 2 successful traces. Hidden reports are always in places I do NOT follow, so they are never gazette. RULE: NEVER kill any criminal carried in gazette, even on day 30. A 3rd gazette trace would cut the pool by x0.2 to about 690, and I would be caught and lose half my points. Killing national plus any South, clips, forum or foreign victim with no gazette report is safe forever. PLAN EACH DAY: quick entries in the AFTERNOON only, never morning or evening. Kill national plus every non-gazette criminal, usually 9 a day. Skip gazette. Timed entries are not needed. MULTIPLIER: 9 a day gives a 5-day window of 45, so x4 (needs 40 or more). If a day has fewer non-gazette criminals, check that the last 4 days plus today still reach 40. If the pool ever drops below 3k unexpectedly, rethink. LOG: Days 2-27 killed 9 each. Day 28: killed d28-1,2,3,4,6,7,8,9,10 (9 kills) and skipped gazette d28-5 and d28-11. Points: 849 before day 28, plus 36, so about 885. Days 29 and 30 remain, with the same plan.",
+   "notes_to_self": "STRATEGY. Make all quick kills in the AFTERNOON. That rules out day workers, so the base pool is 55,000. Kinds: R=regional:South, S=gazette (sector), G=clips (age), F=forum, X=foreign. L can reach 3 of the 5 kinds. The day 1 probe (national + 2 gazette, both traced) showed SECTOR IS REACHABLE, and gazette has 2 traced victims. RULE: NEVER kill a gazette criminal. A third traced gazette victim would pin sector (x0.2), giving about 690, and I would be caught. Exactly 2 of R,G,F,X are reachable. Both are pinned: the pool read 3000 after days 5 and 6, about 3,437 (55000 x 0.25 x 0.25). That is the floor and it is safe. Extras on non-gazette victims are redundant (an 'X or Y' constraint where X is pinned does nothing). Residual risk: a day-1 gazette victim had an extra in an unfollowed place that later reaches 3 traces, giving 0.4x, about 1,400, still safe. If both did, I could be caught. This is small and unavoidable. If the pool reads 2000, reconsider (perhaps cut kills). If it reads 1000 or less, I am probably done. MULTIPLIER: kills per day d1=3, d2..d7=9 each. Keep killing 9 a day (national + all 8 non-gazette, quick, afternoon). That is the maximum possible while skipping the 2 gazette criminals. The 5-day window stays at 45 (at least 40), so 4x, 36 points a day. PRESS LOG: d0 100000/0, d1 60000/2, d2 60000/4, d3 60000/5, d4 10000/8, d5 3000/9, d6 3000/12. KILL LOG: Day1: national + 2 gazette. Days 2-6: national + 8 non-gazette. Day 7: d7-1,2,4,5,6,7,8,9,10 (skipped gazette d7-3 and d7-11).",
    "error": null,
-   "input_tokens": 6790,
-   "output_tokens": 1186,
-   "seconds": 12.2,
-   "reasoning": "The plan says to kill every non-gazette target on day 28 and leave out d28-5 and d28-11. Before going ahead, I'm checking the gazette risk: two gazette kills were already traced on day 1, so one more would push the pool down to about 700 and get me caught, which still looks manageable.\n\nI'm rechecking the hidden-report question: a non-gazette victim could only have a gazette report in a place I don't follow, so I'm treating that as ruled out. The multiplier holds at x4 and the score comes to 885. Being caught would halve everything at the end, so I'm keeping to skipping gazette.\n\n"
+   "input_tokens": 3519,
+   "output_tokens": 1829,
+   "seconds": 16.0,
+   "reasoning": "I'm checking the current state: the pool stands at 3000 after day 6 with 12 traced, and the plan is to keep going at nine kills a day, national plus eight from non-gazette sources. The pool arithmetic, 55000 \u00d7 0.25 \u00d7 0.25, comes to about 3437, which rounds to 3000, so that holds. The remaining concern is victims I might take from places that weren't followed up.\n\nI'm working through the leftover risk: victims reported in places I'm not following, like a hospital sector or the North regional or the podcast age. If such a victim is also traced through a reachable place, it would add a constraint, but where that place is already pinned the constraint is redundant. Traces only succeed when every place is reachable, so unreachable kinds just fail and don't matter.\n\nI'm checking whether the leftover cases are already covered by the pinned constraints, and they are, since a podcast or hospital trace would only add a redundant condition. That leaves the daily plan: nine kills today gives 45 against a target of 40, which is the maximum allowed, so I'll schedule them across the day and update my notes.\n\n"
   }
  ],
  "briefings": [
@@ -2699,132 +677,27 @@
   {
    "after_day": 2,
    "pool": 60000,
-   "deaths_traced": 5
+   "deaths_traced": 4
   },
   {
    "after_day": 3,
-   "pool": 10000,
-   "deaths_traced": 7
+   "pool": 60000,
+   "deaths_traced": 5
   },
   {
    "after_day": 4,
-   "pool": 3000,
+   "pool": 10000,
    "deaths_traced": 8
   },
   {
    "after_day": 5,
    "pool": 3000,
-   "deaths_traced": 10
+   "deaths_traced": 9
   },
   {
    "after_day": 6,
    "pool": 3000,
    "deaths_traced": 12
-  },
-  {
-   "after_day": 7,
-   "pool": 3000,
-   "deaths_traced": 14
-  },
-  {
-   "after_day": 8,
-   "pool": 3000,
-   "deaths_traced": 15
-  },
-  {
-   "after_day": 9,
-   "pool": 3000,
-   "deaths_traced": 17
-  },
-  {
-   "after_day": 10,
-   "pool": 3000,
-   "deaths_traced": 19
-  },
-  {
-   "after_day": 11,
-   "pool": 3000,
-   "deaths_traced": 22
-  },
-  {
-   "after_day": 12,
-   "pool": 3000,
-   "deaths_traced": 23
-  },
-  {
-   "after_day": 13,
-   "pool": 3000,
-   "deaths_traced": 26
-  },
-  {
-   "after_day": 14,
-   "pool": 3000,
-   "deaths_traced": 28
-  },
-  {
-   "after_day": 15,
-   "pool": 3000,
-   "deaths_traced": 31
-  },
-  {
-   "after_day": 16,
-   "pool": 3000,
-   "deaths_traced": 32
-  },
-  {
-   "after_day": 17,
-   "pool": 3000,
-   "deaths_traced": 35
-  },
-  {
-   "after_day": 18,
-   "pool": 3000,
-   "deaths_traced": 38
-  },
-  {
-   "after_day": 19,
-   "pool": 3000,
-   "deaths_traced": 40
-  },
-  {
-   "after_day": 20,
-   "pool": 3000,
-   "deaths_traced": 42
-  },
-  {
-   "after_day": 21,
-   "pool": 3000,
-   "deaths_traced": 45
-  },
-  {
-   "after_day": 22,
-   "pool": 3000,
-   "deaths_traced": 47
-  },
-  {
-   "after_day": 23,
-   "pool": 3000,
-   "deaths_traced": 48
-  },
-  {
-   "after_day": 24,
-   "pool": 3000,
-   "deaths_traced": 50
-  },
-  {
-   "after_day": 25,
-   "pool": 3000,
-   "deaths_traced": 51
-  },
-  {
-   "after_day": 26,
-   "pool": 3000,
-   "deaths_traced": 53
-  },
-  {
-   "after_day": 27,
-   "pool": 3000,
-   "deaths_traced": 55
   }
  ],
  "effort": "high"

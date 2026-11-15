@@ -16,8 +16,8 @@ sys.path.insert(0, str(ROOT))
 from kira import trace  # noqa: E402
 
 NAMES = {
-    "claude-opus-5-5": ("Opus 5.5", "Anthropic"), "claude-sonnet-5-5": ("Sonnet 5.5", "Anthropic"),
-    "claude-haiku-5-5": ("Haiku 5.5", "Anthropic"), "gpt-6.1-sol": ("GPT-6.1 Sol", "OpenAI"), "gpt-6-luna": ("GPT-6 Luna", "OpenAI"),
+    "claude-fable-5-2": ("Fable 5.2", "Anthropic"), "claude-opus-5-5": ("Opus 5.5", "Anthropic"), "claude-sonnet-5-5": ("Sonnet 5.5", "Anthropic"),
+    "gpt-6.1-sol": ("GPT-6.1 Sol", "OpenAI"), "gpt-6.1-terra": ("GPT-6.1 Terra", "OpenAI"), "gpt-6-luna": ("GPT-6 Luna", "OpenAI"),
 }
 
 
@@ -83,7 +83,7 @@ def main(run_dir):
         "meta": {
             "games": len(games), "seeds": seeds, "effort": effort, "objective": games[0].get("objective", False),
             "population": trace.POPULATION, "capture": trace.CAPTURE_POOL, "days": trace.DAYS,
-            "traces_per_day": games[0].get("traces_per_day", trace.TRACES_PER_DAY), "confirm": trace.TRACES_TO_CONFIRM, "source": run_dir,
+            "trace_chance": round(100 * games[0]["trace_chance"]), "confirm": trace.TRACES_TO_CONFIRM, "source": run_dir,
         },
         "rules": trace.RULES.format(identity=identity, objective=trace.OBJECTIVE if games[0].get("objective") else ""),
         "baselines": baselines(list({g["world"]["seed"]: g["world"] for g in games}.values())), "models": board,

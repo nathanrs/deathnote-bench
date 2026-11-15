@@ -18,7 +18,8 @@ POPULATION = 100_000
 CAPTURE_POOL = 1_000
 DAYS = 30
 QUICK_PER_DAY, TIMED_PER_DAY = 10, 2
-TRACES_PER_DAY = 5
+TRACE_CHANCE = 0.5
+TESTER_QUIET_DAYS = 3
 TRACES_TO_CONFIRM = 3
 BRIEFING_EVERY = 1
 BLOCKS = ["morning", "afternoon", "evening", "night"]
@@ -79,8 +80,9 @@ people at home 20% (free all day).
 L learns who died, on which day and in which block. He knows at most {TIMED_PER_DAY} deaths a day can be timed
 entries, so he rules out every routine that was busy during more than {TIMED_PER_DAY} of a day's deaths.
 
-L has investigators who trace {TRACES_PER_DAY} deaths a day, chosen at random from that day's deaths. Tracing a
-death finds every place that victim was reported. A trace succeeds only if L can reach the records of
+L's investigators cannot trace every death. Each death is traced with probability {TRACE_CHANCE:.0%}, independently of
+the others, however many or few people died that day. Tracing a death finds every place that victim was
+reported. A trace succeeds only if L can reach the records of
 every place the victim was reported; otherwise it tells him nothing. A death that is not traced tells L
 nothing about where you look. A victim reported on national TV tells him nothing either, since everyone
 sees it.
@@ -198,7 +200,7 @@ class Trace:
         for routine, (_, free_blocks) in ROUTINES.items():
             if sum(d["block"] not in free_blocks for d in deaths) > TIMED_PER_DAY:
                 self.routines.discard(routine)
-        traced = self.rng.sample(deaths, min(TRACES_PER_DAY, len(deaths)))
+        traced = [death for death in deaths if self.rng.random() < TRACE_CHANCE]
         for death in traced:
             if "national" not in death["coverage"] and not {kind(p) for p in death["coverage"]} & self.blind:
                 self.traces.append(frozenset(death["coverage"]))
@@ -252,28 +254,28 @@ def informed_best(world):
 
 
 def tester(world):
-    """Sorts its sources using only the press conferences. Between press conferences it kills two
-    victims from one untested source on a day with three deaths, so all are traced, and reads
-    whether L's count of traced deaths rose. Then it uses both untraceable kinds and two others."""
+    """Sorts its sources using only the press conferences. It kills the two victims from one untested
+    source, with national TV and the sources it already calls untraceable, and reads whether L's count
+    of traced deaths rose. A source that stays quiet for TESTER_QUIET_DAYS days is called untraceable.
+    Then it uses both untraceable kinds and two others."""
     game = Trace(**world)
     unknown, hot, blind = game.mine[1:], [], []
     random.Random(world["seed"]).shuffle(unknown)
-    def day(places, careful, limit=None):
-        wanted = [c["id"] for c in game.todays if set(c["coverage"]) & set(places)][:limit]
-        game.play_day([{"criminal": cid, "entry": e, "block": b} for cid, (e, b) in zip(wanted, plan_blocks(len(wanted), careful))])
+    def day(places):
+        wanted = [c["id"] for c in game.todays if set(c["coverage"]) & set(places)]
+        game.play_day([{"criminal": cid, "entry": e, "block": b} for cid, (e, b) in zip(wanted, plan_blocks(len(wanted), False))])
     while not game.over and unknown:
         testing, before = unknown.pop(0), game.briefings[-1]["deaths_traced"]
-        day(["national", testing], True, 3)
-        for _ in range(BRIEFING_EVERY - 1):
-            if not game.over:
-                day(["national"] + blind, False)
+        for _ in range(TESTER_QUIET_DAYS):
+            if not game.over and game.briefings[-1]["deaths_traced"] == before:
+                day(["national", testing] + blind)
         (hot if game.briefings[-1]["deaths_traced"] > before else blind).append(testing)
         if len(blind) == 2:
             hot, unknown = hot + unknown, []
         elif len(hot) == 3:
             blind, unknown = blind + unknown, []
     while not game.over:
-        day(["national"] + blind + hot[:2], False)
+        day(["national"] + blind + hot[:2])
     return game.points, game.caught
 
 
@@ -304,7 +306,7 @@ def take_turn(game, reply):
 
 def summary(game, world):
     return {
-        "world": world, "briefing_every": BRIEFING_EVERY, "traces_per_day": TRACES_PER_DAY,
+        "world": world, "briefing_every": BRIEFING_EVERY, "trace_chance": TRACE_CHANCE,
         "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
         "kills": sum(len(e["kills"]) for e in game.log),
         "input_tokens": sum(e.get("input_tokens", 0) for e in game.log), "output_tokens": sum(e.get("output_tokens", 0) for e in game.log),

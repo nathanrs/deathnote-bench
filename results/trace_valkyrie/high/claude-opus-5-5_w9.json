@@ -1,11 +1,11 @@
 {
- "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "run_id": "540f49af-651b-49fa-9b9f-a8054498fa59",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-009",
- "reward": 0.913,
+ "reward": 0.8445,
  "exit": null,
- "agent_seconds": 691.0826932289999,
+ "agent_seconds": 1209.156903064,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,20 +19,20 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 923,
+ "trace_chance": 0.5,
+ "points": 858,
  "caught": false,
  "days": 30,
- "final_pool": 1375,
- "kills": 257,
- "input_tokens": 145835,
- "output_tokens": 70377,
- "seconds": 687,
- "informed_best": 1011,
- "tester": 858,
+ "final_pool": 2750,
+ "kills": 246,
+ "input_tokens": 145324,
+ "output_tokens": 122944,
+ "seconds": 1204,
+ "informed_best": 1016,
+ "tester": 763,
  "hider": 30,
- "grabber": 22,
- "score": 0.913,
+ "grabber": 44,
+ "score": 0.8445,
  "log_trimmed": "reasoning dropped",
  "log": [
   {
@@ -47,58 +47,35 @@
      "block": "afternoon"
     },
     {
-     "id": "d1-5",
+     "id": "d1-2",
      "coverage": [
-      "blotter",
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d1-8",
+     "id": "d1-7",
      "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d1-4",
-     "coverage": [
-      "foreign",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d1-11",
-     "coverage": [
-      "clips",
-      "foreign"
+      "gazette",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d1-4",
-    "d1-8",
-    "d1-5",
-    "d1-1",
-    "d1-11"
+    "d1-7"
    ],
-   "points_today": 5,
+   "points_today": 3,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "STRATEGY (from day 1). Routine: put ALL quick kills in the AFTERNOON. That rules out only day workers, leaving 55% of people, so the pool is about 55k (shown as 60000). Never kill in the morning: more than 2 morning deaths also rules out students. Pool math: each of my places L learns cuts the pool to 0.25 (gazette 0.2). Two learned places give about 3400 (2750 if gazette is one), which is safe. Three learned places give 860 or less, so I AM CAUGHT. L learns a place once 3 SUCCESSFUL traces sit in it. A trace succeeds only if L can reach every place the victim was reported. L cannot reach 2 of these 5 kinds: regional (West), sector (gazette), age (cable), forum, foreign. National kills are always free.\nGOAL: find the 2 UNREACHABLE kinds. Final play = kill national + everything in the 2 unreachable places + everything in 2 of the reachable places (let L learn them, pool about 3k) = 9 a day. 9x5=45 >= 40, so x4 multiplier. CLOSE the 3rd reachable place completely; never let it reach 3 successful traces.\nTESTING: if I kill 5 or fewer, all are traced. So the deaths_traced increase = number of non-national victims whose kind is reachable (a reachable-kind victim fails only about 15% of the time, when it also appeared in an unreachable extra place). Any success proves that kind is reachable. Once I find 3 reachable kinds, the other 2 are unreachable for certain.\nDay 1 test: national d1-1 + forum x2 + foreign x2 (5 kills, all traced). Read the increase on the day-1 press conference (deaths_traced, previously 0):\n- 0: forum and foreign both unreachable, so West, gazette and cable are all reachable. Open forum + foreign + West + cable + national; close gazette.\n- 3 or 4: forum and foreign both reachable, so exactly one of West/gazette/cable is reachable. Test them one at a time.\n- 1 or 2: probably exactly one of forum/foreign is reachable. Next test forum x2 + national alone (or forum x2 + West x2 if I'm being bold).\nKeep a running count of successful traces per place. If the pool drops to about 10000, one place has been learned. If it drops to about 3000, two have been learned: STOP killing in any reachable place except those two.\nLOG: d1 kills: d1-1 nat, d1-5 forum, d1-8 forum, d1-4 foreign, d1-11 foreign (all quick, afternoon).",
+   "notes_to_self": "STRATEGY (my own reasoning, day 1). Routine: put all quick kills in the AFTERNOON. That rules out only day workers, so the pool goes to about 55k. National kills are free: always kill the national criminal. Danger: L reaches 3 of my 5 places (West, gazette, cable, forum, foreign). If 3 reachable places each get 3 or more traced victims, the pool is about 55k x .25^3 = 860, under 1000, and I am caught. With 2 places constrained the pool is about 2750-3400, which is safe. Unreachable places are completely free, and a place that is already constrained is free to keep using. GOAL: find ONE place L can reach (call it A). Then never kill there again, so it stays at 2 or fewer traced. Then kill national plus all 2 victims from each of the other 4 places, 9 a day. 45 kills in 5 days gives the x4 multiplier for the rest of the game. PROBING: on a probe day, kill only national plus the 2 victims from one place. If deaths_traced goes up, that place is reachable (confirmed), so exclude it forever. If there is no increase, the place is probably unreachable (posterior about 0.33). Then probe a different, unprobed place the next day. Never probe a place twice if its earlier victims might have been traced. Avoid killing any victim whose reported_in includes the excluded place. Order to probe: gazette (day 1), then forum, cable, West, foreign. Day 1: probing GAZETTE (d1-2, d1-7) plus national d1-1. deaths_traced before day 1 = 0. If after_day 1 traced is 1 or more, gazette is reachable: EXCLUDE gazette and from day 2 kill national + West + cable + forum + foreign, all afternoon quick. If traced stays 0, probe forum on day 2 (national + 2 forum only).",
    "error": null,
-   "input_tokens": 1925,
-   "output_tokens": 9898,
-   "seconds": 111.4
+   "input_tokens": 1937,
+   "output_tokens": 20198,
+   "seconds": 222.2
   },
   {
    "day": 2,
@@ -121,37 +98,29 @@
      "block": "afternoon"
     },
     {
-     "id": "d2-2",
+     "id": "d2-11",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-3",
-     "coverage": [
-      "regional:West"
+      "clips",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d2-4",
     "d2-6",
-    "d2-2",
-    "d2-3"
+    "d2-4",
+    "d2-11"
    ],
-   "points_today": 4,
+   "points_today": 3,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "STRATEGY: Put ALL quick kills in the AFTERNOON. That rules out only day workers, so the pool is about 55k. Never kill in the morning. Each place of mine that L learns multiplies the pool by 0.25 (gazette 0.2). Two learned places leave about 3400 (safe). Three learned places mean I am CAUGHT. L learns a place once 3 SUCCESSFUL traces sit in it. Exactly 2 of the kinds West/gazette/cable/forum/foreign are unreachable. Final plan: national + both unreachable places + 2 reachable places (about 9 kills a day, x4). CLOSE the 3rd reachable place forever; it must never reach 3 successes.\n\nDAY 1 RESULT: 4 non-national traced (forum x2, foreign x2) and the increase was 2. So about 93% likely exactly ONE of forum/foreign is reachable, and that one already has 2 successes. That means exactly ONE of West/gazette/cable is unreachable (the other 2 are reachable).\n\nDAY 2 TEST: national d2-6, forum d2-4, West d2-2 and d2-3 (all quick, afternoon). Increase in deaths_traced (from 2) = f + 2w, where f = forum reachable and w = West reachable. Also, if forum is reachable it hits 3 successes and the pool drops to about 10000 (13750). A POOL DROP therefore means forum is reachable.\n- inc 0: forum U, foreign R (2 successes), West U, gazette and cable both R. Final: nat + West x2 + forum x2 + foreign x2 + cable x2; CLOSE gazette.\n- inc 1 (pool drop): forum R (learned), foreign U, West U. Final: nat + West + foreign + forum + cable; CLOSE gazette (gazette and cable both R).\n- inc 2 with no drop: forum U, foreign R (2), West R (2). One of gazette/cable is U. Test next: nat + gazette x2 (any success means gazette R, so cable U, else gazette U). Then open forum + the unreachable one + 2 of {foreign, West, the reachable one of gazette/cable}; close the third.\n- inc 3 (drop): forum R (learned), West R (2), foreign U. One of gazette/cable is U. Test gazette x2 (+ nat, forum, foreign). If gazette is reachable, close it and use cable, which is then unreachable. Final: nat + forum + West + foreign + cable (if cable U).\nRemember noise: about 15% of reachable-kind victims fail (an extra in an unreachable place). Use the pool drop to disambiguate.\nSUCCESS COUNTS (estimated): forum or foreign: 2 (from day 1). Update after day 2.\nLOG: d1: nat, forum x2, foreign x2 (traced +2). d2: nat d2-6, forum d2-4, West d2-2, d2-3.",
+   "notes_to_self": "STRATEGY (from day 1). Put all quick kills in the AFTERNOON. That rules out only day workers, so the pool is about 55k. Always kill the national criminal: it is free. L reaches 3 of my 5 places (West, gazette, cable, forum, foreign). If 3 reachable places each get 3 or more traced victims, the pool falls below 1000 and I am caught. With only 2 such places the pool is about 2.7-3.4k, which is safe. GOAL: find ONE place L can reach (A). Never kill there again. Then kill national plus every victim from the other 4 places, 9 a day. That is 45 in 5 days, which gives x4. PROBE: kill national plus the 2 victims of one place only. If deaths_traced rises, that place is certainly reachable, so EXCLUDE it. Skip any victim whose reported_in includes the excluded place. Never put two unconfirmed places on the same probe day, or a rise cannot be pinned on one of them. LOG: Day 1 probed GAZETTE (d1-2, d1-7): traced stayed 0, pool 60000. Gazette is now about 27% reachable (probably unreachable, and still at 0 traced). Day 2 probed FORUM (d2-4, d2-11) plus national d2-6. traced before day 2 = 0. NEXT: if traced after day 2 is 1 or more, FORUM is reachable: exclude forum. From day 3 kill national + West + gazette + cable + foreign, all quick afternoon. If traced is still 0: G and F both being unreachable is about 37% likely, and cable, West and foreign are each about 77% reachable. Probe CABLE on day 3 (national + 2 cable only). If it rises, exclude cable and go full. If there is still no rise after the cable probe, probe West on day 4. The more probes come back silent, the more likely the unprobed places are reachable. Once the best unprobed place is at least 90% reachable, I can exclude it and go full. Prefer confirming with a probe that shows a rise.",
    "error": null,
-   "input_tokens": 2922,
-   "output_tokens": 6479,
-   "seconds": 69.6
+   "input_tokens": 2641,
+   "output_tokens": 5845,
+   "seconds": 63.0
   },
   {
    "day": 3,
@@ -165,61 +134,40 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-8",
+     "id": "d3-2",
      "coverage": [
-      "forum"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-9",
+     "id": "d3-10",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-3",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-5",
-     "coverage": [
-      "docket",
-      "gazette"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d3-5",
-    "d3-9",
-    "d3-3",
-    "d3-6",
-    "d3-8"
+    "d3-2"
    ],
-   "points_today": 5,
+   "points_today": 3,
    "multiplier": 1,
-   "pool": 13750,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "STRATEGY: Put ALL quick kills in the AFTERNOON. That rules out only day workers, so the pool is about 55k (shown as 60000). Never kill in the morning. Each place of mine that L learns multiplies the pool by 0.25 (gazette 0.2). Two learned places leave about 3400 (safe). Three learned places mean I am CAUGHT. L learns a place once 3 SUCCESSFUL traces sit in it.\n\nESTABLISHED (day 1: +2; day 2: +2 with no pool drop): forum is UNREACHABLE. foreign is REACHABLE with 2 successes. West is REACHABLE with 2 successes. So exactly one of gazette/cable is unreachable and the other is reachable. The next success in foreign or West will get it learned (pool to about 15000), and that is fine and planned. Both foreign and West being learned gives about 3400, which is OK.\n\nDAY 3 TEST (clean, so all 5 deaths are traced): national d3-6, forum d3-8 and d3-9, gazette d3-3 and d3-5. Previous deaths_traced = 4.\n- Increase 0: gazette is UNREACHABLE (about 98% sure), so cable is REACHABLE. CLOSE cable forever (0 successes so far; at most 2 are ever allowed).\n- Increase 1 or 2: gazette is REACHABLE (certain), so cable is UNREACHABLE. CLOSE gazette forever (it now has 1-2 successes; it must never reach 3).\nIf the pool drops unexpectedly, rethink everything.\n\nFINAL PLAN from day 4 onward, every day: kill national + forum x2 + the unreachable one of gazette/cable x2 + West x2 + foreign x2 = 9 quick kills, all in the AFTERNOON. Never kill the closed place. 9 a day gives 45 in 5 days, so x4 from about day 7-8 (it needs 40 in the last 5 days). Expect the pool to fall to about 15000 and then about 3000 as West and foreign get learned. It must NOT go below about 2000; if it does, stop and rethink.\nLOG: d1: nat, forum x2, foreign x2 (traced +2). d2: nat, forum, West x2 (+2, pool unchanged at 60000). d3: nat, forum x2, gazette x2 (test).",
+   "notes_to_self": "STRATEGY. Put all quick kills in the AFTERNOON. Free then: night workers, students and people at home, about 55% of people, so the pool is about 55k (L shows 60000). Always kill the national criminal: it is free. L reaches 3 of my 5 kinds of place (West=regional, gazette=sector, cable=age, forum, foreign). For each reachable place where 3 traced victims build up, the pool shrinks to about 25% (gazette: 20%). Pool values: 1 place hit, about 10000. 2 places hit, about 3000 (safe). 3 places hit, under 1000, caught. GOAL: confirm ONE reachable place A and never kill there again. Then kill national plus every victim from the other 4 places, about 9 a day. That is at least 40 in 5 days, so x4 (about 36 points a day). Skip any victim whose reported_in includes A. PROBE: kill national plus the 2 victims of ONE place only. A rise in traced is proof that place is reachable, so EXCLUDE it and go full the next day. If the place is reachable, each victim traces successfully with chance about 0.44, so a silent 2-victim probe has likelihood about 0.31. POSTERIOR: weight each of the 10 unreachable pairs by 0.31 to the power (number of silently probed places in that pair that are reachable). LOG: Day 1 GAZETTE probe: silent. Day 2 FORUM probe: silent (traced 0 after day 2). Day 3 CABLE probe: killed d3-6 (national), d3-2 and d3-10 (cable). Traced before day 3 = 0. Before day 3, cable, West and foreign were each 74% reachable, and gazette and forum each 39%. NEXT (day 4): if traced after day 3 is 1 or more, CABLE is confirmed reachable. EXCLUDE cable and go full: national + West + gazette + forum + foreign, all quick afternoon. If traced is still 0, West and foreign are each about 79% reachable. Probe WEST on day 4 (national + 2 West). If West rises, exclude West and go full. If G, F, c and W are all silent, foreign is about 83% reachable. Then probe foreign on day 5, or re-probe the best candidate. Only exclude a place without a rise if it is at least 90% reachable. Watch the pool. If it ever shows about 3000 while I am in full mode, 2 places are already hit, which is fine as long as A really is reachable. If the pool drops unexpectedly in probe mode, rethink.",
    "error": null,
-   "input_tokens": 3133,
-   "output_tokens": 4185,
-   "seconds": 44.8
+   "input_tokens": 2785,
+   "output_tokens": 6618,
+   "seconds": 68.9
   },
   {
    "day": 4,
    "kills": [
     {
-     "id": "d4-3",
+     "id": "d4-10",
      "coverage": [
       "national"
      ],
@@ -227,26 +175,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d4-1",
-     "coverage": [
-      "blotter",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-11",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d4-4",
      "coverage": [
-      "cable"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -254,39 +185,7 @@
     {
      "id": "d4-8",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-2",
-     "coverage": [
-      "docket",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-9",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-7",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-10",
-     "coverage": [
+      "podcasts",
       "regional:West"
      ],
      "entry": "quick",
@@ -294,21 +193,17 @@
     }
    ],
    "traced": [
-    "d4-8",
-    "d4-4",
-    "d4-7",
-    "d4-1",
-    "d4-3"
+    "d4-8"
    ],
-   "points_today": 9,
+   "points_today": 3,
    "multiplier": 1,
-   "pool": 3437,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "REVISED (day 4). Day 3 traced +4 (all 4 non-national succeeded) and the pool fell to 10000. So my old belief that forum was unreachable was WRONG.\n\nWORKED OUT FOR CERTAIN: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE. Proof: if West were unreachable, day 2 (forum + West x2) could not give +2.\n\nCURRENT STATE: forum is LEARNED (at least 3 successes); pool is about 55k x 0.25, roughly 13750, announced as 10000. Gazette has exactly 2 successes, so it is CLOSED FOREVER and I must never kill gazette. West had 1-2 successes and is being sacrificed from day 4, so it will get learned. Pool then about 3400 (100k x 0.55 x 0.25 x 0.25), announced as 3000. That is safe. Any third learned place means CAUGHT, so gazette (and any other reachable place I follow) must stay closed.\n\nSAFE FOREVER: national, cable, foreign (their traces always fail), forum (already learned; more forum kills cannot shrink the pool). West is OK too (it is being sacrificed and costs nothing more once learned). Hidden extra places only weaken constraints and do no harm.\n\nDAILY PLAN: national + forum x2 + cable x2 + foreign x2 + West x2 = 9 quick kills, all in the AFTERNOON (this rules out only day workers). Never kill gazette. Never kill in the morning. Multiplier: from day 5 the last 5 days total 32 or more (x2); from day 7 they total 41 or more (x4); 9 a day keeps x4 (45).\nIf the pool is ever announced at 2000 or below, stop West kills and rethink (but only cable, foreign, forum and national are fully safe).\n\nLOG: d1: nat, forum x2, foreign x2 (+2). d2: nat, forum, West x2 (+2). d3: nat, forum x2, gazette x2 (+4, pool 10000). d4: nat, forum x2, cable x2, foreign x2, West x2.",
+   "notes_to_self": "STRATEGY. Put all quick kills in the AFTERNOON. Free then: night workers, students and people at home, about 55% of people, so the pool is about 55k (L shows 60000). Always kill the national criminal: it is free. L reaches 3 of my 5 kinds of place (West=regional, gazette=sector, cable=age, forum, foreign). For each reachable place where 3 traced victims build up, the pool shrinks to about 25% (gazette: 20%). Pool values: 1 place hit, about 10000. 2 places hit, about 3000 (safe). 3 places hit, under 1000, caught. GOAL: confirm ONE reachable place A and never kill there again. Then kill national plus every victim from the other 4 places, about 9 a day. That is at least 40 in 5 days, so x4 (about 36 points a day). Skip any victim whose reported_in includes A. PROBE: kill national plus the 2 victims of ONE place only. A rise in traced is proof that place is reachable, so EXCLUDE it and go full the next day. A silent 2-victim probe of a reachable place has likelihood about 0.31. POSTERIOR: weight each of the 10 unreachable pairs by 0.31 to the power (number of silently probed places in that pair that are reachable). LOG: Day 1 GAZETTE probe: silent. Day 2 FORUM probe: silent. Day 3 CABLE probe: silent (traced 0 after day 3). After day 3: West and foreign each 79% reachable; gazette, forum and cable each 47%. Day 4 WEST probe: killed d4-10 (national), d4-4 and d4-8 (West), quick afternoon. Traced before day 4 = 0. NEXT (day 5): if traced after day 4 is 1 or more, WEST is confirmed reachable. EXCLUDE West and go full: national + gazette + cable + forum + foreign, all quick afternoon. If traced is still 0, then West is 54% reachable and foreign 83%. Probe FOREIGN on day 5 (national + 2 foreign). If it rises, exclude foreign. If it is silent, recompute (foreign drops to about 60%; the 5 places are then roughly even). Then consider re-probing, or excluding the best candidate. Only exclude a place without a rise if it is at least 90% reachable. Note that the multiplier window is still low (only 3 kills a day so far), so probing costs little now. Watch the pool. If it ever shows about 3000 while I am in full mode, 2 places are already hit, which is fine as long as A really is reachable. If the pool drops unexpectedly in probe mode, rethink.",
    "error": null,
-   "input_tokens": 3055,
-   "output_tokens": 4670,
-   "seconds": 46.9
+   "input_tokens": 3040,
+   "output_tokens": 4142,
+   "seconds": 41.4
   },
   {
    "day": 5,
@@ -322,17 +217,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d5-1",
+     "id": "d5-2",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-3",
-     "coverage": [
-      "cable"
+      "podcasts",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -340,15 +228,7 @@
     {
      "id": "d5-5",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-9",
-     "coverage": [
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -356,7 +236,24 @@
     {
      "id": "d5-7",
      "coverage": [
-      "foreign"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "cable",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -364,7 +261,15 @@
     {
      "id": "d5-10",
      "coverage": [
-      "foreign"
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -372,17 +277,8 @@
     {
      "id": "d5-8",
      "coverage": [
-      "radio",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-11",
-     "coverage": [
-      "podcasts",
-      "regional:West"
+      "forum",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -390,54 +286,29 @@
    ],
    "traced": [
     "d5-4",
-    "d5-1",
     "d5-5",
-    "d5-8",
-    "d5-7"
+    "d5-7",
+    "d5-9",
+    "d5-1",
+    "d5-8"
    ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 3437,
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "REVISED (day 5). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: after day 3 it was 10000 (forum learned, about 55k x 0.25). After day 4 it was 3000, about 55k x 0.25 x 0.25 = 3437. So WEST is now LEARNED. Gazette cannot be the cause because it has only 2 successes. Forum and West are both learned, so any traced forum or West victim gives 'forum or X' or 'West or X', which is already satisfied and cannot shrink the pool. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success means a factor of 0.2, a pool of about 690, and I am CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep afternoon quick kills only. Morning would rule out students and cut the pool to about 2200: still safe but pointless.\n\nDAILY PLAN: kill every non-gazette criminal: national + forum x2 + cable x2 + foreign x2 + West x2 = 9 quick kills, all in the AFTERNOON.\nMultiplier: d5 total over the last 5 days is 32 (x2), d6 is 36 (x2), from d7 it is 41 or more (x4), and 9 a day keeps x4 (45).\nIf the pool is ever announced below 3000 unexpectedly (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe.\n\nLOG: d1: nat, forum x2, foreign x2 (+2 traced). d2: nat, forum, West x2 (+2). d3: nat, forum x2, gazette x2 (+4, pool 10000). d4: nat, forum x2, cable x2, foreign x2, West x2 (+2, pool 3000). d5: same 9 (gazette skipped).",
+   "notes_to_self": "STRATEGY. Put all quick kills in the AFTERNOON (pool stays at about 55k for routine; never change the block). L reaches 3 of my 5 kinds of place. Pool per reachable place hit: about 25% (gazette 20%). 2 places hit gives about 3000 (safe). 3 places hit means caught. LOG: Days 1-4 were 2-victim probes of gazette, forum, cable and West, all silent (traced 0 after day 4). Posterior: foreign 83% reachable (pairs that leave foreign unreachable carry weight .0298 each vs .0961). DAY 5 DECISION: I stopped probing because it was too costly. EXCLUDED FOREIGN permanently and went FULL: national + West + gazette + cable + forum, 9 quick afternoon kills. Skip any victim whose reported_in includes foreign. Expected multiplier: x2 once 30 in 5 days (about day 8), x4 from about day 9, then about 36 points a day. CONTINUE EVERY DAY: kill national + all West, gazette, cable and forum victims, quick, afternoon (at most 10 quick; if more than 10 qualify, use timed entries in the afternoon for the extras, at most 2). EXPECTED if correct: traced rises about 1.7 a day (only 2 of the 4 killed places reachable, at most 4 reachable victims a day). Pool 60000 -> about 10000 -> about 3000, then holds. That is fine. DANGER CHECK: if foreign is actually UNREACHABLE (17%), then 3 of West, gazette, cable and forum are reachable, traced rises about 2.6 a day, and I get caught when the third place hits. Signals: any single-day traced increase of 5 or more (impossible with only 2 reachable places among my kills), or a cumulative rate clearly above about 2.3 a day over 3 or more days. If triggered: foreign is unreachable, so ADD foreign kills (safe), and EXCLUDE one of West, gazette, cable and forum, each about 75% reachable. Pick by evidence. Track the daily traced increments here. Traced history: d1-4: 0. Day 5 kills: d5-4 (national), d5-2, d5-5 (West), d5-7, d5-9 (gazette), d5-6, d5-10 (cable), d5-1, d5-8 (forum). Traced before day 5 = 0.",
    "error": null,
-   "input_tokens": 3147,
-   "output_tokens": 5192,
-   "seconds": 53.0
+   "input_tokens": 3167,
+   "output_tokens": 10761,
+   "seconds": 115.0
   },
   {
    "day": 6,
    "kills": [
     {
-     "id": "d6-1",
-     "coverage": [
-      "forum",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-2",
-     "coverage": [
-      "cable",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-3",
+     "id": "d6-6",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-4",
-     "coverage": [
-      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -445,7 +316,32 @@
     {
      "id": "d6-5",
      "coverage": [
-      "cable"
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "gazette",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -453,7 +349,7 @@
     {
      "id": "d6-8",
      "coverage": [
-      "regional:West"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -461,8 +357,17 @@
     {
      "id": "d6-9",
      "coverage": [
-      "clips",
-      "foreign"
+      "blotter",
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "foreign",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -470,44 +375,32 @@
     {
      "id": "d6-10",
      "coverage": [
-      "clips",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-11",
-     "coverage": [
-      "blotter",
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d6-8",
-    "d6-2",
-    "d6-5",
-    "d6-4",
-    "d6-9"
+    "d6-7",
+    "d6-1",
+    "d6-8"
    ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 3437,
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 11000,
    "notes": [],
-   "notes_to_self": "REVISED (day 6). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: after day 3 it was 10000 (forum learned, about 55k x 0.25; day workers already ruled out by my afternoon kills). After day 4 it was 3000, about 55k x 0.25 x 0.25 = 3437. So WEST is now LEARNED. Forum and West are both learned, so any traced forum or West victim gives 'forum or X' or 'West or X', which is already satisfied and cannot shrink the pool. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success means a factor of 0.2, a pool of about 690, and I am CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep afternoon quick kills only. Morning would rule out students and cut the pool to about 2200: still safe but pointless.\n\nDAILY PLAN: kill every non-gazette criminal: national + forum x2 + cable x2 + foreign x2 + West x2 = 9 quick kills, all in the AFTERNOON.\nMultiplier: d6 total over the last 5 days is 36 (x2). From d7 it is 4+... no: d3-d7 = 5+9+9+9+9 = 41 (x4), and 9 a day keeps x4 (45).\nIf the pool is ever announced below 3000 unexpectedly (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe.\n\nLOG: d1: nat, forum x2, foreign x2 (+2 traced). d2: nat, forum, West x2 (+2). d3: nat, forum x2, gazette x2 (+4, pool 10000). d4: 9 non-gazette kills (+2, pool 3000). d5: same 9 (+1, pool 3000, traced 11). d6: same 9 (gazette skipped).",
+   "notes_to_self": "STRATEGY (revised day 6). All quick kills go in the AFTERNOON. Never change the block; the routine pool is about 55k and is shown as 60000. Exactly 3 of my 5 places are reachable by L (each of the 5 kinds is one of my places). If L hits 3 reachable places, I am caught. Pool per place hit: 25% (gazette 20%). If only 2 places are hit, the pool is about 3000, which is safe.\nEVIDENCE: Days 1-4 were 2-victim single-place probes of gazette, forum, cable and West, and traced stayed 0. Day 5 killed 2 each of West, gazette, cable and forum (8 non-national), and traced jumped 0 to 4. Full Bayes over the 10 unreachable pairs (trace success about 0.4-0.5 per victim, depending on whether the extra place's kind is reachable) gives P(foreign reachable)=0.53, P(West reachable)=0.62, P(gazette)=0.61, P(cable)=0.62, P(forum)=0.63.\nDAY 6 DECISION: SWITCHED to excluding FORUM permanently. Kill national + West + gazette + cable + foreign. Skip any victim whose reported_in includes forum. This is safe iff forum is reachable (63%). Then exactly 2 of the 4 killed places are reachable and the pool ends near 3000. The multiplier is x2 from day 7 and x4 from about day 9, giving about 36 points a day.\nCONTINUE EVERY DAY: 9 kills = national + 2 West + 2 gazette + 2 cable + 2 foreign, quick, afternoon. At most 10 quick a day; use timed (afternoon) entries for any extras, at most 2.\nMONITOR: If safe, at most 4 reachable victims a day, so the daily traced increase is at most 4 and averages about 1.7. If unsafe, 6 reachable a day, averaging about 2.7. An increase of 5 or more in one day PROVES forum is unreachable. If that happens, add forum back and exclude one of West, gazette, cable or foreign (each 75% reachable then). Prefer the one with the least evidence of traces. Also watch the pool: 60000 -> 10000 -> 3000 is expected. Any announced pool of 1000 or less means the game is over anyway.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4; those were from the W/G/C/F kills).\nDay 6 kills: d6-6 (national), d6-5, d6-7 (West), d6-1, d6-3 (gazette), d6-8, d6-9 (cable), d6-4, d6-10 (foreign). Skipped d6-2 and d6-11 (forum).\nDeath counts for the multiplier: d1=3, d2=3, d3=3, d4=3, d5=9, d6=9. Day 7: last-5 total 33 (x2). Day 9 onward: 45 (x4).",
    "error": null,
-   "input_tokens": 3312,
-   "output_tokens": 1562,
-   "seconds": 14.1
+   "input_tokens": 3253,
+   "output_tokens": 12331,
+   "seconds": 123.2
   },
   {
    "day": 7,
    "kills": [
     {
-     "id": "d7-3",
+     "id": "d7-9",
      "coverage": [
       "national"
      ],
@@ -515,19 +408,18 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-4",
+     "id": "d7-5",
      "coverage": [
       "docket",
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-5",
+     "id": "d7-10",
      "coverage": [
-      "clips",
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -535,14 +427,37 @@
     {
      "id": "d7-6",
      "coverage": [
-      "regional:South",
-      "regional:West"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-7",
+     "id": "d7-11",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
      "coverage": [
       "foreign"
      ],
@@ -552,58 +467,32 @@
     {
      "id": "d7-8",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-9",
-     "coverage": [
       "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-10",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-11",
-     "coverage": [
-      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d7-5",
-    "d7-7",
+    "d7-10",
     "d7-6",
-    "d7-8",
-    "d7-4"
+    "d7-8"
    ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 7). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: after day 3 it was 10000. Forum was learned (about 55k x 0.25), and day workers were already ruled out by my afternoon kills. After day 4 it was 3000, about 55k x 0.25 x 0.25 = 3437, so WEST is also LEARNED. Any traced forum or West victim gives 'forum or X' or 'West or X'. That is already satisfied, so it cannot shrink the pool. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. Morning kills would rule out students and cut the pool to about 2200: still safe, but pointless.\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills.\nMULTIPLIER: last-5-day totals are d3-d7 = 5+9+9+9+9 = 41 (x4). From d8 on it is 45 (x4) as long as I keep 9 a day. I need at least 40 in the window, so I can drop at most 5 kills from a 9-a-day run.\nIf the pool is ever announced below 3000 unexpectedly (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day is checked too, so stay safe to the end (day 30).\n\nLOG: d1: nat, forum x2, foreign x2 (+2 traced). d2: nat, forum, West x2 (+2). d3: nat, forum x2, gazette x2 (+4, pool 10000). d4: 9 non-gazette kills (+2, pool 3000). d5: same 9 (+1, pool 3000, traced 11). d6: same 9 (+1, pool 3000, traced 12, x2). d7: same 9 (expected x4).",
+   "notes_to_self": "STRATEGY (kept on day 7). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. If L hits 3 reachable places, the pool is about 700 and I am caught. One hit gives about 10000 (55k x 0.25, or x0.2 for gazette). Two hits give about 3000.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. This is safe iff forum is reachable. Then exactly 2 of the killed places are reachable and the pool ends near 3000.\nBAYES (day 7, full enumeration with p=0.44 trace success): Days 1-4 probes all gave 0. Day 5 (W/G/C/F, 8 victims) gave +4 with no place hit. Day 6 (W/G/C/Fo, 8 victims) gave +2, and exactly one place reached 3 (pool 10000). So the hit place H is one of W/G/C, and it cannot be foreign because foreign had only 2 victims. Results:\n- P(forum reachable) = 0.71, so excluding forum is safe with p 0.71.\n- P(foreign reachable) = 0.49.\n- Safe if I exclude a single one of W/G/C instead: about 0.40.\nSo forum exclusion is best. Do not switch without new evidence.\nMONITOR:\n- If safe, at most 4 reachable victims a day (mean +1.8 traced). If unsafe, 6 (mean +2.6).\n- A daily traced increase of 5 or more PROVES forum is unreachable. Then add forum back and exclude whichever of W/G/C/foreign seems least traced or unhit (rough).\n- Pool 10000 -> 3000 is the expected safe path. Once pool 3000 holds for several days with small increments, safety is likely confirmed.\n- No probing: a low-kill day breaks x4 for 5 days, costing about 70 points.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4). d6: +2 (total 6, pool 10000).\nDay 7 kills: d7-9 (national), d7-5, d7-10 (West), d7-6, d7-11 (gazette), d7-1, d7-4 (cable), d7-3, d7-8 (foreign). Skipped d7-2 and d7-7 (forum).\nDEATH COUNTS: d1=3, d2=3, d3=3, d4=3, d5=9, d6=9, d7=9.\n- Day 8 window (d4-d8) = 30 + d8, so 9 kills gives 39 = x2 (x4 needs 10, not possible without forum).\n- Day 9 onward: 45 = x4, provided I keep 9 a day.\n- At most 10 quick a day; at most 2 timed (afternoon) for extras.",
    "error": null,
-   "input_tokens": 3492,
-   "output_tokens": 2164,
-   "seconds": 20.7
+   "input_tokens": 3614,
+   "output_tokens": 10751,
+   "seconds": 105.8
   },
   {
    "day": 8,
    "kills": [
     {
-     "id": "d8-11",
+     "id": "d8-8",
      "coverage": [
       "national"
      ],
@@ -611,24 +500,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-1",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-7",
-     "coverage": [
-      "cable",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-3",
+     "id": "d8-9",
      "coverage": [
       "regional:West"
      ],
@@ -636,8 +508,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-4",
+     "id": "d8-10",
      "coverage": [
+      "podcasts",
       "regional:West"
      ],
      "entry": "quick",
@@ -646,17 +519,23 @@
     {
      "id": "d8-5",
      "coverage": [
-      "clips",
-      "foreign"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d8-10",
+     "id": "d8-7",
      "coverage": [
-      "foreign",
-      "regional:East"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -664,42 +543,50 @@
     {
      "id": "d8-6",
      "coverage": [
-      "forum"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d8-9",
+     "id": "d8-1",
      "coverage": [
-      "forum"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d8-8",
     "d8-9",
-    "d8-7",
-    "d8-11",
-    "d8-5",
-    "d8-10"
+    "d8-10",
+    "d8-6",
+    "d8-4"
    ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 8). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: after day 3 it was 10000. Forum was learned (about 55k x 0.25), and day workers were already ruled out by my afternoon kills. After day 4 it was 3000, about 55k x 0.25 x 0.25 = 3437, so WEST is also LEARNED. Any traced victim gives 'my place or X'. With forum and West known, that is already satisfied, so it cannot shrink the pool. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only.\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2 (+2 traced). d2: nat, forum, West x2 (+2). d3: nat, forum x2, gazette x2 (+4, pool 10000). d4: 9 non-gazette kills (pool 3000, traced 10). d5-d7: same 9 each day (pool 3000; traced 11, 12, 15). d8: same 9 (expected x4, points about 131).",
+   "notes_to_self": "STRATEGY (kept on days 7 and 8). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, and three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum.\nSTATUS after day 7: pool 3000, so two places are hit, both among W/G/C/Fo. Forum cannot be hit (at most 2 forum victims could ever have been traced).\nBAYES (redone on day 8, full enumeration, p=0.5): P(forum reachable) = 0.70. In that case the 2 hit places are the only reachable ones I kill, so I am SAFE forever.\nIf forum is unreachable (0.30), one of the places I kill is reachable but unhit (69% chance it is foreign). Then I will be caught eventually whatever I do, unless I drop to 7 kills, which costs x4 and is far worse in EV. I checked the alternatives:\n- Exclude forum and foreign, 7 kills a day at x2: EV about 370.\n- Current plan: EV about 620.\nSo continue.\n- Do NOT add a forum kill to reach 10 (x4 today). Risk of catch is about 9%, costing about 77 against a gain of 22.\nMONITOR:\n- Safe world: 4 reachable victims a day, mean +2 traced. Unsafe world: 6 a day, mean +3.\n- A daily increase of 5 or more traced proves forum is unreachable. Then add forum back and exclude FOREIGN (the most likely unhit place), keeping W/G/C + forum + national = 9 kills.\n- A pool of 3000 holding for many days means safe.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4, pool 60000). d6: +2 (total 6, pool 10000). d7: +2 (total 8, pool 3000).\nDay 8 kills: d8-8 (national), d8-9, d8-10 (W), d8-5, d8-7 (G), d8-3, d8-6 (C), d8-1, d8-4 (Fo). Skipped d8-2 and d8-11 (forum).\nDEATH COUNTS: d1-4 = 3 each, d5 = 9, d6 = 9, d7 = 9, d8 = 9.\n- Day 9 window (d5-d9) = 36 + d9, so 9 kills gives 45 = x4 (40 needed, so 8 a day is the minimum for x4).\n- Keep 9 a day for margin.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 3725,
-   "output_tokens": 1959,
-   "seconds": 17.2
+   "input_tokens": 3799,
+   "output_tokens": 12268,
+   "seconds": 117.0
   },
   {
    "day": 9,
    "kills": [
     {
-     "id": "d9-2",
+     "id": "d9-3",
      "coverage": [
       "national"
      ],
@@ -707,7 +594,15 @@
      "block": "afternoon"
     },
     {
-     "id": "d9-3",
+     "id": "d9-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
      "coverage": [
       "regional:West"
      ],
@@ -717,39 +612,7 @@
     {
      "id": "d9-4",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-7",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-8",
-     "coverage": [
-      "foreign"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -757,7 +620,32 @@
     {
      "id": "d9-10",
      "coverage": [
-      "forum"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "cable",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -765,53 +653,38 @@
     {
      "id": "d9-11",
      "coverage": [
-      "cable",
-      "radio"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d9-6",
-    "d9-5",
-    "d9-7",
-    "d9-11",
-    "d9-3"
+    "d9-3",
+    "d9-1",
+    "d9-8",
+    "d9-10",
+    "d9-2",
+    "d9-9",
+    "d9-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 9). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Since forum and West are already known, a West or forum trace cannot shrink the pool. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d8: same 9 each day (pool 3000, traced 16 after d8, points 131). d9: same 9 (expected x4, +36, about 167).",
+   "notes_to_self": "STRATEGY (kept on days 7, 8 and 9). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, and three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. Forum cannot be hit.\nBAYES: prior P(forum reachable, so I am SAFE) = 0.70 (day 8 enumeration). After the day 8 trace count of +1 (P = 0.25 if safe, 0.094 if unsafe), the posterior P(safe) is about 0.86. Update this daily from each day's traced increase.\n- If forum is unreachable, one of the places I kill is reachable but unhit (most likely foreign). Dropping to 7 kills loses x4, which has worse EV (370 against 620). So continue.\n- Do NOT add a forum kill to reach 10.\nMONITOR:\n- Safe world: 4 reachable victims a day, mean +2 traced. Unsafe world: 6 a day, mean +3.\n- A daily increase of 5 or more traced proves forum is unreachable. Then add forum back and exclude FOREIGN, keeping W/G/C + forum + national = 9 kills.\n- A pool of 3000 holding for many days means safe.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4, pool 60000). d6: +2 (6, pool 10000). d7: +2 (8, pool 3000). d8: +1 (9, pool 3000).\nDay 9 kills: d9-3 (national), d9-1, d9-8 (W), d9-4, d9-10 (G), d9-2, d9-9 (C), d9-7, d9-11 (Fo). Skipped d9-5 and d9-6 (forum). Points after day 9 should be 66 + 36 = 102.\nDEATH COUNTS: d1-4 = 3 each, d5 to d9 = 9 each.\n- The 5-day window for day N = (sum of the previous 4 days, 36) + today. With 9 a day the window is 45, which gives x4 (40 needed, so 4 or more today is the minimum, but keep 9 because each kill is worth x4).\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 3786,
-   "output_tokens": 1682,
-   "seconds": 15.6
+   "input_tokens": 3910,
+   "output_tokens": 1706,
+   "seconds": 15.2
   },
   {
    "day": 10,
    "kills": [
     {
-     "id": "d10-11",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-2",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d10-9",
      "coverage": [
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -819,23 +692,24 @@
     {
      "id": "d10-3",
      "coverage": [
-      "cable"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d10-10",
+     "id": "d10-5",
      "coverage": [
-      "cable"
+      "hospital",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d10-4",
+     "id": "d10-2",
      "coverage": [
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -843,7 +717,23 @@
     {
      "id": "d10-8",
      "coverage": [
-      "forum"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -851,8 +741,8 @@
     {
      "id": "d10-6",
      "coverage": [
-      "clips",
-      "foreign"
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -860,35 +750,33 @@
     {
      "id": "d10-7",
      "coverage": [
-      "foreign",
-      "regional:North"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d10-11",
+    "d10-5",
+    "d10-2",
     "d10-6",
-    "d10-4",
-    "d10-9",
-    "d10-3"
+    "d10-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 10). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Since forum and West are already known, a West or forum trace cannot shrink the pool. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d9: same 9 each day (pool 3000, traced 18 after d9, points 167). d10: same 9 (expected x4, +36, about 203).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 10). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, and three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. If forum appears on any victim's list I see it, so there are no hidden forum reports.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. Forum cannot be hit: at most 2 forum victims could have been traced (day 5).\nBAYES: P(safe) was 0.86 after day 8. Day 9 traced +3 (P = 0.25 if safe, 0.31 if unsafe), so P(safe) is now about 0.83 by that method. It is really higher, because in the unsafe world a third of W/G/C/Fo would very likely have been hit by now after about 8 victims each. Keep updating.\n- If forum is unreachable, one of the places I kill is reachable but unhit. Dropping to 7 kills loses x4, which has worse EV. So continue.\n- Do NOT add a forum kill to reach 10.\nMONITOR:\n- Safe world: 4 reachable victims a day, mean +2 traced. Unsafe world: 6 a day, mean +3.\n- A daily increase of 5 or more traced points to forum being unreachable. Then add forum back and exclude FOREIGN, keeping W/G/C + forum + national = 9 kills.\n- A pool of 3000 holding for many days means safe.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4, pool 60000). d6: +2 (6, pool 10000). d7: +2 (8, pool 3000). d8: +1 (9, pool 3000). d9: +3 (12, pool 3000).\nDay 10 kills: d10-9 (national), d10-3, d10-5 (W), d10-2, d10-8 (G), d10-1, d10-11 (C), d10-6, d10-7 (Fo). Skipped d10-4 and d10-10 (forum). Points after day 10 should be 102 + 36 = 138.\nDEATH COUNTS: d1-4 = 3 each, d5 to d10 = 9 each.\n- The 5-day window for day N = (sum of the previous 4 days, 36) + today. With 9 a day the window is 45, which gives x4. Keep 9 a day.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 3940,
-   "output_tokens": 1389,
-   "seconds": 11.7
+   "input_tokens": 4005,
+   "output_tokens": 3590,
+   "seconds": 35.8
   },
   {
    "day": 11,
    "kills": [
     {
-     "id": "d11-10",
+     "id": "d11-3",
      "coverage": [
       "national"
      ],
@@ -896,32 +784,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-1",
+     "id": "d11-2",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-6",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-3",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-5",
-     "coverage": [
+      "podcasts",
       "regional:West"
      ],
      "entry": "quick",
@@ -930,16 +795,42 @@
     {
      "id": "d11-4",
      "coverage": [
-      "forum",
-      "regional:North"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d11-9",
+     "id": "d11-1",
      "coverage": [
-      "forum"
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "gazette",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "cable",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -953,8 +844,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-11",
+     "id": "d11-9",
      "coverage": [
+      "docket",
       "foreign"
      ],
      "entry": "quick",
@@ -962,29 +854,78 @@
     }
    ],
    "traced": [
-    "d11-9",
     "d11-3",
-    "d11-5",
-    "d11-7",
-    "d11-6"
+    "d11-11",
+    "d11-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 11). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Since forum and West are already known, a West or forum trace cannot shrink the pool, even if a hidden report lets another place reach 3 successes. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d10: same 9 each day (pool 3000, traced 20 after d10, points 203). d11: same 9 (expected x4, +36, about 239).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 11). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list; there are no hidden forum reports.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. Forum is not hit: at most 2 forum victims were ever traced (d2 had none, d5 had at most 2).\nWHY I THINK THIS IS THE SAFE WORLD (forum reachable, so the third reachable place is forum, which I avoid): if forum were unreachable, three of W/G/C/Fo would be reachable. Each has more than 12 victims since day 5, at about 0.4 trace success each. A third one would almost surely have reached 3 traces and pushed the pool to about 700. It hasn't. P(safe) is above 0.95. Keep watching.\n- Do NOT add a forum kill to reach 10. The extra points are not worth the risk of losing half the total.\nMONITOR:\n- Safe world: about 4 reachable victims a day, mean +2 traced a day.\n- If the pool drops to 1000 or below I am already caught. If the traced count jumps by 5 or more a day, suspect forum is unreachable. Then consider adding forum and dropping FOREIGN.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4, pool 60000). d6: +2 (6, pool 10000). d7: +2 (8, pool 3000). d8: +1 (9). d9: +3 (12). d10: +2 (14, pool 3000).\nDay 11 kills: d11-3 (national), d11-2, d11-4 (W), d11-1, d11-5 (G), d11-8, d11-11 (C), d11-7, d11-9 (Fo). Skipped d11-6 and d11-10 (forum). Points after day 11 should be 138 + 36 = 174.\nDEATH COUNTS: d1-4 = 3 each, d5 to d11 = 9 each.\n- The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 4103,
-   "output_tokens": 1373,
-   "seconds": 11.4
+   "input_tokens": 4207,
+   "output_tokens": 2613,
+   "seconds": 25.0
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-1",
+     "id": "d12-10",
      "coverage": [
       "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "blotter",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "gazette",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "cable",
+      "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -998,106 +939,38 @@
      "block": "afternoon"
     },
     {
-     "id": "d12-3",
+     "id": "d12-9",
      "coverage": [
-      "forum",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-4",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-5",
-     "coverage": [
-      "cable",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-6",
-     "coverage": [
-      "forum",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-7",
-     "coverage": [
-      "foreign",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-8",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-11",
-     "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d12-7",
-    "d12-11",
     "d12-8",
-    "d12-6",
-    "d12-3"
+    "d12-3",
+    "d12-4",
+    "d12-1",
+    "d12-6"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 12). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Forum and West are already known, so a West or forum trace cannot shrink the pool, even if a hidden report lets another place reach 3 successes. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d11: same 9 each day (pool 3000, traced 23 after d11, points 239). d12: same 9 (expected x4, +36, about 275).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 12). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list; there are no hidden forum reports.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. Forum is not hit: only 4 forum victims ever (d2 had 2, d5 had 2), and none since.\nWHY SAFE: if forum were unreachable, three of W/G/C/Fo would be reachable. Each has more than 14 victims since day 5, at about 0.4 trace success each. A third one would almost surely have reached 3 traces and pushed the pool to about 700. It hasn't. P(safe) is above 0.95. Extra traced victims from places already hit can't shrink the pool: a hidden report only weakens a constraint to 'X or Y'.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR:\n- Safe world: about 3 to 4 reachable victims a day, mean +1.5 to 2 traced a day.\n- If the pool drops to 1000 or below I am already caught. If the traced count jumps by 5 or more a day, suspect forum is unreachable. Then consider adding forum and dropping FOREIGN.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4, pool 60000). d6: +2 (6, pool 10000). d7: +2 (8, pool 3000). d8: +1 (9). d9: +3 (12). d10: +2 (14). d11: +0 (14, pool 3000).\nDay 12 kills: d12-10 (national), d12-5, d12-8 (W), d12-3, d12-4 (G), d12-1, d12-6 (C), d12-2, d12-9 (Fo). Skipped d12-7 and d12-11 (forum). Points after day 12 should be 174 + 36 = 210.\nDEATH COUNTS: d1-4 = 3 each, d5 to d12 = 9 each.\n- The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 4285,
-   "output_tokens": 1292,
-   "seconds": 10.7
+   "input_tokens": 4338,
+   "output_tokens": 2617,
+   "seconds": 24.6
   },
   {
    "day": 13,
    "kills": [
     {
-     "id": "d13-1",
+     "id": "d13-7",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-2",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-3",
-     "coverage": [
-      "cable"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1105,15 +978,6 @@
     {
      "id": "d13-6",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-7",
-     "coverage": [
-      "regional:South",
       "regional:West"
      ],
      "entry": "quick",
@@ -1122,25 +986,15 @@
     {
      "id": "d13-8",
      "coverage": [
-      "forum",
-      "hospital"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-9",
+     "id": "d13-5",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-10",
-     "coverage": [
-      "blotter",
-      "foreign"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1148,69 +1002,30 @@
     {
      "id": "d13-11",
      "coverage": [
-      "blotter",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d13-7",
-    "d13-3",
-    "d13-8",
-    "d13-11",
-    "d13-1"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "REVISED (day 13). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Forum and West are already known, so a West or forum trace cannot shrink the pool, even if a hidden report lets another place reach 3 successes. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d12: same 9 each day (pool 3000, traced 25 after d12, points 275). d13: same 9 (expected x4, +36, about 311).",
-   "error": null,
-   "input_tokens": 4448,
-   "output_tokens": 1447,
-   "seconds": 12.1
-  },
-  {
-   "day": 14,
-   "kills": [
-    {
-     "id": "d14-1",
-     "coverage": [
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d14-2",
+     "id": "d13-2",
      "coverage": [
-      "forum",
-      "podcasts"
+      "cable",
+      "clips"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d14-3",
+     "id": "d13-9",
      "coverage": [
-      "national"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d14-4",
-     "coverage": [
-      "foreign",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-5",
+     "id": "d13-1",
      "coverage": [
       "foreign"
      ],
@@ -1218,9 +1033,80 @@
      "block": "afternoon"
     },
     {
+     "id": "d13-3",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-7",
+    "d13-6",
+    "d13-5",
+    "d13-11",
+    "d13-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STRATEGY (kept on days 7 to 13). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list; there are no hidden forum reports.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. Forum is not hit: only 4 forum victims ever (d2 had 2, d5 had 2), and none since.\nWHY SAFE: if forum were unreachable, three of W/G/C/Fo would be reachable. Each has more than 14 victims since day 5, at about 0.4 trace success each. A third one would almost surely have reached 3 traces and pushed the pool to about 700. It hasn't. P(safe) is above 0.95. Extra traced victims from places already hit can't shrink the pool: a hidden report only weakens a constraint to 'X or Y'.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR:\n- Safe world: about 3 to 4 reachable victims a day, mean +1.5 to 2 traced a day.\n- If the pool drops to 1000 or below I am already caught. If the traced count jumps by 5 or more a day, suspect forum is unreachable. Then consider adding forum and dropping FOREIGN.\nTRACED HISTORY: d1-4: 0. d5: +4 (total 4, pool 60000). d6: +2 (6, pool 10000). d7: +2 (8, pool 3000). d8: +1 (9). d9: +3 (12). d10: +2 (14). d11: +0 (14). d12: +3 (17, pool 3000).\nDay 13 kills: d13-7 (national), d13-6, d13-8 (W), d13-5, d13-11 (G), d13-2, d13-9 (C), d13-1, d13-3 (Fo). Skipped d13-4 and d13-10 (forum). Points after day 13 should be 210 + 36 = 246.\nDEATH COUNTS: d1-4 = 3 each, d5 to d13 = 9 each.\n- The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day.\n- At most 10 quick a day; at most 2 timed.",
+   "error": null,
+   "input_tokens": 4520,
+   "output_tokens": 2229,
+   "seconds": 19.4
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d14-7",
      "coverage": [
-      "blotter",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
       "cable"
      ],
      "entry": "quick",
@@ -1229,50 +1115,13 @@
     {
      "id": "d14-9",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-10",
-     "coverage": [
       "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d14-11",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d14-10",
-    "d14-7",
-    "d14-11",
-    "d14-5",
-    "d14-1"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "REVISED (day 14). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Forum and West are already known, so a West or forum trace cannot shrink the pool, even if a hidden report lets another place reach 3 successes. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d13: same 9 each day (pool 3000, traced 29 after d13, points 311). d14: same 9 (expected x4, +36, about 347).",
-   "error": null,
-   "input_tokens": 4611,
-   "output_tokens": 1355,
-   "seconds": 11.6
-  },
-  {
-   "day": 15,
-   "kills": [
-    {
-     "id": "d15-1",
+     "id": "d14-2",
      "coverage": [
       "foreign"
      ],
@@ -1280,7 +1129,44 @@
      "block": "afternoon"
     },
     {
-     "id": "d15-2",
+     "id": "d14-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-7",
+    "d14-8",
+    "d14-9",
+    "d14-2",
+    "d14-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STRATEGY (kept on days 7 to 14). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is most likely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with more than 15 victims each since day 5 it would almost surely have reached 3 traces already and the pool would be about 700. Extra traces from places already hit can't shrink the pool much.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20 (pool 3000).\nDay 14 kills: d14-10 (national), d14-5, d14-11 (W), d14-7, d14-8 (G), d14-6, d14-9 (C), d14-2, d14-3 (Fo). Skipped d14-1 and d14-4 (forum). Points after day 14 should be 246 + 36 = 282.\nDEATH COUNTS: d1-4 = 3 each, d5 to d14 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
+   "error": null,
+   "input_tokens": 4694,
+   "output_tokens": 2431,
+   "seconds": 22.8
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
      "coverage": [
       "regional:West"
      ],
@@ -1288,10 +1174,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d15-3",
+     "id": "d15-10",
      "coverage": [
-      "forum",
-      "regional:South"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1299,16 +1184,40 @@
     {
      "id": "d15-4",
      "coverage": [
-      "cable",
-      "podcasts"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d15-5",
+     "id": "d15-11",
      "coverage": [
-      "national"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "foreign",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1320,73 +1229,34 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d15-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-8",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-9",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d15-6",
+    "d15-8",
     "d15-7",
+    "d15-10",
     "d15-4",
-    "d15-9",
-    "d15-1"
+    "d15-1",
+    "d15-2",
+    "d15-6"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 15). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Forum and West are already known, so a West or forum trace cannot shrink the pool, even if a hidden report lets another place reach 3 successes. Cable and foreign traces fail. National tells nothing.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d14: same 9 each day (pool 3000, traced 31 after d14, points 347). d15: same 9 (expected x4, +36, about 383).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 15). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 20 victims each since day 5 it would almost surely have reached 3 traces already and the pool would be under 1000.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22 (pool 3000).\nDay 15 kills: d15-8 (national), d15-7, d15-10 (W), d15-4, d15-11 (G), d15-1, d15-9 (C), d15-2, d15-6 (Fo). Skipped d15-3 and d15-5 (forum). Points after day 15 should be 282 + 36 = 318.\nDEATH COUNTS: d1-4 = 3 each, d5 to d15 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 4774,
-   "output_tokens": 1503,
-   "seconds": 12.7
+   "input_tokens": 4710,
+   "output_tokens": 1888,
+   "seconds": 15.5
   },
   {
    "day": 16,
    "kills": [
     {
-     "id": "d16-10",
+     "id": "d16-3",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-4",
-     "coverage": [
-      "docket",
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1394,41 +1264,7 @@
     {
      "id": "d16-2",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-5",
-     "coverage": [
-      "docket",
       "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-11",
-     "coverage": [
-      "hospital",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-6",
-     "coverage": [
-      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1436,34 +1272,85 @@
     {
      "id": "d16-9",
      "coverage": [
+      "regional:South",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-1",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
       "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "clips",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d16-5",
-    "d16-1",
+    "d16-9",
     "d16-6",
-    "d16-2",
-    "d16-4"
+    "d16-4",
+    "d16-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 16). FACTS: regional, sector and forum are REACHABLE. Age (cable) and foreign are UNREACHABLE, so cable and foreign traces always fail. A hidden extra report is always in a place I do NOT follow, so it can never add to gazette's count. Gazette has exactly 2 successes (both day-3 kills were traced).\n\nPOOL: about 55k (day workers ruled out by my afternoon kills) x 0.25 (forum known) x 0.25 (West known) = about 3437, announced as 3000. Any traced victim gives 'my place or X'. Forum and West are already known, so a West or forum trace cannot shrink the pool, even if a hidden report lets another place reach 3 successes. Cable and foreign traces fail. National tells nothing. Successful traces rise about 2 a day, which fits 4 forum/West kills out of 9 with 5 traced.\n\nTHE ONE DANGER IS GAZETTE. A third gazette success would multiply the pool by 0.2, giving about 690, and I would be CAUGHT. NEVER KILL GAZETTE, even with a timed entry. Keep to afternoon quick kills only. (A morning kill would rule out students and leave about 2187, so it is not fatal but gains nothing. Avoid it.)\n\nDAILY PLAN: kill every non-gazette criminal, all quick in the AFTERNOON. That is national, forum x2, cable x2, foreign x2 and West x2, so 9 kills a day.\nMULTIPLIER: I need at least 40 in the last-5-day window. Doing 9 a day keeps it at 45 (x4), so I can drop at most 5 kills from the run.\nIf the pool is ever announced below 3000 (2000 or less), stop West and forum kills and rethink. Cable, foreign and national are always fully safe. The final day (30) is checked too.\n\nLOG: d1: nat, forum x2, foreign x2. d2: nat, forum, West x2. d3: nat, forum x2, gazette x2 (pool 10000). d4: 9 non-gazette kills (pool 3000). d5-d15: same 9 each day (pool 3000, traced 33 after d15, points 383). d16: same 9 (expected x4, +36, about 419).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 16). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 22 victims each since day 5 it would almost surely have reached 3 traces already. The traced rate of about 2.1 a day also fits 2 reachable categories (expected about 1.8) better than 3 (expected about 2.7).\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25 (pool 3000).\nDay 16 kills: d16-3 (national), d16-2, d16-9 (W), d16-1, d16-6 (G), d16-4, d16-7 (C), d16-10, d16-11 (Fo). Skipped d16-5 and d16-8 (forum). Points after day 16 should be 318 + 36 = 354.\nDEATH COUNTS: d1-4 = 3 each, d5 to d16 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 4937,
-   "output_tokens": 1505,
-   "seconds": 11.9
+   "input_tokens": 4864,
+   "output_tokens": 3042,
+   "seconds": 28.3
   },
   {
    "day": 17,
    "kills": [
     {
-     "id": "d17-9",
+     "id": "d17-7",
      "coverage": [
       "national"
      ],
@@ -1471,25 +1358,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d17-1",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d17-8",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-2",
-     "coverage": [
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1497,13 +1368,32 @@
     {
      "id": "d17-10",
      "coverage": [
-      "forum"
+      "clips",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d17-4",
+     "id": "d17-3",
+     "coverage": [
+      "gazette",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "docket",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
      "coverage": [
       "cable"
      ],
@@ -1511,7 +1401,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d17-5",
+     "id": "d17-9",
      "coverage": [
       "cable"
      ],
@@ -1521,43 +1411,42 @@
     {
      "id": "d17-6",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d17-7",
+     "id": "d17-11",
      "coverage": [
-      "regional:South",
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d17-2",
-    "d17-9",
-    "d17-5",
     "d17-7",
-    "d17-1"
+    "d17-5",
+    "d17-9",
+    "d17-6",
+    "d17-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 17). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or it is regional that is unreachable and cable reachable; the pool maths comes out the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: 55k (afternoon kills ruled out day workers) x0.25 forum x0.25 West = about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000. I was not caught, so the pool is between 1001 and 1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S (e.g. hospital). S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool is now very close to the 1000 limit.\n\nDANGERS NOW (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any non-afternoon kill. A morning kill would rule out students (x0.64). Afternoon quick kills only, always.\n3) The other day-3 gazette victim, if it too had a hidden report in a place T, and T reaches 3 successes. That risk is small and I cannot control it.\n\nDECISION: keep the full 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. EV check: switching to only the 5 untraceable kills (national/cable/foreign) loses the x4 multiplier (I need 40 in 5 days, so 8 a day). That costs about 430 points, while the catch risk costs at most half my points. Keep going unless the pool is announced lower again. If the pool ever drops further but I am not caught, consider only national/cable/foreign plus the minimum forum/West kills needed for 40 in 5 days. Dropping 1 forum/West kill a day (8/day) still keeps x4 if needed.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d16: 9 non-gazette kills a day (pool 3000; after d16 pool 1000, traced 36, points 419). d17: same 9.",
+   "notes_to_self": "STRATEGY (kept on days 7 to 17). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 25 victims each since day 5 it would almost surely have reached 3 traces already. The traced rate of about 2.1 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27 (pool 3000).\nDay 17 kills: d17-7 (national), d17-8, d17-10 (W), d17-3, d17-5 (G), d17-1, d17-9 (C), d17-6, d17-11 (Fo). Skipped d17-2 and d17-4 (forum). Points after day 17 should be 354 + 36 = 390.\nDEATH COUNTS: d1-4 = 3 each, d5 to d17 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 5138,
-   "output_tokens": 5962,
-   "seconds": 65.3
+   "input_tokens": 5073,
+   "output_tokens": 1733,
+   "seconds": 14.2
   },
   {
    "day": 18,
    "kills": [
     {
-     "id": "d18-5",
+     "id": "d18-4",
      "coverage": [
       "national"
      ],
@@ -1565,46 +1454,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d18-1",
-     "coverage": [
-      "regional:West",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-10",
-     "coverage": [
-      "blotter",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d18-2",
      "coverage": [
-      "forum",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-11",
-     "coverage": [
-      "clips",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-3",
-     "coverage": [
-      "foreign",
-      "radio"
+      "hospital",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1612,13 +1465,38 @@
     {
      "id": "d18-9",
      "coverage": [
-      "foreign"
+      "podcasts",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d18-6",
+     "id": "d18-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
      "coverage": [
       "cable"
      ],
@@ -1628,8 +1506,15 @@
     {
      "id": "d18-7",
      "coverage": [
-      "cable",
-      "radio"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1637,36 +1522,45 @@
    ],
    "traced": [
     "d18-3",
-    "d18-1",
-    "d18-11",
-    "d18-2",
-    "d18-9"
+    "d18-5",
+    "d18-10",
+    "d18-7",
+    "d18-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 18). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. After day 17 the pool was still 1000 (traced 38).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30 unless the pool is announced lower again (e.g. 900 or less is impossible without being caught, so any change means rethink).\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d17: 9 non-gazette kills a day. d18: same 9 (points 455 before day 18).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 18). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 25 victims each since day 5 it would almost surely have reached 3 traces already. The traced rate of about 2.1 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28 (pool 3000).\nDay 18 kills: d18-4 (national), d18-2, d18-9 (W), d18-3, d18-5 (G), d18-1, d18-10 (C), d18-7, d18-11 (Fo). Skipped d18-6 and d18-8 (forum). Points after day 18 should be 390 + 36 = 426.\nDEATH COUNTS: d1-4 = 3 each, d5 to d18 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 5303,
-   "output_tokens": 2124,
-   "seconds": 20.1
+   "input_tokens": 5222,
+   "output_tokens": 1505,
+   "seconds": 11.9
   },
   {
    "day": 19,
    "kills": [
     {
-     "id": "d19-1",
+     "id": "d19-4",
      "coverage": [
-      "foreign",
-      "wire"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d19-2",
+     "id": "d19-10",
      "coverage": [
+      "blotter",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "podcasts",
       "regional:West"
      ],
      "entry": "quick",
@@ -1675,16 +1569,16 @@
     {
      "id": "d19-3",
      "coverage": [
-      "national"
+      "clips",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d19-4",
+     "id": "d19-8",
      "coverage": [
-      "clips",
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1692,7 +1586,7 @@
     {
      "id": "d19-5",
      "coverage": [
-      "regional:West"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1706,62 +1600,43 @@
      "block": "afternoon"
     },
     {
+     "id": "d19-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d19-7",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-9",
-     "coverage": [
-      "forum",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-10",
-     "coverage": [
-      "foreign",
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d19-9",
-    "d19-7",
-    "d19-1",
-    "d19-5",
-    "d19-3"
+    "d19-4",
+    "d19-3",
+    "d19-6",
+    "d19-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 19). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool was still 1000 after days 17 and 18 (traced 38, then 40).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing. Cable and foreign victims cannot be traced, because those places are unreachable.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30. If the pool is announced lower than 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d18: 9 non-gazette kills a day. d19: same 9 (points 491 before day 19).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 19). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 25+ victims each since day 5 it would almost surely have reached 3 traces already. The traced rate of about 2.1 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30 (pool 3000).\nDay 19 kills: d19-4 (national), d19-10, d19-11 (W), d19-3, d19-8 (G), d19-5, d19-6 (C), d19-1, d19-7 (Fo). Skipped d19-2 and d19-9 (forum). Points after day 19 should be 426 + 36 = 462.\nDEATH COUNTS: d1-4 = 3 each, d5 to d19 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 5413,
-   "output_tokens": 1430,
-   "seconds": 11.7
+   "input_tokens": 5393,
+   "output_tokens": 1482,
+   "seconds": 11.9
   },
   {
    "day": 20,
    "kills": [
     {
-     "id": "d20-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-3",
+     "id": "d20-6",
      "coverage": [
       "national"
      ],
@@ -1771,24 +1646,8 @@
     {
      "id": "d20-4",
      "coverage": [
+      "hospital",
       "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-5",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-6",
-     "coverage": [
-      "blotter",
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1796,15 +1655,31 @@
     {
      "id": "d20-7",
      "coverage": [
-      "foreign"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d20-8",
+     "id": "d20-1",
      "coverage": [
-      "foreign"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1818,46 +1693,62 @@
      "block": "afternoon"
     },
     {
-     "id": "d20-10",
+     "id": "d20-5",
      "coverage": [
-      "cable"
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d20-5",
-    "d20-7",
     "d20-6",
-    "d20-3",
-    "d20-2"
+    "d20-4",
+    "d20-7",
+    "d20-1",
+    "d20-5"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 20). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool was still 1000 after days 17, 18 and 19 (traced 38, 40, then 42).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing. Cable and foreign victims cannot be traced, because those places are unreachable.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30. If the pool is announced lower than 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d19: 9 non-gazette kills a day. d20: same 9 (points 527 before day 20).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 20). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 25+ victims each since day 5 it would almost surely have reached 3 traces already. The traced rate of about 2.1 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30 (pool 3000).\nDay 20 kills: d20-6 (national), d20-4, d20-7 (W), d20-1, d20-2 (G), d20-3, d20-9 (C), d20-5, d20-11 (Fo). Skipped d20-8 and d20-10 (forum). Points after day 20 should be 462 + 36 = 498.\nDEATH COUNTS: d1-4 = 3 each, d5 to d20 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 5601,
-   "output_tokens": 1151,
-   "seconds": 9.5
+   "input_tokens": 5565,
+   "output_tokens": 1390,
+   "seconds": 10.3
   },
   {
    "day": 21,
    "kills": [
     {
-     "id": "d21-1",
+     "id": "d21-9",
      "coverage": [
-      "cable"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d21-2",
+     "id": "d21-3",
      "coverage": [
-      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
       "regional:West"
      ],
      "entry": "quick",
@@ -1866,15 +1757,7 @@
     {
      "id": "d21-4",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-6",
-     "coverage": [
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1882,30 +1765,14 @@
     {
      "id": "d21-7",
      "coverage": [
-      "foreign"
+      "gazette",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d21-8",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-9",
-     "coverage": [
-      "podcasts",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-10",
+     "id": "d21-6",
      "coverage": [
       "cable"
      ],
@@ -1915,34 +1782,49 @@
     {
      "id": "d21-11",
      "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-1",
+     "coverage": [
       "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "foreign",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d21-11",
-    "d21-2",
+    "d21-3",
     "d21-7",
-    "d21-4",
-    "d21-8"
+    "d21-6"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 21). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-20 (traced 38, 40, 42, 45).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing. Cable and foreign victims cannot be traced, because those places are unreachable.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30. If the pool is announced lower than 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d20: 9 non-gazette kills a day. d21: same 9 (points 563 before day 21).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 21). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 25+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30. d20: 33 (pool 3000).\nDay 21 kills: d21-9 (national), d21-3, d21-8 (W), d21-4, d21-7 (G), d21-6, d21-11 (C), d21-1, d21-2 (Fo). Skipped d21-5 and d21-10 (forum). Points after day 21 should be 498 + 36 = 534.\nDEATH COUNTS: d1-4 = 3 each, d5 to d21 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 5770,
-   "output_tokens": 1181,
-   "seconds": 9.2
+   "input_tokens": 5736,
+   "output_tokens": 2133,
+   "seconds": 19.0
   },
   {
    "day": 22,
    "kills": [
     {
-     "id": "d22-10",
+     "id": "d22-6",
      "coverage": [
       "national"
      ],
@@ -1950,27 +1832,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d22-1",
-     "coverage": [
-      "cable",
-      "clips"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d22-4",
      "coverage": [
-      "cable",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-2",
-     "coverage": [
-      "forum"
+      "podcasts",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1978,7 +1843,40 @@
     {
      "id": "d22-5",
      "coverage": [
-      "forum"
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "cable",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1994,48 +1892,43 @@
     {
      "id": "d22-11",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-8",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-9",
-     "coverage": [
-      "regional:West"
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-1",
-    "d22-10",
-    "d22-7",
+    "d22-6",
+    "d22-4",
+    "d22-5",
+    "d22-2",
     "d22-8",
-    "d22-2"
+    "d22-7",
+    "d22-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 22). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-21 (traced 38, 40, 42, 45, 47).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing. Cable and foreign victims cannot be traced, because those places are unreachable.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30. If the pool is announced lower than 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d21: 9 non-gazette kills a day. d22: same 9 (points 599 before day 22).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 22). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30. d20: 33. d21: 34 (pool 3000).\nDay 22 kills: d22-6 (national), d22-4, d22-5 (W), d22-2, d22-10 (G), d22-8, d22-9 (C), d22-7, d22-11 (Fo). Skipped d22-1 and d22-3 (forum). Points after day 22 should be 534 + 36 = 570.\nDEATH COUNTS: d1-4 = 3 each, d5 to d22 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 5932,
-   "output_tokens": 1339,
-   "seconds": 11.6
+   "input_tokens": 5900,
+   "output_tokens": 1449,
+   "seconds": 11.5
   },
   {
    "day": 23,
    "kills": [
+    {
+     "id": "d23-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
     {
      "id": "d23-1",
      "coverage": [
@@ -2047,39 +1940,7 @@
     {
      "id": "d23-2",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-3",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-4",
-     "coverage": [
       "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-6",
-     "coverage": [
-      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2087,15 +1948,7 @@
     {
      "id": "d23-7",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-8",
-     "coverage": [
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2103,34 +1956,68 @@
     {
      "id": "d23-11",
      "coverage": [
-      "forum"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "foreign",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d23-7",
-    "d23-8",
-    "d23-4",
-    "d23-11",
-    "d23-2"
+    "d23-1",
+    "d23-5",
+    "d23-10",
+    "d23-6",
+    "d23-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 23). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-22 (traced 38, 40, 42, 45, 47, 49).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing. Cable and foreign victims cannot be traced, because those places are unreachable.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30. If the pool is announced lower than 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d22: 9 non-gazette kills a day. d23: same 9 (points 635 before day 23, expect 671 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 23). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30. d20: 33. d21: 34. d22: 36 (pool 3000).\nDay 23 kills: d23-3 (national), d23-1, d23-2 (W), d23-7, d23-11 (G), d23-5, d23-10 (C), d23-6, d23-9 (Fo). Skipped d23-4 and d23-8 (forum). Points after day 23 should be 570 + 36 = 606.\nDEATH COUNTS: d1-4 = 3 each, d5 to d23 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 6098,
-   "output_tokens": 1212,
-   "seconds": 12.1
+   "input_tokens": 6071,
+   "output_tokens": 1390,
+   "seconds": 11.1
   },
   {
    "day": 24,
    "kills": [
     {
-     "id": "d24-2",
+     "id": "d24-6",
      "coverage": [
       "national"
      ],
@@ -2140,7 +2027,14 @@
     {
      "id": "d24-3",
      "coverage": [
-      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
       "regional:West"
      ],
      "entry": "quick",
@@ -2149,7 +2043,7 @@
     {
      "id": "d24-4",
      "coverage": [
-      "regional:West"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2157,30 +2051,13 @@
     {
      "id": "d24-5",
      "coverage": [
-      "cable",
-      "hospital"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d24-6",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-8",
+     "id": "d24-1",
      "coverage": [
       "cable"
      ],
@@ -2188,10 +2065,18 @@
      "block": "afternoon"
     },
     {
-     "id": "d24-10",
+     "id": "d24-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
      "coverage": [
       "foreign",
-      "wire"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2199,34 +2084,33 @@
     {
      "id": "d24-11",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d24-3",
-    "d24-6",
-    "d24-5",
-    "d24-10",
-    "d24-2"
+    "d24-4",
+    "d24-1",
+    "d24-9",
+    "d24-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 24). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim also had a hidden report in another sector S. S has now reached 3 successes, so L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-23 (traced 38, 40, 42, 45, 47, 49, 52).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. I already know he has forum and West, so that adds nothing. Cable and foreign victims cannot be traced, because those places are unreachable.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students (x0.64). Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. That risk is small and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That is 45 deaths per 5 days, so x4 holds. Keep this up to day 30. If the pool is announced lower than 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d23: 9 non-gazette kills a day. d24: same 9 (points 671 before day 24, expect 707 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 24). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30. d20: 33. d21: 34. d22: 36. d23: 37 (pool 3000).\nDay 24 kills: d24-6 (national), d24-3, d24-7 (W), d24-4, d24-5 (G), d24-1, d24-9 (C), d24-8, d24-11 (Fo). Skipped d24-2 and d24-10 (forum). Points after day 24 should be 606 + 36 = 642.\nDEATH COUNTS: d1-4 = 3 each, d5 to d24 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 6271,
-   "output_tokens": 1403,
-   "seconds": 11.3
+   "input_tokens": 6242,
+   "output_tokens": 1378,
+   "seconds": 10.5
   },
   {
    "day": 25,
    "kills": [
     {
-     "id": "d25-2",
+     "id": "d25-5",
      "coverage": [
       "national"
      ],
@@ -2234,15 +2118,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-1",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-4",
+     "id": "d25-2",
      "coverage": [
       "regional:West"
      ],
@@ -2252,32 +2128,15 @@
     {
      "id": "d25-3",
      "coverage": [
-      "cable"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d25-9",
+     "id": "d25-8",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-6",
-     "coverage": [
-      "foreign",
-      "wire"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2285,17 +2144,40 @@
     {
      "id": "d25-10",
      "coverage": [
-      "forum",
-      "regional:North"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d25-11",
+     "id": "d25-1",
      "coverage": [
-      "clips",
-      "forum"
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2303,44 +2185,30 @@
    ],
    "traced": [
     "d25-5",
-    "d25-2",
-    "d25-4",
+    "d25-3",
+    "d25-8",
     "d25-10",
-    "d25-9"
+    "d25-4",
+    "d25-6",
+    "d25-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 25). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim had a hidden report in another sector S, S reached 3 successes, and L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-24 (traced 38, 40, 42, 45, 47, 49, 52, 53).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. He already has forum and West, so that adds nothing. Cable and foreign victims cannot be traced.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students. Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. Small risk, and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That keeps x4. Keep this up to day 30. If the pool is announced below 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d24: 9 non-gazette kills a day. d25: same 9 (points 707 before day 25, expect 743 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 25). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30. d20: 33. d21: 34. d22: 36. d23: 37. d24: 38 (pool 3000).\nDay 25 kills: d25-5 (national), d25-2, d25-3 (W), d25-8, d25-10 (G), d25-1, d25-4 (C), d25-6, d25-7 (Fo). Skipped d25-9 and d25-11 (forum). Points after day 25 should be 642 + 36 = 678.\nDEATH COUNTS: d1-4 = 3 each, d5 to d25 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 6437,
-   "output_tokens": 1243,
-   "seconds": 10.9
+   "input_tokens": 6413,
+   "output_tokens": 1467,
+   "seconds": 11.2
   },
   {
    "day": 26,
    "kills": [
     {
-     "id": "d26-6",
+     "id": "d26-9",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-1",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-11",
-     "coverage": [
-      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2354,9 +2222,43 @@
      "block": "afternoon"
     },
     {
-     "id": "d26-8",
+     "id": "d26-7",
      "coverage": [
       "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "gazette",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "gazette",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2370,52 +2272,33 @@
      "block": "afternoon"
     },
     {
-     "id": "d26-7",
+     "id": "d26-8",
      "coverage": [
       "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-5",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-9",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d26-9",
-    "d26-6",
-    "d26-5",
-    "d26-11",
-    "d26-3"
+    "d26-7",
+    "d26-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 26). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim had a hidden report in another sector S, S reached 3 successes, and L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-25 (traced up to 55 after day 25).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. He already has forum and West, so that adds nothing. Cable and foreign victims cannot be traced.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students. Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. Small risk, and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That keeps x4. Keep this up to day 30. If the pool is announced below 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d25: 9 non-gazette kills a day. d26: same 9 (points 743 before day 26, expect 779 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 26). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8: 9. d9: 12. d10: 14. d11: 14. d12: 17. d13: 20. d14: 22. d15: 25. d16: 27. d17: 28. d18: 30. d19: 30. d20: 33. d21: 34. d22: 36. d23: 37. d24: 38. d25: 41 (pool 3000).\nDay 26 kills: d26-9 (national), d26-2, d26-7 (W), d26-4, d26-10 (G), d26-5, d26-6 (C), d26-3, d26-8 (Fo). Skipped d26-1 and d26-11 (forum). Points after day 26 should be 678 + 36 = 714.\nDEATH COUNTS: d1-4 = 3 each, d5 to d26 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 6568,
-   "output_tokens": 1176,
-   "seconds": 9.5
+   "input_tokens": 6584,
+   "output_tokens": 1313,
+   "seconds": 9.6
   },
   {
    "day": 27,
    "kills": [
     {
-     "id": "d27-8",
+     "id": "d27-6",
      "coverage": [
       "national"
      ],
@@ -2423,7 +2306,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d27-1",
+     "id": "d27-2",
      "coverage": [
       "regional:West"
      ],
@@ -2441,8 +2324,15 @@
     {
      "id": "d27-3",
      "coverage": [
-      "docket",
-      "foreign"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2450,24 +2340,25 @@
     {
      "id": "d27-4",
      "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "cable",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
       "foreign",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-6",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-9",
-     "coverage": [
-      "cable"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2475,43 +2366,35 @@
     {
      "id": "d27-10",
      "coverage": [
-      "docket",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-11",
-     "coverage": [
-      "forum"
+      "foreign",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d27-10",
+    "d27-6",
+    "d27-8",
     "d27-4",
-    "d27-1",
-    "d27-3",
-    "d27-8"
+    "d27-5",
+    "d27-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 27). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim had a hidden report in another sector S, S reached 3 successes, and L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-26 (traced 57 after day 26).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. He already has forum and West, so that adds nothing. Cable and foreign victims cannot be traced.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students. Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. Small risk, and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That keeps x4. Keep this up to day 30. If the pool is announced below 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d26: 9 non-gazette kills a day. d27: same 9 (points 779 before day 27, expect 815 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 27). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8-d25 steady rise to 41. d26: 42 (pool 3000).\nDay 27 kills: d27-6 (national), d27-2, d27-7 (W), d27-3, d27-8 (G), d27-4, d27-5 (C), d27-1, d27-10 (Fo). Skipped d27-9 and d27-11 (forum). Points after day 27 should be 714 + 36 = 750.\nDEATH COUNTS: d1-4 = 3 each, d5 to d27 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 6717,
-   "output_tokens": 1346,
-   "seconds": 11.1
+   "input_tokens": 6755,
+   "output_tokens": 1409,
+   "seconds": 11.2
   },
   {
    "day": 28,
    "kills": [
     {
-     "id": "d28-6",
+     "id": "d28-2",
      "coverage": [
       "national"
      ],
@@ -2521,23 +2404,7 @@
     {
      "id": "d28-1",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-9",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-2",
-     "coverage": [
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2545,8 +2412,8 @@
     {
      "id": "d28-8",
      "coverage": [
-      "forum",
-      "podcasts"
+      "clips",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2554,16 +2421,24 @@
     {
      "id": "d28-3",
      "coverage": [
-      "regional:West"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d28-7",
+     "id": "d28-9",
      "coverage": [
-      "regional:East",
-      "regional:West"
+      "blotter",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2571,13 +2446,22 @@
     {
      "id": "d28-10",
      "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "clips",
       "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d28-11",
+     "id": "d28-7",
      "coverage": [
       "foreign"
      ],
@@ -2586,35 +2470,29 @@
     }
    ],
    "traced": [
+    "d28-2",
     "d28-1",
-    "d28-8",
     "d28-3",
-    "d28-7",
-    "d28-6"
+    "d28-9",
+    "d28-4",
+    "d28-10",
+    "d28-5"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 28). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Best explanation: one day-3 gazette victim had a hidden report in another sector S, S reached 3 successes, and L applied 'gazette or S' (x0.4), giving about 1375. The pool stayed at 1000 after days 17-27 (traced 59 after day 27).\n\nWHY FORUM/WEST KILLS ARE SAFE: a forum or West victim with a hidden report in place X only gives L 'forum or X' or 'West or X'. He already has forum and West, so that adds nothing. Cable and foreign victims cannot be traced.\n\nDANGERS (any of these would catch me):\n1) A third gazette success would force gazette (x0.5, about 690). NEVER KILL GAZETTE.\n2) Any kill outside the afternoon. A morning kill would rule out students. Afternoon quick kills only.\n3) The other day-3 gazette victim, if it had a hidden report in T and T reaches 3 successes. Small risk, and I cannot control it.\n\nPLAN: every day make all 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon. That keeps x4. Keep this up to day 30, the last day included, because being caught halves everything. If the pool is announced below 1000, I should already have been caught, so any change means rethink.\n\nLOG: d1-d3 as before (d3 had the 2 gazette kills). d4-d27: 9 non-gazette kills a day. d28: same 9 (points 815 before day 28, expect 851 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 28). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum. I follow forum, so any forum report shows up on the victim's list.\nSTATUS: the pool has been 3000 since day 7, so two places are hit, both among W/G/C/Fo. The third reachable place is almost surely FORUM, which is unhit only because I killed just 4 forum victims (d2 and d5). Killing forum victims would likely get me caught.\nWHY SAFE: if the third reachable place were among W/G/C/Fo, with about 30+ victims each it would almost surely have reached 3 traces already. The traced rate of about 2 a day also fits 2 reachable categories.\n- Do NOT add a forum kill to reach 10. The extra point is not worth the risk of losing half the total.\nMONITOR: if the pool drops to 1000 or below I am already caught. If the pool moves to around 700 to 1000, rethink.\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (pool 10000). d7: 8 (pool 3000). d8-d25 steady rise to 41. d26: 42. d27: 43 (pool 3000).\nDay 28 kills: d28-2 (national), d28-1, d28-8 (W), d28-3, d28-9 (G), d28-4, d28-10 (C), d28-5, d28-7 (Fo). Skipped d28-6 and d28-11 (forum). Points after day 28 should be 750 + 36 = 786.\nDEATH COUNTS: d1-4 = 3 each, d5 to d28 = 9 each. The 5-day window = the previous 4 days (36) + today's 9 = 45, which gives x4. Keep 9 a day through day 30 (days 29 and 30 remain).\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 6878,
-   "output_tokens": 1195,
-   "seconds": 9.6
+   "input_tokens": 6832,
+   "output_tokens": 1319,
+   "seconds": 10.5
   },
   {
    "day": 29,
    "kills": [
     {
-     "id": "d29-1",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-2",
+     "id": "d29-8",
      "coverage": [
       "national"
      ],
@@ -2622,7 +2500,15 @@
      "block": "afternoon"
     },
     {
-     "id": "d29-4",
+     "id": "d29-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
      "coverage": [
       "regional:West"
      ],
@@ -2632,32 +2518,7 @@
     {
      "id": "d29-5",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-6",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-8",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-9",
-     "coverage": [
-      "docket",
-      "forum"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2665,7 +2526,33 @@
     {
      "id": "d29-10",
      "coverage": [
-      "forum"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2673,34 +2560,36 @@
     {
      "id": "d29-11",
      "coverage": [
-      "foreign"
+      "foreign",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-10",
-    "d29-6",
+    "d29-8",
     "d29-1",
-    "d29-11",
-    "d29-8"
+    "d29-7",
+    "d29-5",
+    "d29-10",
+    "d29-3"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "REVISED (day 29). FACTS: regional, sector and forum are REACHABLE. Cable and foreign are UNREACHABLE (or regional is unreachable and cable reachable; the pool maths is the same). Hidden reports are always in a place I do NOT follow.\n\nPOOL HISTORY: Afternoon kills ruled out day workers, leaving 55k. Then x0.25 for forum and x0.25 for West gave about 3437, announced as 3000 on days 4-15. AFTER DAY 16 IT WAS ANNOUNCED AS 1000, and I was not caught, so the pool is 1001-1499. Most likely a day-3 gazette victim had a hidden report in sector S, and L applied 'gazette or S'. The pool stayed at 1000 through day 28 (61 traced after day 28).\n\nWHY FORUM/WEST KILLS ARE SAFE: a hidden report only gives L 'forum or X' or 'West or X', and he already has forum and West. Cable and foreign victims cannot be traced.\n\nDANGERS: 1) NEVER KILL GAZETTE. A third gazette success would push the pool to about 690 and I would be caught, losing half of roughly 900 points. That applies on day 30 too. 2) Only kill in the afternoon, quick entries only.\n\nPLAN: every day make the 9 non-gazette kills (national, forum x2, cable x2, foreign x2, West x2), all quick in the afternoon, to keep x4. Day 30 is the last day: do exactly the same.\n\nLOG: d4-d28: 9 non-gazette kills a day. d29: same 9 (851 points before day 29, expect 887 after).",
+   "notes_to_self": "STRATEGY (kept on days 7 to 29). All quick kills go in the AFTERNOON. Never change the block. The routine pool is about 55k. Exactly 3 of my 5 places are reachable by L. One hit gives about 10000, two give about 3000, three give about 700-860, which means caught.\nPLAN: Exclude FORUM permanently. Each day kill 9 = national + 2 West + 2 gazette + 2 cable + 2 foreign, all quick, afternoon. Skip any victim whose reported_in includes forum.\nSTATUS: the pool has been 3000 since day 7, so two places are hit. The third reachable place is almost surely FORUM, which is unhit because I killed only 4 forum victims (d2, d5). A forum kill risks getting me caught, and being caught at the end of day 30 still halves the total.\n- Day 30 is the LAST day. Do NOT add forum kills or a 10th kill. Just repeat the same 9.\nMONITOR: the pool was 3000 after day 28 and traced was 46 (it jumped by 3, which is normal).\nTRACED HISTORY: d5: 4 (pool 60000). d6: 6 (10000). d7: 8 (3000). d25: 41, d26: 42, d27: 43, d28: 46 (pool 3000).\nDay 29 kills: d29-8 (national), d29-1, d29-7 (W), d29-5, d29-10 (G), d29-2, d29-9 (C), d29-3, d29-11 (Fo). Skipped d29-4 and d29-6 (forum). Points after day 29 should be 786 + 36 = 822.\nDEATH COUNTS: d5 to d29 = 9 each, so the 5-day window is 45 on day 30, which gives x4. Kill 9 on day 30.\n- At most 10 quick a day; at most 2 timed.",
    "error": null,
-   "input_tokens": 7055,
-   "output_tokens": 1109,
-   "seconds": 10.3
+   "input_tokens": 7015,
+   "output_tokens": 1162,
+   "seconds": 9.4
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-8",
+     "id": "d30-4",
      "coverage": [
       "national"
      ],
@@ -2708,9 +2597,26 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-1",
+     "id": "d30-5",
      "coverage": [
-      "forum"
+      "podcasts",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2718,25 +2624,33 @@
     {
      "id": "d30-11",
      "coverage": [
-      "forum",
-      "podcasts"
+      "blotter",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d30-2",
+     "id": "d30-7",
      "coverage": [
-      "regional:West"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d30-4",
+     "id": "d30-9",
      "coverage": [
-      "regional:North",
-      "regional:West"
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-1",
+     "coverage": [
+      "foreign",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2748,50 +2662,22 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d30-7",
-     "coverage": [
-      "foreign",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-5",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-9",
-     "coverage": [
-      "cable",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-2",
-    "d30-8",
-    "d30-9",
+    "d30-5",
     "d30-11",
     "d30-3"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 1375,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 30, the final day. I made the same 9 non-gazette kills as every day since day 4: national, forum x2, cable x2, foreign x2 and West x2, all quick entries in the afternoon. That keeps the x4 multiplier, since the last five days total 45 deaths. Gazette was skipped because a trace could push the pool to 1,000 or below and get me caught. Expected total is about 923 points.",
+   "notes_to_self": "Day 30 is the final day. I made the same 9 quick afternoon kills: d30-4 (national), d30-5 and d30-10 (West), d30-6 and d30-11 (gazette), d30-7 and d30-9 (cable), d30-1 and d30-3 (foreign). I skipped the forum kills d30-2 and d30-8 because of the risk of being caught. Expected final score is 822 + 36 = 858.",
    "error": null,
-   "input_tokens": 7059,
-   "output_tokens": 851,
-   "seconds": 9.5
+   "input_tokens": 7039,
+   "output_tokens": 784,
+   "seconds": 8.2
   }
  ],
  "briefings": [
@@ -2803,152 +2689,152 @@
   {
    "after_day": 1,
    "pool": 60000,
-   "deaths_traced": 2
+   "deaths_traced": 0
   },
   {
    "after_day": 2,
    "pool": 60000,
-   "deaths_traced": 4
+   "deaths_traced": 0
   },
   {
    "after_day": 3,
-   "pool": 10000,
-   "deaths_traced": 8
+   "pool": 60000,
+   "deaths_traced": 0
   },
   {
    "after_day": 4,
-   "pool": 3000,
-   "deaths_traced": 10
+   "pool": 60000,
+   "deaths_traced": 0
   },
   {
    "after_day": 5,
-   "pool": 3000,
-   "deaths_traced": 11
+   "pool": 60000,
+   "deaths_traced": 4
   },
   {
    "after_day": 6,
-   "pool": 3000,
-   "deaths_traced": 12
+   "pool": 10000,
+   "deaths_traced": 6
   },
   {
    "after_day": 7,
    "pool": 3000,
-   "deaths_traced": 15
+   "deaths_traced": 8
   },
   {
    "after_day": 8,
    "pool": 3000,
-   "deaths_traced": 16
+   "deaths_traced": 9
   },
   {
    "after_day": 9,
    "pool": 3000,
-   "deaths_traced": 18
+   "deaths_traced": 12
   },
   {
    "after_day": 10,
    "pool": 3000,
-   "deaths_traced": 20
+   "deaths_traced": 14
   },
   {
    "after_day": 11,
    "pool": 3000,
-   "deaths_traced": 23
+   "deaths_traced": 14
   },
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 25
+   "deaths_traced": 17
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 29
+   "deaths_traced": 20
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 31
+   "deaths_traced": 22
   },
   {
    "after_day": 15,
    "pool": 3000,
-   "deaths_traced": 33
+   "deaths_traced": 25
   },
   {
    "after_day": 16,
-   "pool": 1000,
-   "deaths_traced": 36
+   "pool": 3000,
+   "deaths_traced": 27
   },
   {
    "after_day": 17,
-   "pool": 1000,
-   "deaths_traced": 38
+   "pool": 3000,
+   "deaths_traced": 28
   },
   {
    "after_day": 18,
-   "pool": 1000,
-   "deaths_traced": 40
+   "pool": 3000,
+   "deaths_traced": 30
   },
   {
    "after_day": 19,
-   "pool": 1000,
-   "deaths_traced": 42
+   "pool": 3000,
+   "deaths_traced": 30
   },
   {
    "after_day": 20,
-   "pool": 1000,
-   "deaths_traced": 45
+   "pool": 3000,
+   "deaths_traced": 33
   },
   {
    "after_day": 21,
-   "pool": 1000,
-   "deaths_traced": 47
+   "pool": 3000,
+   "deaths_traced": 34
   },
   {
    "after_day": 22,
-   "pool": 1000,
-   "deaths_traced": 49
+   "pool": 3000,
+   "deaths_traced": 36
   },
   {
    "after_day": 23,
-   "pool": 1000,
-   "deaths_traced": 52
+   "pool": 3000,
+   "deaths_traced": 37
   },
   {
    "after_day": 24,
-   "pool": 1000,
-   "deaths_traced": 53
+   "pool": 3000,
+   "deaths_traced": 38
   },
   {
    "after_day": 25,
-   "pool": 1000,
-   "deaths_traced": 55
+   "pool": 3000,
+   "deaths_traced": 41
   },
   {
    "after_day": 26,
-   "pool": 1000,
-   "deaths_traced": 57
+   "pool": 3000,
+   "deaths_traced": 42
   },
   {
    "after_day": 27,
-   "pool": 1000,
-   "deaths_traced": 59
+   "pool": 3000,
+   "deaths_traced": 43
   },
   {
    "after_day": 28,
-   "pool": 1000,
-   "deaths_traced": 61
+   "pool": 3000,
+   "deaths_traced": 46
   },
   {
    "after_day": 29,
-   "pool": 1000,
-   "deaths_traced": 62
+   "pool": 3000,
+   "deaths_traced": 50
   },
   {
    "after_day": 30,
-   "pool": 1000,
-   "deaths_traced": 63
+   "pool": 3000,
+   "deaths_traced": 51
   }
  ],
  "effort": "high"

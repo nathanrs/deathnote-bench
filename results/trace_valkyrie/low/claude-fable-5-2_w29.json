@@ -1,0 +1,3034 @@
+{
+ "run_id": "525a05a6-684f-4bc4-bb1d-f7b27b6fe507",
+ "agent": "lightloop",
+ "model": "anthropic/claude-fable-5-2",
+ "task": "trace-029",
+ "reward": 0.9457,
+ "exit": null,
+ "agent_seconds": 390.4002209109999,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 29,
+  "region": "North",
+  "sector": "security",
+  "age": "40 to 59",
+  "blind": [
+   "age",
+   "foreign"
+  ]
+ },
+ "briefing_every": 1,
+ "trace_chance": 0.5,
+ "points": 957,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 264,
+ "input_tokens": 138976,
+ "output_tokens": 39865,
+ "seconds": 385,
+ "informed_best": 1012,
+ "tester": 41,
+ "hider": 30,
+ "grabber": 22,
+ "score": 0.9457,
+ "log_trimmed": null,
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-8",
+     "coverage": [
+      "blotter"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-11",
+     "coverage": [
+      "blotter"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-2",
+    "d1-8",
+    "d1-11"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use morning>2 or other blocks). L can reach only 3 of 5 kinds (regional, sector=blotter, age=cable, forum, foreign). Safe if at most 2 reachable kinds are revealed (pool ~3000 >1000). GOAL: identify ONE reachable kind and exclude it forever, then kill national + the other 4 kinds every day (9/day -> x4 multiplier), zero risk. TEST PHASE: each day kill national + the 2 criminals of ONE kind under test only. If next day's deaths_traced rose -> that kind is reachable -> EXCLUDE it forever (never kill its criminals again, even if co-listed) and start the 9/day phase. If no rise -> test the next kind next day (order: blotter, cable, regional, forum, foreign, then cycle again). Never kill a criminal listed in the excluded place. Sanity: if pool ever shows ~3000 that is expected (two kinds revealed); if it nears 1000-2000 unexpectedly, cut back to national only. LOG: Day1 tested blotter (traced count before = 0). Excluded kind: none yet.",
+   "error": null,
+   "input_tokens": 1935,
+   "output_tokens": 7826,
+   "seconds": 96.9,
+   "reasoning": "I'm weighing the pool size against the point at which a caught player loses half their points and the game ends. The identity attributes each carry roughly a quarter or less of the pool, so I can only realistically learn about three of the five kinds. Taking routine at 15% plus three of the larger ones is the option I'm testing next.\n\nI'm checking the numbers for combinations of the identity attributes. Revealing routine plus two other kinds drops the pool to about 937, which is caught, while three kinds without routine stays above the threshold. That makes hiding routine entirely the key, so I'm now looking at whether timing quick kills in the morning and afternoon can keep each daily routine's exposure under the limit.\n\nI'm working through the pool arithmetic for the remaining combinations: with routine mostly exposed at about 55% of the pool, adding three kinds drops it to roughly 687, which is caught, while two kinds stay safely above the threshold.\n\nI'm testing whether using three or four kinds of criminals per day can double or quadruple the kill count, since each extra kind adds to the daily total. With three kinds the risk of being caught is low, since the two attributes L can't reach would both have to fall among the other two. Four kinds would push the kills higher, and I'm checking how often L could reach three of them.\n\nI'm checking how the pool's rounding would show each reveal: the first kind takes it to 10000 either way, and after two kinds it sits near 3000, so the third kind has to be stopped. What I still need to know is whether I can tell which kinds have already been revealed.\n\nI'm now wondering whether the traced counts can reveal which kinds are reachable, by killing from only certain kinds on a given day and seeing if the count rises. Reports that list an OR of places also give weaker information than a single match, so they shrink the pool less.\n\nI'm considering whether guarding the routine is worth the cost, and whether killing only in the afternoon keeps the routine exposure at a level I can live with. Sticking to six kills a day would hide the routine entirely, which would make three revealed kinds safe, but it would also cut my total sharply, so I'm weighing that against the doubled daily count I'd get from a larger pool of kills.\n\nI'm comparing a full-pool strategy that keeps the routine hidden and reveals three safe kinds against a faster strategy of eight or more kills a day, where I'd watch the pool and trace counts to learn which kinds are unreachable.\n\nI'm seeing that with all five kinds of victim exposed and a caught victim, the count would be 36 a day, which beats 12. The catch is that I have to find out which kinds are unreachable before a third reachable kind gets revealed. Deaths from unreachable kinds never trace successfully, so I could test that by killing only from certain kinds on a given day and watching whether the traced count goes up.\n\nI'm settling on a testing plan: each day I'll kill from a couple of criminals of a single kind and watch whether the traced count goes up, since deaths from unreachable kinds never trace. The catch is that a successful trace only happens some of the time, so one clean result won't be enough to be sure.\n\nI'm considering a staged test: first killing from the national criminal plus two kinds at a time to see which kinds produce traced deaths. Since the traced count only shows the total, I'll need to work out the kinds individually, and the pool sizes for the different attributes don't separate them clearly.\n\nI'm considering whether to start by killing from all five kinds to see the traced count, even though it's unclear how to tell the reachable kinds apart from that aggregate figure. Early days cost nothing extra, so I could spend them on testing, but two kills per kind per day won't give me enough confidence.\n\nI'm deciding to test in stages: first kill from the national criminal plus two of the other kinds, watching the traced count to see how many of them are reachable. Fewer kinds at once keeps the pool from getting revealed too quickly, and the traced count and pool size together should show how many reachable kinds there are.\n\nI'm thinking the pool will give the clearest signal once kinds A and B have been tested: if it drops to about 3000 both are reachable, and if it sits near 10000 only one is. If that happens, I'm considering adding kind C to the daily kills, since I can afford one more reveal, but I'd then have to find a way to test D and E without revealing a third reachable kind.\n\nI'm thinking about testing kinds D and E by killing from them for a limited time, though the traced count from A and B would muddy the reading. Pausing the other kinds on test days would cut the multiplier, so I'm weighing that cost. I'd rather keep about seven non-national kills a day, perhaps three full kinds plus one extra kill from a fourth.\n\nI'm working out a staged plan where early days at one-times multiplier are cheap enough to spend on testing which kinds are reachable, since killing from two kinds a day with a 50% trace rate gives only slow evidence.\n\nI'm weighing a staged plan: first test kinds one at a time, since the early days cost little, but that delays the multiplier and the points lost add up, so I'm considering grouping kinds across days instead.\n\nI'm weighing whether to test the kinds one at a time or in pairs, since each added kind risks revealing a third reachable one. Keeping two kinds going at once seems workable, with the pool size as the clearer signal, but I still need a way to tell whether a newly added kind is reachable without spending too much of my budget on the test.\n\nI'm now considering a test design where I kill at most two victims from a single kind on a given day, so that kind can never reveal itself alone, and pad the day with national and already-known-unreachable kills. If the traced count rises, that kind is reachable. If it stays flat, the result is weaker, since I'd still only be about 60% sure it's reachable beforehand.\n\nI'm checking the trace odds if a single kind is the only one being tested: a roughly 30% chance of cross-report failure brings the success rate down, and even two zero-trace results leave it at about a one-in-three chance that the kind is reachable. I'm considering a day-one sweep across all five kinds, but since no place can reach three traces that day, it wouldn't reveal anything useful. Pairing the kinds across days is the other option, though each pairing still leaves the count ambiguous.\n\nI'm considering a first phase with kinds A, B and C killed every day, which costs little extra if it turns out that all three are unreachable. If all three were reachable, the risk would be a catch a few days in, so I'd lose only a small amount of points. Starting with just A and B for a couple of days looks slower, so I'm weighing which option gets the count to reveal information sooner.\n\nI'm reasoning that I only need to identify one reachable kind to exclude it, so I'll test kinds singly and stop as soon as one shows a trace, keeping it under three traced victims so it never gets revealed.\n\nI'm settling on a way to find just one reachable kind quickly: test a single kind on a day with only two kills, since that keeps it from ever revealing itself. The catch is that a single day of testing only detects a trace about 41% of the time, so the search is slow.\n\nI'm falling back on a mixed plan: test kind A alone on day one, and if it shows no trace, move on to B the next day. Even with the uncertainty, the delay should only cost about 70 points, which is small against the roughly 900 at stake.\n\nI'm considering whether to test each kind alone with two kills on a given day, since a single kind can't reveal itself that way, and I'm leaning toward keeping it simple: one kind per day plus the national kill. The open question is which kind to test first, and so far nothing favors one over another.\n\nI'm considering switching to kind B the next day once A comes back with no trace, and continuing that cycle. Each test day only uses two kills from one kind, so I'm weighing whether adding the previous kind's kills to a test day would muddy the count, and I'm leaning toward keeping test days clean. The cost of the slower start looks small next to the value of the multiplier later.\n\nI'm now checking what happens after exclusion: once one reachable kind is ruled out, the other four are in play, and I should confirm that the two remaining reachable kinds will get revealed without my earlier test victims adding any new constraint.\n\nI'm checking whether the excluded kind could ever reveal a third trace, and it can't, since I'd never kill there again and I'd be told about any cross-reported victims. Routine at about 55% still leaves the two remaining reachable kinds safe to reveal, so the restricted approach holds up.\n\nI'm settling on blotter as the first kind to test, since it doesn't matter which one goes first: I'll kill one national criminal and two blotter criminals on day one, keeping the test to a single kind so its result stays clean.\n\n"
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-4",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-5",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-7",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-8",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-10",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-11",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-3",
+    "d2-5"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 test of blotter: traced rose 0->2 => sector/blotter is REACHABLE. EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed; a 3rd traced blotter victim would trigger the sector clue). 9/DAY PHASE from day 2: every day kill national + all regional, cable, forum, foreign criminals that are NOT listed in blotter (9/day -> x4 multiplier). Worst case L reveals two of those kinds -> pool ~3400 (>1000), safe. Expected pool path: 60000 -> ~14000 -> ~3000. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2 started 9/day phase.",
+   "error": null,
+   "input_tokens": 2430,
+   "output_tokens": 1136,
+   "seconds": 11.1,
+   "reasoning": "I'm ruling out the blotter for good, since the Day 1 deaths already point to it being reachable. Next I'm eliminating the national sector along with the other four kinds: regional, cable, forum, and foreign.\n\nI'm working through the remaining kinds: the other four besides sector are each worth 25% in the worst case, and the afternoon-only routine keeps 55% of the pool, so that still leaves the count under the limit. I'll plan to eliminate nine places today, keeping the two traced-blotter victims aside.\n\n"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-3",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-11",
+    "d3-6"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 test of blotter: traced rose 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed). 9/DAY PHASE from day 2: every day kill national + all regional, cable, forum, foreign criminals that are NOT listed in blotter (9/day -> x4 multiplier once 40 deaths in last 5 days). Worst case L reveals two of those kinds -> pool ~3400 (>1000), safe. Expected pool path: 60000 -> ~14000 -> ~3000. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2 9 kills (traced 3, pool 60000). Day3 9 kills.",
+   "error": null,
+   "input_tokens": 2514,
+   "output_tokens": 1254,
+   "seconds": 11.2,
+   "reasoning": "I'm a night worker with free mornings and afternoons, so I'm working out the afternoon kill pool: night workers, students, and people at home make up 55% of it. The pool is about 60,000 after day one, rounding 55,000 up to 60,000 is fine for now. On day one I killed two blotters and traced two, but the clue needs three traced.\n\nI'm checking the risk of the two remaining kinds being revealed: with regional and age each at 25%, that's about 3,400 victims, still well above the 1,000 threshold, and the sector kind I already avoid. I'm also noting the blotter clue needs three traced victims and I have two, so it's not a concern yet. Deaths so far are 21, short of 30, but I'll proceed with nine afternoon kills, all except d3-2 and d3-7.\n\n"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-1",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-2",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-10",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-1",
+    "d4-4",
+    "d4-5",
+    "d4-8",
+    "d4-9"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 test of blotter: traced rose 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed). 9/DAY PHASE from day 2: every day kill national + all regional, cable, forum, foreign criminals that are NOT listed in blotter (9/day -> x4 multiplier once 40 deaths in last 5 days). Worst case L reveals two of those kinds -> pool ~3400 (>1000), safe. Expected pool path: 60000 -> ~14000 -> ~3000. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2 9 kills (traced 3, pool 60000). Day3 9 kills (traced 4, pool 60000). Day4 9 kills (x2 expected; x4 from day 5 on).",
+   "error": null,
+   "input_tokens": 2710,
+   "output_tokens": 1363,
+   "seconds": 12.5,
+   "reasoning": "I'm checking the daily pool figure, which comes to 55,000 once the afternoon-only routines are accounted for. I'm also tallying the traced kill counts across the three days.\n\nI'm checking the pool arithmetic again: with two kinds revealed, 55,000 \u00d7 0.25 \u00d7 0.25 comes to about 3,437, which is still above 1,000. I'm also weighing whether victims reported at places I don't follow could weaken the constraint, and it looks like they'd only make it a looser union, so the plan still holds.\n\nNow I'm weighing whether to add blotter kills, since a third traced blotter would trigger the sector check and drop the survival odds to roughly 687, so I'm leaving that alone and continuing with the nine kills.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "cable",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-1",
+    "d5-4",
+    "d5-7"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day -> x4 once 40 deaths in last 5 days; x4 from day 6 on). After day 4 pool fell to 10000 (~13750) = one of my four kinds revealed. Worst case a second is revealed -> ~3400 (shows as 3000), still >1000, safe; the other two kinds are unreachable. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each (traced 6 after day 4, pool 10000). Day5 9 kills (x2, window was 39).",
+   "error": null,
+   "input_tokens": 2909,
+   "output_tokens": 1769,
+   "seconds": 18.1,
+   "reasoning": "I'm working through the pool numbers: after day one the pool reads 60,000, which I'm reconciling against the afternoon killings and the 55% of free-afternoon groups. By day four the pool has dropped to 10,000, which fits one clue type having triggered at 25% of 55,000, with the cable clue still being checked.\n\nI'm checking the trace counts against the expected rate: four more traced kills out of 24 is below the roughly six I'd expect if two of the remaining kinds were reachable. That suggests one kind fired with three or four traces while the other reachable kind has little or nothing, so the pool would fall to about 3,437 at worst, still well above 1,000.\n\nI'm checking whether a traced victim reported in \"hospital\" could still add up to three, since that clue is only disjunctive and stays weaker. I'm also noting the floor of about 3,437 with the sector clue avoided. Over the remaining days the count comes to 39 with only nine kills at double rate, and adding a blotter kill would risk triggering the sector, so I'm settling on nine kills at x2 today.\n\nWeighing nine kills at double rate today against ten at quadruple, the larger play risks the sector clue and a pool that would fall to around 2,750, so the steady path wins. Looking ahead, the remaining 25 days come to about 900 points from this approach, and the next window from day two to day six lets me push the multiplier to x4.\n\n"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-4",
+    "d6-6",
+    "d6-7",
+    "d6-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day -> x4 while 40+ deaths in last 5 days; x4 from day 6 on). After day 4 pool fell to 10000 (~13750) = one of my four kinds revealed. Worst case a second is revealed -> ~3400 (shows as 3000), still >1000, safe; the other two kinds are unreachable. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each (traced 6 after day 4, pool 10000). Day5 9 kills (x2). Day6 9 kills (x4).",
+   "error": null,
+   "input_tokens": 3080,
+   "output_tokens": 1120,
+   "seconds": 9.8,
+   "reasoning": "I'm checking the strategy against the numbers: the afternoon routines that are free add up to 55% of the pool, and after day four the remaining count works out to a quarter of that, so exactly one kind of detail is revealed. The sector is still reachable from the second blotter, and I can get to three of the five.\n\nSafe at about 3437 against the 1000 threshold, so I can keep going with nine more kills over days two through six.\n\n"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-10",
+    "d7-1",
+    "d7-3",
+    "d7-5",
+    "d7-7",
+    "d7-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day -> x4 while 40+ deaths in last 5 days; x4 from day 6 on). After day 4 pool fell to 10000 (~13750) = one of my four kinds revealed. Worst case a second is revealed -> ~3400 (shows as 3000), still >1000, safe; the other two kinds are unreachable. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each (traced 6 after day 4, pool 10000). Day5 9 kills (x2). Day6 9 kills (x4). Day7 9 kills (x4).",
+   "error": null,
+   "input_tokens": 3251,
+   "output_tokens": 1131,
+   "seconds": 9.9,
+   "reasoning": "I'm deciding between the options, so I'm checking the afternoon-only numbers against my notes: routines free in the afternoon come to 55%, and the pool of 60,000 after day one still rounds fine. Then I'm tracing the blotter, which reaches 2 on day one, and working out which of the other four kinds are reachable from L, since it covers three of five.\n\nChecking the pool after day four: 13,750 revealed with one kind, and a second reachable kind would bring it to about 3,437, still over 1,000. Even if the co-reported victims tighten things, the worst case stays above the limit, so this holds.\n\n"
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-1",
+    "d8-2",
+    "d8-4",
+    "d8-6",
+    "d8-9",
+    "d8-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day -> x4 while 40+ deaths in last 5 days; x4 from day 6 on). After day 4 pool fell to 10000 (~13750) = one of my four kinds revealed. Worst case a second is revealed -> ~3400 (shows as 3000), still >1000, safe; the other two kinds are unreachable. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each (traced 6 after day 4, pool 10000). Day5 9 kills (x2). Day6-8 9 kills each (x4). After day 7: pool 10000, traced 10.",
+   "error": null,
+   "input_tokens": 3426,
+   "output_tokens": 1448,
+   "seconds": 13.0,
+   "reasoning": "I'm checking the numbers quickly: the afternoon-free routine pool comes to 55%, and after day 4 the 25% revealed means one kind of clue is now known. The sector is already reachable from the day 1 blotter, so I can reach three of the five by combining it with two others.\n\nI'm double-checking the tracing odds: with two of my four kinds reachable, the expected trace count roughly matches the 10 so far. But if both were reachable, a third trace would likely have fired by now, and the pool still shows 10000 instead of 3000, so the picture doesn't quite fit yet.\n\nI'm settling on a kill for the next move: the remaining victims in the list are the ones I'll target.\n\n"
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-4",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-3",
+    "d9-7",
+    "d9-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day -> x4 while 40+ deaths in last 5 days; x4 from day 6 on). After day 4 pool fell to 10000 (~13750) = one of my four kinds revealed. Worst case a second is revealed -> ~3400 (shows as 3000), still >1000, safe; the other two kinds are unreachable. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each (traced 6 after day 4, pool 10000). Day5 9 kills (x2). Day6-9 9 kills each (x4). After day 8: pool 10000, traced 12.",
+   "error": null,
+   "input_tokens": 3596,
+   "output_tokens": 1718,
+   "seconds": 17.0,
+   "reasoning": "I'm checking the pool figures against the kills from the afternoon, since the day workers were busy then and so ruled out, leaving 55% of the pool. That 55,000 gets shown as 60,000, and with the day-4 pool at 10,000, one kind is revealed at 25%.\n\nI'm tallying the traced deaths against which kinds might be reachable: the two blotter traces suggest the sector is reachable, and the total of 12 fits with two of my four kinds being reachable, though only one has been revealed so far, which doesn't quite fit.\n\nI'm weighing whether the 3437 worst case fits the revealed 10000, and noting that the two reachable kinds from the traces don't obviously account for a single revealed kind.\n\nI'm working out the remaining worst case if the blotter is avoided: even with every kind hit, the odds come to about 215, still under 1000, and since the sector is reachable there's no third reachable kind to worry about. So the worst case stays at 3437, which is fine, and I'll keep going by killing one of the nine non-blotter victims.\n\n"
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-1",
+    "d10-2",
+    "d10-8",
+    "d10-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day -> x4 while 40+ deaths in last 5 days; x4 from day 6 on). After day 4 pool fell to 10000 (~13750) = one of my four kinds revealed. Worst case a second is revealed -> ~3400 (shows as 3000), still >1000, safe; the other two kinds are unreachable. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each (traced 6 after day 4, pool 10000). Day5 9 kills (x2). Day6-10 9 kills each (x4). After day 9: pool 10000, traced 13.",
+   "error": null,
+   "input_tokens": 3759,
+   "output_tokens": 1589,
+   "seconds": 15.5,
+   "reasoning": "I'm sorting out the pool: routine tasks make up 55%, since the afternoon quick kills rule out day workers, and day workers are free evening and night, leaving the busy morning and afternoon.\n\nI'm checking the reachable-kill math: with 11 traces observed against roughly 16 expected, I'm questioning whether two kinds are really reachable, since two reachable kinds should each already show several traces.\n\nI'm working through the worst case here: even if the second kind was never triggered, the pool stays above 3437, so nine more kills remain safe. I'm weighing whether to add the blotter kill too, but the sector clue could catch that one, so I'll leave it out.\n\n"
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-1",
+    "d11-2",
+    "d11-3",
+    "d11-4",
+    "d11-9",
+    "d11-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-11 9 kills each (x4). After day 10: pool 3000, traced 14.",
+   "error": null,
+   "input_tokens": 3922,
+   "output_tokens": 1309,
+   "seconds": 12.2,
+   "reasoning": "I'm working out the pool numbers: after day 10 it's at 3000, and the routine pool comes to 55,000 from the afternoon-free share. Two of my four kinds are already revealed, and I'm checking which of the remaining kinds the sector can still reach.\n\nRuling out the sector's clue was the last check: it's reachable, so the two other reachable kinds are already revealed and the pool can't shrink further without risking a trace. I'll keep killing nine a day and skip the blotter, since two traces are already on record and a third would get me caught.\n\n"
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-4",
+    "d12-3",
+    "d12-5",
+    "d12-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-12 9 kills each (x4). After day 11: pool 3000, traced 16.",
+   "error": null,
+   "input_tokens": 4088,
+   "output_tokens": 1235,
+   "seconds": 11.4,
+   "reasoning": "I'm checking through the notes: the pool drops from 100,000 to about 60,000 after day one, with day workers excluded from the afternoon kills. By day four it's near 10,000, and by day ten around 3,000, which points to two kinds among the regional, age, forum, and foreign options. I'm tracing day one from there.\n\nI'm working out the pool numbers: two of the four kinds of traced victims reach the sector, which rules out the other two, so the floor stays near 3,400 unless a blotter victim was killed. I'm also checking whether a 0.2 drop could give the same rounded figure, and it can't, since the sector needs three traced blotter victims and only two were killed. That leaves nine more kills, all non-blotter.\n\n"
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-4",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-7",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-1",
+    "d13-2",
+    "d13-4",
+    "d13-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-13 9 kills each (x4). After day 12: pool 3000, traced 16.",
+   "error": null,
+   "input_tokens": 4251,
+   "output_tokens": 1135,
+   "seconds": 10.0,
+   "reasoning": "I'm checking the pool figures from the notes: after day one it comes to about 60,000, since the routine afternoon kills leave 55% and the rounding lands there. By day four the clue count works out to one with a 25% rate, and by day ten two of those 25% kinds are revealed. The blotter shows a trace of 2 from day one, so I'm confirming the sector is reachable.\n\nI'm weighing whether the remaining kinds stay unreachable: the co-listed victims only give a weaker union, but the pool already works out exactly from the single-place cases, so the 25% kinds already revealed account for the full figure. I'm also checking that the traces match and that kill 9 is safe to take.\n\n"
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "cable",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-1",
+    "d14-5",
+    "d14-6",
+    "d14-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-14 9 kills each (x4). After day 13: pool 3000, traced 17.",
+   "error": null,
+   "input_tokens": 4414,
+   "output_tokens": 1120,
+   "seconds": 9.7,
+   "reasoning": "I'm checking the pool numbers: the afternoon kills leave the day workers out, so 55% of the group remains, and I'm tracking that count through days 4 and 10 to see which two kinds of people the blotter reveals.\n\nI'm confirming the day-1 trace count went up by 2 from the blotter, which makes the sector reachable, so the reachable kinds are the sector plus two of my four. A third sector trace would come out around 687 and get caught. Co-listed victims in unreachable places only weaken the clue, so that still holds. The pool stays near 3437, which is safe, so I'll continue with the nine kills except d14-2 and d14-11.\n\n"
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-1",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "cable",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "cable",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-1",
+    "d15-3",
+    "d15-4",
+    "d15-6",
+    "d15-8",
+    "d15-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-15 9 kills each (x4). After day 14: pool 3000, traced 18.",
+   "error": null,
+   "input_tokens": 4577,
+   "output_tokens": 1160,
+   "seconds": 10.2,
+   "reasoning": "I'm checking the pool figures across the days: 60,000 after day one, 10,000 after day four, and 3,000 after day ten. That means two of the four kinds have been revealed. The sector is reachable, since I traced two of them from the blotter victims, and with the two revealed kinds that adds up to\n\nI'm still checking the pool math against the kill plan: 3,437 fits the day-ten figure, and a 0.2 multiplier would also give 3,000, but that needs three traced blotter victims and I've only killed two, so that route is out. With the sector reachable plus my two revealed kinds, that makes three, which leaves the remaining ones safe to rule out. I'll avoid the blotter and keep working through the kill list.\n\n"
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-2",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-16 9 kills each (x4). After day 15: pool 3000, traced 21.",
+   "error": null,
+   "input_tokens": 4740,
+   "output_tokens": 1227,
+   "seconds": 11.6,
+   "reasoning": "I'm double-checking the afternoon-only kill math: 15% night workers, 20% students, and 20% home makes 55%, and the pool of 60,000 after day 1 holds up. On day 1 the blotter victims were traced, which means the sector is reachable, and two traced blotter victims are in hand with a third that would trigger the sector clue. By day 4 the pool is down to 10.\n\nI'm checking the pool after days 4 and 10: it falls to about 10,000, then to roughly 3,437. Two clue kinds are now fully known, and with the sector reachable that leaves two kinds I can't reach, so the pool can't go lower than that floor. Further blotter kills would drop the count to 687 and get me caught, so I'll avoid them and pick the nine targets from the list.\n\n"
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-6",
+    "d17-7",
+    "d17-9",
+    "d17-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-17 9 kills each (x4). After day 16: pool 3000, traced 21.",
+   "error": null,
+   "input_tokens": 4903,
+   "output_tokens": 1109,
+   "seconds": 9.6,
+   "reasoning": "I'm double-checking the pool numbers after day 1, day 4 and day 10, and confirming the sector is reachable since the blotter shows it was traced on day 1.\n\nI'm checking whether the sector is truly reachable: the day-1 traces succeeded, so it and the two 25% kinds must be reachable, leaving the other two out. The 3437 floor holds unless a blotter kill changes it, and the pool reasoning stays consistent, so I'll keep going with nine kills.\n\n"
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-1",
+    "d18-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-18 9 kills each (x4). After day 17: pool 3000, traced 22.",
+   "error": null,
+   "input_tokens": 5066,
+   "output_tokens": 1068,
+   "seconds": 9.0,
+   "reasoning": "I'm double-checking the pool math: 55,000 after day 1, then 10,000 after day 4, and about 3,000 after day 10, which means two of the four kinds are revealed. I'm also confirming the sector is reachable, since the blotter traces it on day 1.\n\nI'm checking that the sector is reachable and that the remaining pool is small enough to rule out the blotter kill, which would catch too many people at once. So I'll skip the blotter and take the nine kills on the other days.\n\n"
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "cable",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-3",
+    "d19-5",
+    "d19-6",
+    "d19-8",
+    "d19-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-19 9 kills each (x4). After day 18: pool 3000, traced 22.",
+   "error": null,
+   "input_tokens": 5229,
+   "output_tokens": 1033,
+   "seconds": 9.0,
+   "reasoning": "I'm checking the numbers so far: the pool was around 55,000 after day 1, about 13,750 after day 4, and 3,437 after day 10, with two kinds revealed. The routine math comes to 55% once I count students, the home crowd, and night workers as free in the afternoon, which is why I'm leaning toward the afternoon options over day workers.\n\nI'm checking which victim kinds are reachable through the blotter-only traces, and the two I've already seen revealed leave two unreachable. The pool stays at about 3,437 unless the blotter narrows it further. Co-listed victims only give weaker constraints, so I'll treat that as settled and move on to the nine remaining kills on day 19.\n\n"
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-5",
+    "d20-1",
+    "d20-3",
+    "d20-6",
+    "d20-8",
+    "d20-9",
+    "d20-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-20 9 kills each (x4). After day 19: pool 3000, traced 25.",
+   "error": null,
+   "input_tokens": 5392,
+   "output_tokens": 1054,
+   "seconds": 8.8,
+   "reasoning": "I'm double-checking the pool numbers: after day one the pool comes to about 60,000, and day four drops it to 10,000. Then on day ten I'm working out the last value, roughly 3,000, which points to two kinds being revealed.\n\nI'm checking that the two reachable kinds are the only ones revealed, with the sector plus two kinds accounting for all three reachable places. The remaining two are unreachable, and co-listed victims still only give a union clue that doesn't break the deduction. Next I'll work through the nine non-blotter kills in the afternoon.\n\n"
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-10",
+    "d21-3",
+    "d21-6",
+    "d21-8",
+    "d21-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-21 9 kills each (x4). After day 20: pool 3000, traced 28.",
+   "error": null,
+   "input_tokens": 5555,
+   "output_tokens": 942,
+   "seconds": 8.5,
+   "reasoning": "I'm continuing the plan to eliminate every non-blotter criminal during the afternoon. The afternoon pool works out to 55%: night workers at 15, plus students and home-bound at 20 each. The pool was 60,000 after day one, then dropped to 10,000 after day four, and now it's about 3,000. Two kinds are already revealed, and the sector is reachable since day one traced two blotter suspects. So I have three reachable targets.\n\nI'm checking the remaining candidates for the afternoon sweep. Nine non-blotter targets are on the list, and the sector plus two of my four reachable kinds cover the rest of the plan.\n\n"
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-1",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "cable",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-1",
+    "d22-3",
+    "d22-4",
+    "d22-5",
+    "d22-7",
+    "d22-9",
+    "d22-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-22 9 kills each (x4). After day 21: pool 3000, traced 29.",
+   "error": null,
+   "input_tokens": 5718,
+   "output_tokens": 1083,
+   "seconds": 9.5,
+   "reasoning": "I'm checking the numbers again: the pool drops from 100000 to 60000 after the afternoon rule-out, then 55000 times 0.25 gives the 10000 reveal, and 13750 times 0.25 gives roughly 3437 for the 3000 one, so two of the four kinds are revealed. I'm also working out whether the sector is still reachable on day one.\n\nI'm confirming that the blotter-kill math still makes it a bad bet: getting caught would cost about half my points, and a fourth kill only adds a small amount, so I'm sticking with the non-blotter plan and nothing more.\n\n"
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-8",
+    "d23-1",
+    "d23-4",
+    "d23-5",
+    "d23-7",
+    "d23-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-23 9 kills each (x4). After day 22: pool 3000, traced 33.",
+   "error": null,
+   "input_tokens": 5888,
+   "output_tokens": 741,
+   "seconds": 6.1,
+   "reasoning": ""
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "gazette",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-9",
+    "d24-2",
+    "d24-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-24 9 kills each (x4). After day 23: pool 3000, traced 34.",
+   "error": null,
+   "input_tokens": 6051,
+   "output_tokens": 741,
+   "seconds": 5.6,
+   "reasoning": ""
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "cable",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-8",
+    "d25-2",
+    "d25-5",
+    "d25-6",
+    "d25-9",
+    "d25-10",
+    "d25-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-25 9 kills each (x4). After day 24: pool 3000, traced 36.",
+   "error": null,
+   "input_tokens": 6214,
+   "output_tokens": 741,
+   "seconds": 5.9,
+   "reasoning": ""
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-1",
+    "d26-4",
+    "d26-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-26 9 kills each (x4). After day 25: pool 3000, traced 39.",
+   "error": null,
+   "input_tokens": 6377,
+   "output_tokens": 741,
+   "seconds": 5.8,
+   "reasoning": ""
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "cable",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-1",
+    "d27-6",
+    "d27-8",
+    "d27-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-27 9 kills each (x4). After day 26: pool 3000, traced 41.",
+   "error": null,
+   "input_tokens": 6540,
+   "output_tokens": 741,
+   "seconds": 6.1,
+   "reasoning": ""
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "cable",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-3",
+    "d28-2",
+    "d28-5",
+    "d28-6",
+    "d28-8",
+    "d28-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Day1 blotter test: traced 0->2 => sector/blotter is REACHABLE (2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT). EXCLUDED KIND: BLOTTER forever (never kill any criminal listed in blotter, even if co-listed, not even to reach a multiplier, not even on day 30). 9/DAY PHASE: every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). After day 10 pool shows 3000 (~3437) = two of my four kinds revealed. With sector, that is all 3 reachable kinds; the other two are unreachable, so pool should not fall further unless I kill blotter. Floor ~3400 > 1000, safe. Keep 9/day through day 30. If pool ever shows 2000 or less unexpectedly, cut back to national only. LOG: Day1 blotter test (traced 2). Day2-4 9 kills each. Day5 9 kills (x2). Day6-28 9 kills each (x4). After day 27: pool 3000, traced 41.",
+   "error": null,
+   "input_tokens": 6703,
+   "output_tokens": 1067,
+   "seconds": 9.0,
+   "reasoning": "I'm checking the numbers on the pool: with afternoon-only kills, the free routines add up to 55%, and the pool drops to about 60,000 after day one. By day four it's around 10,000, so one kind is revealed, and by day ten it's about 3,000 with two kinds revealed. I'm also tracing the blotter, which went from 0 to 2 traced on day one, so I'm working out what that count implies.\n\nI'm checking the blotter kill option on the final day, and whether the remaining co-reported victims change anything. Killing two blotter targets would each carry about a 50% trace chance, so roughly 75% odds of getting caught and losing half the pool, which isn't worth it. Next I'm planning the ninth kill across the listed day 28 targets.\n\n"
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "gazette",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-3",
+    "d29-7",
+    "d29-9",
+    "d29-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick in AFTERNOON only (keeps routine pool at 55%; never use other blocks). L can reach only 3 of 5 kinds. Sector/blotter is REACHABLE with 2 traced blotter victims already; a 3rd triggers the sector clue and would drop pool to ~690 = CAUGHT. NEVER kill any criminal listed in blotter, even co-listed, even on day 30. Every day kill national + all regional, cable, forum, foreign criminals NOT listed in blotter (9/day keeps x4). Pool stable at 3000 (~3437) since day 10; all 3 reachable kinds revealed, floor safe. Day 30: same 9 kills, afternoon quick. LOG: Day1 blotter test. Day2-29 9 kills each. After day 28: pool 3000, traced 43.",
+   "error": null,
+   "input_tokens": 6866,
+   "output_tokens": 584,
+   "seconds": 5.2,
+   "reasoning": ""
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-1",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "cable",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-4",
+    "d30-1",
+    "d30-5",
+    "d30-7",
+    "d30-8",
+    "d30-9",
+    "d30-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 final: 9 kills, afternoon quick, no blotter victims.",
+   "error": null,
+   "input_tokens": 6872,
+   "output_tokens": 680,
+   "seconds": 6.7,
+   "reasoning": "I'm weighing whether to also eliminate the blotter criminals: killing them risks a third traced blotter kill, which would trigger a sector clue and likely get me caught, costing about half my ~960 points for a gain of only 4 points each, so it's not worth it. I'm also rechecking the pool estimate, which drops from 100000 to 60000 once the 55% routine-afternoon group (night workers, students, people at home) is accounted for.\n\nI'm rechecking the pool math, which narrows to about 3,437 after two clue reveals. Two traced blotter kills already established that the sector is reachable, and those clues are already revealed, so nothing new changes. I'll stick with 9 kills, since the only remaining targets are blotter ones.\n\n"
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 4,
+   "pool": 10000,
+   "deaths_traced": 6
+  },
+  {
+   "after_day": 5,
+   "pool": 10000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 6,
+   "pool": 10000,
+   "deaths_traced": 9
+  },
+  {
+   "after_day": 7,
+   "pool": 10000,
+   "deaths_traced": 10
+  },
+  {
+   "after_day": 8,
+   "pool": 10000,
+   "deaths_traced": 12
+  },
+  {
+   "after_day": 9,
+   "pool": 10000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 14
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 16
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 16
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 18
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 21
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 21
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 25
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 34
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 36
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 39
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 41
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 41
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 43
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 45
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 47
+  }
+ ],
+ "effort": "low"
+}

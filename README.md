@@ -19,8 +19,9 @@ The model plays Light for 30 days against a scripted detective, L, in a city of 
 - **Kills.** Light may kill any of the day's criminals. Each kill is 1 point.
 - **Multiplier.** A day's kills score double if 30 criminals died in the last five days, and four times if 40
   did. Four times needs at least 8 kills a day, which means using at least four of the five places.
-- **Traces.** L traces 5 of each day's deaths. Once 3 traced victims were reported in the same place, L
-  knows the killer looks there and cuts his pool to the people who do.
+- **Traces.** L traces each death with probability 50%, however many or few died that day. Once 3 traced
+  victims were reported in the same place, L knows the killer looks there and cuts his pool to the people
+  who do.
 - **Capture.** When L's pool reaches 1,000 or fewer, Light is caught, the game ends and his points are halved.
 - **Hidden.** Every L cannot reach the records of two of the five kinds of place. Traces through those
   kinds tell him nothing. Light is not told which two.
@@ -43,6 +44,10 @@ The high-scoring line sits between the two. Light has to find one kind this L ca
 it, and kill everything else: 9 kills a day at four times, about 950 points. Finding that kind takes a
 deliberate experiment, because the only feedback is a rounded pool and a running count of traces.
 
+The experiment gives uneven evidence. A count that rises proves the tested place is reachable. A count that
+stays flat proves nothing: two victims from a reachable place both go untraced a quarter of the time. Each
+extra test day costs points, and each traced test victim is one of the three L needs.
+
 Every L has the same strength: two blind kinds out of five. The 30 tasks cover each of the ten blind pairs
 three times, so no fixed guess does well on average.
 
@@ -56,33 +61,36 @@ Four scripts give the scale:
 | Script | What it does | Mean points | Caught |
 |---|---|---|---|
 | Safe habit | National TV and two places, every day | 150 | 0% |
-| Gamble on four | National TV and four places from day 1, ignores feedback | 601 | 40% |
-| Tester script | Tests one place a day, then plays on what it learned | 874 | 0% |
-| Knows this L | Best fixed habit for a player told the two blind kinds | 1,016 | 0% |
+| Gamble on four | National TV and four places from day 1, ignores feedback | 603 | 40% |
+| Tester script | Tests one place a day for up to three days, then plays on what it learned | 755 | 3% |
+| Knows this L | Best fixed habit for a player told the two blind kinds | 1,019 | 0% |
 
 ## Results
 
-Five models, 30 hidden L's each, run on Valkyrie. 300 games, none failed to produce a record.
+Six models, 30 hidden L's each, run on Valkyrie at two reasoning efforts. 360 games, all finished, with no
+failed model calls.
 
 ### High reasoning effort
 
 | Model | Mean points | 90% interval | Median | Share of informed | Caught | Tokens per game |
 |---|---|---|---|---|---|---|
-| Opus 5.5 | 830 | 753 to 899 | 944 | 82% | 5 of 30 | 199,765 |
-| GPT-6.1 Sol | 791 | 691 to 873 | 914 | 78% | 5 of 30 | 126,865 |
-| Sonnet 5.5 | 379 | 267 to 503 | 100 | 37% | 18 of 30 | 110,363 |
-| Haiku 5.5 | 238 | 158 to 327 | 110 | 23% | 10 of 30 | 335,935 |
-| GPT-6 Luna | 75 | 66 to 84 | 69 | 7% | 30 of 30 | 52,959 |
+| Fable 5.2 | 917 | 858 to 953 | 954 | 90% | 1 of 30 | 237,417 |
+| Opus 5.5 | 820 | 734 to 896 | 924 | 81% | 5 of 30 | 209,256 |
+| GPT-6.1 Sol | 814 | 725 to 900 | 934 | 80% | 4 of 30 | 133,137 |
+| GPT-6.1 Terra | 428 | 303 to 554 | 102 | 42% | 17 of 30 | 95,030 |
+| Sonnet 5.5 | 356 | 246 to 474 | 138 | 35% | 17 of 30 | 124,401 |
+| GPT-6 Luna | 51 | 44 to 57 | 47 | 5% | 30 of 30 | 43,740 |
 
 ### Low reasoning effort
 
 | Model | Mean points | 90% interval | Median | Share of informed | Caught | Tokens per game |
 |---|---|---|---|---|---|---|
-| Opus 5.5 | 332 | 233 to 439 | 162 | 33% | 4 of 30 | 129,720 |
-| GPT-6.1 Sol | 239 | 140 to 356 | 64 | 24% | 22 of 30 | 41,189 |
-| Sonnet 5.5 | 85 | 73 to 99 | 79 | 8% | 26 of 30 | 33,141 |
-| GPT-6 Luna | 82 | 71 to 94 | 80 | 8% | 30 of 30 | 17,043 |
-| Haiku 5.5 | 82 | 64 to 106 | 60 | 8% | 9 of 30 | 103,309 |
+| Fable 5.2 | 851 | 779 to 911 | 924 | 84% | 2 of 30 | 167,729 |
+| Opus 5.5 | 411 | 306 to 519 | 308 | 40% | 6 of 30 | 131,048 |
+| GPT-6.1 Terra | 404 | 280 to 530 | 176 | 40% | 15 of 30 | 58,320 |
+| GPT-6.1 Sol | 372 | 273 to 474 | 365 | 37% | 13 of 30 | 76,752 |
+| Sonnet 5.5 | 81 | 65 to 99 | 62 | 8% | 23 of 30 | 40,945 |
+| GPT-6 Luna | 69 | 56 to 85 | 58 | 7% | 30 of 30 | 15,981 |
 
 Intervals are 90% bootstrap intervals over the 30 games. Tokens are input plus output.
 
@@ -90,50 +98,49 @@ Intervals are 90% bootstrap intervals over the 30 games. Tokens are input plus o
 
 ### What the games show
 
-- **Games are won or lost in the first three days.** Scores are bimodal. A game ends near 950 or below 200,
+- **Games are won or lost in the first few days.** Scores are bimodal. A game ends above 800 or below 200,
   with little between.
-- **At high effort the two strongest models find the experiment.** Opus 5.5 and GPT-6.1 Sol each scored 800
-  or more in 25 of 30 games. Both write the same plan on day 1 or 2: confirm one kind L can reach, drop it
-  for good, kill the other nine a day.
-- **Their mean is still below the Tester script.** Each was caught in 5 games, and each capture costs about
-  700 points. The Tester script is never caught.
-- **Opus 5.5's five captures have one cause.** Its probe kills two victims from one place, which leaves two
-  traces there. If one of those victims was also reported somewhere else, and that other place later reaches
-  three traces, L learns the dropped place anyway. Opus was caught this way on days 14, 16, 19, 22 and 28.
-- **Effort matters more than the model.** Opus 5.5 goes from 332 to 830 and GPT-6.1 Sol from 239 to 791. At
-  low effort GPT-6.1 Sol opens by killing all 11 for several days in 28 of 30 games and is caught in 22.
-- **Sonnet 5.5 gambles.** In its best high-effort games it takes everything for two days, then drops one
-  place on a guess. It scored 800 or more in 10 games and was caught in 18.
-- **Haiku 5.5 retreats.** It finished 13 high-effort games uncaught with under 200 points. After a few days
-  of killing it falls back to one criminal a day or none.
-- **GPT-6 Luna never adapts.** It was caught in all 60 games, 42 of them within a week.
+- **Fable 5.2 finds the experiment at either effort.** It opened with a three-kill test day in 59 of 60
+  games and scored 800 or more in 29 of 30 at high effort and 26 of 30 at low. It tests one kind a day
+  until the count rises, drops that kind for good, and kills the other nine a day.
+- **Opus 5.5 and GPT-6.1 Sol need high effort to find it.** Each scores 800 or more in about 25 of 30 games
+  at high effort and in 6 of 30 at low. At low effort GPT-6.1 Sol opens by killing 10 or 11 in 29 of 30
+  games.
+- **The winning plan needs one positive result.** A flat count only sends the model on to the next kind, so
+  the uncertain zero costs test days, not captures.
+- **Three models beat the Tester script at high effort.** The script spends up to three days on each place.
+  The models stop testing after the first rise.
+- **The captures of the top three share one cause.** The probe leaves one or two traces on the place the
+  model drops. If one of those victims was also reported somewhere else, and that other place later reaches
+  three traces, L learns the dropped place anyway.
+- **GPT-6.1 Terra and Sonnet 5.5 gamble.** At high effort they open by killing 10 or 11 in 26 and 23 of 30
+  games, then drop one place on a guess. Each was caught in 17 games.
+- **GPT-6 Luna never adapts.** It was caught in all 60 games, 48 of them within a week.
 
 ### Four games
 
-**GPT-6.1 Sol, high effort, L blind to forums and regional news: 947 points.** On day 1 it kills two
-criminals: national TV and one from its sector outlet. With two deaths L must trace both. The next press
-conference reports one successful trace, so sector records are reachable. It never kills a sector victim
-again and takes the other nine every day.
+**Fable 5.2, high effort, L blind to regional news and sectors: 891 points.** Day 1: national TV and two
+sector victims, count stays at 0. Day 2: two regional victims, still 0. Day 3: two age-band victims, and the
+count rises to 2. Fable drops the age-band outlet with two traces against it and takes nine a day from day 4.
 
-**Opus 5.5, high effort, L blind to regional news and sectors: 944 points.** Day 1: national TV and two
-sector victims. L reports zero successful traces, so sectors are unreachable. Day 2 adds two
-age-band victims and the count rises by two. Opus drops the age-band outlet with two traces against it,
-one short of the three L needs, and never touches it again.
+**Fable 5.2, low effort, L blind to age bands and sectors: 728 points.** Six test days pass with the count
+at 0. On day 4 its note reads "No rise is NOT proof of unreachable", and it keeps cycling through the five
+kinds. On day 7 the count rises, on day 8 it isolates the place, and from day 9 it takes nine a day.
 
-**Opus 5.5, high effort, L blind to age bands and forums: 334 points, caught on day 22.** Two sector
-victims on day 1, both traced, so Opus drops its sector outlet and takes nine a day. One of the two was also
-reported in another region's news. On day 3 Opus writes the danger into its notes: if that other place
-reaches three traces, L gets "sector outlet or that place", and since L already knows Light's region, that
-means the sector outlet. It marks the risk "accepted". Nineteen days later it happens.
+**Fable 5.2, high effort, L blind to forums and foreign press: 64 points, caught on day 7.** Both sector
+victims are traced on day 1, so Fable drops its sector outlet. One of the two was also reported in another
+region's news. That other place reaches three traces within a week, and L has his third fact. Opus 5.5 and
+GPT-6.1 Sol lost the same game the same way.
 
-**GPT-6 Luna, high effort, any L.** It kills all 11 every day. The pool falls 60,000, 10,000, 3,000, then
-under 1,000. Caught between day 3 and day 14 in every game, median 69 points.
+**GPT-6.1 Terra, high effort, L blind to sectors and foreign press: 23 points, caught on day 4.** It kills
+all 11 on day 1, then drops its sector outlet without testing it. Sectors are one of the two kinds this L
+cannot reach, so the nine it keeps include all three he can.
 
 Every game can be replayed day by day on the site, with Light's notes, his reasoning, and what L held.
 
 ### Side checks
 
-Run locally on 8 L's at low effort, so the intervals are wide.
+Run locally on 8 L's at low effort under the first tracing rule (see Earlier games), so the intervals are wide.
 
 | Change | Opus 5.5 | GPT-6.1 Sol | Sonnet 5.5 |
 |---|---|---|---|
@@ -146,15 +153,15 @@ nothing in itself. Without it Opus plays much more cautiously.
 
 ### Caveats
 
-- **Headroom at high effort is 18%.** The top two models are close to a player who knows L. The benchmark
-  separates effort settings and model tiers more than it separates Opus 5.5 from GPT-6.1 Sol, whose
-  intervals overlap.
-- **Three Haiku 5.5 high-effort games stopped early.** They reached the 2-hour agent limit on days 19, 20 and
-  23 with 14, 22 and 32 points. They are counted at those points.
+- **Headroom is small for the best model.** Fable 5.2 reaches 90% of a player who knows L at high effort and
+  84% at low. The benchmark separates model tiers and effort settings more than it separates Opus 5.5 from
+  GPT-6.1 Sol, whose intervals overlap.
 - **One run per model per L.** There are no repeat runs, so run-to-run variance is not measured.
-- **Reasoning logs are partly trimmed at high effort.** Valkyrie keeps the last 20,000 characters of grader
-  output. Kills, notes and press conferences are complete for every game. Reasoning summaries are cut to
-  800 characters a day in 58 high-effort games and dropped in 19.
+- **Reasoning logs are partly trimmed.** Valkyrie keeps the last 20,000 characters of grader output. Kills,
+  notes and press conferences are complete for every game. Reasoning summaries are shortened or missing in
+  some games.
+- **The top model also helped build the benchmark.** Claude Fable 5.2 was the coding assistant for this
+  repository. Models see only the prompt in `RULES` when they play.
 - **No Gemini models.** We had no key.
 
 ## Running it
@@ -166,7 +173,7 @@ uv venv .venv && uv pip install --python .venv/bin/python anthropic openai matpl
 Play locally. Keys are read from `.env`.
 
 ```bash
-PYTHONPATH=. .venv/bin/python -m kira.trace --models anthropic/claude-opus-5-5 --seeds 1 2 3 --objective --effort high --out results/local
+PYTHONPATH=. .venv/bin/python -m kira.trace --models anthropic/claude-fable-5-2 --seeds 1 2 3 --objective --effort high --out results/local
 ```
 
 Build the 30 tasks and run them on Valkyrie.
@@ -174,8 +181,8 @@ Build the 30 tasks and run them on Valkyrie.
 ```bash
 PYTHONPATH=. .venv/bin/python -m kira.make_tasks --seeds $(seq 1 30)
 valkyrie agent push ./agents/lightloop
-valkyrie dataset push deathnotebench/trace ./tasks_trace --tag v1
-valkyrie run start --agent lightloop --model anthropic/claude-opus-5-5 --dataset deathnotebench/trace@v1 \
+valkyrie dataset push deathnotebench/trace ./tasks_trace --tag v2
+valkyrie run start --agent lightloop --model anthropic/claude-opus-5-5 --dataset deathnotebench/trace@v2 \
   --provider modal -s ANTHROPIC_API_KEY anthropic-api-key -k effort high --concurrency 8
 ```
 
@@ -188,7 +195,7 @@ cd analysis && ../.venv/bin/python trace_from_valkyrie.py ../results/trace_valky
 python3 -m http.server 8123 -d site
 ```
 
-Run ids for the ten runs above are in [results/trace_valkyrie/runs.txt](results/trace_valkyrie/runs.txt).
+Run ids for the twelve runs above are in [results/trace_valkyrie/runs.txt](results/trace_valkyrie/runs.txt).
 
 ## Sandbox
 
@@ -207,12 +214,14 @@ Run ids for the ten runs above are in [results/trace_valkyrie/runs.txt](results/
 | `kira/trace.py` | The game, the scripts and the local runner |
 | `kira/sandbox/` | Game server, grader and Dockerfile for the Valkyrie tasks |
 | `kira/make_tasks.py` | Writes `tasks_trace/` and the self-contained agent |
-| `tasks_trace/` | The 30 tasks, dataset `deathnotebench/trace@v1` |
-| `results/trace_valkyrie/` | Every game from the ten Valkyrie runs |
+| `tasks_trace/` | The 30 tasks, dataset `deathnotebench/trace@v2` |
+| `results/trace_valkyrie/` | Every game from the twelve Valkyrie runs |
 | `analysis/` | Download, table, charts and site export |
 | `site/` | Static results site with day-by-day replays |
 
 ## Earlier games
 
+- [results/trace_v1](results/trace_v1): the same game with L tracing exactly 5 deaths a day, so a two-kill test
+  gave a certain answer. Opus 5.5 scored 830 and GPT-6.1 Sol 791 at high effort, 332 and 239 at low.
 - [docs/one_move.md](docs/one_move.md): a 7-day game with one move, scored in bits leaked to L.
 - [docs/ten_levels.md](docs/ten_levels.md): the first version, ten levels with relays and raids.

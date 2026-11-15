@@ -1,0 +1,3030 @@
+{
+ "run_id": "525a05a6-684f-4bc4-bb1d-f7b27b6fe507",
+ "agent": "lightloop",
+ "model": "anthropic/claude-fable-5-2",
+ "task": "trace-019",
+ "reward": 0.9703,
+ "exit": null,
+ "agent_seconds": 340.66701174,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 19,
+  "region": "North",
+  "sector": "commerce",
+  "age": "under 25",
+  "blind": [
+   "age",
+   "foreign"
+  ]
+ },
+ "briefing_every": 1,
+ "trace_chance": 0.5,
+ "points": 979,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 265,
+ "input_tokens": 143220,
+ "output_tokens": 36981,
+ "seconds": 335,
+ "informed_best": 1009,
+ "tester": 759,
+ "hider": 30,
+ "grabber": 132,
+ "score": 0.9703,
+ "log_trimmed": null,
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-4",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-8",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-4"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY (derived day 1). All kills quick, block afternoon (routine leak then only leaves 55% = 55,000; acceptable). National kills are always safe: kill every day. L can reach 3 of 5 kinds (regional, sector, age, forum, foreign). Each reachable kind leaks once 3 traces accumulate in its place. 2 leaked kinds = pool ~2750-3400 (safe, >1000); 3 leaked = caught. PLAN: find ONE reachable kind and stop using it for good; then kill national + the other 4 kinds every day (9/day -> 45 per 5 days -> x4). Those 4 contain exactly 2 reachable kinds, so the pool bottoms near 3000, safe. PROBE PHASE: each day kill national + only the kind under test (2 kills). If deaths_traced rises, that kind is reachable -> EXCLUDE it forever, start full phase next day. If a kind shows no trace after 3 days (6 kills), treat it as probably unreachable (keep it in the full set), move on to test the next kind; may also keep killing the cleared kind while testing the next. Unreachable kinds never produce traces. Test order: gazette(sector), regional, clips(age), forum, foreign. Never kill more than 10 quick per day. LOG: Day1: testing gazette (killed d1-4, d1-8 + national). Traced count before = 0. Check the press conference after day 1: if deaths_traced > 0 -> gazette reachable, exclude gazette, go full with regional+clips+forum+foreign+national.",
+   "error": null,
+   "input_tokens": 1934,
+   "output_tokens": 4842,
+   "seconds": 58.2,
+   "reasoning": "I'm working out the pool size and the attribute probabilities, and I see that L can only reach at most three of the five kinds plus routine. I'm testing a choice of region, sector, and age, which gives about 1250 and then roughly 188 once routine is included.\n\nI'm working out which routine blocks keep L from ruling out the most deaths, and the morning-and-afternoon split leaves about 55% of the pool free of that leak. That means the routine factor brings the pool to about 55,000, and I can only afford two leaked attributes before it drops under the threshold.\n\nI'm weighing how many kinds of records to use against the risk that L reaches three of the five. Using four kinds would give the daily kill count needed for the top multiplier, but I still have to judge how likely it is that all the leaked kinds are ones L can reach.\n\nI'm checking whether the leaked kinds could be found one at a time, by watching whether the traced count rises after killing from each kind. Using four kinds still leaves a 40% chance that all three reachable kinds fall inside my set, and I'm weighing that against sequential probing.\n\nI'm considering probing the two kinds that L can't reach, since those are safe to kill from freely. The risk is that I'd need to tell which kinds were traced when I kill from several on the same day, and many victims are also reported somewhere I don't follow, which makes the trace fail. I think I can afford two leaked kinds, since 55,000 times two of the attributes is still above the threshold.\n\nI'm settling on a steady-state plan: one national kill plus two kinds L can't reach and two leaked reachable kinds gives about nine a day, roughly thirty-six points. Without knowing which kinds are unreachable, using four kinds carries a real risk, so I'd want to probe first.\n\nI'm weighing whether to start with all the kills right away, since three kinds reaching three traces on the same day would need at least two days, and each kind's traced count would be about 43% per kill. Without knowing which kinds are reachable, I'd rely on the pool drops to reveal which leaked, and probing across the first couple of days would show whether any kind is getting close to three.\n\nI'm going back over the attribute factors: the .25 kinds are indistinguishable from each other once the pool gets rounded, and the .2 sector kind barely differs, so a pool drop alone won't tell me which kinds leaked. Probing them one at a time would cost days of the multiplier, so I'm looking at whether staggering the kills across kinds across days can expose the leaks through the trace counts instead.\n\nI'm weighing whether to drop one kind from the start and use four, then watching the pool to see whether two leaks show up. If the excluded kind is the unreachable one, the third reachable kind would still leak and get caught, so I'm asking whether the pool drops can reveal that.\n\nI'm weighing a probing phase to identify the two unreachable kinds before committing to the full kill count, since a few days of probing costs far less than risking the three reachable kinds all reaching three traces.\n\nI'm considering a simpler route: instead of identifying both unreachable kinds, I only need one reachable kind to exclude. Killing from a single kind until the trace count rises would reveal it, and once confirmed I'd stop using it, leaving four kinds with exactly two leaks, which keeps the pool safely above the threshold. One caveat is that a victim from one kind can also be reported under another place, so the trace could attach to the wrong kind.\n\nI'm considering a probing step that keeps attribution clear: kill from a single kind first and check whether the trace count rises, since a rise would mark that kind as reachable. Running two kinds on the same day would make it unclear which one produced a trace, so I'm weighing whether a slower, one-kind-at-a-time check is worth the lost days.\n\nI'm considering spending a couple of days probing one kind at a time, starting with kind A over two kills: if either kill gets traced, A is reachable and I drop it, otherwise I keep testing it or move on. The probing days cost only a few points of multiplier, so it's worth it for the protection.\n\nI'm considering a probing step where I kill from one kind at a time, starting with kind A, since a trace would confirm it's reachable and I could then drop it. Meanwhile, if A turns up nothing after a few kills, I'd likely switch to testing kind B, and kinds that look unreachable can keep being used.\n\nI'm weighing whether to spend a few days probing kind A one kill at a time, since a trace would show it's reachable and I'd drop it. Once A has gone a few days with no traces, I'm thinking about folding it into the kills while testing B, accepting that a trace would then be attributed to B with high probability.\n\nI'm deciding to start probing with the sector kind, since the order of testing doesn't matter and with at least two leaks the pool stays above the threshold anyway.\n\nI'm deciding that the first probe will go to the gazette sector, with a national kill and a couple of afternoon kills there, and I'm not concerned about the national kill.\n\n"
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-1",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-7",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-5",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-10",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-1",
+    "d2-3",
+    "d2-2",
+    "d2-5"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds; each reachable kind leaks once 3 traces accumulate in one place. 2 leaked kinds = pool ~3400 (safe); 3 leaked = caught (<1000). RESULT OF PROBE: Day 1 killed 2 gazette, deaths_traced went to 1 -> SECTOR (gazette) IS REACHABLE and has 1 trace already. NEVER KILL GAZETTE AGAIN. FULL PHASE from day 2 on: every day kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon. Those 4 kinds contain exactly 2 reachable kinds, so the pool should bottom near 3000-3500 (announced as 3000) and stay there. Never kill a criminal listed under gazette, even if he is also listed under another of my places. If the pool is ever announced below 3000 (e.g. 2000 or less), something is off: drop back to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Day 2: 9 kills (full set, no gazette).",
+   "error": null,
+   "input_tokens": 2544,
+   "output_tokens": 1404,
+   "seconds": 14.3,
+   "reasoning": "Gazette is ruled out for the plan: two gazette kills on day one traced only one death, and a trace only succeeds when the investigator can reach records for every place the victim appeared, so that points to the sector being reachable. Now I'm weighing the full-phase options, nine kills a day across national, regional, clips, forum and foreign, and narrowing down which four to take.\n\nI'm checking the remaining kill pools against the leak thresholds: two reachable kinds, about 3,400 victims after the leaks, comfortably above the safety limit of 1,000. Gazette stays out since it's only been traced once, and the cross-reporting caveat doesn't put any of my clips or forum victims back in gazette. Then I'm planning the quick afternoon kills and tracking the multiplier as the day count climbs.\n\nI'm weighing whether to add a tenth kill for the gazette pool, but with only one trace there and three needed, the leak risk outweighs the small gain, so I'm skipping it.\n\n"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "regional:North",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-3",
+    "d3-7"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds; each reachable kind leaks once 3 traces accumulate in one place. 2 leaked kinds = pool ~3400 (safe); 3 leaked = caught (<1000). RESULT OF PROBE: Day 1 killed 2 gazette, deaths_traced went to 1 -> SECTOR (gazette) IS REACHABLE and has 1 trace already. NEVER KILL GAZETTE AGAIN. FULL PHASE from day 2 on: every day kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon. Those 4 kinds contain exactly 2 reachable kinds, so the pool should bottom near 3000-3500 (announced as 3000) and stay there. Never kill a criminal listed under gazette, even if he is also listed under another of my places. If the pool is ever announced below 3000 (e.g. 2000 or less), something is off: drop back to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Day 2: 9 kills (full set, no gazette). Day 3: 9 kills (full set, no gazette).",
+   "error": null,
+   "input_tokens": 2602,
+   "output_tokens": 1342,
+   "seconds": 12.8,
+   "reasoning": "I'm deciding whether to trust the notes or work the strategy out myself. The day-one pool came to 60,000 after rounding, and one gazette trace has already succeeded, so the sector looks reachable. I'm now tallying the traced deaths for day two.\n\nOut of the eight non-national kills, one more trace succeeded, so two of the four kinds must be reachable. The leak risk looks acceptable for the regional and age combinations, but the gazette is ruled out because its single trace would trigger at two more. The plan holds at nine kills a day, so I'll stick with it and take day three's kills: 1, 3, 4, 6, 7, 8, 9, 10, 11.\n\n"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-10",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-8",
+    "d4-6",
+    "d4-4",
+    "d4-9"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds; each reachable kind leaks once 3 traces accumulate in one place. 2 leaked kinds = pool ~3400 (safe); 3 leaked = caught (<1000). RESULT OF PROBE: Day 1 killed 2 gazette, deaths_traced went to 1 -> SECTOR (gazette) IS REACHABLE and has 1 trace already. NEVER KILL GAZETTE AGAIN. FULL PHASE from day 2 on: every day kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon. Those 4 kinds contain exactly 2 reachable kinds, so the pool should bottom near 3000-3500 (announced as 3000) and stay there. Never kill a criminal listed under gazette, even if he is also listed under another of my places. If the pool is ever announced below 3000 (e.g. 2000 or less), something is off: drop back to national-only and rethink. 9 kills/day keeps the 5-day total at 45 -> x4 multiplier from day 5 on. LOG: Day 1: 3 kills (national + 2 gazette). Days 2, 3, 4: 9 kills each (full set, no gazette). Traced count was 1, 2, 3 after days 1-3, pool 60000 throughout.",
+   "error": null,
+   "input_tokens": 2784,
+   "output_tokens": 1415,
+   "seconds": 13.2,
+   "reasoning": "I'm checking the pool size after day one, which comes out to about 60,000 once the afternoon kills are accounted for. Deaths so far are one, two, and three after each of the first three days. Day two had eight non-national kills but only one traced, so I'm wondering whether the trace rate and reachable kinds explain the gap.\n\nI'm working out whether the trace rate and the reachable kinds explain why day two shows only one successful trace against eight kills. If I avoid the gazette, the two remaining leaks at a 25% chance each stay well under the 1,000 threshold. The gazette already has its one trace, so adding more gazette kills would be too risky. I'm also checking the kill count over the last five days against the multiplier, since nine kills a day keeps me on track.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-10",
+    "d5-1",
+    "d5-2",
+    "d5-11",
+    "d5-6",
+    "d5-9"
+   ],
+   "points_today": 40,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds; a reachable kind leaks once 3 traces accumulate in one place. SECTOR (gazette) IS REACHABLE (day 1 probe). After day 4 the pool fell to 10000: one of my 25% kinds leaked (55000/4 = 13750). A second 25% kind leaking gives ~3400 (announced 3000), still safe. Gazette leaking on top would give ~700 = CAUGHT. GAZETTE TRACE COUNT: 1 from day 1, plus possibly 1 more from day 5 (I killed ONE gazette on day 5 to reach 40 kills in the window for x4). So gazette may be at 2 traces. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY from day 6 on: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon. This keeps the 5-day total at 45+ -> x4. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Traced count 1, 2, 3, 5 after days 1-4; pool 60000, 60000, 60000, 10000.",
+   "error": null,
+   "input_tokens": 3002,
+   "output_tokens": 1847,
+   "seconds": 18.6,
+   "reasoning": "I'm checking the pool count: afternoon quick kills rule out the day workers, leaving 55% of the 60000 I announced after day 1. By day 4, with 5 traced, I'm working out whether the pool should be 10000 at a 25% or 20% rate.\n\nI'm weighing whether the leaked kind and the two remaining reachable kinds keep the pool safe, since the sector kind is already reachable and the gazette count stays at one.\n\nI'm checking whether killing one more gazette victim today is worth the risk. Ten kills a day gives a x4 multiplier and beats nine kills at x2, and a second gazette trace still stays under the three-trace leak threshold.\n\nI'm confirming that the day 1 trace count is exactly one gazette trace, so adding one more today brings it to at most two, which stays safe. That makes ten kills worth it for the x4 multiplier, so I'm going ahead with it.\n\n"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-5",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-7",
+    "d6-5",
+    "d6-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds; a reachable kind leaks once 3 traces accumulate in one place. SECTOR (gazette) IS REACHABLE (day 1 probe). After day 4 the pool fell to 10000: one of my 25% kinds leaked (55000/4 = 13750). A second 25% kind leaking gives ~3400 (announced 3000), still safe and expected. Gazette leaking on top would give ~700 = CAUGHT. GAZETTE TRACE COUNT: 1 from day 1, plus possibly 1 more from day 5 (I killed ONE gazette on day 5 to reach 40 kills in the window for x4). So gazette may be at 2 traces. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY from day 6 on: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon. This keeps the 5-day total at 45+ -> x4. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Day 6: 9 kills (no gazette). Traced count 1, 2, 3, 5, 8 after days 1-5; pool 60000, 60000, 60000, 10000, 10000.",
+   "error": null,
+   "input_tokens": 3215,
+   "output_tokens": 1481,
+   "seconds": 13.4,
+   "reasoning": "I'm reassessing the numbers: the pool is 55,000 after the afternoon kills, against an announced 60,000, and dividing by four days points to one higher-fatality group having slipped through, with the sector still reachable.\n\nThe pool is now around 3,000 to 3,400 after accounting for the two 25% groups that will likely leak, and that is still comfortably above the 1,000 threshold. Gazette leaks are ruled out because I'm not killing anyone who also appears there. Nine kills a day keeps me on pace, so I'll proceed with the day 6 list: 3, 1, 4, 2, 7, 5, 10, 6, 11.\n\n"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "blotter",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-10",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-2",
+    "d7-3",
+    "d7-4",
+    "d7-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-7: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9 after days 1-6; pool 60000, 60000, 60000, 10000, 10000, 3000.",
+   "error": null,
+   "input_tokens": 3404,
+   "output_tokens": 1470,
+   "seconds": 14.4,
+   "reasoning": "The pool has dropped to 3000 after day 6, which means two of the 25% kinds leaked. That leaves me with three of the five kinds reachable, and since a gazette trace already succeeded on day 1, the sector kind is one of them. I still need to work out which two of regional, age, and forum the remaining slots are.\n\nI'm checking whether the remaining kinds can still leak, and they can't, since the two unreachable 25% kinds are already ruled out. Afternoon kills are safe too, because day workers are excluded and the remaining pool stays at 3437 unless a gazette victim slips through. So I'll avoid gazette entirely and keep killing nine a day.\n\n"
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-3",
+    "d8-4",
+    "d8-9",
+    "d8-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-8: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11 after days 1-7; pool 60000, 60000, 60000, 10000, 10000, 3000, 3000.",
+   "error": null,
+   "input_tokens": 3583,
+   "output_tokens": 1383,
+   "seconds": 12.1,
+   "reasoning": "I'm double-checking the notes' reasoning. Afternoon kills rule out day workers, which leaves night workers, students, and home folks at 55%. The pool drops to about 10000 after day 4 and about 3000 after day 6, so two of the 25% groups have leaked out.\n\nI'm checking whether the sector is reachable: the day 1 probe traced a victim through a gazette, so the sector must be reachable, which gives three reachable groups in total. That leaves the two unreachable ones, so I'll skip the gazette for now.\n\n"
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-1",
+     "coverage": [
+      "clips",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-4",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-1",
+    "d9-6",
+    "d9-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-9: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12 after days 1-8; pool 60000, 60000, 60000, 10000, 10000, 3000, 3000, 3000.",
+   "error": null,
+   "input_tokens": 3753,
+   "output_tokens": 1344,
+   "seconds": 11.2,
+   "reasoning": "I'm double-checking the pool figures: the day 1 routine pool is about 55,000 after rounding, and the afternoon free-population shares add up to 55%. I'm also confirming that the drops on days 4 and 6 match the 25% kinds leaking out of the pool.\n\nI'm confirming the gazette trace from the day 1 probe: it succeeded, so the sector is reachable alongside the two leaked kinds, giving three reachable kinds, with the other two out of reach. I'm also checking that the constraint on a victim reported in several places holds either way, and then I move on to the next nine kills.\n\n"
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-1",
+    "d10-5",
+    "d10-3",
+    "d10-6",
+    "d10-4",
+    "d10-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-10: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13 after days 1-9; pool 60000, 60000, 60000, 10000, 10000, 3000, 3000, 3000, 3000.",
+   "error": null,
+   "input_tokens": 3923,
+   "output_tokens": 1374,
+   "seconds": 11.7,
+   "reasoning": "I'm double-checking the afternoon death numbers: after the free-in-afternoon share, night workers, students and home dwellers together come to 55%, so the pool of 60,000 after day 1 holds up. I'm now trying to work out how the sector was determined, since the day 1 gazette trace count fits a successful gazette trace.\n\nI'm checking the pool figures: 55,000 after day 4 comes to 10,000 and 3,437 after day 6 comes to 3,000, which points to two of the 25% kinds leaking. Counting sector reachability, that leaves three reachable and two unreachable. The gazette traces look safe as long as I stay away from the gazette, so I'll go ahead with the nine kills.\n\n"
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-2",
+    "d11-6",
+    "d11-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-11: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16 after days 1-10; pool 60000, 60000, 60000, 10000, 10000, 3000, 3000, 3000, 3000, 3000.",
+   "error": null,
+   "input_tokens": 4093,
+   "output_tokens": 897,
+   "seconds": 6.7,
+   "reasoning": ""
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-11",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-1",
+    "d12-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-12: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17 after days 1-11; pool 60000, 60000, 60000, 10000, 10000, 3000, 3000, 3000, 3000, 3000, 3000.",
+   "error": null,
+   "input_tokens": 4263,
+   "output_tokens": 1280,
+   "seconds": 11.0,
+   "reasoning": "I'm double-checking the pool numbers: after day 1 it rounds to 60,000, after day 4 to 10,000, and after day 6 to 3,000, so the figures hold up.\n\nI'm checking how the sector-reachable deduction holds: tracing confirmed it, so the three reachable places are the sector and the two leaked kinds, with the other two ruled out. The victim's report in the forum and South region doesn't narrow anything further, since that constraint is already met by what I know. With nine kills left and the pool at 3,000, which is still above 1,000, the plan holds.\n\n"
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-1",
+     "coverage": [
+      "blotter",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-7",
+    "d13-2",
+    "d13-11",
+    "d13-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-13: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19 after days 1-12; pool 60000, 60000, 60000, 10000, 10000, 3000, 3000, 3000, 3000, 3000, 3000, 3000.",
+   "error": null,
+   "input_tokens": 4433,
+   "output_tokens": 1246,
+   "seconds": 10.6,
+   "reasoning": "I'm double-checking the routine: the afternoon busy-slot rules out day workers, which leaves night workers, students, and home folks at 55%. I'm also tracing the pool through the day 1 probe, though I'm still not sure how it claimed the sector was reachable.\n\nI'm confirming the day 1 trace: the sector was reachable because that trace used only the gazette kills, so the other two 25% kinds are the unreachable ones. A criminal reported somewhere I can't follow could still make a trace fail, but that doesn't change the plan. I'll keep the 9 kills and stay away from the gazette, since the 3437 pool has already leaked there.\n\n"
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "blotter",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-6",
+    "d14-2",
+    "d14-7",
+    "d14-9",
+    "d14-3",
+    "d14-5",
+    "d14-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-14: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21 after days 1-13; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 13.",
+   "error": null,
+   "input_tokens": 4603,
+   "output_tokens": 900,
+   "seconds": 6.7,
+   "reasoning": ""
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-1",
+    "d15-2",
+    "d15-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-15: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21, 25 after days 1-14; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 14.",
+   "error": null,
+   "input_tokens": 4755,
+   "output_tokens": 1240,
+   "seconds": 10.1,
+   "reasoning": "I'm checking the numbers from the first day: after day 1 the pool is 60000, with the afternoon-free share at 55% across night workers, students, and home. Then on days 4 and 6 the counts work out to 10000 and 3000, which means two of the 25% groups are leaking out, and I'm now looking at how far each sector reaches.\n\nI'm treating the day-1 trace as proof the sector is reachable, which makes three reachable in total: the sector plus two of mine. That leaves two unreachable, and the pool holds steady at 3000. I'll keep to the plan and move on to nine kills, steering clear of the gazette.\n\n"
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-11",
+    "d16-5",
+    "d16-8",
+    "d16-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-16: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21, 25, 26 after days 1-15; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 15.",
+   "error": null,
+   "input_tokens": 4921,
+   "output_tokens": 906,
+   "seconds": 6.9,
+   "reasoning": ""
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-10",
+    "d17-4",
+    "d17-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-17: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21, 25, 26, 28 after days 1-16; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 16.",
+   "error": null,
+   "input_tokens": 5087,
+   "output_tokens": 909,
+   "seconds": 6.7,
+   "reasoning": ""
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-1",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-11",
+    "d18-2",
+    "d18-9",
+    "d18-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-18: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21, 25, 26, 28, 29 after days 1-17; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 17.",
+   "error": null,
+   "input_tokens": 5253,
+   "output_tokens": 912,
+   "seconds": 6.7,
+   "reasoning": ""
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-3",
+    "d19-2",
+    "d19-1",
+    "d19-6",
+    "d19-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-19: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21, 25, 26, 28, 29, 31 after days 1-18; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 18.",
+   "error": null,
+   "input_tokens": 5419,
+   "output_tokens": 1576,
+   "seconds": 14.2,
+   "reasoning": "I'm double-checking the pool math: after day 1 it's about 55,000 once I account for the afternoon ruling out the day-worker group, and the day 4 and day 6 drops fit two separate 25% losses. I'm now testing whether a single sector leak with one 25% hit could also produce the day 6 figure.\n\nI'm checking whether the day 4 and day 6 drops could also come from a sector leak plus one 25% loss, but the gazette trace count rules that out: at most two gazette victims could have been traced, so only the two 25% kinds leaked. The traced count keeps climbing, which suggests about half of the kinds I kill are reachable.\n\nI'm weighing whether gazette kills are worth it: getting caught would cost half the pool, so I'm ruling them out and sticking with nine kills.\n\n"
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-2",
+    "d20-6",
+    "d20-9",
+    "d20-11",
+    "d20-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-20: 9 kills each (no gazette). Traced count 1, 2, 3, 5, 8, 9, 11, 12, 13, 16, 17, 19, 21, 25, 26, 28, 29, 31, 33 after days 1-19; pool 60000, 60000, 60000, 10000, 10000, 3000 from day 6 through day 19.",
+   "error": null,
+   "input_tokens": 5585,
+   "output_tokens": 918,
+   "seconds": 6.9,
+   "reasoning": ""
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-2",
+    "d21-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-21: 9 kills each (no gazette). Traced count 36 after day 20; pool 3000 from day 6 through day 20.",
+   "error": null,
+   "input_tokens": 5751,
+   "output_tokens": 842,
+   "seconds": 6.8,
+   "reasoning": ""
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-5",
+    "d22-3",
+    "d22-7",
+    "d22-4",
+    "d22-9",
+    "d22-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-22: 9 kills each (no gazette). Traced count 36 after day 21; pool 3000 from day 6 through day 21.",
+   "error": null,
+   "input_tokens": 5838,
+   "output_tokens": 842,
+   "seconds": 6.8,
+   "reasoning": ""
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-3",
+    "d23-4",
+    "d23-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-23: 9 kills each (no gazette). Traced count 39 after day 22; pool 3000 from day 6 through day 22.",
+   "error": null,
+   "input_tokens": 6001,
+   "output_tokens": 842,
+   "seconds": 6.3,
+   "reasoning": ""
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "regional:North",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-6",
+    "d24-3",
+    "d24-9",
+    "d24-5",
+    "d24-2",
+    "d24-8",
+    "d24-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-24: 9 kills each (no gazette). Traced count 39 after day 23; pool 3000 from day 6 through day 23.",
+   "error": null,
+   "input_tokens": 6164,
+   "output_tokens": 842,
+   "seconds": 6.3,
+   "reasoning": ""
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-5",
+    "d25-11",
+    "d25-3",
+    "d25-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-25: 9 kills each (no gazette). Traced count 42 after day 24; pool 3000 from day 6 through day 24.",
+   "error": null,
+   "input_tokens": 6327,
+   "output_tokens": 1038,
+   "seconds": 10.4,
+   "reasoning": "I'm going with the plan to drop the national, regional, clips, forum, and foreign sources and leave the gazette alone. The pool math checks out: about 3,437 rounds to 3,000. The gazette also looks reachable, since the single trace on day one means its sector responded. I'm wondering whether to revisit gazette kills at the end, because a gazette leak would move the count to 687.\n\nI'm deciding the kill order now: the list starts with d25-10, then 5, 11, 4, 9, 2, 3, 1, and 6. I'm keeping gazette out of it, since a leak would cost half the count.\n\n"
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-7",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-5",
+    "d26-7",
+    "d26-8",
+    "d26-11",
+    "d26-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-26: 9 kills each (no gazette). Traced count 44 after day 25; pool 3000 from day 6 through day 25.",
+   "error": null,
+   "input_tokens": 6490,
+   "output_tokens": 842,
+   "seconds": 6.3,
+   "reasoning": ""
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-3",
+    "d27-2",
+    "d27-8",
+    "d27-4",
+    "d27-9",
+    "d27-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. So nothing more can leak from regional/clips/forum/foreign; the pool should stay at 3000 for good. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count is 1 (day 1) plus possibly 1 from day 5, so it may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block, never use other blocks). This keeps the 5-day total at 45 -> x4 = 36 points a day. If the pool is ever announced at 2000 or lower, something is off: drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-27: 9 kills each (no gazette). Traced count 47 after day 26; pool 3000 from day 6 through day 26.",
+   "error": null,
+   "input_tokens": 6653,
+   "output_tokens": 842,
+   "seconds": 6.3,
+   "reasoning": ""
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "regional:North",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-8",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-3",
+    "d28-7",
+    "d28-2",
+    "d28-10",
+    "d28-1",
+    "d28-8",
+    "d28-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000 (= 55000/16 = ~3437): two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds, and my other two 25% kinds are unreachable. Nothing more can leak from regional/clips/forum/foreign; pool stays at 3000. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block). This keeps 5-day total at 45 -> x4 = 36 points a day. If pool is ever announced at 2000 or lower, drop to national-only and rethink. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-28: 9 kills each (no gazette). Traced count 50 after day 27; pool 3000 from day 6 through day 27.",
+   "error": null,
+   "input_tokens": 6816,
+   "output_tokens": 800,
+   "seconds": 6.1,
+   "reasoning": ""
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-4",
+    "d29-6",
+    "d29-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills quick, block afternoon (routine leak leaves 55,000; fine). National kills are always safe. L reaches 3 of 5 kinds. SECTOR (gazette) IS REACHABLE (day 1 probe). Pool after day 6 is 3000: two of my 25% kinds have leaked, so those two plus sector are L's 3 reachable kinds. Nothing more can leak from regional/clips/forum/foreign; pool stays at 3000. THE ONLY DANGER IS GAZETTE: a gazette leak gives ~700 = CAUGHT. Gazette trace count may be at 2. NEVER KILL GAZETTE AGAIN, NOT EVEN ONCE, not even on day 30 (about 15% risk of losing ~490 points for +4), including any criminal listed under gazette together with another of my places. EVERY DAY: kill national + both regional:North + both clips + both forum + both foreign = 9 kills, all quick/afternoon (never change block). This keeps 5-day total at 45 -> x4 = 36 points a day. LOG: Day 1: 3 kills (national + 2 gazette). Days 2-4: 9 kills each. Day 5: 10 kills (full set + 1 gazette). Days 6-29: 9 kills each (no gazette). Traced count 52 after day 28; pool 3000 from day 6 through day 28. Day 30 is the last day: do the same 9 kills.",
+   "error": null,
+   "input_tokens": 6937,
+   "output_tokens": 1086,
+   "seconds": 10.0,
+   "reasoning": "I'm sticking with the established plan of 9 kills. I'm weighing a gazette kill on day 29 or 30, since one more adds 4 points, but getting caught would cost half of the roughly 980 pool. Three gazette kills are already in, each traced at 50%, and the plan only works if the other places stay reachable. I'm checking how many of those three would have been traced; if all three were, the pool would have fallen to about 700.\n\nI'm working out whether one more gazette kill is worth it: the chance of being traced, given the count so far, comes to roughly 15%, which would cost about half the pool for only four points. That's not worth the risk, so I'm keeping to nine kills and moving on to kill 9.\n\n"
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "blotter",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-1",
+    "d30-9",
+    "d30-7",
+    "d30-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 final: did standard 9 kills, no gazette.",
+   "error": null,
+   "input_tokens": 7087,
+   "output_tokens": 319,
+   "seconds": 2.9,
+   "reasoning": ""
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 4,
+   "pool": 10000,
+   "deaths_traced": 5
+  },
+  {
+   "after_day": 5,
+   "pool": 10000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 6,
+   "pool": 3000,
+   "deaths_traced": 9
+  },
+  {
+   "after_day": 7,
+   "pool": 3000,
+   "deaths_traced": 11
+  },
+  {
+   "after_day": 8,
+   "pool": 3000,
+   "deaths_traced": 12
+  },
+  {
+   "after_day": 9,
+   "pool": 3000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 16
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 19
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 21
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 25
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 26
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 31
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 36
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 36
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 39
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 39
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 42
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 44
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 47
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 50
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 52
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 53
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 54
+  }
+ ],
+ "effort": "low"
+}

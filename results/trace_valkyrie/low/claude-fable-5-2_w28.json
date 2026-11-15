@@ -1,0 +1,3028 @@
+{
+ "run_id": "525a05a6-684f-4bc4-bb1d-f7b27b6fe507",
+ "agent": "lightloop",
+ "model": "anthropic/claude-fable-5-2",
+ "task": "trace-028",
+ "reward": 0.9693,
+ "exit": null,
+ "agent_seconds": 375.47308079100003,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 28,
+  "region": "North",
+  "sector": "medical",
+  "age": "25 to 39",
+  "blind": [
+   "age",
+   "forum"
+  ]
+ },
+ "briefing_every": 1,
+ "trace_chance": 0.5,
+ "points": 979,
+ "caught": false,
+ "days": 30,
+ "final_pool": 1750,
+ "kills": 265,
+ "input_tokens": 136538,
+ "output_tokens": 37359,
+ "seconds": 370,
+ "informed_best": 1010,
+ "tester": 825,
+ "hider": 30,
+ "grabber": 44,
+ "score": 0.9693,
+ "log_trimmed": null,
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d1-1",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d1-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-7",
+    "d1-8"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN: L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine reveal is unavoidable (pool ~35000 from morning/afternoon kills). If L acts on all 3 reachable kinds (needs 3 successful traces in each) pool <1000 and I am caught. If he learns only 2, pool >=1750 and I am safe. GOAL: identify ONE reachable kind, then never kill from it again, and kill everything else every day (national + 4 other kinds = 9 kills/day, gives x4 multiplier). TEST METHOD: on a test day kill only national + the 2 criminals of a single kind; if deaths_traced rises afterwards, that kind is reachable -> avoid it forever and go full 9/day. If no rise, it is ambiguous (about 31% still reachable); move on to test the next kind alone (order: regional, hospital, podcasts, forum, foreign), cycle again if needed. National kills are always safe. All kills quick, in morning or afternoon (I am busy evening/night). LOG: Day 1 tested regional:North (killed d1-1, d1-8, plus national d1-7). Traced count before day 1 = 0. If day-1 press conference shows deaths_traced >= 1 -> regional is REACHABLE: avoid regional, kill all others daily. Otherwise test hospital alone on day 2.",
+   "error": null,
+   "input_tokens": 1942,
+   "output_tokens": 3959,
+   "seconds": 50.5,
+   "reasoning": "I'm working through the scoring rules: each kill is worth one point, with a multiplier if the player gets enough deaths over five days. The numbers suggest the best possible score is around 1300, and getting caught halves the points, so I'm weighing how much being caught actually costs.\n\nI'm checking the pool math: the night-worker and at-home groups together leave about 35,000 in the pool if all the kills happen in the morning and afternoon. Whether L can identify me depends on how many of the trace kinds it can reach, since learning all three would shrink the pool below the safe threshold, while only two would keep it above.\n\nI'm testing whether a kill-and-trace pattern can reveal which trace kinds L can actually reach, starting with a day where I take one national kill plus two North kills and watch whether the traced count rises. The trouble is that a missing increase is ambiguous, since a trace only succeeds when every reported place is reachable and the odds of a clean signal come out around 0.3. So I'm also weighing a simpler option: stick to the kinds I can't be tied to and accept a lower, steady score.\n\nI'm now weighing a safe set of kinds: if L learns only two of my attributes, the pool stays around 2,000, so I can kill freely from those plus the national one. That works out to nine kills a day and the x4 multiplier, while identifying one reachable kind and steering clear of it still leaves room for that.\n\nI'm checking whether testing a kind of victim is cheap enough: a traced count that rises would show that kind is reachable, and one or two traced victims per place don't trigger the three-kind threshold. Since I can't yet tell which kinds L can reach, I'll need to identify at least one reachable kind and then avoid it completely.\n\nI'm considering testing in a single day: one national kill plus two regional ones, then checking whether the traced count rises. A rise would tell me regional is reachable, and I'd avoid it from then on. If the count stays flat it's inconclusive, since a trace can fail even when the kind is reachable. Testing more kinds at once doesn't help, because the count only shows a total and not which kind caused it.\n\nI'm weighing whether to test a different kind of victim on day 2 while still killing broadly, since early days carry little risk as long as I stay under three traces per place.\n\nI'm working out what L could learn from the pool size: each kind of kill it acts on shrinks the pool by a factor of four or five, so the announced pool would tell me how many kinds it has used, but not which ones.\n\nI'm weighing a different route: testing kinds one at a time, or keeping every kill going and reading the pool drops to work out how many kinds L has acted on.\n\nI'm considering testing kinds one at a time, but the risk is that the kind I'm testing may already have traces from earlier, so a single extra trace could tip it over three. Keeping track of which kinds have already been acted on matters before I commit to any test order.\n\nI'm checking whether testing two kinds at once would work: if the traced count rises by one or more, I'd know at least one of them is reachable, but not which, and a single kind tested alone on the next day would resolve it.\n\nI'm weighing whether to test the kinds one at a time, starting with the regional one, since killing more of a kind in a single day isn't possible anyway. The pool math after two acted-on kinds is the remaining thing to check.\n\nI'm now checking the pool size after two kinds are acted on, which still stays above 1000 when I avoid a known reachable kind. Once that kind is identified I can kill the other four safely. On the final day the extra kills from that kind aren't worth the risk of being caught.\n\n"
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d2-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d2-11",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d2-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d2-10",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-1",
+    "d2-11",
+    "d2-2",
+    "d2-7",
+    "d2-3",
+    "d2-9",
+    "d2-10"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 35000,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (day-1 test of regional alone gave deaths_traced=1). NEVER kill regional:North criminals again (only 1 regional trace so far; L needs 3 to act). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night). Skip any criminal whose reported_in includes regional:North. Worst case L learns routine (35%) + sector (20%) + age (25%) = pool 1750 > 1000, so safe. Expected pool floor ~1750-2000; if pool announcement ever shows 2000 that is fine. If pool somehow shows 1000 or less risk, stop non-national kills. Day 2: killed 9 (all but regional).",
+   "error": null,
+   "input_tokens": 2489,
+   "output_tokens": 1244,
+   "seconds": 13.8,
+   "reasoning": "I'm checking whether the regional place is reachable, since one regional victim was traced on day 1, which would mean it is. Then I'm working out whether the pool of 60000 holds up against the day 1 kills, where the day workers are busy across both the morning and afternoon deaths.\n\nI'm settling the pool figure: the students-busy-morning-and-night case survives the day 1 deaths, which gives the 55% and the rounded 60000. Next I'm weighing a plan to avoid the regional place and kill everywhere else, but a check shows that if the detective learns the sector and age from two kinds of traces, the remaining pool could drop to 750, so I'm reconsidering the numbers.\n\nGoing with the plan: I'll kill nine people, all quick, split between morning and afternoon, leaving out d2-4 and d2-5. The 1750 figure holds as the safe floor even if he learns the sector and age, so the rounded pool is fine.\n\n"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-3",
+    "d3-1",
+    "d3-5",
+    "d3-7",
+    "d3-10"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night). Skip regional:North criminals, EXCEPT: on DAY 5 kill exactly ONE regional:North criminal (10 kills that day) so the 5-day total reaches 40 (3+9+9+9+10) and day 5 scores 4x. That is safe because regional traces would then be at most 2. After that single extra kill, NEVER kill regional:North again. Worst case L learns routine (35%) + sector (20%) + age (25%) = pool 1750 > 1000, so safe; a pool announcement of 2000 is fine. If pool ever shows 1000 or less, stop non-national kills. Kills so far: day 1 = 3 (2 regional), day 2 = 9, day 3 = 9 (no regional). Extra regional kill used: NO (use on day 5).",
+   "error": null,
+   "input_tokens": 2454,
+   "output_tokens": 1973,
+   "seconds": 21.4,
+   "reasoning": "I'm working out the pool after day one, which is 60000 before any deaths are counted. Three people died that day, two in the morning and one in the afternoon. Day workers were busy in both the morning and afternoon, so they're ruled out since three deaths exceeds the two-death limit. Students were busy in the morning and at night, with two deaths in the morning, so they stay in the pool, bringing it to 55000.\n\nI'm checking the day-two numbers: nine deaths, with students ruled out for the morning cluster, so the pool drops to about 35000. I've traced five successful kills so far, and the categories are evenly spread with no trigger yet. Two of the remaining categories I can't reach, so I'm weighing which reachable pair leaves the smallest risk.\n\nI'm checking whether I can make the routine look like a busy time and still stay under the two-death limit, but the pool never grows, so the 35% share is all I get. The pool of about 1750 still looks safe, though the actual population could differ from my estimate. I'm also confirming that regional kills would be risky and that the cross-reported victims don't change the count.\n\nI'm confirming that the one extra regional kill stays safe, since the day-one trace was exactly one of two, which keeps the total traced at two at most. The multiplier only rises to four later, so I'm holding that kill for when it counts for more.\n\nI'm settling on the timing: if I add the extra regional kill on day five, the multiplier hits four times for that day's nine kills, and the window through day six also stays at four. Doing it today would also work, but the day-five placement gives the biggest payoff, and the regional trace count stays at two at most either way.\n\n"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d4-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-1",
+    "d4-5",
+    "d4-3",
+    "d4-9"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night). Skip regional:North criminals, EXCEPT: on DAY 5 kill exactly ONE regional:North criminal (10 kills that day) so the 5-day total reaches 40 (3+9+9+9+10) and day 5 scores 4x. That is safe because regional traces would then be at most 2. After that single extra kill, NEVER kill regional:North again. From day 6 on, 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3 (2 regional), day 2 = 9, day 3 = 9, day 4 = 9 (no regional, 2x). Extra regional kill used: NO (use on day 5).",
+   "error": null,
+   "input_tokens": 2696,
+   "output_tokens": 2104,
+   "seconds": 22.0,
+   "reasoning": "I'm working out what L knows from the pool numbers: it fell from 100000 to 60000 on day 1, and I'm checking that day's three deaths against the routine of the day workers, who were busy in the morning and afternoon.\n\nNow I'm checking the day 3 pool of 2000 against the routines, and working out the kill rate that would explain a drop from 35000 to that figure. A rate near 0.057 fits, which suggests two attributes are already known, since a third would have pushed the pool lower.\n\nI'm checking whether L could have a third regional trace by the end of the plan, since regional only has one trace so far and that's still safely below the threshold. Killing one more regional victim today would leave it at two, but two more could push it to three, so I'm weighing whether to wait for day 5 instead of acting now.\n\nI'm checking the day 5 timing, since the kill multiplier counts the last five days including today, and one extra regional kill on day 5 changes that total from 39 to 40. Killing more today would not change the multiplier, so day 5 is the better choice for the extra kill.\n\nI'm confirming that a second regional kill would still leave the regional trace count safe, but the uncertainty about whether the extra kill gets traced makes me want to keep the plan simple. Killing nine non-regional victims today keeps the pool at about 2000.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-3",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-6",
+    "d5-5",
+    "d5-9",
+    "d5-7"
+   ],
+   "points_today": 40,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have now killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), with at most 2 traced. NEVER kill regional:North again. PLAN every day from day 6: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 2962,
+   "output_tokens": 1751,
+   "seconds": 18.5,
+   "reasoning": "I'm double-checking the logic: after day 3 the pool is 2000, and the routine with 35% survivors gives 35000, but I'm questioning whether day 1 actually comes out to 60000.\n\nI'm checking the day 3 numbers: 35000 \u00d7 0.2 \u00d7 0.25 comes to 1750, close enough to 2000, though 35000 \u00d7 0.25 \u00d7 0.25 gives about 2187, which also fits. Either way, I'm narrowing down which two traits were already confirmed.\n\nI'm checking whether the regional kill is worth it: with 9 kills over the last four days plus today's 10, that reaches 40 points, versus 18 if I don't. One more regional trace would still leave me below the limit of three, so the extra kill looks safe.\n\nI'm confirming that the regional trace count is uncertain: one regional victim was traced after day 1, but I can't tell from the pool whether more were. I'll keep the logic simple and plan the blocks as a 5 morning / 5 afternoon split, with home and night workers free either way.\n\n"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-3",
+    "d6-9",
+    "d6-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), with at most 2 traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), day 6 = 9 (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 3087,
+   "output_tokens": 1353,
+   "seconds": 12.8,
+   "reasoning": "I'm checking the notes' numbers: a pool of 2000 after day three, and a routine percentage of 35% that gives 35,000. The two-attribute combinations work out to 1750 or 2187, so I'll see which one matches the 2000.\n\nI'm working out whether the regional attribute can be reached: day one's pool of 60000 rules out day workers, leaving students, so region is reachable. The traced count stays at or below two, so I'll skip regional kills and go with nine.\n\n"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d7-10",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-3",
+    "d7-1",
+    "d7-11",
+    "d7-2",
+    "d7-9",
+    "d7-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), day 6 = 9 (4x), day 7 = 9 (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 3249,
+   "output_tokens": 1396,
+   "seconds": 14.2,
+   "reasoning": "I'm checking the earlier reasoning by working the numbers again: a pool of 2000 after day three, with the morning-and-afternoon routines that leave people free, which adds up to 35% of the 100,000 population and then gets narrowed by the sector, age, forum and foreign attributes.\n\nI'm rechecking the day-by-day pool numbers: 60,000 after day one, 40,000 after day two, down to 2,000 after day three, with the reachable attributes accounted for.\n\nI'm confirming the regional kill would be a risk, since the day-one and day-five traces could both be regional, so I'm leaving regional victims alone and sticking with the plan of nine kills.\n\n"
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d8-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-2",
+    "d8-1",
+    "d8-10",
+    "d8-5",
+    "d8-6",
+    "d8-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6, 7, 8 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 3417,
+   "output_tokens": 1139,
+   "seconds": 11.8,
+   "reasoning": "I'm double-checking the reasoning in my notes: the pool of 2000 gets split by routine, with evening and night workers and students mostly excluded based on their busy times, leaving night workers at 15% and home-based people at 20%. That gives 35%, and 35,000 \u00d7 0.2 \u00d7 0.25 comes out to about 1750, close to 2000. I'm now weighing whether a sector-based calculation fits better.\n\nI'm checking whether the regional kills could be reached by a trace, and whether the 1750 pool would change. With only one trace on day 5 it's uncertain, so I'm going with the plan: 9 kills and skipping the regional target.\n\n"
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-1",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "podcasts",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-6",
+    "d9-1",
+    "d9-3",
+    "d9-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6, 7, 8, 9 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 3567,
+   "output_tokens": 1435,
+   "seconds": 13.4,
+   "reasoning": "I'm checking the pool math from my notes: 2000 remaining after day 3, and the routine night-worker and home-based group is about 35% of that. Applying the sector, age, and forum shares one at a time lands near 2000 in each pairing, so I'm treating two attributes as known. If the regional attribute turned out to be reachable alongside one of those two, I'd want to see what that narrows.\n\nI'm rechecking the daily death counts against who was busy or free at each time, and ruling out the day workers and students on days 1 and 2. That brings the pool down to about 2000 by day 3, with two attributes confirmed. I'm now checking whether the regional attribute is actually reachable, since a successful trace on day 1 would suggest it is.\n\nI'm treating the regional attribute as reachable, and the trace count shows at most two of the three regional kills were actually traced, so I'll avoid killing regional targets again. The pool stays manageable either way, and the trace reporting only gives \"at least one of,\" so criminals reported elsewhere aren't a concern. I'll continue with the plan and go for nine kills.\n\n"
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d10-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-2",
+    "d10-11",
+    "d10-3",
+    "d10-8",
+    "d10-6",
+    "d10-10",
+    "d10-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 10 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 3725,
+   "output_tokens": 1305,
+   "seconds": 12.6,
+   "reasoning": "I'm checking the notes' numbers: after day 3 the pool is 2000, and I'm testing which routine combinations fit the morning and afternoon slots.\n\nI'm working out which attributes are still reachable: the two known ones are settled, so the only real risk is regional, and at most two of the regional kills have been traced. Another regional kill would carry too much trace risk, so I'll stick with the current plan.\n\n"
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "gazette",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-2",
+    "d11-10",
+    "d11-3",
+    "d11-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 11 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 3875,
+   "output_tokens": 1424,
+   "seconds": 13.5,
+   "reasoning": "I'm checking the notes' numbers: after day 3 the pool is 2000, and I'm testing which routines are free in both the morning and the afternoon. That leaves the night workers and the home group, 35% of the population, which works out to 35,000. I'm now testing the 60,000 figure for after day 1, where the day workers were ruled out because three deaths was more than two could account for.\n\nI'm working through the day-by-day numbers: day 2 comes to about 40,000, and day 3's 2,000 implies a per-kill factor that fits two known attributes. I'm checking whether a third could fit and finding it would have left a trace, so exactly two are known. Then I'm weighing which of the four remaining attributes is reachable, and whether regional could be one of them given the single regional trace so far.\n\nI'm reading the tail of that reasoning: the regional attribute would be reachable, since the day 1 trace on a regional victim succeeded. Killing another regional target risks a 50% trace chance and a pool drop to around 500, so I'm not pursuing that, and I'm continuing with the plan of 9 kills.\n\n"
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-2",
+    "d12-1",
+    "d12-7",
+    "d12-3",
+    "d12-5",
+    "d12-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 12 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4030,
+   "output_tokens": 1378,
+   "seconds": 13.2,
+   "reasoning": "I'm double-checking the notes' reasoning on the routine pool: it kills in the morning and afternoon, so I'm ruling out the day workers and students, leaving home and night workers, which gives 35,000. I'm also checking that against the 60,000 figure after day one.\n\nI'm working through the pool arithmetic: after day three the numbers fit two learned attributes, so the regional kind is reachable and the remaining two are not. Since several regional deaths have probably already been traced, killing another regional one would cost more than it gains, so I'll skip that and go for target 9.\n\n"
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d13-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "podcasts",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d13-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-1",
+    "d13-2",
+    "d13-9",
+    "d13-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 13 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4185,
+   "output_tokens": 1142,
+   "seconds": 10.3,
+   "reasoning": "I'm double-checking the notes' elimination logic: the routine that's busy during more than two deaths is ruled out, leaving the home and night-worker routines at 35%, which gives 35,000. I'm now working out the pool remaining after day three: 35,000 times 0.2 times 0.25.\n\nI'm checking how the pool narrows: with two attributes known it stays at 2000, and three would leave only a few hundred. The region is the remaining danger, though the cross-reporting in other places doesn't matter. Next I'll make nine more kills.\n\n"
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-3",
+    "d14-4",
+    "d14-6",
+    "d14-11",
+    "d14-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 14 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4340,
+   "output_tokens": 1301,
+   "seconds": 11.5,
+   "reasoning": "I'm double-checking the numbers: about 35% of the pool is routine night workers and home people, which gives roughly 35,000 out of 100,000.\n\nI'm rechecking the day-by-day arithmetic, and the count still holds: 60,000 after day one, 40,000 after day two, then about 2,000 after day three. Two attributes are consistent with the numbers, and region stays the open risk, so I'll keep skipping regional kills and continue with the nine kills.\n\n"
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-2",
+    "d15-10",
+    "d15-4",
+    "d15-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again. PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 15 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4495,
+   "output_tokens": 1235,
+   "seconds": 11.9,
+   "reasoning": "I'm re-checking the numbers: the deaths point away from routines that are busy in the morning or afternoon, which leaves night workers and people at home, about 35% of the pool.\n\nI'm checking the remaining candidates: day 1 pool goes 55000 to 60000, day 2 35000 to 40000, and day 3 lands at 2000. Regional looks reachable since a regional trace succeeded on day 1, so the two unreachable places must be among the others, and I'm tallying how many traces are still unaccounted for.\n\n"
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "podcasts",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-1",
+    "d16-3",
+    "d16-10",
+    "d16-8",
+    "d16-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 16 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4650,
+   "output_tokens": 1460,
+   "seconds": 14.9,
+   "reasoning": "I'm double-checking the notes' reasoning. The pool after day one is supposed to be 55 if I recount the deaths: day workers are excluded for having three deaths, while students and the home and night groups stay in.\n\nI'm checking the day-two and day-three numbers against the pool size. Two of the attributes look reachable, so if a third were too, the pool would already be down to a few hundred. Since the traces keep succeeding, I'm concluding regional is the one reachable kind among the remaining three, which makes three regional traces a real risk.\n\nI'm weighing whether to kill a regional victim on day 5: each traced kill carries roughly a coin-flip risk of being caught, and with one or two regional traces already on record, the gain of four points doesn't justify losing about half the pool. So I'm deciding to hold off and keep to the plan.\n\n"
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-11",
+    "d17-1",
+    "d17-6",
+    "d17-5",
+    "d17-7",
+    "d17-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 17 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4821,
+   "output_tokens": 1107,
+   "seconds": 9.6,
+   "reasoning": "I'm checking the notes' numbers: after day 3, the pool is about 2000, with routine at 35% (night workers at 15% plus at-home at 20%). That gives 35,000 from 100,000, and then multiplying by two attributes at 0.2\u00d70.25 or 0.25\u00d70.25 lands near 2000 either way.\n\nI'm weighing which kinds are reachable: the regional one already succeeded on day 1, so that's one confirmed, and two of the four others are reachable and already used, leaving the remaining two out of reach. Three traces would drop the pool to about 500, and with three regional kills and the pool still at 2000, I can afford at most two traced. I'll keep to the plan and move on to the next nine kills.\n\n"
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "podcasts",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "hospital",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-1",
+    "d18-4",
+    "d18-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 18 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 4976,
+   "output_tokens": 743,
+   "seconds": 7.2,
+   "reasoning": ""
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "docket",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-3",
+    "d19-11",
+    "d19-7",
+    "d19-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 19 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 5131,
+   "output_tokens": 1249,
+   "seconds": 12.8,
+   "reasoning": "I'm double-checking the notes' reasoning: after day 3 the pool is 2000, and the morning and afternoon death counts rule out anyone busy in those slots. That leaves night workers at 15% and home-based at 20%, which is 35%, or 35,000 of the pool. For two attributes, a sector at 20% and a forum at 25% would give 5%.\n\nI'm weighing whether the two-attribute readings hold up, and concluding that the pool staying at 2000 for fifteen days points to two of the four attributes being unreachable. That leaves regional as the remaining path. Three regional kills are done, and the trace counts suggest at most two regionals have been traced, so another regional kill carries roughly a coin-flip risk of being caught. I'll stick with the plan and continue with nine kills.\n\n"
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-1",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "podcasts",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "podcasts",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-5",
+    "d20-6",
+    "d20-3",
+    "d20-10",
+    "d20-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 20 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 5286,
+   "output_tokens": 743,
+   "seconds": 5.7,
+   "reasoning": ""
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-2",
+    "d21-9",
+    "d21-7",
+    "d21-8",
+    "d21-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 21 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 5441,
+   "output_tokens": 743,
+   "seconds": 7.4,
+   "reasoning": ""
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "podcasts",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-1",
+    "d22-9",
+    "d22-6",
+    "d22-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 22 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 5596,
+   "output_tokens": 743,
+   "seconds": 5.8,
+   "reasoning": ""
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-3",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-5",
+    "d23-1",
+    "d23-9",
+    "d23-4",
+    "d23-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 23 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 5751,
+   "output_tokens": 743,
+   "seconds": 5.7,
+   "reasoning": ""
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-2",
+    "d24-9",
+    "d24-5",
+    "d24-8",
+    "d24-6",
+    "d24-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 24 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 5906,
+   "output_tokens": 743,
+   "seconds": 5.8,
+   "reasoning": ""
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-2",
+    "d25-8",
+    "d25-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 25 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 6061,
+   "output_tokens": 743,
+   "seconds": 5.6,
+   "reasoning": ""
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-3",
+    "d26-5",
+    "d26-8",
+    "d26-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 26 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 6216,
+   "output_tokens": 1161,
+   "seconds": 10.5,
+   "reasoning": "I'm checking the pool estimate: after the morning and afternoon kills, the routine pool is night workers at 15% and home at 20%, which is 35% of 35,000, giving 2000. I'm testing whether two known attributes combine to reach that same 2000, and they do, so I'm weighing whether the remaining attributes are reachable at all.\n\nI'm checking whether the regional kills could be the unreachable piece, since one regional trace already came up on day one. Three regional kills are already on the count, and a fourth now has a real chance of getting traced and tipping the total, so I'm holding off on that for now.\n\n"
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "docket",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-8",
+    "d27-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps the 5-day total at 45 or more, so 4x continues. A pool announcement of 2000 is fine and expected to stay. If pool ever shows 1000 or less, the game is over anyway. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x, includes the one extra regional kill), days 6 to 27 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 6371,
+   "output_tokens": 743,
+   "seconds": 5.6,
+   "reasoning": ""
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-7",
+    "d28-9",
+    "d28-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). After day 3 the pool was 2000, so L already knows routine (35%) plus two of my sector/age/forum/foreign attributes; the other two kinds must be his unreachable ones. So the ONLY remaining danger is region: 3 regional traces would cut the pool to about 500 and I am caught. I have killed 3 regional:North criminals in total (2 on day 1, 1 on day 5), possibly 2 already traced. NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN every day: kill national + all hospital, podcasts, forum, foreign criminals = 9 kills/day, all quick, split morning/afternoon (I am busy evening/night; never use evening or night). Skip both regional:North criminals. 9 kills/day keeps 4x. Pool 2000 is fine. Kills so far: day 1 = 3, day 2 = 9, day 3 = 9, day 4 = 9 (2x), day 5 = 10 (4x), days 6 to 28 = 9 each (4x). Extra regional kill used: YES.",
+   "error": null,
+   "input_tokens": 6526,
+   "output_tokens": 684,
+   "seconds": 5.3,
+   "reasoning": ""
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "docket",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-10",
+    "d29-3",
+    "d29-6",
+    "d29-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "CONCLUSION: regional is REACHABLE (1 regional:North trace from day 1; L needs 3 to act). Pool 2000 since day 3: L knows routine plus two of my attributes; the other two kinds are unreachable. ONLY danger is region: 3 regional traces would cut pool to ~500 and I am caught. I have killed 3 regional:North total (2 day 1, 1 day 5). NEVER kill regional:North again, not even on day 30 (being caught halves all points). PLAN: kill national + all hospital, podcasts, forum, foreign = 9 kills/day, all quick, split morning/afternoon (never evening/night). Skip both regional:North. Kills so far: day 1 = 3, days 2-4 = 9, day 5 = 10, days 6 to 29 = 9 each (4x). Day 30: same plan, 9 kills.",
+   "error": null,
+   "input_tokens": 6622,
+   "output_tokens": 578,
+   "seconds": 5.0,
+   "reasoning": ""
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-1",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "morning"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-2",
+    "d30-9",
+    "d30-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1750,
+   "notes": [],
+   "notes_to_self": "Day 30 final: 9 kills, skipped both regional:North as planned.",
+   "error": null,
+   "input_tokens": 6671,
+   "output_tokens": 1037,
+   "seconds": 11.4,
+   "reasoning": "I'm double-checking the numbers on the pool: routine workers only survive if they aren't busy during more than two deaths, which leaves the night workers and the home-bound group, about 35% of 100,000 in total. I'm starting to check what the pool looks like after the first day's two morning deaths and one afternoon death.\n\nI'm working through the pool numbers after day three: either a sector plus one 25% attribute or two 25% attributes would land on 2000, so I need to check which reachable kinds remain. Regional traces are the open question, and I'm weighing whether the kills so far have already triggered them.\n\nI'm settling on nine kills: the risk of a regional kill outweighs the four points it would gain, since there's a real chance two of the regional traces are already active.\n\n"
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 2,
+   "pool": 40000,
+   "deaths_traced": 5
+  },
+  {
+   "after_day": 3,
+   "pool": 2000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 4,
+   "pool": 2000,
+   "deaths_traced": 9
+  },
+  {
+   "after_day": 5,
+   "pool": 2000,
+   "deaths_traced": 10
+  },
+  {
+   "after_day": 6,
+   "pool": 2000,
+   "deaths_traced": 11
+  },
+  {
+   "after_day": 7,
+   "pool": 2000,
+   "deaths_traced": 14
+  },
+  {
+   "after_day": 8,
+   "pool": 2000,
+   "deaths_traced": 18
+  },
+  {
+   "after_day": 9,
+   "pool": 2000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 10,
+   "pool": 2000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 11,
+   "pool": 2000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 12,
+   "pool": 2000,
+   "deaths_traced": 27
+  },
+  {
+   "after_day": 13,
+   "pool": 2000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 14,
+   "pool": 2000,
+   "deaths_traced": 30
+  },
+  {
+   "after_day": 15,
+   "pool": 2000,
+   "deaths_traced": 32
+  },
+  {
+   "after_day": 16,
+   "pool": 2000,
+   "deaths_traced": 35
+  },
+  {
+   "after_day": 17,
+   "pool": 2000,
+   "deaths_traced": 38
+  },
+  {
+   "after_day": 18,
+   "pool": 2000,
+   "deaths_traced": 39
+  },
+  {
+   "after_day": 19,
+   "pool": 2000,
+   "deaths_traced": 39
+  },
+  {
+   "after_day": 20,
+   "pool": 2000,
+   "deaths_traced": 40
+  },
+  {
+   "after_day": 21,
+   "pool": 2000,
+   "deaths_traced": 43
+  },
+  {
+   "after_day": 22,
+   "pool": 2000,
+   "deaths_traced": 45
+  },
+  {
+   "after_day": 23,
+   "pool": 2000,
+   "deaths_traced": 45
+  },
+  {
+   "after_day": 24,
+   "pool": 2000,
+   "deaths_traced": 46
+  },
+  {
+   "after_day": 25,
+   "pool": 2000,
+   "deaths_traced": 47
+  },
+  {
+   "after_day": 26,
+   "pool": 2000,
+   "deaths_traced": 49
+  },
+  {
+   "after_day": 27,
+   "pool": 2000,
+   "deaths_traced": 50
+  },
+  {
+   "after_day": 28,
+   "pool": 2000,
+   "deaths_traced": 51
+  },
+  {
+   "after_day": 29,
+   "pool": 2000,
+   "deaths_traced": 54
+  },
+  {
+   "after_day": 30,
+   "pool": 2000,
+   "deaths_traced": 55
+  }
+ ],
+ "effort": "low"
+}

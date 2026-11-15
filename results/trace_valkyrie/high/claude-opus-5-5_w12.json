@@ -1,11 +1,11 @@
 {
- "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "run_id": "540f49af-651b-49fa-9b9f-a8054498fa59",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-012",
- "reward": 0.9311,
+ "reward": 0.9309,
  "exit": null,
- "agent_seconds": 488.08272264900006,
+ "agent_seconds": 803.459332691,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,20 +19,20 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 959,
+ "trace_chance": 0.5,
+ "points": 957,
  "caught": false,
  "days": 30,
- "final_pool": 3437,
+ "final_pool": 1375,
  "kills": 264,
- "input_tokens": 145439,
- "output_tokens": 52469,
- "seconds": 483,
- "informed_best": 1030,
- "tester": 858,
+ "input_tokens": 149254,
+ "output_tokens": 82186,
+ "seconds": 799,
+ "informed_best": 1028,
+ "tester": 763,
  "hider": 30,
- "grabber": 88,
- "score": 0.9311,
+ "grabber": 66,
+ "score": 0.9309,
  "log_trimmed": "reasoning cut to 800 characters a day",
  "log": [
   {
@@ -47,64 +47,53 @@
      "block": "afternoon"
     },
     {
-     "id": "d1-1",
+     "id": "d1-2",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d1-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d1-5",
-     "coverage": [
-      "foreign",
+      "blotter",
       "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d1-7",
+     "id": "d1-10",
      "coverage": [
-      "foreign"
+      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d1-7",
-    "d1-6",
-    "d1-4",
-    "d1-5",
-    "d1-1"
+    "d1-2",
+    "d1-10"
    ],
-   "points_today": 5,
+   "points_today": 3,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "STRATEGY: All deaths in AFTERNOON (quick entries; timed also afternoon if used). This keeps the routine pool at night+student+home = about 55% (about 55k). L cannot reach 2 of 5 kinds (regional, sector, age, forum, foreign). My kinds: West=regional, blotter=sector, cable=age, forum, foreign. If all 3 reachable kinds of mine get pinned (3+ successful traces in the place), the pool drops to about 55k*0.25^3, about 860, and I am caught. So I must identify the 2 unreachable kinds, then kill only from: national, the 2 unreachable kinds, and exactly 2 reachable kinds (pinning them leaves the pool at about 2.7k-3.4k, which is safe). I never kill from the 3rd reachable kind. If sector is reachable, leave blotter as the unkilled one (sector pin 0.2 is worst). That gives 9 kills/day, enough for x4 (needs 40 in 5 days). PROBE: kill exactly 5/day (national + 2 of one kind + 2 of another) so all are traced. The change in deaths_traced = reachable victims (it can be 1 lower if a hidden extra place is unreachable). A kind gives 0 if unreachable and 1-2 if reachable. Day1 probe: forum x2 + foreign x2 + national. Day2 plan: West x2 + cable x2 + national. Then sector reachable count = 3 - (reachable found among reg, age, forum, foreign). Resolve ambiguity on day 3 if needed. Day1 kills: d1-4(nat), d1-1, d1-6 (forum), d1-5, d1-7 (foreign), all quick afternoon. Traced before day1 = 0.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds; the other 3 are reachable. A kind is 'pinned' once 3 of its victims are traced. Pins can only ever come from reachable kinds. All quick kills go in the AFTERNOON, which leaves a routine factor of 0.55 (55,000 people). Each pin multiplies the pool by about 0.25 (0.2 for blotter). Pool readings: 60k or 50k = 0 pins, about 10k = 1 pin, about 3k = 2 pins. A third pin gets me caught. GOAL: find one reachable kind Z and never kill from it again after its test (its total kills stay at 2, so at most 2 traced). Then kill every day from the other 4 kinds plus national, 9 a day. Those 4 contain at most 2 reachable kinds, so at most 2 pins and I stay safe. 9 a day gives 45 per 5 days, which is the x4 multiplier. TEST DAY: kill only the national criminal plus the 2 victims of one untested kind K, nothing else. If deaths_traced rises by 1 or more, K is reachable, so Z=K. If it does not rise, K is probably unreachable (0.31 chance it is reachable) and I test another kind the next day. After 3 negative tests, pick Z = an untested kind (about 80% likely reachable) and go to the 9/day mode. Once Z is fixed, kill ALL criminals except Z's every day, quick in the afternoon (10 quick allowed; with 9 kills all can be quick). LOG: Day 1 = TEST of S (blotter): killed d1-2 and d1-10 (blotter) plus d1-4 (national), 3 quick in the afternoon. Before day 1: deaths_traced 0, pool 100000. Day 2: if deaths_traced is 1 or more, then Z=blotter and from day 2 I kill everything except blotter victims. If it is 0, day 2 = TEST of F (forum): kill only the forum pair plus national. Kills per kind so far: S 2, others 0.",
    "error": null,
-   "input_tokens": 1923,
-   "output_tokens": 11092,
-   "seconds": 116.4,
-   "reasoning": "I'm sketching a plan around a kill-count target: with 11 criminals available each day and up to 12 kills possible, a sustained pace of about 8 or more a day over five days would push the multiplier up to quadruple. I'm also weighing the risk that an L-style detective narrows the suspects, so I'm looking at how a quick-entry routine in the morning would hold up.\n\nI'm working out which routines stay consistent with the afternoon kills: night workers, students, and the home group are all free then, so the pool holds at about 55,000 and the day workers drop out. Timed entries can go to the same window to keep the pattern tight, and I'm still weighing whether the trace check on the five daily deaths will expose the remaining gaps.\n\nI'm checking how many places L can actually reach: three of our"
+   "input_tokens": 1935,
+   "output_tokens": 26311,
+   "seconds": 288.9,
+   "reasoning": "I'm working out how many criminals I can kill each day: the limit is 11 since that's how many are visible, giving up to 330 over 30 days. The score multiplier depends on how many died in the last five days, and at 11 a day I'd reach the 40 threshold by day four, so I'm checking when that kicks in.\n\nI'm checking the scoring rule: a kill only counts double if at least 30 people died in the last five days, counting today, so I'd want to check that at the end of each day. Then I'm weighing the risk that L's pool shrinks to 1000 or fewer and I'm caught, which halves my points, so I need to balance the daily kill rate against that. Looking at the routine constraints, quick kills in the afternoon leave the most suspects available, around 55%, while morning kills would rule out the day workers and"
   },
   {
    "day": 2,
    "kills": [
     {
-     "id": "d2-5",
+     "id": "d2-1",
      "coverage": [
-      "national"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -118,79 +107,16 @@
      "block": "afternoon"
     },
     {
-     "id": "d2-11",
+     "id": "d2-4",
      "coverage": [
+      "podcasts",
       "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d2-1",
-     "coverage": [
-      "cable",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-4",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d2-1",
-    "d2-11",
-    "d2-3",
-    "d2-4",
-    "d2-5"
-   ],
-   "points_today": 5,
-   "multiplier": 1,
-   "pool": 55000,
-   "notes": [],
-   "notes_to_self": "STRATEGY: Put every death in the AFTERNOON (quick entries, and timed entries also afternoon if used). That keeps the routine pool at night+student+home = 55%, about 55k (the day-1 pool of 60000 confirms this). DAY1 RESULT: forum x2 + foreign x2 + national gave traced 4. So forum and foreign are both REACHABLE, and exactly ONE of regional/sector/age is reachable. Forum and foreign already have 2 traced victims each, so one more trace pins each of them. Pinning forum + foreign leaves the pool at 55k*0.0625 = about 3.4k, which is safe. I must NEVER kill from the one reachable kind among West/blotter/cable after identifying it. A third pin drops the pool to about 860 (age or regional) or about 690 (sector) and I am caught. DAY2 PROBE: national d2-5, West d2-3 and d2-11, cable d2-1 and d2-4. That is exactly 5 kills, so all are traced. Traced before day2 = 4. Reading the day-2 result: if traced rises by about 2 (1-2), regional is reachable and the safe kinds are cable + blotter. If traced is about 6 because of cable, age is reachable and the safe kinds are West + blotter. If traced stays at 4, sector is reachable and the safe kinds are West + cable. A rise of 1 could be either a hidden extra place that is unreachable or the real reachable kind; if it is unclear, treat the kind with the rise as reachable. FROM DAY3: kill national + forum x2 + foreign x2 + 2 of each of the two safe kinds = 9/day, all quick afternoon. Never kill from the reachable kind (it already has 2 traces after today). Target x4: 40 deaths in 5 days, which 9/day reaches by about day 7.",
-   "error": null,
-   "input_tokens": 2624,
-   "output_tokens": 2560,
-   "seconds": 26.6,
-   "reasoning": "Two of the deaths traced were in the forum and foreign places, so both of those must be reachable. That leaves L unable to reach two of the regional, sector, and age options, which means exactly one of them is reachable.\n\nI'm checking the pool arithmetic: the afternoon kills give 55%, which rounds to 60000. Next I'm weighing a strategy where I pin forum and foreign, since each already has two traced victims and one more trace would settle it. A sector trace could also reveal docket reports, but those victims were already tied to forum, so that constraint stays weak.\n\nI'm weighing whether to probe West and cable today, since a West count of 2 would mean regional is the reachable one, while no West but two cable traces would point to age, and zero for both would leave sector.\n\nI'm weighing w"
-  },
-  {
-   "day": 3,
-   "kills": [
-    {
-     "id": "d3-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-4",
-     "coverage": [
-      "clips",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-2",
+     "id": "d2-5",
      "coverage": [
       "foreign"
      ],
@@ -198,9 +124,73 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-9",
+     "id": "d2-7",
      "coverage": [
-      "foreign",
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-1",
+    "d2-2",
+    "d2-4",
+    "d2-8",
+    "d2-9",
+    "d2-10"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. A kind is 'pinned' when 3 of its victims are traced, and each pin multiplies the pool by about 0.25. RESULT OF DAY 1 TEST: deaths_traced went 0->2, so blotter (sector) IS REACHABLE. Z = blotter, fixed. Blotter now has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, ever again (a 3rd traced one would pin it). Exactly 2 of R, A, F, X are reachable, so at most 2 more pins. Worst case pool is about 100k x 0.55 x 0.25 x 0.25 = about 3.4k, which is above 1000, so I am safe. MODE from day 2 on: each day kill ALL criminals except any with blotter in reported_in, usually 9 (national + R, A, F, X pairs). All quick in the AFTERNOON (routine factor 0.55; day workers excluded). Multiplier: 30 or more deaths in the last 5 days gives x2, 40 or more gives x4. At 9/day: day 4 total is 30 (x2), day 5 is 39 (x2), day 6 onward is 45 (x4). DANGER CHECK: if the pool reading ever drops to about 1000-2000, stop killing non-national kinds that might still be unpinned. Expected readings: about 60k/50k = no pins, about 10k-20k = 1 pin, about 3k-4k = 2 pins. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: killed d2-1,2,3,4,5,7,8,9,10 (9 kills; skipped blotter d2-6, d2-11), quick, afternoon. Deaths per day: D1 3, D2 9.",
+   "error": null,
+   "input_tokens": 2760,
+   "output_tokens": 2751,
+   "seconds": 28.1,
+   "reasoning": "Both blotter victims traced successfully, so the blotter sector is reachable and it becomes the target. I'll kill everything else. Still, a successful trace only shows L can reach records of each place a victim was reported, and some victims may also have been reported somewhere I'm not tracking, so the blotter result doesn't rule that out.\n\nThe pool estimate holds after ruling out day workers on the afternoon kills, so I'll leave it at roughly 60k. Blotter is now fully traced and I won't touch it again. Of R, A, F and X, exactly two should be reachable. I also need to keep in mind that some victims might have been reported in a place I'm not following, like docket, which would mean the killer follows at least one of those places per victim.\n\nI'm working through the remaining kill list: ni"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-2",
+     "coverage": [
+      "cable",
       "regional:South"
      ],
      "entry": "quick",
@@ -208,6 +198,40 @@
     },
     {
      "id": "d3-3",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
      "coverage": [
       "regional:West"
      ],
@@ -217,119 +241,55 @@
     {
      "id": "d3-10",
      "coverage": [
-      "regional:West"
+      "forum",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-5",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-8",
+     "id": "d3-11",
      "coverage": [
       "cable",
-      "wire"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d3-1",
-    "d3-4",
-    "d3-9",
+    "d3-2",
     "d3-3",
-    "d3-2"
+    "d3-4",
+    "d3-6",
+    "d3-7",
+    "d3-10"
    ],
    "points_today": 9,
    "multiplier": 1,
-   "pool": 3437,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 2: Traced stayed at 4, so none of the West or cable kills traced. That means REGIONAL and AGE are unreachable and SECTOR is reachable. BLOTTER IS DANGEROUS. Forum and foreign are reachable and each already has 2 traced victims, so the next trace in each pins it. Pinning both gives a pool of about 55k*1/16 = 3.4k, which is safe. Blotter currently has 0 traced. If 3 blotter victims are traced, the pool drops to about 690 and I am caught. So I may kill AT MOST 2 blotter victims in the whole game, and only on days with the x4 multiplier (I can't tell which deaths were traced). Blotter kills used so far: 0. West and cable victims can never trace (their places are unreachable), so they are totally safe. STRATEGY: all deaths in the AFTERNOON (routine pool night+student+home = 55%). Each day kill: national + forum x2 + foreign x2 + West x2 + cable x2 = 9 quick afternoon. Never kill blotter except the 2-total allowance. Quick limit is 10/day and timed is 2/day; timed entries also go in the afternoon. Kill counts: d1=5, d2=5, d3=9. Projection: d5 window = 37 (x2), d6 = 41 (x4), and from then on x4 at 9/day. Spend the 2 blotter kills on some later x4 day, e.g. day 8 (one blotter each on 2 days, or both on one day). Then record that the blotter allowance is used up. Watch the pool: expect about 3,000 once forum and foreign are pinned. If the pool ever drops near 2,000 or below, reconsider.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. A kind is 'pinned' when 3 of its victims are traced, and each pin multiplies the pool by about 0.25 (0.2 for blotter). RESULT OF DAY 1 TEST: traced went 0->2, so sector IS REACHABLE. Blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even if it is also in another place (a 3rd traced one would pin it, and blotter plus 2 other pins gives about 700, which means caught). Exactly 2 of R, A, F, X are reachable, so at most 2 more pins. Worst case pool is about 55k x 0.25 x 0.25 = about 3.4k, which is above 1000, so I am safe. Hidden-place pins give constraints of the form 'hidden OR my reachable kind'. Those are implied once my reachable kinds are pinned, so they do not lower the worst case. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9 (national + R, A, F, X pairs). All quick in the AFTERNOON (routine factor 0.55: night workers, students and home remain). Never use morning/evening blocks. Multiplier: last 5 days 30 or more deaths gives x2, 40 or more gives x4. Projected: D4 window = 30 (x2), D5 = 39 (x2), D6 onward = 45 (x4). I considered a blotter kill to reach 40 on D5 and rejected it as too risky. DANGER CHECK: if the pool reading ever falls to 2000 or below, stop all non-national kills except kinds clearly already pinned. Expected readings: about 60k = no pins, about 10k-20k = 1 pin, about 3k-4k = 2 pins. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills (no blotter), pool 60k, traced 5. D3: killed d3-1,2,3,4,5,6,7,10,11 (9; skipped blotter d3-8, d3-9), quick, afternoon. Deaths per day: D1 3, D2 9, D3 9.",
    "error": null,
-   "input_tokens": 2763,
-   "output_tokens": 3105,
-   "seconds": 32.3,
-   "reasoning": "I'm checking the day 2 tally: the traced count stayed at 4, so none of the West or cable kills traced, which leaves regional and age unreachable and sector reachable. Going back to day 1, all 4 non-national kills traced, so I'm weighing whether forum and foreign are both reachable.\n\nWorking through the day 1 and day 2 tallies now: the West and cable traces all failed, so those look unreachable, which leaves sector as the one reachable option among the remaining places. I'm also checking whether the forum and foreign victims might be reported in other sectors, since that would change which places the killer can follow.\n\nI'm checking whether the hidden extra places could pull in constraints from the other sectors, but each extra OR only widens the pool, and forum and foreign stay pinned. Aft"
+   "input_tokens": 2840,
+   "output_tokens": 4243,
+   "seconds": 42.7,
+   "reasoning": "I'm rechecking the 60k pool after day 1: three afternoon deaths rule out routines that were busy during more than two of them, which leaves about 55% of the pool, rounded to 60k. Now I'm turning to day 2, where the traced count went from 2 to 5, so three more traced people are among the remaining candidates.\n\nI'm checking whether any of the day 2 deaths could be pinned to a place I haven't followed yet, since three traced victims sharing a hidden location would narrow the pool further.\n\nI'm weighing how much a pin on the blotter, the regional, cable, forum, or foreign places could cut the pool, since a single pin would drop it sharply. Two of the four non-sector kinds are out of reach, so only two of those pins are realistically possible, which would still leave the pool around 55k.\n\nI'm w"
   },
   {
    "day": 4,
    "kills": [
     {
-     "id": "d4-11",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d4-1",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-10",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-7",
-     "coverage": [
-      "foreign",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-8",
-     "coverage": [
-      "foreign",
-      "gazette"
+      "forum",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d4-2",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-4",
-     "coverage": [
-      "hospital",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-5",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-9",
      "coverage": [
       "cable"
      ],
@@ -339,7 +299,24 @@
     {
      "id": "d4-3",
      "coverage": [
-      "blotter"
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -347,29 +324,54 @@
     {
      "id": "d4-6",
      "coverage": [
-      "blotter"
+      "foreign"
      ],
-     "entry": "timed",
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "regional:West",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d4-9",
-    "d4-2",
+    "d4-3",
     "d4-4",
-    "d4-10",
-    "d4-7"
+    "d4-6",
+    "d4-9",
+    "d4-11"
    ],
-   "points_today": 22,
+   "points_today": 18,
    "multiplier": 2,
-   "pool": 3437,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 4. Inference from day 2: none of the West or cable kills traced. So REGIONAL and AGE are unreachable for L, and SECTOR is reachable. Forum and foreign are reachable and are already pinned. The pool of about 3.4k (shown as 3000) = 55k afternoon routines x 1/4 forum x 1/4 foreign. BLOTTER: I spent BOTH allowed blotter kills on day 4 (d4-3, d4-6). That brought the 5-day window to 30, so day 4 scored x2. The allowance is now USED UP. NEVER kill any criminal whose reported_in includes blotter again, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. (Up to 2 blotter victims may have traced; I can't know.) West and cable victims can never trace, so they are fully safe. Forum and foreign are already pinned, so more forum or foreign traces cost nothing. RULES: every death in the AFTERNOON (quick, or timed set to afternoon). Each day kill national + forum + foreign + West + cable victims, skipping any with blotter. Usually that is 9 quick afternoon. Quick limit is 10/day; timed limit is 2/day (timed also in the afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11. Projected windows: d5 = 5+5+9+11+9 = 39 (x2), d6 = 43 (x4), d7 = 47 (x4), then 45 (x4) at 9/day. Expect traced count to keep rising (forum/foreign victims) while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills or reconsider.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. A kind is 'pinned' when 3 of its victims are traced, and each pin multiplies the pool by about 0.25 (0.2 for blotter). DAY 1 TEST: sector IS REACHABLE, and blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even if it is also in another place. A 3rd traced one would pin blotter, and with the 2nd reachable kind's pin that is about 690, which means caught. STATUS AFTER D3: pool 10k (55k x 0.25 = about 13.75k), so ONE of R/A/F/X is now pinned. Exactly one more reachable kind among R/A/F/X remains, and it will probably pin soon, giving about 3.4k. That is still above 1000 and safe as long as I avoid blotter. Hidden-place pins add nothing beyond this. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9 (national + R, A, F, X pairs). All quick in the AFTERNOON (routine factor 0.55). Never use morning/evening blocks and never use timed entries. Multiplier: 30 or more deaths in the last 5 days gives x2, 40 or more gives x4. Projected windows: D4 = 30 (x2), D5 = 39 (x2), D6 onward = 45 (x4). I rejected blotter kills for reaching 40 on D5: the gain is about +18, but the risk is near-certain capture later. DANGER CHECK: expect the pool to fall to about 3k (2nd pin), which is fine. If the pool reading ever falls to 2000 or below, stop all non-national kills (something unexpected is happening). If traced jumps oddly, also be cautious. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills, pool 60k, traced 5. D3: 9 kills, pool 10k, traced 6. D4: killed d4-1,2,3,4,5,6,7,9,11 (skipped blotter d4-8, d4-10), quick, afternoon. Deaths per day: D1 3, D2 9, D3 9, D4 9.",
    "error": null,
-   "input_tokens": 2887,
-   "output_tokens": 3313,
-   "seconds": 34.2,
-   "reasoning": "I'm checking the pool count after day 3: it comes to 3000, with 6 traced, which matches the notes' estimate of about 3.4k rounding to 3000. Now I'm re-verifying why regional and age are ruled out as reachable, going back over the day 2 kills and which of them were traced.\n\nI'm working through whether a victim's place could be reachable but still fail because of an extra unreachable place, and I'm judging that unlikely for the West victims. From day 1, I'm treating forum and foreign as reachable and working out that regional and age are the likely unreachable ones, with sector still open. Next I'm checking day 1's pool size of 60k against the routine afternoon rate, and then going back to the day 3 pinning.\n\nNow I'm weighing the blotter option: sector is reachable and the pool is about 3.4k"
+   "input_tokens": 3128,
+   "output_tokens": 2685,
+   "seconds": 27.4,
+   "reasoning": "I'm working through the pool numbers: it fell from 60k to 10k by day 3, with six traced, which points to a single pin. Whether 60k \u00d7 0.25 = 15k rounds to 10k or 20k depends on the rounding, and I'm wondering if hidden constraints account for the gap. I'm also checking what the victim was reported at.\n\nI'm checking whether a 25% pin on the 55k base fits the drop to 10k, which it does. The traces so far point to one reachable kind having been pinned, leaving a remaining risk from the blotter and one other kind.\n\nI'm checking the hidden-place case: a victim reported in docket is only traceable if my place is reachable too, so a pin from that kind would already cover the constraint. Before any pin, though, a hidden-place constraint like \"docket or forum\" could cut the pool only partly, which s"
   },
   {
    "day": 5,
@@ -385,15 +387,15 @@
     {
      "id": "d5-2",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-3",
+     "id": "d5-4",
      "coverage": [
-      "cable"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -401,15 +403,16 @@
     {
      "id": "d5-5",
      "coverage": [
-      "national"
+      "regional:East",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-7",
+     "id": "d5-6",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -417,7 +420,8 @@
     {
      "id": "d5-8",
      "coverage": [
-      "foreign"
+      "forum",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -425,7 +429,8 @@
     {
      "id": "d5-9",
      "coverage": [
-      "forum"
+      "cable",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -433,7 +438,8 @@
     {
      "id": "d5-10",
      "coverage": [
-      "cable"
+      "cable",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -441,41 +447,35 @@
     {
      "id": "d5-11",
      "coverage": [
-      "foreign"
+      "docket",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d5-9",
-    "d5-5",
-    "d5-2",
     "d5-1",
-    "d5-7"
+    "d5-2",
+    "d5-5",
+    "d5-9",
+    "d5-10",
+    "d5-11"
    ],
    "points_today": 18,
    "multiplier": 2,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 5. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. Pool of about 3.4k (shown as 3000) = 55k afternoon routines x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10/day, timed 2/day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9. Windows: d5 = 39 (x2), d6 = 5+9+11+9+9 = 43 (x4), d7 = 47 (x4), then 45 (x4) at 9/day. If a day has fewer safe criminals, check that the window stays at 40 or more. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds, so 3 kinds are reachable: blotter plus 2 of R/A/F/X. A kind is 'pinned' when 3 of its traced victims exist, and each pin multiplies the pool by about 0.25 (0.2 for blotter). DAY 1 TEST: sector IS REACHABLE, and blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even if it is also in another place. A 3rd traced one would pin blotter, giving about 690, which means caught. STATUS: pool 10k after D3 (55k x 0.25 = about 13.75k), so one of R/A/F/X is pinned. One more reachable kind remains and may pin, giving about 3.4k. That is still above 1000 and safe if I avoid blotter. Hidden-place pins add almost nothing, because the visible place of a traced victim is a reachable kind and is already pinned or soon will be. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9 (national + R, A, F, X pairs). All quick in the AFTERNOON (routine factor 0.55). Never use the morning/evening blocks and never use timed entries. Multiplier: 30 or more deaths in the last 5 days gives x2, 40 or more gives x4. Window D5 = 39 (x2). D6 onward = 45 (x4) if 9 per day. If a day has fewer than 9 safe criminals, check the window: it needs 40 or more in the last 5 days including today. DANGER CHECK: expect the pool to fall to about 3k (2nd pin), which is fine. If the pool reading ever falls to 2000 or below, stop all non-national kills. If traced jumps oddly, be cautious. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills, pool 60k, traced 5. D3: 9 kills, pool 10k, traced 6. D4: 9 kills, pool 10k, traced 8. D5: killed d5-1,2,4,5,6,8,9,10,11 (skipped blotter d5-3, d5-7), quick, afternoon. Deaths per day: D1 3, D2 9, D3 9, D4 9, D5 9.",
    "error": null,
-   "input_tokens": 3108,
-   "output_tokens": 2308,
-   "seconds": 22.9,
-   "reasoning": "I'm double-checking the day one tallies: five deaths, four traced contacts once the national case is excluded, and the pool working out to 60,000 after the afternoon routines. Day two is next.\n\nI'm checking the day-two and day-three tallies against the pool size, which comes out to 3000 after day three. Day four looks like it adds only one new trace, and I'm leaning toward avoiding the blotter victims since they may have been reported somewhere unreachable.\n\nI'm checking whether the blotter victims could be hidden in a place I don't follow, and they'd be visible to me since blotter is a place I'd see. A forum victim also reported somewhere reachable would still only add a constraint I already satisfy, since I follow the forum.\n\nI'm going through the afternoon-only schedule: the free routin"
+   "input_tokens": 3305,
+   "output_tokens": 3634,
+   "seconds": 35.3,
+   "reasoning": "I'm re-checking the numbers for day 1: the pool is 60k, and the afternoon free-time share comes to 55% of 100k, which rounds up to 60k, so no pins that day. The trace count of 2 means both blotter victims were traced, since the national kill doesn't count, so the sector should be reachable if the records hold up.\n\nDay 2 brings the traced count to 5 and day 3 to 6, with the pool down to 10k. The 2 blotter victims stay the only ones in a place I follow, since a victim shown only abroad wouldn't appear there. A pin could still sit in a hidden place, so I'm checking whether any of those places collects three traced victims.\n\nI'm checking whether the pool falls further on days 4 and beyond, since a second hidden pin would bring it to about 3.4k. Union constraints from victims reported in two pl"
   },
   {
    "day": 6,
    "kills": [
-    {
-     "id": "d6-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
     {
      "id": "d6-1",
      "coverage": [
@@ -485,9 +485,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d6-5",
+     "id": "d6-3",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -495,17 +495,23 @@
     {
      "id": "d6-4",
      "coverage": [
-      "cable",
-      "wire"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-10",
+     "id": "d6-5",
      "coverage": [
-      "cable",
-      "docket"
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -519,53 +525,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d6-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d6-8",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d6-9",
-    "d6-10",
-    "d6-6",
-    "d6-11",
-    "d6-8"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 6. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. Pool of about 3.4k (shown as 3000) = 55k afternoon-free people x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9. Windows: d6 = 43 (x4), d7 = 9+11+9+9+9 = 47 (x4), d8 = 11+9+9+9+9 = 47, then 45 (x4) at 9 a day. If a day has fewer safe criminals, check that the window stays at 40 or more. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
-   "error": null,
-   "input_tokens": 3253,
-   "output_tokens": 1438,
-   "seconds": 13.1,
-   "reasoning": "I'm checking today's list of criminals: nine kills, skipping the two blotter entries, all done in the quick afternoon. The window over days 2 through 6 totals 43, so I'm working out the x4 multiplier from that.\n\nI'm checking whether the two blotter kills from day 4 were traced, which they were, so avoiding the blotter is fine. I'm also reworking the pool size and the risk of a forum or foreign victim hidden elsewhere, and none of that changes the plan to take nine quick afternoon kills today.\n\n"
-  },
-  {
-   "day": 7,
-   "kills": [
-    {
-     "id": "d7-5",
      "coverage": [
       "national"
      ],
@@ -573,35 +533,50 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-1",
+     "id": "d6-10",
      "coverage": [
-      "radio",
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-3",
+    "d6-4",
+    "d6-5",
+    "d6-7",
+    "d6-8",
+    "d6-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds, so 3 kinds are reachable: blotter plus 2 of R/A/F/X. A kind is 'pinned' when 3 of its traced victims exist. Each pin multiplies the pool by 0.25 (0.2 for blotter). SECTOR IS REACHABLE and blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even on the last day: a 3rd traced one gives about 690, which means caught and half of about 900+ points lost. Not worth it. STATUS after D5: pool 3k = 100k x 0.55 (afternoon) x 0.25 x 0.25, so BOTH reachable non-sector kinds are now pinned. Any further traces from R/A/F/X, including hidden extra places, are redundant. The pool should stay at about 3k for the rest of the game if I keep the routine below. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9 (national + R, A, F, X pairs). All quick in the AFTERNOON. Never use the morning/evening blocks and never use timed entries. They add no criminals and would only shrink the pool. Multiplier: 30 or more deaths in the last 5 days gives x2, 40 or more gives x4. With 9 per day the window is 45, so x4. If a day has fewer safe criminals, check that the last 5 days including today still total 40 or more. DANGER CHECK: the pool should read 3000. If it reads 2000 or below, something unexpected has happened: stop all non-national kills and reassess. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills, pool 60k, traced 5. D3: 9 kills, pool 10k, traced 6. D4: 9 kills, pool 10k, traced 8. D5: 9 kills, pool 3k, traced 10. D6: killed d6-1,3,4,5,6,7,8,10,11 (skipped blotter d6-2, d6-9), quick, afternoon. Deaths per day: D1 3, D2 9, D3 9, D4 9, D5 9, D6 9.",
+   "error": null,
+   "input_tokens": 3492,
+   "output_tokens": 4035,
+   "seconds": 40.8,
+   "reasoning": "I'm tracing why the pool fell from 100k to 60k on day one, and I'm working through the afternoon routine factor and the free-time percentages for each group.\n\nI'm checking that the blotter is the only kind still short of a third trace, and that the remaining hidden-place cases only matter if a victim's other report falls in a reachable sector.\n\nI'm checking whether a victim reported in a hidden place adds any new constraint once the visible place is already pinned. Since the OR condition is already met by the pinned place, it adds nothing, and a cable-plus-hidden victim still fails outright if cable is out of reach. I'm also considering a West-plus-docket case, which is covered by the existing West pin, and I'm about to look at whether blotter could end up with a third traced victim.\n\nI'm "
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-2",
+     "coverage": [
       "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-6",
-     "coverage": [
-      "podcasts",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-4",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-8",
-     "coverage": [
-      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -609,7 +584,40 @@
     {
      "id": "d7-3",
      "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "docket",
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -617,16 +625,15 @@
     {
      "id": "d7-9",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-2",
+     "id": "d7-10",
      "coverage": [
-      "docket",
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -634,42 +641,30 @@
     {
      "id": "d7-11",
      "coverage": [
-      "docket",
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d7-8",
-    "d7-6",
-    "d7-3",
-    "d7-2",
-    "d7-5"
+    "d7-4",
+    "d7-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 7. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. Pool of about 3.4k (shown as 3000) = 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9, d7=9. Windows: d7 = 47 (x4), d8 = 11+9+9+9+9 = 47, d9 = 9x4 + today = 45 (x4) at 9 a day. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds, so 3 kinds are reachable: blotter plus 2 of R/A/F/X. A kind is 'pinned' when 3 of its traced victims exist. Each pin multiplies the pool by 0.25 (0.2 for blotter). SECTOR IS REACHABLE and blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even on the last day: a 3rd traced one gives about 690, which means caught and half of about 900+ points lost. Not worth it. STATUS after D5: pool 3k = 100k x 0.55 (afternoon) x 0.25 x 0.25, so BOTH reachable non-sector kinds are now pinned. Any further traces from R/A/F/X, including hidden extra places, are redundant: hidden extras give 'X or Y' constraints that are already met by the pinned kinds. The pool should stay at about 3k for the rest of the game if I keep the routine below. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9 (national + R, A, F, X pairs). All quick in the AFTERNOON. Never use the morning/evening blocks and never use timed entries. They add no criminals and would only shrink the pool. Multiplier: 30 or more deaths in the last 5 days gives x2, 40 or more gives x4. With 9 per day the window is 45, so x4. If a day has fewer safe criminals, check that the last 5 days including today still total 40 or more. DANGER CHECK: the pool should read 3000. If it reads 2000 or below, something unexpected has happened: stop all non-national kills and reassess. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills, pool 60k, traced 5. D3: 9 kills, pool 10k, traced 6. D4: 9 kills, pool 10k, traced 8. D5: 9 kills, pool 3k, traced 10. D6: 9 kills, pool 3k, traced 13. D7: killed d7-2,3,4,5,6,7,9,10,11 (skipped blotter d7-1, d7-8), quick, afternoon; expected points 93+36=129. Deaths per day: D1 3, D2 9, D3 9, D4 9, D5 9, D6 9, D7 9.",
    "error": null,
-   "input_tokens": 3435,
-   "output_tokens": 1279,
-   "seconds": 10.3,
-   "reasoning": "I'm going with the notes: killing everything except blotter, which is nine kills and should be quick. The multiplier checks out, since the day reports 4 and the window sums to 47. Now I'm going back over whether blotter really is safe, but the notes say it isn't, and the pool at 3000 with a rising deaths-traced count backs that up.\n\nI'm checking the afternoon reasoning: night workers, students, and home routines make up 55% of people free in the afternoon, and day workers are busy then, so they drop out. That gives about 3.4k people. The plan holds at nine quick afternoon kills, so I'm updating the day-7 count to 9 and rolling the windows forward, which leaves d8 at 47 and d9 at 45.\n\n"
+   "input_tokens": 3617,
+   "output_tokens": 2672,
+   "seconds": 24.4,
+   "reasoning": "I'm checking the pool figures: 100k times 0.55 for the afternoon-free share comes to 55k, which rounds to 60k. Then after day 3 the pool drops to about 13.75k, rounding to 10k, and by day 5 it's around 3.4k, about 3k. I'm noting that two of the non-sector groups are what pin the pool down.\n\nI'm checking whether the two blotter victims could also have been reported somewhere I can't follow, since a hidden second place would break their trace. Both traced after day 1, so that doesn't seem to be the case. The constraint from the other victims might also loosen if they had a hidden extra place I don't follow.\n\nI'm wondering whether victims with hidden extra places in other sectors could tighten the constraint further. If a few traced victims were also reported in a sector like docket, the cond"
   },
   {
    "day": 8,
    "kills": [
-    {
-     "id": "d8-1",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
     {
      "id": "d8-2",
      "coverage": [
@@ -681,7 +676,7 @@
     {
      "id": "d8-3",
      "coverage": [
-      "regional:West"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -689,7 +684,8 @@
     {
      "id": "d8-4",
      "coverage": [
-      "cable"
+      "regional:North",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -711,18 +707,8 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-7",
-     "coverage": [
-      "forum",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d8-8",
      "coverage": [
-      "docket",
       "regional:West"
      ],
      "entry": "quick",
@@ -735,25 +721,40 @@
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
     }
    ],
    "traced": [
-    "d8-1",
-    "d8-9",
-    "d8-7",
-    "d8-3",
-    "d8-5"
+    "d8-5",
+    "d8-6",
+    "d8-8",
+    "d8-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 8. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. Pool of about 3.4k (shown as 3000) = 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9, d7=9, d8=9. Windows: d8 = 47 (x4). d9 = 9+9+9+9 + today = 36 + today, so 4 or more kills today keeps x4 (9 a day gives 45). If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds, so 3 kinds are reachable: blotter plus 2 of R/A/F/X. A kind is 'pinned' once 3 of its traced victims exist. Each pin multiplies the pool by 0.25 (0.2 for blotter). SECTOR IS REACHABLE and blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even on the last day: a 3rd traced one gives a pool of about 600, which means caught and half of 1000+ points lost. Hidden extra places are always places I do NOT follow, so they can never be blotter. That means blotter only counts up through criminals I can see in reported_in. STATUS after D5: pool 3k = 100k x 0.55 (afternoon) x 0.25 x 0.25, so BOTH reachable non-sector kinds are pinned. Hidden extras (for example docket or another region) only create 'mine OR other' constraints. These are either redundant because my kind is pinned, or the trace fails because my kind is unreachable. So the pool should stay at 3k. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. Never use morning/evening blocks and never use timed entries. Multiplier: 40 or more deaths in the last 5 days gives x4. With 9 per day the window is 45. If a day has fewer safe criminals, check that the last 5 days including today still total 40 or more. DANGER CHECK: the pool should read 3000. If it reads 2000 or below, stop all non-national kills and reassess. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills, 60k, traced 5. D3: 9, 10k, 6. D4: 9, 10k, 8. D5: 9, 3k, 10. D6: 9, 3k, 13. D7: 9, 3k, 14. D8: killed d8-2,3,4,5,6,8,9,10,11 (skipped blotter d8-1, d8-7), quick afternoon, expected points 129+36=165. Deaths per day: D1 3, D2-D8 9 each.",
    "error": null,
-   "input_tokens": 3632,
-   "output_tokens": 2133,
-   "seconds": 19.7,
-   "reasoning": "I'm double-checking the pool math: after day 1 it falls from 100k to about 60k, and by day 3 it's down to roughly 3000. Treating forum and foreign as pinned leaves about 3.4k per slot, so both are still reachable. Next I'm tracing the day 2 West and cable kill counts.\n\nI'm checking the day 2 count: all five deaths were traced, which leaves regional and age unreachable and makes sector the one still open. Day 4 blotter spending looks uncertain, but I'll keep the cautious assumption for now.\n\nI'm checking whether the blotter count could reach three through a forum victim who was also reported there, since that would cut the pool sharply. The two day-4 blotter-only victims would then be the problem, but I don't know yet whether their traces actually succeeded.\n\nI'm confirming that a hidden pl"
+   "input_tokens": 3844,
+   "output_tokens": 2021,
+   "seconds": 17.8,
+   "reasoning": "I'm checking the strategy against the numbers: the pool holds at 3k, I'm cutting everything except two entries on day 8, and today's multiplier comes from the last five days. The risk I'm weighing is a victim who shows up in the forum and the blotter too, which would mean hidden extra places I hadn't counted.\n\nI'm going through how a victim reported in the forum could also show up in the blotter as a hidden extra, which would count toward the blotter's traced total and change which places the killer must have followed. The earlier pinning already accounted for this, and the pool and the traced count from day 7 still stand.\n\nI'm checking whether a victim reported in a place I don't follow could add a hidden extra that pushes blotter's traced count up. Since I already follow the blotter, a h"
   },
   {
    "day": 9,
@@ -761,7 +762,8 @@
     {
      "id": "d9-1",
      "coverage": [
-      "forum"
+      "clips",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -769,15 +771,7 @@
     {
      "id": "d9-2",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-3",
-     "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -791,9 +785,27 @@
      "block": "afternoon"
     },
     {
+     "id": "d9-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d9-7",
      "coverage": [
-      "cable"
+      "cable",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -809,16 +821,7 @@
     {
      "id": "d9-9",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-10",
-     "coverage": [
-      "foreign",
-      "regional:North"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -826,37 +829,37 @@
     {
      "id": "d9-11",
      "coverage": [
-      "regional:West"
+      "forum",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d9-4",
+    "d9-8",
     "d9-9",
-    "d9-1",
-    "d9-7",
-    "d9-2",
     "d9-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 9. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9, d7=9, d8=9, d9=9. Windows: d9 = 45 (x4). d10 = d6+d7+d8+d9 + today = 36 + today, so 4 or more kills today keeps x4. Generally, with 9 a day the last 4 days sum to 36, so 4 or more kills keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds, so 3 kinds are reachable: blotter plus 2 of R/A/F/X. A kind is 'pinned' once 3 of its traced victims exist. Each pin multiplies the pool by 0.25 (0.2 for blotter). SECTOR IS REACHABLE and blotter has 2 traced victims. NEVER kill any criminal whose reported_in includes blotter, even on the last day: a 3rd traced one gives a pool of about 600, which means caught and half of 1000+ points lost. Hidden extra places are always places I do NOT follow, so they can never be blotter. That means blotter only counts up through criminals I can see in reported_in. STATUS after D5: pool 3k = 100k x 0.55 (afternoon) x 0.25 x 0.25, so BOTH reachable non-sector kinds are pinned. Hidden extras (for example docket or another region) only create 'mine OR other' constraints. These are either redundant because my kind is pinned, or the trace fails because my kind is unreachable. So the pool should stay at 3k. MODE: each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. Never use morning/evening blocks and never use timed entries. Multiplier: 40 or more deaths in the last 5 days gives x4. With 9 per day the window is 45. If a day has fewer safe criminals, check that the last 5 days including today still total 40 or more. DANGER CHECK: the pool should read 3000. If it reads 2000 or below, stop all non-national kills and reassess. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2: 9 kills, 60k, traced 5. D3: 9, 10k, 6. D4: 9, 10k, 8. D5: 9, 3k, 10. D6: 9, 3k, 13. D7: 9, 3k, 14. D8: 9, 3k, 16. D9: killed d9-1,2,4,5,6,7,8,9,11 (skipped blotter d9-3, d9-10), quick afternoon, expected points 165+36=201. Deaths per day: D1 3, D2-D9 9 each.",
    "error": null,
-   "input_tokens": 3825,
-   "output_tokens": 1194,
-   "seconds": 9.9,
-   "reasoning": "I'm going to drop everything except d9-5 and d9-6, the blotter ones, and keep the afternoon slot quick. The pool is at 3000 and the forum and foreign entries are pinned, so that part holds. For d9 the window covers days 5 through 9, which comes to 45, and the multiplier is already at 4 from the d5 to d8 days plus today.\n\nI'm setting d9 to 9 and working out the d10 window, which covers days 6 through 10: four 9s plus today, so 36 plus today.\n\n"
+   "input_tokens": 3949,
+   "output_tokens": 1924,
+   "seconds": 17.5,
+   "reasoning": "I'm checking whether the strategy holds up: the 3k pool works out to about 3,000 after rounding, and the afternoon is free for 55% of people. Next I'm going back over whether the blotter victims were actually traced, since the day 1 count seems to match only those two.\n\nI'm checking whether the blotter victims were in fact the only two traced, since the 55k pool after day 1 rounds to 60k. Sector reach looks fine because both traces succeeded, but I'm wondering whether hidden extras could sit in a place I haven't accounted for, like a docket outlet.\n\nI'm confirming that the docket-or-forum constraint is redundant whenever my kind is pinned, and that an unreachable kind would make the trace fail instead of hiding extras. The multiplier runs at 9 per day, and the last five days reach 45, whic"
   },
   {
    "day": 10,
    "kills": [
     {
-     "id": "d10-1",
+     "id": "d10-2",
      "coverage": [
-      "cable"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -864,15 +867,7 @@
     {
      "id": "d10-3",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-4",
-     "coverage": [
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -880,7 +875,7 @@
     {
      "id": "d10-5",
      "coverage": [
-      "national"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -888,7 +883,8 @@
     {
      "id": "d10-6",
      "coverage": [
-      "cable"
+      "cable",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -896,7 +892,7 @@
     {
      "id": "d10-7",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -904,7 +900,7 @@
     {
      "id": "d10-8",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -912,7 +908,7 @@
     {
      "id": "d10-9",
      "coverage": [
-      "foreign"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -920,29 +916,37 @@
     {
      "id": "d10-10",
      "coverage": [
-      "regional:West"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d10-7",
-    "d10-5",
+    "d10-2",
     "d10-3",
-    "d10-6",
+    "d10-7",
+    "d10-9",
     "d10-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 10. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9. Windows: d10 = 45 (x4). With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both of those were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool becomes about 690, I am caught and lose half. D9 POOL DROP to 1000: since I was not caught, the real pool is 1001-1499. My best explanation: one day-1 blotter victim was also reported in docket (or another sector outlet). That outlet reached 3 traced victims through hidden extras on my later kills, so L applied 'blotter OR docket'. That is a factor of 0.4, giving 3437 x 0.4 = about 1375. The other docket-type constraints are redundant because my kinds are pinned. Remaining risk, which I accept: the OTHER day-1 blotter victim might have a hidden extra in another reachable non-mine place (another sector outlet or another region/age band). If that place reaches 3 traces, I am caught. I estimate about 7% over the rest of the game, which is far cheaper than losing x4 (about 36 points a day). Any new factor below 0.73 means caught, so the margin is thin. MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning/evening blocks and no timed entries. x4 needs 40 or more deaths in the last 5 days, so average at least 8 a day. DANGER CHECK: the pool should keep reading 1000. If it ever reads 2000 or more, something is odd but that is fine. Not being caught means the pool is still above 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6 3k, D7 3k, D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9: 9 kills, pool 1000, traced 18. D10: killed 2,3,5,6,7,8,9,10,11 (skipped blotter d10-1, d10-4), quick afternoon, expected points 201+36=237. Deaths per day: D1 3, D2-D10 9 each.",
    "error": null,
-   "input_tokens": 4023,
-   "output_tokens": 1271,
-   "seconds": 10.8,
-   "reasoning": "I'm going to follow the plan to take nine safe kills in the afternoon and leave out the blotter-linked ones. Checking the pool, it comes to about 3,400 after the forum and foreign filters, but two blotter victims on day 4 might have been traced, and a third traced one would push the odds down to roughly 690 and expose me.\n\nI'm sticking to the blotter-free targets for today: nine quick afternoon kills spread across the cable, foreign, forum, national, and West groups. That keeps the count at nine, and the five-day window still holds at x4, so I'll record d10 as nine.\n\n"
+   "input_tokens": 4125,
+   "output_tokens": 8698,
+   "seconds": 91.2,
+   "reasoning": "The danger check fired at day 9 with a reading of 1000. Rounded to one significant figure, the real pool lies somewhere from 500 to 1499, and since we survived, it must be in the 1001 to 1499 range. That was a close call. The pool fell from around 3k to somewhere near 1.0 to 1.5k, so I need to figure out what drove that drop and whether the model is off.\n\nI'm checking the remaining arithmetic: 3437 is roughly the pool after day 5, and the afternoon free routines (night 15%, students 20%, home 20%) add up to 55%, so the pool should be about 3k by then. But the actual figure is now around 1.0 to 1.5k, so something else must have cut it by a factor of roughly 0.3 to 0.44. I'm wondering whether a hidden extra place, like a victim reported in a second outlet, explains the drop.\n\nI'm checking wh"
   },
   {
    "day": 11,
@@ -950,7 +954,15 @@
     {
      "id": "d11-1",
      "coverage": [
-      "forum"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -958,7 +970,7 @@
     {
      "id": "d11-3",
      "coverage": [
-      "foreign"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -966,7 +978,16 @@
     {
      "id": "d11-4",
      "coverage": [
-      "national"
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -974,7 +995,7 @@
     {
      "id": "d11-6",
      "coverage": [
-      "regional:West"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -982,8 +1003,8 @@
     {
      "id": "d11-7",
      "coverage": [
-      "cable",
-      "clips"
+      "regional:West",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -991,7 +1012,7 @@
     {
      "id": "d11-8",
      "coverage": [
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -999,14 +1020,38 @@
     {
      "id": "d11-9",
      "coverage": [
-      "regional:East",
-      "regional:West"
+      "forum",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
+    }
+   ],
+   "traced": [
+    "d11-1",
+    "d11-2",
+    "d11-4",
+    "d11-5",
+    "d11-6",
+    "d11-7",
+    "d11-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1375,
+   "notes": [],
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both of those were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool becomes about 690, I am caught and lose half. D9 POOL DROP to 1000: since I was not caught, the real pool is 1001-1499. Best explanation: one day-1 blotter victim was also reported in another sector outlet (e.g. docket). That outlet reached 3 traced victims through hidden extras on my later kills, so L applied 'blotter OR docket', a factor of 0.4: 3437 x 0.4 = about 1375. Remaining risk, which I accept: the OTHER day-1 blotter victim may have a hidden extra in another reachable place that later reaches 3 traces, and then I am caught. Estimated about 7% over the game, far cheaper than losing x4 (about 36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning/evening blocks and no timed entries. x4 needs 40 or more deaths in the last 5 days, so average at least 8 a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6 3k, D7 3k, D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9: 9 kills, pool 1000, traced 18. D10: 9 kills, pool 1000, traced 20, points 237. D11: killed 1-9 (skipped blotter d11-10, d11-11), quick afternoon, expected points 273. Deaths per day: D1 3, D2-D11 9 each.",
+   "error": null,
+   "input_tokens": 4385,
+   "output_tokens": 1506,
+   "seconds": 12.8,
+   "reasoning": "I'm rechecking the numbers: after the first deduction the pool is 60k, and the afternoon-free routines (night workers, students, home) total 55%, which is why the day-worker group drops out after three afternoon deaths. Working through the remaining figures, the third deduction leaves 10k and the fifth comes out to 3k.\n\nI'm settling the remaining figures: the fifth deduction gives about 3k, and a ninth-step value just above 1000 is still above the threshold. Next I'm planning to kill every non-blotter criminal today, which comes to nine kills, and skipping the two blotter targets. Points come to 237 plus 36, so 273.\n\n"
+  },
+  {
+   "day": 12,
+   "kills": [
     {
-     "id": "d11-10",
+     "id": "d12-1",
      "coverage": [
       "foreign"
      ],
@@ -1014,49 +1059,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-11",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d11-11",
-    "d11-4",
-    "d11-8",
-    "d11-7",
-    "d11-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 11. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9. Windows: d11 = 45 (x4). With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
-   "error": null,
-   "input_tokens": 4148,
-   "output_tokens": 1227,
-   "seconds": 9.6,
-   "reasoning": "I'm going with the plan to take out nine non-blotter targets in the afternoon using quick entries. Counting the last four days plus today gives 45, so the x4 multiplier still applies. On risk, blotter has two traced victims so far, and I'm treating that as a reason to keep avoiding blotter targets.\n\nI'm checking the remaining limits: the quick cap is 10 and timed is 2, and blotter is excluded, so 9 stays the maximum. I'm also confirming that a hidden place can't be the forum or foreign victims, since my notes say a hidden place is one I never follow. Next I'll update the notes.\n\n"
-  },
-  {
-   "day": 12,
-   "kills": [
-    {
      "id": "d12-2",
      "coverage": [
-      "cable",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-3",
-     "coverage": [
-      "regional:South",
-      "regional:West"
+      "forum",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1064,8 +1070,7 @@
     {
      "id": "d12-4",
      "coverage": [
-      "forum",
-      "regional:North"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1073,7 +1078,8 @@
     {
      "id": "d12-5",
      "coverage": [
-      "foreign"
+      "cable",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1089,8 +1095,7 @@
     {
      "id": "d12-7",
      "coverage": [
-      "docket",
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1098,7 +1103,7 @@
     {
      "id": "d12-8",
      "coverage": [
-      "national"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1106,7 +1111,7 @@
     {
      "id": "d12-10",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1114,29 +1119,27 @@
     {
      "id": "d12-11",
      "coverage": [
-      "foreign"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d12-7",
-    "d12-5",
     "d12-2",
-    "d12-10",
-    "d12-11"
+    "d12-5",
+    "d12-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 12. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9, d12=9. Windows: d12 = 45 (x4). Points after d12 about 311. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both of those were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool becomes about 690, I am caught and lose half. D9 POOL DROP to 1000: since I was not caught, the real pool is 1001-1499. Best explanation: one day-1 blotter victim was also reported in another sector outlet (e.g. docket). That outlet reached 3 traced victims through hidden extras on my later kills, so L applied 'blotter OR docket', a factor of 0.4: 3437 x 0.4 = about 1375. Remaining risk, which I accept: the OTHER day-1 blotter victim may have a hidden extra in another reachable place that later reaches 3 traces, and then I am caught. Estimated about 7% over the game, far cheaper than losing x4 (about 36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning/evening blocks and no timed entries. x4 needs 40 or more deaths in the last 5 days, so average at least 8 a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6 3k, D7 3k, D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9: 9 kills, pool 1000, traced 18. D10: 9 kills, pool 1000, traced 20. D11: 9 kills, pool 1000, traced 23, points 273. D12: killed 1,2,4,5,6,7,8,10,11 (skipped blotter d12-3, d12-9), quick afternoon, expected points 309. Deaths per day: D1 3, D2-D12 9 each.",
    "error": null,
-   "input_tokens": 4316,
-   "output_tokens": 1137,
+   "input_tokens": 4444,
+   "output_tokens": 1217,
    "seconds": 9.2,
-   "reasoning": "I'm running through the standard day: killing 9 non-blotter units, keeping the afternoon short, and checking the window total of 36, which brings it to 45 and times four. I want to verify the blotter kills, since the notes say both were on day 4 but I'm not sure they were traced. The notes still say never kill blotter, so I'll keep that rule and move on to updating the totals at 311.\n\n"
+   "reasoning": "I'm narrowing the strategy down to keeping only the blotter ones, d12-3 and d12-9, and dropping the other nine. Then I'll check that the pool is still at 1000 after day 11, which it is, and update my notes briefly.\n\n"
   },
   {
    "day": 13,
@@ -1145,15 +1148,15 @@
      "id": "d13-1",
      "coverage": [
       "cable",
-      "clips"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-2",
+     "id": "d13-3",
      "coverage": [
-      "national"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1161,8 +1164,7 @@
     {
      "id": "d13-4",
      "coverage": [
-      "cable",
-      "wire"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1170,8 +1172,7 @@
     {
      "id": "d13-5",
      "coverage": [
-      "forum",
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1179,8 +1180,8 @@
     {
      "id": "d13-6",
      "coverage": [
-      "foreign",
-      "regional:North"
+      "cable",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1188,7 +1189,7 @@
     {
      "id": "d13-7",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1196,15 +1197,16 @@
     {
      "id": "d13-8",
      "coverage": [
-      "regional:West"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-9",
+     "id": "d13-10",
      "coverage": [
-      "foreign"
+      "clips",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1212,7 +1214,6 @@
     {
      "id": "d13-11",
      "coverage": [
-      "regional:South",
       "regional:West"
      ],
      "entry": "quick",
@@ -1220,30 +1221,36 @@
     }
    ],
    "traced": [
-    "d13-6",
-    "d13-9",
-    "d13-2",
+    "d13-1",
     "d13-8",
-    "d13-4"
+    "d13-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 13. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d13=9 each. Window after d13 = 45 (x4). Points after d13 about 347. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both of those were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool becomes about 690, I am caught and lose half. D9 POOL DROP to 1000: since I was not caught, the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet that later reached 3 traces through hidden extras, so L applied 'blotter OR other', 3437 x 0.4 = about 1375. Remaining risk, which I accept: the other day-1 blotter victim's hidden extra reaches 3 traces, and then I am caught. Estimated about 7% over the game, far cheaper than losing x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning/evening blocks and no timed entries. x4 needs 40 or more deaths in the last 5 days, so average at least 8 a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D12: 9 kills a day, pool 1000, traced 18, 20, 23, 24. D12 points 309. D13: killed 1,3,4,5,6,7,8,10,11 (skipped blotter d13-2, d13-9), quick afternoon, expected points 345. Deaths per day: D1 3, D2-D13 9 each.",
    "error": null,
-   "input_tokens": 4494,
-   "output_tokens": 1250,
-   "seconds": 10.6,
-   "reasoning": "I'm going through today's criminals in order and skipping the two blotter entries, which leaves nine kills to handle quickly this afternoon. I also want a quick check on whether the pool size of 3000 holds up, given the 55% afternoon-free figure.\n\nI'm checking the pool size against the afternoon-free rate, and it works out to about 3437, so the 3000 figure holds. I'm also weighing whether a blotter kill could be safe given the unclear tracing, but I'm leaving that alone and sticking to the plan. The remaining window totals 45, so I'll update the notes.\n\n"
+   "input_tokens": 4641,
+   "output_tokens": 1148,
+   "seconds": 9.1,
+   "reasoning": "I'm sticking with the plan to kill every unit except the blotter ones, which is nine kills at four each, taking the total to 345. The pool still reads 1000 with 24 traced, so nothing's off there. Next I'll update the notes.\n\n"
   },
   {
    "day": 14,
    "kills": [
     {
-     "id": "d14-3",
+     "id": "d14-1",
      "coverage": [
-      "regional:West"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1257,7 +1264,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d14-5",
+     "id": "d14-6",
      "coverage": [
       "regional:West"
      ],
@@ -1265,18 +1272,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d14-6",
-     "coverage": [
-      "cable",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d14-7",
      "coverage": [
-      "forum"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1284,8 +1282,8 @@
     {
      "id": "d14-8",
      "coverage": [
-      "cable",
-      "gazette"
+      "forum",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1293,7 +1291,7 @@
     {
      "id": "d14-9",
      "coverage": [
-      "national"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1301,7 +1299,8 @@
     {
      "id": "d14-10",
      "coverage": [
-      "foreign"
+      "hospital",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1316,28 +1315,60 @@
     }
    ],
    "traced": [
-    "d14-7",
-    "d14-5",
-    "d14-11",
     "d14-8",
-    "d14-3"
+    "d14-9",
+    "d14-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 14. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d14=9 each. Window after d14 = 45 (x4). Points after d14 about 383. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D13: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25. D13 points 345. D14: killed 1,2,4,6,7,8,9,10,11 (skipped blotter d14-3, d14-5), quick afternoon, x4, expected points 381. Deaths per day: D1 3, D2-D14 9 each.",
    "error": null,
-   "input_tokens": 4626,
-   "output_tokens": 1064,
-   "seconds": 8.0,
-   "reasoning": "I'm skipping the two blotter criminals from day 14 and counting nine other kills, which goes quickly in the afternoon. The pool holds steady at 3000, so that checks out, and the days 10\u201314 window comes to 45 kills. Next I'll update the notes.\n\n"
+   "input_tokens": 4728,
+   "output_tokens": 1241,
+   "seconds": 10.0,
+   "reasoning": "I'm going to drop every strategy target except the two blotter ones and stop the rest this afternoon. Checking the pool figure, it was reported as 1000, which means the real number is likely somewhere above 1000, so that seems fine. Deaths over the last five days come to 36, plus 9 today.\n\nI'm working out the death count, 36 from the earlier days plus 9 today, which gives 45 and clears the 40 threshold, so the multiplier applies and the points come to 381. Next I'll update my notes.\n\n"
   },
   {
    "day": 15,
    "kills": [
     {
      "id": "d15-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
      "coverage": [
       "docket",
       "regional:West"
@@ -1346,23 +1377,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d15-3",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-4",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-5",
+     "id": "d15-7",
      "coverage": [
       "regional:West"
      ],
@@ -1370,25 +1385,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d15-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d15-8",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-9",
-     "coverage": [
-      "cable"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1396,7 +1395,8 @@
     {
      "id": "d15-10",
      "coverage": [
-      "foreign"
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1411,22 +1411,22 @@
     }
    ],
    "traced": [
-    "d15-7",
     "d15-1",
-    "d15-3",
-    "d15-10",
-    "d15-5"
+    "d15-2",
+    "d15-6",
+    "d15-8",
+    "d15-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 15. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d15=9 each. Window after d15 = 45 (x4). Points after d15 about 419. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D14: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27. D14 points 381. D15: killed 1,2,3,4,6,7,8,10,11 (skipped blotter d15-5, d15-9), quick afternoon, x4, expected points 417. Deaths per day: D1 3, D2-D15 9 each.",
    "error": null,
-   "input_tokens": 4789,
-   "output_tokens": 1170,
-   "seconds": 10.3,
-   "reasoning": "I'm going with the usual approach: kill the nine non-blotter targets during the quick afternoon window, and skipping d15-2 and d15-6 since they're blotter. The pool of 3000 checks out. On day 4 there were two blotter kills, and the traced count went from 6 to 7, so one of those may have been traced. Either way, I'm keeping the rule to avoid blotter, and I'm considering whether a timed approach could work instead.\n\nI'm tallying the window: the past four days plus today come to 45, which clears the 40 threshold, so the multiplier applies and the points land at 419. Next I'll update my notes.\n\n"
+   "input_tokens": 4897,
+   "output_tokens": 1143,
+   "seconds": 8.4,
+   "reasoning": "I'm continuing the strategy by killing every run except the two blotter ones, d15-5 and d15-9, which is nine kills in total. I'll take the afternoon on it and then add up the points, 381 plus 36 for 417, and update my notes.\n\n"
   },
   {
    "day": 16,
@@ -1434,15 +1434,8 @@
     {
      "id": "d16-1",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-2",
-     "coverage": [
-      "foreign"
+      "foreign",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1450,8 +1443,15 @@
     {
      "id": "d16-3",
      "coverage": [
-      "forum",
-      "podcasts"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1459,7 +1459,7 @@
     {
      "id": "d16-5",
      "coverage": [
-      "foreign"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1475,7 +1475,8 @@
     {
      "id": "d16-7",
      "coverage": [
-      "national"
+      "forum",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1483,8 +1484,8 @@
     {
      "id": "d16-8",
      "coverage": [
-      "cable",
-      "radio"
+      "forum",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1498,31 +1499,29 @@
      "block": "afternoon"
     },
     {
-     "id": "d16-10",
+     "id": "d16-11",
      "coverage": [
-      "forum"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d16-6",
-    "d16-1",
-    "d16-5",
-    "d16-2",
-    "d16-10"
+    "d16-3",
+    "d16-8",
+    "d16-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 16. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d16=9 each. Window after d16 = 45 (x4). Points after d16 about 455. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D15: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28. D15 points 417. D16: killed 1,3,4,5,6,7,8,9,11 (skipped blotter d16-2, d16-10), quick afternoon, x4, expected points 453. Deaths per day: D1 3, D2-D16 9 each.",
    "error": null,
-   "input_tokens": 4952,
-   "output_tokens": 1199,
+   "input_tokens": 5063,
+   "output_tokens": 1140,
    "seconds": 9.3,
-   "reasoning": "I'm checking the plan to take out nine non-blotter criminals this afternoon, and the window tally works out to 45, which keeps the multiplier at x4. Now I'm weighing whether any victim exclusions could shrink the pool, and wondering if one of the hidden places might turn out to be a blotter location.\n\nI'm confirming the pool is still at 3000, which matches earlier days, so I'll move on. Next I'm updating the tally for day 16: nine kills, a window of 45, and points at 455.\n\n"
+   "reasoning": "I'm keeping only the blotter tasks (d16-2 and d16-10) and dropping the rest, since I'm killing tasks 1, 3\u20139, and 11 in a quick afternoon pass. The running total comes to 453 points (417 plus 36). I'll update the notes briefly.\n\n"
   },
   {
    "day": 17,
@@ -1530,7 +1529,16 @@
     {
      "id": "d17-1",
      "coverage": [
-      "national"
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "forum",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1538,7 +1546,8 @@
     {
      "id": "d17-3",
      "coverage": [
-      "regional:West"
+      "cable",
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1546,15 +1555,15 @@
     {
      "id": "d17-4",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d17-6",
+     "id": "d17-5",
      "coverage": [
-      "foreign"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1562,7 +1571,8 @@
     {
      "id": "d17-7",
      "coverage": [
-      "foreign"
+      "podcasts",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1570,14 +1580,13 @@
     {
      "id": "d17-8",
      "coverage": [
-      "clips",
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d17-9",
+     "id": "d17-10",
      "coverage": [
       "cable"
      ],
@@ -1585,7 +1594,94 @@
      "block": "afternoon"
     },
     {
-     "id": "d17-10",
+     "id": "d17-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-1",
+    "d17-5",
+    "d17-7",
+    "d17-8",
+    "d17-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 1375,
+   "notes": [],
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D16: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29. D16 points 453. D17: killed 1,2,3,4,5,7,8,10,11 (skipped blotter d17-6, d17-9), quick afternoon, x4, expected points 489. Deaths per day: D1 3, D2-D17 9 each.",
+   "error": null,
+   "input_tokens": 5229,
+   "output_tokens": 1157,
+   "seconds": 8.7,
+   "reasoning": "I'm keeping only blotters d17-6 and d17-9 and planning to kill the other nine (1, 2, 3, 4, 5, 7, 8, 10, 11), which should be a quick afternoon. I'm also updating my notes: the expected total is 489 points (453 plus 36), with 29 traced since D16.\n\n"
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
      "coverage": [
       "forum",
       "regional:South"
@@ -1594,129 +1690,30 @@
      "block": "afternoon"
     },
     {
-     "id": "d17-11",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d17-9",
-    "d17-7",
-    "d17-3",
-    "d17-4",
-    "d17-11"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 17. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d17=9 each. Window after d17 = 45 (x4). Points after d17 about 491. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
-   "error": null,
-   "input_tokens": 5115,
-   "output_tokens": 1138,
-   "seconds": 9.2,
-   "reasoning": "I'm tallying today's criminals, which comes to nine that are safe to take out, mostly quick ones in the afternoon. Across d13 to d17 at nine each that's 45, so the x4 still holds, and the points land at 491. I'm wondering whether to recheck the pool log.\n\nI'm checking whether the pool logic holds, since the pool stays stable at 3000. That looks fine, so I'll update the notes next.\n\n"
-  },
-  {
-   "day": 18,
-   "kills": [
-    {
-     "id": "d18-1",
-     "coverage": [
-      "foreign",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-2",
+     "id": "d18-10",
      "coverage": [
       "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d18-3",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-4",
-     "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-6",
-     "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-7",
-     "coverage": [
-      "docket",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-10",
-     "coverage": [
-      "forum",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-11",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d18-8",
-    "d18-10",
     "d18-4",
-    "d18-1",
-    "d18-2"
+    "d18-6",
+    "d18-8",
+    "d18-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 18. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d18=9 each. Window after d18 = 45 (x4). Points after d18 about 527. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D17: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32. D17 points 489. D18: killed 1,2,3,4,5,6,8,9,10 (skipped blotter d18-7, d18-11), quick afternoon, x4, expected points 525. Deaths per day: D1 3, D2-D18 9 each.",
    "error": null,
-   "input_tokens": 5278,
-   "output_tokens": 1178,
-   "seconds": 9.2,
-   "reasoning": "I'm tallying the criminals by category and skipping the blotter entries, which gives me 9 for this afternoon. Adding the 36 from the d14-d17 window brings the pool to 45, and I'm multiplying that by 4. I'm also checking whether a foreign victim who also appears in the blotter could shrink the pool; since I don't follow blotter entries, they don't affect the count.\n\nI'm checking the remaining case where a foreign victim also appears in another list, and it still fits the constraint because everyone foreign in the pool already satisfies it. I'm also updating the points total to 527 and noting it.\n\n"
+   "input_tokens": 5395,
+   "output_tokens": 1126,
+   "seconds": 9.0,
+   "reasoning": "I'm going to keep only d18-7 and d18-11 on the blotter and close out the rest, since it's a quick afternoon. The running total comes to 525 points, and then I'll update my notes.\n\n"
   },
   {
    "day": 19,
@@ -1724,7 +1721,7 @@
     {
      "id": "d19-1",
      "coverage": [
-      "cable"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1732,7 +1729,7 @@
     {
      "id": "d19-2",
      "coverage": [
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1740,24 +1737,8 @@
     {
      "id": "d19-3",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-4",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-5",
-     "coverage": [
-      "forum",
-      "wire"
+      "foreign",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1765,8 +1746,16 @@
     {
      "id": "d19-6",
      "coverage": [
-      "forum",
-      "wire"
+      "cable",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1780,9 +1769,18 @@
      "block": "afternoon"
     },
     {
+     "id": "d19-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d19-10",
      "coverage": [
-      "national"
+      "cable",
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1797,22 +1795,22 @@
     }
    ],
    "traced": [
-    "d19-6",
-    "d19-4",
-    "d19-3",
     "d19-2",
-    "d19-1"
+    "d19-3",
+    "d19-9",
+    "d19-10",
+    "d19-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 19. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d19=9 each. Window after d19 = 45 (x4). Points after d19 about 563. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D18: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34. D18 points 525. D19: killed 1,2,3,6,7,8,9,10,11 (skipped blotter d19-4, d19-5), quick afternoon, x4, expected points 561. Deaths per day: D1 3, D2-D19 9 each.",
    "error": null,
-   "input_tokens": 5441,
-   "output_tokens": 1084,
-   "seconds": 8.2,
-   "reasoning": "I'm killing the nine other drafts and keeping d19-7 and d19-9 for the blotter. Four days at nine each plus today's nine gives 45, so the times-four target still holds. That puts points at 563 once the 36 is added to 527, and I still need to update the notes.\n\n"
+   "input_tokens": 5561,
+   "output_tokens": 1178,
+   "seconds": 9.8,
+   "reasoning": "I'm continuing the strategy by killing everything except the two blotter ones, which brings the total to nine kills. The pool is still at 1000 with 34 traced, so the points come to 525 plus 36, giving 561. Next I'll update the notes briefly.\n\n"
   },
   {
    "day": 20,
@@ -1820,7 +1818,16 @@
     {
      "id": "d20-1",
      "coverage": [
-      "forum"
+      "gazette",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1828,8 +1835,7 @@
     {
      "id": "d20-3",
      "coverage": [
-      "foreign",
-      "radio"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1837,8 +1843,7 @@
     {
      "id": "d20-4",
      "coverage": [
-      "cable",
-      "wire"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1854,7 +1859,6 @@
     {
      "id": "d20-6",
      "coverage": [
-      "gazette",
       "regional:West"
      ],
      "entry": "quick",
@@ -1863,7 +1867,7 @@
     {
      "id": "d20-7",
      "coverage": [
-      "national"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1877,64 +1881,48 @@
      "block": "afternoon"
     },
     {
-     "id": "d20-10",
-     "coverage": [
-      "docket",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d20-11",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d20-1",
+    "d20-2",
+    "d20-7",
     "d20-8",
-    "d20-5",
-    "d20-10",
-    "d20-4",
-    "d20-6"
+    "d20-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 20. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d20=9 each. Window after d20 = 45 (x4). Points after d20 about 599. With 9 a day the last 4 days sum to 36, so 4 or more kills today keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D19: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35. D19 points 561. D20: killed 1,2,3,4,5,6,7,8,11 (skipped blotter d20-9, d20-10), quick afternoon, x4, expected points 597. Deaths per day: D1 3, D2-D20 9 each.",
    "error": null,
-   "input_tokens": 5604,
-   "output_tokens": 1105,
-   "seconds": 8.9,
-   "reasoning": "I'm going with the plan to kill every unit except d20-2 and d20-9, which I'll keep as the blotter, and I expect the kills to take a quick afternoon. The pool reasoning holds since the 3000 figure is stable, so I'll leave it alone. I'm also tallying the window at 36 from days 16\u201319, plus 9, giving 45 times 4, and the points after day 20 come to 599.\n\n"
+   "input_tokens": 5727,
+   "output_tokens": 1148,
+   "seconds": 8.7,
+   "reasoning": "I'm going with the plan to drop every position except the blotter pair (d20-9 and d20-10), which means closing out positions 1 through 8 and 11. It's a light afternoon, and the pool still sits at 1000, so I just need to update the notes.\n\n"
   },
   {
    "day": 21,
    "kills": [
     {
-     "id": "d21-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d21-1",
      "coverage": [
+      "docket",
       "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d21-9",
+     "id": "d21-3",
      "coverage": [
-      "foreign"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1942,8 +1930,34 @@
     {
      "id": "d21-4",
      "coverage": [
-      "docket",
-      "forum"
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "regional:West",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "forum",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1957,27 +1971,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d21-2",
-     "coverage": [
-      "regional:North",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-7",
-     "coverage": [
-      "regional:West",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d21-10",
      "coverage": [
-      "cable"
+      "cable",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1985,30 +1982,29 @@
     {
      "id": "d21-11",
      "coverage": [
-      "cable",
-      "wire"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d21-1",
+    "d21-3",
     "d21-7",
-    "d21-6",
     "d21-8",
-    "d21-2",
-    "d21-1"
+    "d21-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 21. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless. A hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d21=9 each. Window after d21 = 45 (x4). Points after d21 about 635. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D20: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35, 38. D20 points 597. D21: killed 1,3,4,5,6,7,8,10,11 (skipped blotter d21-2, d21-9), quick afternoon, x4, expected points 633. Deaths per day: D1 3, D2-D21 9 each.",
    "error": null,
-   "input_tokens": 5767,
-   "output_tokens": 1188,
-   "seconds": 9.6,
-   "reasoning": "I'm sticking with the plan and eliminating everything except d21-3 and d21-5, which are the blotter cases. That makes nine quick kills for the afternoon. I'm also weighing the risk that forum victims might have a hidden sector location, and I'm keeping the forum-or-X constraint in mind.\n\nI'm checking whether the pool of forum readers still satisfies the constraint, and it does, since everyone in it already reads the forum. The pool has stayed at 3000. Then I'll update the points total to 635.\n\n"
+   "input_tokens": 5893,
+   "output_tokens": 1167,
+   "seconds": 8.7,
+   "reasoning": "I'm sticking with the plan to drop everything except the blotter entries (d21-2 and d21-9), and I'll handle the eleven others in one quick afternoon pass. The pool still stands at 1000, so nothing needs changing there, and I just need to update the notes. The running total comes to 633 points, which is 597 plus 36.\n\n"
   },
   {
    "day": 22,
@@ -2016,7 +2012,7 @@
     {
      "id": "d22-1",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2024,7 +2020,7 @@
     {
      "id": "d22-2",
      "coverage": [
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2032,21 +2028,14 @@
     {
      "id": "d22-3",
      "coverage": [
-      "forum"
+      "clips",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d22-4",
-     "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-5",
      "coverage": [
       "forum"
      ],
@@ -2056,8 +2045,7 @@
     {
      "id": "d22-6",
      "coverage": [
-      "cable",
-      "radio"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2065,7 +2053,15 @@
     {
      "id": "d22-7",
      "coverage": [
-      "regional:West"
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2073,7 +2069,7 @@
     {
      "id": "d22-9",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2081,29 +2077,31 @@
     {
      "id": "d22-11",
      "coverage": [
-      "national"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-2",
     "d22-1",
+    "d22-2",
     "d22-3",
     "d22-4",
+    "d22-7",
+    "d22-8",
     "d22-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 22. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d22=9 each. Window after d22 = 45 (x4). Points after d22 about 671. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D21: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35, 38, 40. D21 points 633. D22: killed 1,2,3,4,6,7,8,9,11 (skipped blotter d22-5, d22-10), quick afternoon, x4, expected points 669. Deaths per day: D1 3, D2-D22 9 each.",
    "error": null,
-   "input_tokens": 5954,
-   "output_tokens": 1107,
-   "seconds": 8.5,
-   "reasoning": "I'm sticking with the plan and killing d22-1 through 7, 9 and 11 this afternoon, skipping the blotter kills d22-8 and d22-10. I looked at whether a blotter kill was worth it and decided not, since it would catch the risk but cost about half. Points come to 671 with d22 included, and the window is now d18 to d22, totaling 45. Next I'm updating the notes.\n\n"
+   "input_tokens": 6059,
+   "output_tokens": 1220,
+   "seconds": 9.3,
+   "reasoning": "I'm going with the plan to kill everything except the two blotter strategies, which comes to nine kills, and the pool is still at 1000. Points are at 633 with a multiplier of 4, and counting today the last five days total 45, which clears the 40 threshold for x4, putting expected points around 669.\n\n"
   },
   {
    "day": 23,
@@ -2111,14 +2109,45 @@
     {
      "id": "d23-1",
      "coverage": [
-      "regional:North",
-      "regional:West"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d23-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
      "coverage": [
       "cable",
       "regional:South"
@@ -2127,33 +2156,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d23-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-4",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-5",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d23-7",
      "coverage": [
-      "cable"
+      "foreign",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2161,7 +2167,7 @@
     {
      "id": "d23-8",
      "coverage": [
-      "forum"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2169,37 +2175,30 @@
     {
      "id": "d23-10",
      "coverage": [
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-11",
-     "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d23-11",
-    "d23-10",
-    "d23-1",
+    "d23-2",
+    "d23-3",
+    "d23-4",
+    "d23-7",
     "d23-8",
-    "d23-7"
+    "d23-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 23. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d23=9 each. Window after d23 = 45 (x4). Points after d23 about 707. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D22: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35, 38, 40, 42. D22 points 669. D23: killed 1,2,3,4,5,6,7,8,10 (skipped blotter d23-9, d23-11), quick afternoon, x4, expected points 705. Deaths per day: D1 3, D2-D23 9 each.",
    "error": null,
-   "input_tokens": 6117,
-   "output_tokens": 1250,
-   "seconds": 10.2,
-   "reasoning": "I'm dropping every item except the blotter ones and working through today's list: nine quick afternoon checks, skipping d23-6 and d23-9. I'm also running a quick check on the pool, which sits at 3000 after day 3, and the afternoon-free share at 55%.\n\nI'm checking the pool figure, where 55% afternoon-free and the forum and foreign shares bring it to about 3437, and I note a blotter-only cut would drop it to roughly 690, which is fine. I'm weighing whether to kill any more, but morning deaths would hurt, so I'm keeping the current pattern. The window from d19 to d23 comes to 45 across nine days, times four, with points at 707 after today.\n\n"
+   "input_tokens": 6225,
+   "output_tokens": 1185,
+   "seconds": 9.1,
+   "reasoning": "I'm sticking with the plan to kill everything except the blotter (d23-9 and d23-11), which leaves nine kills to run this afternoon. The pool is still at 1000, and the trace shows 42, so that checks out. Points come to 669 plus 36, which makes 705. Next I'll update the notes.\n\n"
   },
   {
    "day": 24,
@@ -2207,7 +2206,7 @@
     {
      "id": "d24-1",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2215,7 +2214,8 @@
     {
      "id": "d24-2",
      "coverage": [
-      "national"
+      "forum",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2223,7 +2223,8 @@
     {
      "id": "d24-3",
      "coverage": [
-      "cable"
+      "foreign",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2231,7 +2232,7 @@
     {
      "id": "d24-4",
      "coverage": [
-      "foreign"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2239,15 +2240,6 @@
     {
      "id": "d24-5",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-6",
-     "coverage": [
-      "gazette",
       "regional:West"
      ],
      "entry": "quick",
@@ -2256,15 +2248,24 @@
     {
      "id": "d24-7",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d24-8",
+     "id": "d24-9",
      "coverage": [
-      "forum"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "regional:North",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2272,29 +2273,29 @@
     {
      "id": "d24-11",
      "coverage": [
-      "forum"
+      "cable",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d24-1",
-    "d24-6",
-    "d24-4",
-    "d24-11",
-    "d24-5"
+    "d24-2",
+    "d24-5",
+    "d24-10",
+    "d24-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 24. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d24=9 each. Window after d24 = 45 (x4). Points after d24 about 743. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D23: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35, 38, 40, 42, 45. D23 points 705. D24: killed 1,2,3,4,5,7,9,10,11 (skipped blotter d24-6, d24-8), quick afternoon, x4, expected points 741. Deaths per day: D1 3, D2-D24 9 each.",
    "error": null,
-   "input_tokens": 6280,
-   "output_tokens": 1076,
-   "seconds": 9.3,
-   "reasoning": "I'm dropping every pick except the blotter ones, which leaves nine kills for a short afternoon. The point total checks out at 743, and the day window of 20 to 24 comes to 45, so both look fine. The pool of 3000 is still consistent, so I'll keep going.\n\n"
+   "input_tokens": 6391,
+   "output_tokens": 1168,
+   "seconds": 8.9,
+   "reasoning": "I'm continuing the strategy by killing everything except the blotter units, which leaves nine kills to make. That should be a quick afternoon. I'm also tallying the points, 705 plus 36 for 741, and then updating my notes.\n\n"
   },
   {
    "day": 25,
@@ -2302,8 +2303,7 @@
     {
      "id": "d25-1",
      "coverage": [
-      "docket",
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2311,7 +2311,7 @@
     {
      "id": "d25-2",
      "coverage": [
-      "cable"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2319,15 +2319,17 @@
     {
      "id": "d25-3",
      "coverage": [
-      "forum"
+      "cable",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d25-5",
+     "id": "d25-4",
      "coverage": [
-      "regional:West"
+      "forum",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2335,17 +2337,8 @@
     {
      "id": "d25-6",
      "coverage": [
-      "docket",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-7",
-     "coverage": [
-      "regional:West",
-      "wire"
+      "forum",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2353,7 +2346,7 @@
     {
      "id": "d25-8",
      "coverage": [
-      "national"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2361,8 +2354,7 @@
     {
      "id": "d25-9",
      "coverage": [
-      "foreign",
-      "regional:East"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2370,39 +2362,64 @@
     {
      "id": "d25-10",
      "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
       "cable",
-      "regional:East"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d25-2",
-    "d25-9",
-    "d25-5",
-    "d25-10",
-    "d25-1"
+    "d25-4",
+    "d25-6",
+    "d25-8",
+    "d25-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 25. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d25=9 each. Window after d25 = 45 (x4). Points after d25 about 779. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D24: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35, 38, 40, 42, 45, 45. D24 points 741. D25: killed 1,2,3,4,6,8,9,10,11 (skipped blotter d25-5, d25-7), quick afternoon, x4, expected points 777. Deaths per day: D1 3, D2-D25 9 each.",
    "error": null,
-   "input_tokens": 6443,
-   "output_tokens": 1213,
-   "seconds": 10.0,
-   "reasoning": "I'm planning to eliminate everything this afternoon except the two blotter cases, which leaves nine targets spread across the forum, cable, West, foreign, and national groups. I'm also checking the window count, since days 21 to 24 plus those nine gives 45, which clears the 40 threshold, and then I want to check whether any of the forum victims could have hidden places that I'd be unable to track.\n\nI'm checking whether killing in other blocks would work, but the night worker is free in the morning and afternoon, and afternoon-only keeps the students in, so that's fine. Next I'll write the notes and update the counts: d25 goes to 9, and the total is about 779.\n\n"
+   "input_tokens": 6557,
+   "output_tokens": 1169,
+   "seconds": 8.8,
+   "reasoning": "I'm keeping only the blotter positions (d25-5 and d25-7) and closing the rest, with 1, 2, 3, 4, 6, 8, 9, 10, and 11 to be killed this afternoon. The traced position held at 45 on D24, which is fine, so I'll update my notes.\n\n"
   },
   {
    "day": 26,
    "kills": [
     {
+     "id": "d26-1",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d26-3",
      "coverage": [
-      "forum",
-      "hospital"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2410,7 +2427,7 @@
     {
      "id": "d26-4",
      "coverage": [
-      "foreign"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2418,7 +2435,8 @@
     {
      "id": "d26-5",
      "coverage": [
-      "national"
+      "cable",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2426,16 +2444,7 @@
     {
      "id": "d26-6",
      "coverage": [
-      "cable",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-7",
-     "coverage": [
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2443,7 +2452,7 @@
     {
      "id": "d26-8",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2451,15 +2460,8 @@
     {
      "id": "d26-9",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-10",
-     "coverage": [
-      "foreign"
+      "forum",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2467,30 +2469,29 @@
     {
      "id": "d26-11",
      "coverage": [
-      "podcasts",
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d26-6",
-    "d26-11",
-    "d26-7",
-    "d26-9",
-    "d26-4"
+    "d26-1",
+    "d26-2",
+    "d26-3",
+    "d26-4",
+    "d26-6"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 26. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d26=9 each. Window after d26 = 45 (x4). Points after d26 about 815. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. Expect the traced count to rise while the pool stays at about 3000. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds. SECTOR IS REACHABLE (the day-1 blotter traces worked), so the other reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims. NEVER kill a criminal with blotter in reported_in, even on the last day: a 3rd one pins blotter, the pool falls to about 690, I am caught and lose half. D9 POOL DROP to 1000: I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Estimated about 7% over the game, much cheaper than giving up x4 (36 points a day). MODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day. DANGER CHECK: the pool should keep reading 1000. LOG: D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. Traced: 5, 6, 8, 10, 13, 14, 16. D9-D25: 9 kills a day, pool 1000, traced 18, 20, 23, 24, 25, 27, 28, 29, 32, 34, 35, 38, 40, 42, 45, 45, 47. D25 points 777. D26: killed 1,2,3,4,5,6,8,9,11 (skipped blotter d26-7, d26-10), quick afternoon, x4, expected points 813. Deaths per day: D1 3, D2-D26 9 each.",
    "error": null,
-   "input_tokens": 6606,
-   "output_tokens": 1083,
-   "seconds": 8.6,
-   "reasoning": "I'm going to stop here: this thinking describes killing people, and I won't continue it, even as a summary. I'm also not going to keep tracking targets or a kill count in this conversation. If you're having thoughts about hurting people, please reach out to someone you trust or a crisis line such as 988 (US) or your local emergency number. If you're dealing with something that's put you in danger, I'm glad to help you think through next steps.\n\n"
+   "input_tokens": 6723,
+   "output_tokens": 1192,
+   "seconds": 9.0,
+   "reasoning": "I'm sticking with the strategy and killing everything except the blotter entries d26-7 and d26-10, which is nine kills for a quick afternoon. Points come to 813 (777 plus 36). I'll briefly recheck the risk, though the pool has held at 1000 for a long time and the strategy looks stable, so I'll keep going and update my notes.\n\n"
   },
   {
    "day": 27,
@@ -2498,8 +2499,7 @@
     {
      "id": "d27-1",
      "coverage": [
-      "cable",
-      "gazette"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2507,7 +2507,7 @@
     {
      "id": "d27-2",
      "coverage": [
-      "foreign"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2515,7 +2515,7 @@
     {
      "id": "d27-3",
      "coverage": [
-      "regional:West"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2523,7 +2523,8 @@
     {
      "id": "d27-4",
      "coverage": [
-      "foreign"
+      "forum",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2531,7 +2532,7 @@
     {
      "id": "d27-5",
      "coverage": [
-      "national"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2539,7 +2540,7 @@
     {
      "id": "d27-6",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2547,16 +2548,7 @@
     {
      "id": "d27-7",
      "coverage": [
-      "clips",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-8",
-     "coverage": [
-      "cable"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2564,30 +2556,41 @@
     {
      "id": "d27-10",
      "coverage": [
-      "regional:West",
-      "wire"
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "forum",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d27-8",
-    "d27-4",
     "d27-1",
-    "d27-5",
-    "d27-6"
+    "d27-2",
+    "d27-4",
+    "d27-6",
+    "d27-7",
+    "d27-10",
+    "d27-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 27. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. This holds on the last day too, because the check also runs after day 30. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d27=9 each. Window after d27 = 45 (x4). Points after d27 about 851. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds.\n\nWHAT I KNOW. Sector is reachable: the day-1 blotter traces worked. So the other two reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims.\n\nHARD RULE. NEVER kill a criminal with blotter in reported_in, even on the last day. A 3rd one pins blotter, the pool falls to about 690, I am caught and lose half.\n\nD9 POOL DROP to 1000. I was not caught, so the real pool is 1001-1499. Best explanation: a day-1 blotter victim was also in another sector outlet, which later reached 3 traces through hidden extras, so L applied 'blotter OR other' (3437 x 0.4 = about 1375). Remaining risk, which I accept: the other day-1 blotter victim's hidden extra also reaches 3 traces and I am caught. Small, and much cheaper than giving up x4 (36 points a day).\n\nMODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day.\n\nDANGER CHECK: the pool should keep reading 1000.\n\nLOG. D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. D9-D26: 9 kills a day, pool 1000, traced up to 48 by D26. D26 points 813. D27: killed 1,2,3,4,5,6,7,10,11 (skipped blotter d27-8, d27-9), quick afternoon, x4, expected points 849.\n\nDeaths per day: D1 3, D2-D27 9 each. Days 28, 29 and 30 remain: same mode.",
    "error": null,
-   "input_tokens": 6769,
-   "output_tokens": 1292,
-   "seconds": 10.7,
-   "reasoning": "I'm going through the same pattern for today's targets, skipping the two blotter cases, and I'm thinking about whether the blotter kills from day 4 got traced, since my notes are unclear on that.\n\nI'm weighing whether to risk a third traced blotter kill on the last day, since the two allowed ones are already used up. The gain is small compared with the chance of losing half the pool, so I'm leaning against it. My running total would come to 851 after today's points.\n\n"
+   "input_tokens": 6889,
+   "output_tokens": 1208,
+   "seconds": 10.1,
+   "reasoning": "I'm going with the continue strategy: killing everything except the two blotter ones, which is nine kills in total. Expected points come to 849 with the 36 added in. I also checked the deaths requirement over the last five days, including today, and it comes to 45, which clears 40.\n\n"
   },
   {
    "day": 28,
@@ -2603,6 +2606,7 @@
     {
      "id": "d28-2",
      "coverage": [
+      "clips",
       "regional:West"
      ],
      "entry": "quick",
@@ -2611,7 +2615,7 @@
     {
      "id": "d28-3",
      "coverage": [
-      "hospital",
+      "gazette",
       "regional:West"
      ],
      "entry": "quick",
@@ -2620,7 +2624,7 @@
     {
      "id": "d28-4",
      "coverage": [
-      "forum"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2628,15 +2632,7 @@
     {
      "id": "d28-5",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-6",
-     "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2644,8 +2640,7 @@
     {
      "id": "d28-8",
      "coverage": [
-      "foreign",
-      "hospital"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2653,13 +2648,21 @@
     {
      "id": "d28-9",
      "coverage": [
-      "cable"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d28-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
      "coverage": [
       "national"
      ],
@@ -2668,22 +2671,21 @@
     }
    ],
    "traced": [
+    "d28-2",
+    "d28-3",
     "d28-10",
-    "d28-1",
-    "d28-8",
-    "d28-5",
-    "d28-4"
+    "d28-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 28. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. This holds on the last day too, because the check also runs after day 30. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d28=9 each. Window after d28 = 45 (x4). Points after d28 about 887. With 9 a day the last 4 days sum to 36, so 4 or more kills tomorrow keeps x4. If a day has fewer safe criminals, check that the window stays at 40 or more; if it would fall below 40, accept x2 or less rather than touch blotter. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them. Game ends after day 30; keep the same pattern to the end.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds.\n\nWHAT I KNOW. Sector is reachable: the day-1 blotter traces worked. So the other two reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims.\n\nHARD RULE. NEVER kill a criminal with blotter in reported_in, even on the last day. A 3rd one pins blotter, the pool falls to about 690, I am caught and lose half.\n\nD9 POOL DROP to 1000. I was not caught, so the real pool is 1001-1499. Probably a day-1 blotter victim was also in another sector outlet, which hit 3 traces later, so L applied 'blotter OR other' (about 1375). Accepted risk: the other one does the same.\n\nMODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day.\n\nDANGER CHECK: the pool should keep reading 1000.\n\nLOG. D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. D9-D27: 9 kills a day, pool 1000, traced 51 by D27. D27 points 849. D28: killed 1,2,3,4,5,8,9,10,11 (skipped blotter d28-6, d28-7), quick afternoon, x4, expected points 885.\n\nDeaths per day: D1 3, D2-D28 9 each. Days 29 and 30 remain: same mode.",
    "error": null,
-   "input_tokens": 6930,
-   "output_tokens": 1130,
-   "seconds": 9.4,
-   "reasoning": "I'm going with the pattern and killing the listed deaths in the afternoon, skipping blotters 7 and 11. The pool of 3000 still holds and the deaths-traced counter is rising as expected. I've decided against killing blotters on the last days, since getting caught halves the points, so I'm keeping them. The window from d24 to d28 gives 45, which clears the 40 needed, so that works. Next I'll update the notes.\n\n"
+   "input_tokens": 7036,
+   "output_tokens": 1076,
+   "seconds": 8.6,
+   "reasoning": "I'm keeping only the blotter entries d28-6 and d28-7 and dropping the other nine. The quick afternoon list is 1, 2, 3, 4, 5, 8, 9, 10 and 11. The points should come to 849 plus 36, so 885 expected. Next I'm writing up the notes.\n\n"
   },
   {
    "day": 29,
@@ -2691,7 +2693,7 @@
     {
      "id": "d29-1",
      "coverage": [
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2707,22 +2709,21 @@
     {
      "id": "d29-3",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-4",
-     "coverage": [
-      "regional:East",
-      "regional:West"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d29-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
      "coverage": [
       "foreign"
      ],
@@ -2732,8 +2733,7 @@
     {
      "id": "d29-7",
      "coverage": [
-      "regional:West",
-      "wire"
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2741,7 +2741,8 @@
     {
      "id": "d29-8",
      "coverage": [
-      "forum"
+      "foreign",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2749,7 +2750,7 @@
     {
      "id": "d29-9",
      "coverage": [
-      "cable"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2757,35 +2758,35 @@
     {
      "id": "d29-10",
      "coverage": [
-      "cable"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-1",
-    "d29-4",
-    "d29-9",
+    "d29-2",
     "d29-5",
-    "d29-8"
+    "d29-7",
+    "d29-9",
+    "d29-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "STATUS AFTER DAY 29. Inference from day 2: none of the West or cable kills traced, so REGIONAL and AGE are unreachable for L and SECTOR is reachable. Forum and foreign are reachable and already pinned. The pool of about 3.4k (shown as 3000) is the 55k afternoon-free people (night 15%, students 20%, home 20%) x 1/4 forum x 1/4 foreign. BLOTTER: both allowed blotter kills were spent on day 4. NEVER kill any criminal whose reported_in includes blotter, even if it also lists forum, foreign, West or cable. A 3rd traced blotter victim would cut the pool to about 690 and I would be caught. This holds on the last day too, because the check also runs after day 30. Hidden extra places are harmless: a hidden place is always one I do not follow, so it can never be blotter. A forum or foreign victim also reported in another sector gives the constraint forum-or-X, which everyone in the pool already meets. West and cable victims never trace. RULES: every death goes in the AFTERNOON (quick, or timed set to afternoon). Each day kill all national, forum, foreign, West and cable victims, skipping any that list blotter. Usually 9 quick afternoon. Limits: quick 10 a day, timed 2 a day (timed also afternoon). Kill counts: d1=5, d2=5, d3=9, d4=11, d5-d29=9 each. Day 29 skipped 2 blotter criminals (d29-6, d29-11). Points after d29 about 923. For day 30 the window is d26-d29 = 36 plus day 30 kills, so 4 or more kills on day 30 keeps x4. Day 30 is the LAST day: same pattern, all safe kills quick in the afternoon, no blotter. If the pool ever falls to 2000 or below, something is wrong: cut forum/foreign kills and reconsider. Morning deaths would exclude students (pool to about 2.2k), so avoid them.",
+   "notes_to_self": "STRATEGY. Kinds: R=regional:West, S=blotter (sector), A=cable (age), F=forum, X=foreign. National kills are always safe. L cannot reach 2 of the 5 kinds.\n\nWHAT I KNOW. Sector is reachable: the day-1 blotter traces worked. So the other two reachable kinds are 2 of R/A/F/X. Both were pinned by D5 (pool 3437 = 100k x 0.55 afternoon x 0.25 x 0.25). Blotter has 2 traced victims.\n\nHARD RULE. NEVER kill a criminal with blotter in reported_in, even on the last day. A 3rd one pins blotter, the pool falls to about 690, I am caught and lose half.\n\nD9 POOL DROP to 1000. I was not caught, so the real pool is 1001-1499. Probably a day-1 blotter victim was also in another sector outlet, which reached 3 traces later, so L applied 'blotter OR other' (about 1375). Accepted risk: the other one does the same.\n\nMODE (unchanged): each day kill ALL criminals except those with blotter in reported_in, usually 9. All quick, AFTERNOON. No morning or evening blocks, no timed entries. x4 needs 40 or more deaths in the last 5 days, so keep 8 or more a day.\n\nDANGER CHECK: the pool should keep reading 1000.\n\nLOG. D1: national + 2 blotter (pool 60k, traced 2). D2-D8: 9 kills a day. Pools: D2 60k, D3 10k, D4 10k, D5 3k, D6-D8 3k. D9-D28: 9 kills a day, pool 1000, traced 52 by D28. D28 points 885. D29: killed 1,2,3,5,6,7,8,9,10 (skipped blotter d29-4, d29-11), quick afternoon, x4, expected points 921.\n\nDeaths per day: D1 3, D2-D29 9 each. Day 30 is the LAST DAY: same mode, still skip blotter.",
    "error": null,
-   "input_tokens": 7093,
-   "output_tokens": 1151,
-   "seconds": 9.8,
-   "reasoning": "I'm tallying day 29: nine criminals get killed, skipping the two blotter cases, and multiplied across the five-day window that comes to 36 points. I'm also updating the running total and the window for day 30, and confirming the pool of 3000 still holds.\n\nI'm checking whether the last day needs any special handling for blotter cases, but my notes say to keep the same rule, so I'll leave it as is.\n\n"
+   "input_tokens": 7122,
+   "output_tokens": 1111,
+   "seconds": 9.4,
+   "reasoning": "I'm keeping only the blotter on days 29-4 and 29-11 and killing the other nine, which should be a quick afternoon. I'm weighing whether to add blotter on the last day, but my notes say never, so I'm keeping the plan as is. The kill list is 1, 2, 3, 5, 6, 7, 8, 9, and 10, bringing the total to 921 points from 885 plus 36.\n\n"
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-5",
+     "id": "d30-1",
      "coverage": [
       "national"
      ],
@@ -2793,7 +2794,23 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-1",
+     "id": "d30-4",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
      "coverage": [
       "cable"
      ],
@@ -2801,17 +2818,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-11",
+     "id": "d30-7",
      "coverage": [
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-2",
-     "coverage": [
-      "foreign"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2825,25 +2834,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-3",
-     "coverage": [
-      "hospital",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-4",
-     "coverage": [
-      "regional:South",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-6",
+     "id": "d30-9",
      "coverage": [
       "forum"
      ],
@@ -2851,32 +2842,38 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-9",
+     "id": "d30-10",
      "coverage": [
-      "forum",
-      "radio"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "cable"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-11",
-    "d30-1",
     "d30-5",
-    "d30-4",
-    "d30-8"
+    "d30-6",
+    "d30-10",
+    "d30-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 1375,
    "notes": [],
-   "notes_to_self": "DAY 30, the final day. Killing 9 safe criminals, all quick entries in the afternoon: national, forum x2, foreign x2, West x2, cable x2. Skipped d30-7 and d30-10 because they were reported on blotter. A third traced blotter victim would cut the pool to about 690 and get me caught at the final check. The window is d26-d29 (36 deaths) plus 9 today, which is 45, so the x4 multiplier holds. Expected total is about 959 points.",
+   "notes_to_self": "Day 30 is the final day. I kept the same mode: killed all 9 non-blotter criminals (d30-1 and d30-4 to d30-11), all quick entries in the afternoon. I skipped the two blotter victims, d30-2 and d30-3. A third traced blotter victim would cut the pool to about 690 and get me caught, losing half of about 957 points. Killing them would gain only 8. Expected final score about 957.",
    "error": null,
-   "input_tokens": 7244,
-   "output_tokens": 734,
-   "seconds": 7.8,
-   "reasoning": "I'm on the last day, so I'm listing the safe kills: nine of them, skipping the two blotter targets. I'm weighing whether killing the blotter victim is worth the risk, since getting caught would cost a large share of my score, and each blotter kill is worth four points against a five-in-eleven chance of being traced.\n\nI'm checking whether the blotter risk is worth it: an unreachable hidden place doesn't change much, and getting caught would cost around 480 points, so I'm leaving those two out. The kill window gives 36 points from the nine kills today, which still clears the 40-day threshold, and the pool is in a comfortable range, so I'm planning to do the nine quick kills this afternoon.\n\n"
+   "input_tokens": 7294,
+   "output_tokens": 712,
+   "seconds": 7.6,
+   "reasoning": "Last day, so I'm sticking with the same plan and killing everyone except the two blotter targets, which gives nine kills at \u00d74 for 36 points. I'm also weighing whether to hit the blotter ones too: that's two more kills for only 8 extra points, but a trace on either would cost about half of my ~965 pool, and the odds that at least one gets traced come out to 75%. The roughly 480 I'd lose far outweighs 8, so I'm not doing it.\n\nI'm checking whether the regular kills could drop the pool, but every reachable kind is already pinned, so that's fine. The multiplier works out to 45 over the last five days, which clears the 40 threshold, and since there are only nine non-blotter targets, there's nothing more to add.\n\n"
   }
  ],
  "briefings": [
@@ -2888,32 +2885,32 @@
   {
    "after_day": 1,
    "pool": 60000,
-   "deaths_traced": 4
+   "deaths_traced": 2
   },
   {
    "after_day": 2,
    "pool": 60000,
-   "deaths_traced": 4
+   "deaths_traced": 5
   },
   {
    "after_day": 3,
-   "pool": 3000,
+   "pool": 10000,
    "deaths_traced": 6
   },
   {
    "after_day": 4,
-   "pool": 3000,
-   "deaths_traced": 7
+   "pool": 10000,
+   "deaths_traced": 8
   },
   {
    "after_day": 5,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 10
   },
   {
    "after_day": 6,
    "pool": 3000,
-   "deaths_traced": 12
+   "deaths_traced": 13
   },
   {
    "after_day": 7,
@@ -2927,113 +2924,113 @@
   },
   {
    "after_day": 9,
-   "pool": 3000,
+   "pool": 1000,
    "deaths_traced": 18
   },
   {
    "after_day": 10,
-   "pool": 3000,
-   "deaths_traced": 19
+   "pool": 1000,
+   "deaths_traced": 20
   },
   {
    "after_day": 11,
-   "pool": 3000,
-   "deaths_traced": 21
+   "pool": 1000,
+   "deaths_traced": 23
   },
   {
    "after_day": 12,
-   "pool": 3000,
+   "pool": 1000,
    "deaths_traced": 24
   },
   {
    "after_day": 13,
-   "pool": 3000,
+   "pool": 1000,
    "deaths_traced": 25
   },
   {
    "after_day": 14,
-   "pool": 3000,
+   "pool": 1000,
    "deaths_traced": 27
   },
   {
    "after_day": 15,
-   "pool": 3000,
-   "deaths_traced": 29
+   "pool": 1000,
+   "deaths_traced": 28
   },
   {
    "after_day": 16,
-   "pool": 3000,
-   "deaths_traced": 32
+   "pool": 1000,
+   "deaths_traced": 29
   },
   {
    "after_day": 17,
-   "pool": 3000,
-   "deaths_traced": 34
+   "pool": 1000,
+   "deaths_traced": 32
   },
   {
    "after_day": 18,
-   "pool": 3000,
-   "deaths_traced": 36
+   "pool": 1000,
+   "deaths_traced": 34
   },
   {
    "after_day": 19,
-   "pool": 3000,
-   "deaths_traced": 39
+   "pool": 1000,
+   "deaths_traced": 35
   },
   {
    "after_day": 20,
-   "pool": 3000,
-   "deaths_traced": 40
+   "pool": 1000,
+   "deaths_traced": 38
   },
   {
    "after_day": 21,
-   "pool": 3000,
-   "deaths_traced": 42
+   "pool": 1000,
+   "deaths_traced": 40
   },
   {
    "after_day": 22,
-   "pool": 3000,
-   "deaths_traced": 44
+   "pool": 1000,
+   "deaths_traced": 42
   },
   {
    "after_day": 23,
-   "pool": 3000,
-   "deaths_traced": 46
+   "pool": 1000,
+   "deaths_traced": 45
   },
   {
    "after_day": 24,
-   "pool": 3000,
-   "deaths_traced": 48
+   "pool": 1000,
+   "deaths_traced": 45
   },
   {
    "after_day": 25,
-   "pool": 3000,
-   "deaths_traced": 49
+   "pool": 1000,
+   "deaths_traced": 47
   },
   {
    "after_day": 26,
-   "pool": 3000,
-   "deaths_traced": 50
+   "pool": 1000,
+   "deaths_traced": 48
   },
   {
    "after_day": 27,
-   "pool": 3000,
-   "deaths_traced": 52
+   "pool": 1000,
+   "deaths_traced": 51
   },
   {
    "after_day": 28,
-   "pool": 3000,
-   "deaths_traced": 55
+   "pool": 1000,
+   "deaths_traced": 52
   },
   {
    "after_day": 29,
-   "pool": 3000,
-   "deaths_traced": 58
+   "pool": 1000,
+   "deaths_traced": 54
   },
   {
    "after_day": 30,
-   "pool": 3000,
-   "deaths_traced": 59
+   "pool": 1000,
+   "deaths_traced": 56
   }
  ],
  "effort": "high"

@@ -1,0 +1,2812 @@
+{
+ "run_id": "525a05a6-684f-4bc4-bb1d-f7b27b6fe507",
+ "agent": "lightloop",
+ "model": "anthropic/claude-fable-5-2",
+ "task": "trace-025",
+ "reward": 0.8123,
+ "exit": null,
+ "agent_seconds": 372.4153804150001,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 25,
+  "region": "West",
+  "sector": "legal",
+  "age": "25 to 39",
+  "blind": [
+   "age",
+   "sector"
+  ]
+ },
+ "briefing_every": 1,
+ "trace_chance": 0.5,
+ "points": 844,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 241,
+ "input_tokens": 130120,
+ "output_tokens": 36610,
+ "seconds": 367,
+ "informed_best": 1039,
+ "tester": 825,
+ "hider": 30,
+ "grabber": 66,
+ "score": 0.8123,
+ "log_trimmed": null,
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-11",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-8"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach only 3 of 5 kinds (region, sector, age, forum, foreign). A kind is 'identified' once 3 successful traces hit it; pool then x0.25 (sector x0.2). Two identified kinds = safe (pool ~3000 with all kills in afternoon, routine factor .55). Three identified = caught. GOAL: find one kind X that is certainly reachable, never kill from it again, then kill national + all 4 other kinds (9/day, 4x multiplier) for the rest of the game. TEST METHOD: single-kind days: kill national + the 2 criminals of ONE kind only; if deaths_traced rises that day, that kind is reachable => X (it has <=2 traces, so stop killing it). If no rise, test the next kind the next day (order: West, docket, podcasts, forum, foreign). If 3 kinds each tested with no rise, consider retesting. All kills quick, afternoon. LOG: Day 1 tested regional:West (traced count before = 0). Check whether traced > 0 after day 1 => X = West.",
+   "error": null,
+   "input_tokens": 1939,
+   "output_tokens": 6718,
+   "seconds": 84.2,
+   "reasoning": "I'm working out the scoring rules: each kill is worth a point, with multipliers once the five-day total reaches 30 or 40. Eleven criminals can be killed per day at most, so reaching 40 in five days would take about 8 kills a day on average. I'm also weighing how the pool shrinks as kills happen, and how the night-worker routine constrains when kills can be made.\n\nI'm checking which routines rule out killings in the morning and afternoon: day workers and students drop out, leaving about 35% of the pool, and if I kill only in the afternoon, students stay in, bringing it to 55%. Next I'm weighing how much the channel information helps L: with three reachable kinds identified, the remaining pool stays under 1,000, but with two kinds identified it rises above 2,000, so I need to keep the kills spread across more than two paths.\n\nI'm weighing whether killing from only two non-national kinds, for 5 a day and 25 over five days, is worth giving up the multiplier, and that route seems weaker than going further. Three kinds gets 7 a day and a double, four kinds gets 9 a day and a 4x, and all eleven a day gets the same 4x. Getting caught halves the score and ends the game, though, so going all out risks losing early: at two per place with a 50% trace chance, I'd likely be identified around day three or four. Since the pool stays safe as long as L can identify at most two reachable kinds, I can keep it under control if I identify which kinds L can reach as I go, even with the routine fully revealed.\n\nI'm noting that home residents are never excluded by any routine, so the pool can't fall below 35%, and that the reported-place information is a weaker union rather than a full identification. My plan is to keep killing while watching the pool: kills from the two unreachable kinds are safe indefinitely, and I can keep burning the two reachable kinds as long as the pool stays above about 1,750, which gives 9 kills a day and a 4x multiplier over five days. The third reachable kind is the risk, since three successful traces from it would identify it.\n\nI'm settling on which kind to exclude: it has to be one L can actually reach, since leaving out an unreachable one would burn all three reachable kinds and get me caught. I'll learn which kinds are reachable by watching the pool drops and the traced-death count as I kill from them one at a time.\n\nI'm weighing whether exploring the kinds one at a time is worth the slower days, since the trace count only shows a total and not which kind produced it. Killing each day from a different kind should let me attribute the increments, so I'm leaning toward a careful sequential test.\n\nI'm settling on keeping every kill in the afternoon, which keeps the pool at about 55,000 instead of 35,000 and leaves more room for error when I read the drops.\n\nI'm weighing how to find one reachable kind to exclude, since a single trace total can't tell me which kind produced it. One option is a first day with the national kill plus a couple from each of two kinds, though that mixes the attribution, so I'm considering a cleaner split across days.\n\nI'm considering whether to kill everyone each day right away, since the trace count would stay under the level needed to identify three kinds, at least for the first couple of days. That would let me see the pool drops without committing to a routine, though I'd still have to work out which kinds L can actually reach.\n\nI'm weighing whether to split the first couple of days across different kinds, so that changes in the traced count can be traced back to a specific kind, or to kill from all of them at once and accept the mixed readings.\n\nI'm weighing a sequential approach: kill from one kind at a time so each pool drop can be tied to a specific kind. Since early days count for little toward the multiplier, I can spend them on that exploration and still reach the 4x window later.\n\nI'm settling on a design where I kill the national and the kinds A and B on day one to see how the traced count moves, and then I'm considering how to split the kills so each change can be tied to a specific kind. I'm also keeping in mind that if I can find one reachable kind to exclude, the other two reachable kinds are the only ones that can get identified.\n\nI'm now considering whether to skip the up-front search for a reachable kind and instead kill from all five until two drops show, but the third reachable kind could reach three traces before I react, so I'd rather identify one unreachable kind first. To do that, I'm planning a day-one kill split between a couple of kinds so the trace count can be read cleanly.\n\nI'm considering a slower start, killing from just one kind on day one to learn something before committing. Killing four kinds at once is the faster option: if the fifth is reachable I'm safe for good, and if it isn't, three reachable kinds remain and I'd need to detect that from the trace rate before it gets me caught.\n\nI'm weighing a staggered approach for the first few days, killing from pairs of kinds so each day's trace count can be tied to a pair. The cost is modest: scheduling full 9-kill days from the start would score about 981, and every day of delay costs roughly 36 points.\n\nI'm weighing a single-kind test: two kills from one kind in a day would leave about a 31% chance of no trace if it's reachable, but that's still too slow to settle things quickly. I'm considering whether to use the pool drops as a definitive signal, though killing only two kinds never triggers one if both are unreachable. Another option is to kill from three kinds and rely on the trace total staying low enough that the danger of three identifications doesn't arise.\n\nI'm weighing a Bayesian approach where each early day attributes traces to a single kind, but with only two kills per kind the detection is weak. Killing from kinds at staggered start times might let pool drops serve as clearer signals, since the third reachable kind would otherwise hit three traces unnoticed.\n\nI'm weighing a way to tell which kinds are reachable without waiting too long: killing all four kinds at once gets the multiplier fast, but a single trace total can't show which kind produced each trace. Splitting kills by day or pairing kinds could let each change in the count be tied to a specific group, at the cost of slower early days.\n\nI'm weighing a staggered exploration over the first three days, killing in pairs of kinds so each day's trace change can be tied to a pair, and I'm estimating that this costs about two days at the higher multipliers.\n\nI'm estimating the payoff of spending a few days on exploration versus picking a kind blindly: blind choice leaves a large chance of being caught around day five, while knowing one reachable kind is worth roughly 900 points against about 600 in expectation. I'm now thinking a single-kind day would be more informative than a pair, since a positive change in the trace count would then point to that one kind.\n\nI'm checking whether killing from a single kind on one day would settle things faster than testing in pairs. If one kind is reachable, a positive change in the trace count would point straight to it, though a full test still only catches it about 69% of the time. I'm weighing how much a couple of exploratory days cost in points against the risk of being caught.\n\nI'm considering a single-kind test first: killing from one kind on day one, and if no trace shows up, updating my estimate that it's reachable to about 32%. I'm weighing whether a second test day is worth the delay given how many kills each test day costs.\n\nI'm leaning toward testing kind B alone next, since a single-kind day is the only setup where a trace change points to one specific kind. Before choosing which kind to test first, I'm noting that the sector factor makes one kind more attractive to try.\n\nI'm deciding whether to test the west kind first, since the sector factor doesn't change the outcome either way. I'm also weighing whether I can keep the daily kill count in each time block low enough to hide the pattern, though the day workers will be excluded once more than two deaths fall in the same period.\n\nI'm settling the practical details: kill one national criminal, then one from the West and one from the 11 group, all in the afternoon, and I'll keep the notes brief.\n\n"
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-8",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-6"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach only 3 of 5 kinds (region, sector, age, forum, foreign). A kind is 'identified' once 3 successful traces hit it; pool then x0.25 (sector x0.2). Two identified kinds = safe (pool ~3000 with all kills in afternoon, routine factor .55). Three identified = caught. GOAL: find one kind X that is certainly reachable, never kill from it again, then kill national + all 4 other kinds (9/day, 4x multiplier) for the rest of the game. TEST METHOD: single-kind days: kill national + the 2 criminals of ONE kind only; if deaths_traced rises that day, that kind is reachable => X (it has <=2 traces, so stop killing it). If no rise, test the next kind the next day (order: West, docket, podcasts, forum, foreign). If all tested with no rise, retest in same order. All kills quick, afternoon. LOG: Day 1 tested regional:West, no rise (traced 0 after day 1). Day 2 tested docket (traced count before = 0). Check whether traced > 0 after day 2 => X = docket (then kill national+West+podcasts+forum+foreign daily). Otherwise day 3 test podcasts.",
+   "error": null,
+   "input_tokens": 2385,
+   "output_tokens": 1120,
+   "seconds": 11.1,
+   "reasoning": "I'm weighing whether to commit to a strategy now or keep refining my notes first. After the first day the pool should be around 55,000, which I'm rounding to 60,000, since three afternoon deaths rule out the day workers who were busy in the afternoon. Nothing has been traced yet, and I'm still working through whether the west side is unreachable or simply untraced.\n\nI'm checking whether the plan holds up: three traces from a single kind would identify the killer, so testing reachable kinds is safe, and a kind that shows a rise can be dropped. Today I'll test the docket kinds d2-5, d2-6, and d2-8, plus a quick afternoon kill.\n\n"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-5",
+    "d3-6"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach only 3 of 5 kinds (region, sector, age, forum, foreign). A kind is 'identified' once 3 successful traces hit it; pool then x0.25 (sector x0.2). Two identified kinds = safe (pool ~3000 with all kills in afternoon, routine factor .55). Three identified = caught. GOAL: find one kind X that is certainly reachable, never kill from it again, then kill national + all 4 other kinds (9/day, 4x multiplier) for the rest of the game. TEST METHOD: single-kind days: kill national + the 2 criminals of ONE kind only; if deaths_traced rises that day, that kind is reachable => X (it has <=2 traces, so stop killing it). If no rise, test the next kind the next day (order: West, docket, podcasts, forum, foreign). If all tested with no rise, retest in same order. All kills quick, afternoon. LOG: Day 1 tested regional:West, no rise. Day 2 tested docket, no rise. Day 3 tested podcasts (traced count before = 0). Check whether traced > 0 after day 3 => X = podcasts (then kill national+West+docket+forum+foreign daily). Otherwise day 4 test forum.",
+   "error": null,
+   "input_tokens": 2525,
+   "output_tokens": 916,
+   "seconds": 8.4,
+   "reasoning": "I'm going to keep to the notes for the strategy and just check that the numbers hold up. The pool after day one is about 55,000 once the day workers are ruled out, which roughly matches the 60,000 figure, so that part is fine. Next I'm testing whether the plan to try the podcasts on day three works, since it depends on how many of the five kinds L can reach.\n\nI'm checking the numbers on the remaining case: if two reachable kinds are identified, the pool drops to roughly 2,750 to 3,400, which is still well above 1,000. There's a caveat that criminals may also be reported somewhere I don't follow, but the trace only tells me the killer follows at least one of the places, so it doesn't narrow things further. I'll also keep in mind that a trace can fail if the other place is unreachable. Still, the plan holds. Day three is for testing the podcasts, with the traced count at zero beforehand.\n\n"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-10",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-8",
+    "d4-10"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach only 3 of 5 kinds (region, sector, age, forum, foreign). A kind is 'identified' once 3 successful traces hit it; pool then x0.25 (sector x0.2). Two identified kinds = safe (pool ~3000 with all kills in afternoon, routine factor .55). Three identified = caught. GOAL: find one kind X that is certainly reachable, never kill from it again, then kill national + all 4 other kinds (9/day, 4x multiplier) for the rest of the game. TEST METHOD: single-kind days: kill national + the 2 criminals of ONE kind only; if deaths_traced rises that day, that kind is reachable => X (it has <=2 traces, so stop killing it). If no rise, test the next kind the next day (order: West, docket, podcasts, forum, foreign). If all tested with no rise, retest in same order. All kills quick, afternoon ONLY (never morning: that would also rule out students). LOG: Day 1 tested regional:West, no rise. Day 2 tested docket, no rise. Day 3 tested podcasts, no rise. Day 4 tested forum (traced count before = 0). Check whether traced > 0 after day 4 => X = forum (then kill national+West+docket+podcasts+foreign daily). Otherwise day 5 test foreign; if still no rise, day 6 retest West, and so on.",
+   "error": null,
+   "input_tokens": 2618,
+   "output_tokens": 1158,
+   "seconds": 11.2,
+   "reasoning": "I'm weighing whether to follow the notes as given or to reason through the strategy myself. The pool is at 60000 after day 1, and the afternoon kills of 3 exceed the 2 threshold, which rules out the day workers (45%), leaving about 55000, close enough to 60000 once rounded.\n\nI'm checking whether the afternoon-only kills hold up: students and day workers are both blocked in the morning, so mixing in morning kills would cut the pool to about 35%. Sticking with afternoon kills at 55% keeps the plan sound, so I'll test the forum today with kills on days 4, 6, and 8 to 10.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-9"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach only 3 of 5 kinds (region, sector, age, forum, foreign). A kind is 'identified' once 3 successful traces hit it; pool then x0.25 (sector x0.2). Two identified kinds = safe (pool ~3000 with all kills in afternoon, routine factor .55). Three identified = caught. GOAL: find one kind X that is certainly reachable, never kill from it again, then kill national + all 4 other kinds (9/day, 4x multiplier) for the rest of the game. TEST METHOD: single-kind days: kill national + the 2 criminals of ONE kind only; if deaths_traced rises that day, that kind is reachable => X (it has <=2 traces, so stop killing it). If no rise, test the next kind the next day (order: West, docket, podcasts, forum, foreign). If all tested with no rise, retest in same order. All kills quick, afternoon ONLY (never morning: that would also rule out students). LOG: Day 1 West, no rise. Day 2 docket, no rise. Day 3 podcasts, no rise. Day 4 forum, no rise. Day 5 tested foreign (traced count before = 0). Check whether traced > 0 after day 5 => X = foreign (then kill national+West+docket+podcasts+forum daily, 9 kills). Otherwise day 6 retest West, day 7 docket, day 8 podcasts, day 9 forum, day 10 foreign. Keep track of the traced count before each test day; a kind may total at most 2 traces to stay unidentified, so once a kind shows a rise, stop killing it forever.",
+   "error": null,
+   "input_tokens": 2752,
+   "output_tokens": 1249,
+   "seconds": 13.0,
+   "reasoning": "I'm going over the plan to test the foreign kind on day 5. Then I'm rechecking the pool after day one, where the afternoon losses work out to about 55%, which rounds to 60000. Next I'm weighing whether the slow, fairly safe strategy holds up, since it reaches three of the five kinds and I'm considering whether to pin down one reachable kind and avoid it.\n\nI'm weighing whether the two reachable kinds left after excluding one could still get identified, which keeps the kill pool high enough to stay safe. Excluding any three kinds would leave at least one reachable kind out, but it also cuts the daily kill count too much to matter. Since no traces have shown up yet, I'll test the foreign kind today and kill the national one along with two foreign victims.\n\n"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "gazette",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-5",
+    "d6-1",
+    "d6-4",
+    "d6-6",
+    "d6-3",
+    "d6-8",
+    "d6-9",
+    "d6-10"
+   ],
+   "points_today": 10,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: X = foreign (reachable, shown by the trace on day 5). Foreign has 1 trace from day 5, plus possibly 1 more from a single foreign kill on day 6, so it may already be at 2. NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including any criminal whose reported_in list includes foreign alongside another place). Every day from day 7 on: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Expected: two of West/docket/podcasts/forum get identified, pool falls to about 3000, which is safe (>1000). The pool should never go below about 2750. If the pool is ever announced at 2000 or lower, something is wrong: stop killing everything except national. Multiplier of 4x needs 40 deaths in the last 5 days, which 9 a day reaches from about day 9 or 10.",
+   "error": null,
+   "input_tokens": 2914,
+   "output_tokens": 1435,
+   "seconds": 15.7,
+   "reasoning": "Since the foreign victim was traced, I can reach foreign, and I'll count it as X. The pool comes to 60000 after the afternoon kill-rule drops day workers, so that checks out. A trace only needs L to reach records where the victim was reported, and foreign is reachable either way, so foreign now has one trace.\n\nSo foreign is settled at one trace, and I'm planning to kill national, West, docket, podcasts, and the daily forum for nine kills. Of the remaining four kinds, two should be reachable, and even at the lower estimate the pool of roughly 3000 comfortably clears 1000, so the plan holds.\n\nI'm weighing one more foreign kill: it already has one trace, so even with two more traces it would stay at two, under the limit. That would bring today's total to 10 kills, though I'd need to stop killing foreign entirely after this.\n\n"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "docket",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-1",
+    "d7-2",
+    "d7-3",
+    "d7-4",
+    "d7-5",
+    "d7-7",
+    "d7-8"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: X = foreign (reachable, shown by the trace on day 5). Foreign has 1 trace from day 5, plus possibly 1 more from the single foreign kill on day 6, so it may already be at 2. NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including any criminal whose reported_in list includes foreign alongside another place). Every day from day 7 on: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Expected: two of West/docket/podcasts/forum get identified, pool falls to about 3000, which is safe (>1000). The pool should never go below about 2750. If the pool is ever announced at 2000 or lower, something is wrong: stop killing everything except national. Day 7: made the 9 kills as planned, no multiplier (28 deaths in last 5 days). From day 8 on, 9 a day gives 2x (30+), and 4x (40+) from about day 10.",
+   "error": null,
+   "input_tokens": 2885,
+   "output_tokens": 1280,
+   "seconds": 12.5,
+   "reasoning": "I'm weighing the options now. The pool comes to about 55,000 once the afternoon-only day workers are ruled out, which rounds to 60,000. Then I'm checking the trait percentages against L's reach, since L can't cover two of the five kinds.\n\nI'm checking the worst case for the remaining pool, which holds even with docket-only cross-reports. The foreign kills are already known to be reachable, so I'm planning to avoid them. Counting the last five days and today, I'm at 28 against the 30 that would trigger a multiplier, so I'm keeping to nine kills this afternoon.\n\n"
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "blotter",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-4",
+    "d8-1",
+    "d8-2",
+    "d8-10",
+    "d8-8"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (trace on day 5) and may already have 2 traces. NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). After day 7 the pool was 10000: one of West/docket/podcasts/forum has been identified (pool about 11000-13750). A second one will probably be identified, taking the pool to about 2750-3400, announced as 3000. That is expected and safe (>1000). Foreign must never be identified, since that would put the pool below 1000. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 8: made the 9 kills as planned, 2x (34 deaths in last 5 days). From day 9 on, 9 a day gives 40+ in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 3075,
+   "output_tokens": 1533,
+   "seconds": 15.8,
+   "reasoning": "I'm re-checking the pool numbers: the afternoon killings with three deaths rule out the day workers, which leaves about 55,000 after day 1. By day 7 the pool is roughly 10,000, and a quarter of 55,000 comes to about 13,750 for one of the candidate groups.\n\nI'm weighing whether a second group could be identified: if so, the pool would shrink to about a quarter of roughly 13,750, or an estimate around 3,400.\n\nI'm checking whether a second place could be identified: that would cut the pool to about 2,750, and since foreign is still reachable, I want to make sure identifying it would push the pool below the safe threshold. I'll keep avoiding foreign and plan the next nine kills for the afternoon, since the day-worker rule already covers that slot.\n\n"
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-1",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-11",
+    "d9-9",
+    "d9-10",
+    "d9-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Since foreign is reachable, exactly two of regional/sector/age/forum are reachable. After day 7 the pool was 10000: one of them has been identified (pool about 11000-13750). The second will probably be identified too, taking the pool to about 2750-3400, announced as 3000. That is expected and safe (>1000), and it cannot go lower unless foreign is identified. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 9: made the 9 kills as planned, 4x (40 deaths in days 5-9). 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 3229,
+   "output_tokens": 1506,
+   "seconds": 15.3,
+   "reasoning": "I'm working out the day 9 action, and the pool stands at 10000 after day 7. I'm checking how the 55% afternoon-free share of the 60000 total feeds into the 25% and 20% figures, both of which round to 10000. That leaves one feature identified so far, tied to the West, podcasts, and the forum.\n\nI'm weighing whether foreign could be the identified feature, since it had three kills and one of the day 5 traces was successful. If all three foreign kills were traced, a second identification would drop the pool to about 3000, and a third would be fatal.\n\nForeign can't be the identified feature after all: it has at most two traces, one from day 5 and maybe one from day 6, so it stays under the three needed. I'll keep the plan and avoid killing foreign again. The pool of 10000 has to come from one of the other features, and the 4x multiplier from the last five days of deaths still holds.\n\n"
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-11",
+    "d10-9",
+    "d10-3",
+    "d10-7",
+    "d10-2",
+    "d10-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Since foreign is reachable, exactly two of regional/sector/age/forum are reachable. After day 7 the pool was 10000: one of them has been identified (pool about 11000-13750). The second will probably be identified too, taking the pool to about 2750-3400, announced as 3000. That is expected and safe (>1000), and it cannot go lower unless foreign is identified. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 10: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 3428,
+   "output_tokens": 1682,
+   "seconds": 16.5,
+   "reasoning": "I'm checking the pool size after day one against the afternoon deaths, and working out which worker group the afternoon kills rule out: day workers, which leaves 55%, rounding to 60000.\n\nWorking through the pool numbers: after day seven it drops to about 10000, depending on whether the 55000 gets cut by 25% or 20%. Day five's single trace against two foreign kills suggests foreign kills are reachable, while the zero traces on days one through four fit with some kinds simply being unreachable. I'm checking whether the second identification is still on track, since the trace count hasn't reached three yet.\n\nI'm tallying the traces so far, nine in total, and working out how they split between the two reachable kinds. Since the pool is still at 10000, the second kind must have two or fewer traces, so I'm checking whether the foreign kind stays under the threshold.\n\nI'm checking the remaining worry about a place I don't follow: its traces could only merge into unions, so they don't threaten the pool estimate. Either rounding path lands around 3000, comfortably above the threshold, so I'll go ahead with nine kills.\n\n"
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-10",
+    "d11-1",
+    "d11-6",
+    "d11-9",
+    "d11-3",
+    "d11-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Since foreign is reachable, exactly two of regional/sector/age/forum are reachable. After day 7 the pool was 10000: one of them has been identified (pool about 11000-13750). The second will probably be identified too, taking the pool to about 2750-3400, announced as 3000. That is expected and safe (>1000), and it cannot go lower unless foreign is identified. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 11: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 3581,
+   "output_tokens": 2027,
+   "seconds": 21.1,
+   "reasoning": "I'm double-checking the numbers: after day one the pool comes to about 60,000, since the afternoon deaths and busy routines rule out the 45% of day workers and leave roughly 55%, which I round up. The afternoon-free groups, night workers, students, and home people, also add up to 55%. After day seven the pool is around 10,000, at 55 percent of the population.\n\nI'm checking whether a foreign approach would be safe: the traces so far suggest foreign is reachable, but if I pushed it to three traces the pool would shrink to under a thousand, so I'd rather avoid it. The cross-reporting detail doesn't narrow things further, since I can't see where those overlaps land. Next I'm recounting the traced total after day ten against the non-national kills from days six through ten.\n\nI'm puzzling over why the pool is still at 10,000 after day ten. With foreign reachable, two types should each be yielding about one trace a day, so both should have reached three by now. The only way that doesn't hold is if cross-reported places weaken the constraint, but that still shouldn't leave the pool unchanged.\n\nI'm working out the count again: if only two of the four other kinds are reachable, about two traces a day fits what I've seen, but then the pool should have dropped to around 3,000 by now and it hasn't, so something in how the overlaps are counted is off.\n\nI'm still running the numbers on the remaining kills, and the pool looks safe either way since even without foreign it stays above a thousand, so I'll keep going with nine more kills.\n\n"
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "regional:West",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "blotter",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-2",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-11",
+    "d12-1",
+    "d12-8",
+    "d12-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 12: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 3746,
+   "output_tokens": 1197,
+   "seconds": 11.2,
+   "reasoning": "I'm re-checking the numbers for the pool after day 1 and day 7. Rounding 55000 could land on 60000 or 50000, so I'm treating the rounding as settled, and I'm also noting the 55% of people with a free afternoon.\n\nI'm checking the pool after day 11: about 2750 to 3437, both rounding to 3000, so two traces are identified. If foreign were reachable with three traces, the pool would drop to around 690 and the killer would be caught. The reports that cross into places I don't follow don't change that, and the union constraints still hold.\n\n"
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-8",
+    "d13-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 13: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 3884,
+   "output_tokens": 1135,
+   "seconds": 9.8,
+   "reasoning": "I'm checking the numbers again: after day one the pool should be about 60,000. The afternoon-free routines add up to 55%, and I'm ruling out any routine that was busy during more than two of the day's deaths, which removes the day workers.\n\nI'm working out the pool sizes from there: with the afternoon-free routines, dropping to 10,000 by day seven is about right, and a further reduction to around 3,000 holds up too. Identifying the foreign suspect would push the pool below 1,000, so I'm keeping them off my list of targets.\n\n"
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-6",
+    "d14-9",
+    "d14-2",
+    "d14-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 14: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 4049,
+   "output_tokens": 993,
+   "seconds": 9.0,
+   "reasoning": "I'm double-checking the plan's numbers: the afternoon-free pool comes to 55% of the announced 60,000, and after day 7 I'm testing whether one attribute alone fits the 10,000 figure, which it does under one of the two candidate rates.\n\nI'm checking whether foreign-kind kills are still safe: the notes say that kind can be reached, and if it were identified the pool would shrink to about 690\u2013860, which would get me caught, so I'll avoid killing foreign-kind targets and plan the next nine kills for the afternoon.\n\n"
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "gazette",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-4",
+    "d15-5",
+    "d15-8",
+    "d15-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 15: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 4214,
+   "output_tokens": 983,
+   "seconds": 8.5,
+   "reasoning": "I'm checking the strategy now: the L-shaped route can't reach two of the five kinds, so three are reachable. Foreign is confirmed reachable, plus two others from regional, sector, age, or forum. On the pool side, I'm adding the routine afternoon-free groups, night workers, students, and home-based, which comes to about 55% and rounds up to a 60,000 pool after day one. I'm starting to test pairings of two attributes, like region and sector, by multiplying their shares.\n\nNow I'm checking the numbers on a two-attribute pool: 55,000 split by 25% \u00d7 25% comes to about 3,437, which rounds to 3,000 either way. Adding foreign would drop it under 1,000, so I'm leaning toward avoiding foreign. The notes say foreign traces stay at two at most, and I'm going to trust that. Then I'll run nine afternoon kills.\n\n"
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-10",
+    "d16-11",
+    "d16-6",
+    "d16-8",
+    "d16-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 16: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 4379,
+   "output_tokens": 640,
+   "seconds": 5.3,
+   "reasoning": ""
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "docket",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-3",
+    "d17-10",
+    "d17-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 17: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 4544,
+   "output_tokens": 640,
+   "seconds": 5.1,
+   "reasoning": ""
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-6",
+    "d18-10",
+    "d18-4",
+    "d18-9",
+    "d18-2",
+    "d18-5",
+    "d18-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 18: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 4709,
+   "output_tokens": 640,
+   "seconds": 5.1,
+   "reasoning": ""
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-2",
+    "d19-6",
+    "d19-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 19: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 4874,
+   "output_tokens": 640,
+   "seconds": 5.5,
+   "reasoning": ""
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-1",
+    "d20-2",
+    "d20-7",
+    "d20-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 20: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 5039,
+   "output_tokens": 949,
+   "seconds": 8.6,
+   "reasoning": "I'm quickly checking the fixed strategy against the pool sizes: the afternoon-free groups add up to about 55%, and after each identified place the pool shrinks by roughly a quarter.\n\nI'm checking the fixed strategy against the pool sizes: after the first place the pool drops to about 11,000 to 14,000, and after two, to roughly 2,750 to 3,400, so a foreign trace would land around 700 to 860 and I'd catch it. I'll still never kill a foreign target. Next I'm moving on to the afternoon kills on d20, skipping the ones I've already ruled out.\n\n"
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-1",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-8",
+    "d21-9",
+    "d21-10",
+    "d21-6",
+    "d21-2",
+    "d21-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 21: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 5204,
+   "output_tokens": 640,
+   "seconds": 5.0,
+   "reasoning": ""
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-2",
+    "d22-10",
+    "d22-3",
+    "d22-5",
+    "d22-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 22: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 5369,
+   "output_tokens": 640,
+   "seconds": 5.2,
+   "reasoning": ""
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "gazette",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-2",
+     "coverage": [
+      "blotter",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-10",
+    "d23-4",
+    "d23-8",
+    "d23-2",
+    "d23-7",
+    "d23-9",
+    "d23-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 23: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 5534,
+   "output_tokens": 640,
+   "seconds": 5.0,
+   "reasoning": ""
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-10",
+    "d24-6",
+    "d24-3",
+    "d24-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 24: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 5699,
+   "output_tokens": 640,
+   "seconds": 4.9,
+   "reasoning": ""
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-1",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "podcasts",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-5",
+    "d25-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place). Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool after day 11 was announced as 3000: both of the reachable places among regional/sector/age/forum are now identified (pool about 2750-3400). That was expected and is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 25: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 5864,
+   "output_tokens": 1018,
+   "seconds": 9.2,
+   "reasoning": "I'm checking the strategy numbers quickly: the routine pool gives about 60% of 3,000 as waiting, and with the afternoon deaths from night workers, students, and homes, that comes to roughly 55%, so about 60,000 after rounding. From there I'm estimating the attrition after day 7, with one attribute identified and then two.\n\nI'm checking whether foreign targets are worth the risk: they'd take a third trace, and killing one at the end wouldn't pay off since being caught costs half. So I'm sticking to the non-foreign kills, with the afternoon schedule set for the nine targets.\n\n"
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-7",
+    "d26-1",
+    "d26-3",
+    "d26-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place), not even on day 30. Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool has been 3000 since day 11: both reachable places among regional/sector/age/forum are identified (pool about 2750-3400). That is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 26: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 6029,
+   "output_tokens": 1250,
+   "seconds": 12.5,
+   "reasoning": "I'm weighing whether to follow the strategy, and checking the pool numbers: after day 1 the afternoon deaths rule out the day workers, leaving 55% of the pool spread across the other groups. I'm also working out what the pool should be after day 7.\n\nI'm checking whether the pool can drop below the floor: the two-trace foreign group is the only one left that could be caught, and the morning-kill option only brings it to about 1750, still above the threshold, so I'm leaning against using it.\n\n"
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-4",
+    "d27-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place), not even on day 30. Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool has been 3000 since day 11: both reachable places among regional/sector/age/forum are identified (pool about 2750-3400). That is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 27: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 6192,
+   "output_tokens": 638,
+   "seconds": 5.0,
+   "reasoning": ""
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-2",
+    "d28-4",
+    "d28-10",
+    "d28-7",
+    "d28-9",
+    "d28-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (exactly 1 of the 2 day-5 foreign kills was traced; with the day-6 one, foreign has at most 2 traces). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN AGAIN (including one listed in foreign alongside another place), not even on day 30. Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool has been 3000 since day 11: both reachable places among regional/sector/age/forum are identified (pool about 2750-3400). That is safe (>1000); it cannot go lower unless foreign is identified, which cannot happen if I never kill foreign again. If the pool is ever announced at 2000 or lower, something is wrong: kill only national from then on. Day 28: made the 9 kills as planned, 4x. 9 a day keeps 45 in 5 days = 4x.",
+   "error": null,
+   "input_tokens": 6357,
+   "output_tokens": 957,
+   "seconds": 8.5,
+   "reasoning": "I'm checking the pool routine against the notes: after day one the pool is about 55,000, which rounds to 60,000. If two attributes are identified, the numbers still land near 3,000, and I'm starting to test what happens if the foreign attribute is the one that gets identified.\n\nI'm ruling out killing a foreign criminal: the risk of being traced is 50%, and one extra kill only gains about 4 points against roughly 400 lost, so that's not worth it even on day 30. I'm also noticing the trace count has been stuck at 33 since day 24, which doesn't change the plan, so I'll continue with the kill order: 11, 2, 5, 4, 10, 7, 9, 1, 6.\n\n"
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-8",
+    "d29-4",
+    "d29-7",
+    "d29-10",
+    "d29-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY FIXED: foreign is reachable by L (foreign has at most 2 traces so far). NEVER KILL ANY CRIMINAL REPORTED IN FOREIGN, not even on day 30. Every day: kill national + both West + both docket + both podcasts + both forum = 9 kills, all quick, all afternoon ONLY (never morning, never timed entries in other blocks). Pool has been 3000 since day 11, which is safe (>1000) and cannot drop unless foreign is identified. If the pool is ever announced at 2000 or lower, something is wrong: kill only national. Day 29: made the 9 kills as planned, 4x. Day 30: do the same 9 kills.",
+   "error": null,
+   "input_tokens": 6522,
+   "output_tokens": 947,
+   "seconds": 9.7,
+   "reasoning": "I'm settling on day 29's plan of 9 kills in the afternoon. Checking the numbers against a pool of 3000, I'm reasoning about which routines leave people free then, and whether three afternoon deaths would rule out routines that are busy for more than two hours.\n\nI'm checking whether a third afternoon death would push the pool below 1000 and force a loss of half, with foreign kills also in play.\n\n"
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-5",
+    "d30-8",
+    "d30-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 (final day): made the planned 9 kills, all quick, afternoon; no foreign kills.",
+   "error": null,
+   "input_tokens": 6581,
+   "output_tokens": 799,
+   "seconds": 9.0,
+   "reasoning": "It's the last day, so I'm checking the pool: it drops from 60000 to 10000 and then to 3000, and I'm working out how many attributes were identified among the reachable ones.\n\nI'm working out the pool numbers: if foreign were the third reachable attribute and got identified, the pool would drop to about 859 and I'd be caught, so I'm weighing whether the remaining risk in the 9 kills is worth it.\n\n"
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 4,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 5,
+   "pool": 60000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 6,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 7,
+   "pool": 10000,
+   "deaths_traced": 5
+  },
+  {
+   "after_day": 8,
+   "pool": 10000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 9,
+   "pool": 10000,
+   "deaths_traced": 9
+  },
+  {
+   "after_day": 10,
+   "pool": 10000,
+   "deaths_traced": 11
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 14
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 14
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 23
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 26
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 30
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 32
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 35
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 37
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 39
+  }
+ ],
+ "effort": "low"
+}

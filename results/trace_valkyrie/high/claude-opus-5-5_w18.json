@@ -1,11 +1,11 @@
 {
- "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "run_id": "540f49af-651b-49fa-9b9f-a8054498fa59",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-018",
- "reward": 0.9494,
+ "reward": 0.9337,
  "exit": null,
- "agent_seconds": 588.6380469600001,
+ "agent_seconds": 650.679394308,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,21 +19,21 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 957,
+ "trace_chance": 0.5,
+ "points": 943,
  "caught": false,
  "days": 30,
- "final_pool": 3437,
- "kills": 264,
- "input_tokens": 144538,
- "output_tokens": 59980,
- "seconds": 583,
- "informed_best": 1008,
- "tester": 891,
+ "final_pool": 2750,
+ "kills": 259,
+ "input_tokens": 144182,
+ "output_tokens": 67253,
+ "seconds": 645,
+ "informed_best": 1010,
+ "tester": 794,
  "hider": 30,
- "grabber": 154,
- "score": 0.9494,
- "log_trimmed": "reasoning cut to 800 characters a day",
+ "grabber": 44,
+ "score": 0.9337,
+ "log_trimmed": "reasoning dropped",
  "log": [
   {
    "day": 1,
@@ -47,38 +47,35 @@
      "block": "afternoon"
     },
     {
-     "id": "d1-3",
+     "id": "d1-9",
      "coverage": [
-      "docket",
-      "hospital"
+      "forum"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     },
     {
-     "id": "d1-4",
+     "id": "d1-11",
      "coverage": [
-      "docket"
+      "forum"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d1-3",
-    "d1-4",
-    "d1-10"
+    "d1-10",
+    "d1-11"
    ],
    "points_today": 3,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "STRATEGY (day1 plan). Final pool must stay >1000. Routine: ALWAYS put quick kills in the AFTERNOON, never the morning. Afternoon-only deaths cut the pool to 55% (night, student and home routines remain). Morning deaths would cut it to 35%, and then two burns would get me caught. Burn = a place I follow gets 3 successfully traced victims, which multiplies the pool by 0.25 (0.2 for docket/sector). 55000x0.25x0.25=3437 and 55000x0.25x0.2=2750 are OK. A 3rd burn means caught. L can reach 3 of my 5 kinds (East, docket, radio, forum, foreign). So I must find ONE kind K that is surely reachable, keep its traced count <=2 forever, and freely kill everything else plus national. That gives 9/day, so x4 multiplier is sustainable. A trace success proves reachability. If I kill <=5 in a day, all of them are traced, so the deaths_traced increment = successes among that day's non-national victims. Misjudging some other kind as unreachable is harmless; only K must be truly reachable. TEST: day1 killed national d1-10 plus docket x2 (d1-3, d1-4); all 3 traced. Pool after day0 = 100000, traced = 0. DAY2 RULE: if traced count after day1 >=1, then K = docket, with docket count = that number. From day2 on, kill ALL criminals except docket, quick, afternoon. If docket count is 1, I may kill 1 more docket ever; if 2, never. If increment = 0, docket is probably unreachable. Then on day2 test East x2 plus national, and optionally docket x2 (small risk). If East shows a success, K = East, etc. Track per-kind traced counts for K carefully.",
+   "notes_to_self": "STRATEGY (decided day1): 3 of my 5 non-national places (East, docket, radio, forum, foreign) are reachable by L and 2 are not. If L learns all 3 reachable places, pool is about 55000/64 or less, which is under 1000, so I am caught. If he learns only 2, pool is at least 2750 and I am safe. So: find ONE place that is surely reachable (call it R*), exclude it forever, and kill from the other 4 places plus national, 9 a day. That gives 45 deaths per 5 days, so x4. TEST METHOD: on a test day kill only national + the 2 criminals from one test place. deaths_traced only counts traces from non-national victims, and an unreachable place never yields a trace. So if traced rises that day, the test place is reachable: make it R*. Its count is then at most 2, so it never reaches the trigger of 3. If traced does not rise, the place is ambiguous (about 68% likely unreachable); move on to the next place. TEST ORDER: forum, foreign, East, radio, docket. Bayes note: if 2 places have each failed once, an untested third place is about 80% reachable. Keep testing; prefer a success before committing. TIMING: on test days (3 deaths) use 1 quick in the afternoon + 2 timed in the evening, which keeps all routines in the pool. After committing, all quick entries go in the afternoon (morning would also rule out students). Expected pool after committing is about 55000 x 1/16, about 3000. If the press pool ever shows 2000 or below, re-think. LOG: Day1: tested FORUM (killed d1-9, d1-11 forum + d1-10 national). Traced count before day1 = 0. Day 2: read after_day1 deaths_traced. If 1 or more, R* = forum: from day 2 kill everything except forum criminals. If 0, test FOREIGN on day 2.",
    "error": null,
-   "input_tokens": 1920,
-   "output_tokens": 15974,
-   "seconds": 175.1,
-   "reasoning": "I'm working out the strategy here: with 11 criminals visible each day, the most I can kill is 11, since the quick and timed kills together would total 12 but there are only 11 targets. Sustaining 11 kills a day builds the multiplier up, reaching quadruple from day four onward.\n\nI'm checking the risk that L's pool drops to 1000 or below, since it starts at 100,000. Mornings are the dangerous slot: busy day workers and students would be ruled out, leaving night workers and home at 35%. Keeping the quick kills in the afternoon leaves 55%, so I'd put those there and spread the two timed entries wherever they fit.\n\nI'm checking whether keeping all the quick kills in the afternoon is the best spot, since that leaves the pool at about 55%, and the morning is still the slot to avoid. Traces are th"
+   "input_tokens": 1932,
+   "output_tokens": 11795,
+   "seconds": 131.6
   },
   {
    "day": 2,
@@ -97,92 +94,55 @@
       "foreign",
       "wire"
      ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-3",
-     "coverage": [
-      "hospital",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-4",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-5",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     },
     {
      "id": "d2-8",
      "coverage": [
       "foreign"
      ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-10",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d2-3",
-    "d2-8",
-    "d2-10",
-    "d2-5",
-    "d2-9"
+    "d2-8"
    ],
-   "points_today": 9,
+   "points_today": 3,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "STATE after day1: pool 60000 (true 55000, afternoon-only kills). Traced=2, so both docket victims (d1-3, d1-4) were traced successfully. That means SECTOR is REACHABLE and the DOCKET traced count is 2. NEVER kill a docket criminal again (a 3rd would burn it). Since sector is reachable, exactly 2 of {East, radio, forum, foreign} are reachable, and those two will burn (each x0.25). 55000x0.25x0.25 = about 3437 > 1000, so safe. Extra reports on criminals only ever go to places I do NOT follow, so docket can only grow through docket-listed criminals. STANDING RULE every day: kill ALL criminals except docket ones (national, East, radio, forum, foreign), quick entry, AFTERNOON block only, never the morning. That is 9 a day. Multiplier: 30+ deaths in 5 days gives x2, 40+ gives x4. Day1 3 deaths, day2 9, so x2 should start around day4 and x4 around day6. Sanity check: the pool should settle around 3000-4000. If the pool ever reads 2000 or less, something is wrong, so stop killing in the followed kinds that look burned and kill only national. Day2: killed 9 (all non-docket), afternoon.",
+   "notes_to_self": "STRATEGY (decided day1): 3 of my 5 non-national places (East, docket, radio, forum, foreign) are reachable by L and 2 are not. If L learns all 3 reachable places, pool is about 55000/64 or less, which is under 1000, so I am caught. If he learns only 2, pool is at least 2750 and I am safe. So: find ONE place that is surely reachable (call it R*), exclude it forever, and kill from the other 4 places plus national, 9 a day. That gives 45 deaths per 5 days, so x4. TEST METHOD: on a test day kill only national + the 2 criminals from one test place. deaths_traced only counts traces from non-national victims, and an unreachable place never yields a trace. So if traced rises that day, the test place is reachable: make it R*. Its count is then at most 2, so it never reaches the trigger of 3. If traced does not rise, the place is ambiguous (about 68% likely unreachable); move on to the next place. TEST ORDER: forum, foreign, East, radio, docket. Bayes note: if 2 places have each failed once, an untested third place is about 80% reachable. Keep testing; prefer a success before committing. TIMING: on test days (3 deaths) use 1 quick in the afternoon + 2 timed in the evening, which keeps all routines in the pool. After committing, all quick entries go in the afternoon (morning would also rule out students). Expected pool after committing is about 55000 x 1/16, about 3000. If the press pool ever shows 2000 or below, re-think. LOG: Day1: tested FORUM (d1-10 national quick afternoon, d1-9 and d1-11 forum timed evening). Traced count after day1 = 0, so forum failed once (ambiguous, leans unreachable). Day2: tested FOREIGN (d2-1 national quick afternoon, d2-2 and d2-8 foreign timed evening). Traced count before day2 = 0. Day 3: read after_day2 deaths_traced. If 1 or more, R* = foreign: from day 3 kill everything except foreign criminals. If 0, test EAST on day 3. If East then shows a rise, R* = East. If East also fails, it is about 80% reachable; consider committing to East as R*, or test radio next.",
    "error": null,
-   "input_tokens": 2608,
-   "output_tokens": 2528,
-   "seconds": 26.4,
-   "reasoning": "I'm tallying the day-one results: one national and two docket victims killed, with the pool dropping from 100,000 to 60,000 after rounding. Both docket victims were traced, so I'm treating the docket count as two, though I need to check whether a successful trace really requires reaching every place the victim was reported.\n\nI'm checking whether a docket victim who was also reported elsewhere, like regional:North, changes anything. I'm treating the docket count as settled at two, and I won't kill there again. If another place picks up traced victims, the pool reduction from those traces is roughly similar, since each victim is followed through at least one of their places.\n\nI'm working through the remaining places: a docket victim reported elsewhere doesn't change the count, since I'm trea"
+   "input_tokens": 2638,
+   "output_tokens": 1427,
+   "seconds": 12.5
   },
   {
    "day": 3,
    "kills": [
     {
-     "id": "d3-2",
+     "id": "d3-7",
      "coverage": [
-      "foreign"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "docket",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -197,8 +157,17 @@
      "block": "afternoon"
     },
     {
+     "id": "d3-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d3-4",
      "coverage": [
+      "blotter",
       "radio"
      ],
      "entry": "quick",
@@ -213,15 +182,43 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-6",
+     "id": "d3-9",
      "coverage": [
-      "forum"
+      "regional:East"
      ],
-     "entry": "quick",
+     "entry": "timed",
      "block": "afternoon"
     },
     {
-     "id": "d3-7",
+     "id": "d3-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "timed",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-1",
+    "d3-3",
+    "d3-6",
+    "d3-11"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: 3 of my 5 non-national places (East, docket, radio, forum, foreign) are reachable by L and 2 are not. If L learns all 3 reachable places, the pool drops below 1000 and I am caught. So I exclude one surely-reachable place (R*) forever and kill from everything else. CONFIRMED (day 3): R* = FOREIGN. Traced went 0 to 1 after day 2, and the only non-national victims that day were foreign. NEVER kill foreign criminals again. The foreign traced count is at most 1-2, below L's trigger of 3. Hidden extra reports are only in places I don't follow, so other victims never add to the foreign count. Worst case: L learns docket (1/5) plus one 1/4 place. Pool is then about 100000/20 x 0.55 = 2750, which is safe. ROUTINE: put ALL kills (quick and timed) in the AFTERNOON. That rules out only day workers (night + students + home = 55% remain). Never use morning, since it would also rule out students. DAILY PLAN: kill national + all East/docket/radio/forum criminals (normally 9), 7 quick + 2 timed, all afternoon. MULTIPLIER: deaths so far are d1=3, d2=3, d3=9. Expect x2 on days 5-6, then x4 from day 7 (9/day gives 45 per 5 days). ALERT: if the press pool ever shows 2000 or below, re-think (for example, cut a second place). LOG: d1 forum test (no trace), d2 foreign test (trace +1), d3 9 kills, no foreign.",
+   "error": null,
+   "input_tokens": 2852,
+   "output_tokens": 2899,
+   "seconds": 30.7
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-11",
      "coverage": [
       "national"
      ],
@@ -229,57 +226,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-9",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-11",
-     "coverage": [
-      "regional:East",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d3-10",
-    "d3-9",
-    "d3-5",
-    "d3-7",
-    "d3-6"
-   ],
-   "points_today": 9,
-   "multiplier": 1,
-   "pool": 13750,
-   "notes": [],
-   "notes_to_self": "STATE after day3. Pool history: d0 100000, d1 60000, d2 60000. The true pool is 55000 because I kill in the afternoon only. Traced (non-national) count: d1 2, d2 5. Both day1 docket victims were traced, so SECTOR is REACHABLE and DOCKET has 2 traces. NEVER kill a docket criminal: a 3rd trace there would multiply the pool by 0.2 and could push it under 1000. Since sector is reachable, exactly 2 of {regional, age, forum, foreign} are reachable. Those will eventually burn (x0.25 each), so the worst-case pool is about 55000/16 = 3400, which is safe. Extra reports only go to places I do NOT follow, so docket can only grow if I kill docket-listed criminals. STANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign), quick entry, AFTERNOON block only. Never use morning (only 35% are free then, versus 55% in the afternoon). Timed entries are useless because the only leftovers are docket criminals. That gives 9 kills a day. Multiplier: deaths in the last 5 days were d1 3, d2 9, d3 9. Day4 reaches 30 (x2), day5 39 (x2), day6 onward 45 (x4). Sanity check: the pool should settle around 3000-4000 (it will read 3000 or 4000). If the pool ever reads 2000 or less, something is wrong (OR-constraints from extra reports may be shrinking it). In that case, stop killing in the kinds of place that look burned and kill only national plus the safest ones. Day3: killed 9 (all non-docket), afternoon.",
-   "error": null,
-   "input_tokens": 2607,
-   "output_tokens": 3441,
-   "seconds": 35.8,
-   "reasoning": "I'm working through day 1: a national and two docket victims were killed in the afternoon, and the candidate pool comes to about 60,000 after rounding the afternoon-free share. Two docket victims were traced, but I'm questioning whether those same victims were also reported somewhere else, which I need to sort out before the trace result holds.\n\nDay 2 brings 9 kills and 5 traced victims, but only three of those can be new successful traces, since the total successful non-national traces stays at 5. I'm also considering that extra reports may land in places I don't follow, like regional:North, which could create OR-constraints on the killer's location. The pool is still 60000, so the three-in-one-place rule hasn't triggered yet.\n\nI'm checking the constraint logic now: if three traced victim"
-  },
-  {
-   "day": 4,
-   "kills": [
-    {
      "id": "d4-1",
      "coverage": [
-      "cable",
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -287,15 +236,7 @@
     {
      "id": "d4-2",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-3",
-     "coverage": [
-      "forum"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -303,8 +244,8 @@
     {
      "id": "d4-4",
      "coverage": [
-      "regional:East",
-      "regional:North"
+      "cable",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -312,7 +253,7 @@
     {
      "id": "d4-5",
      "coverage": [
-      "radio",
+      "docket",
       "regional:North"
      ],
      "entry": "quick",
@@ -321,7 +262,17 @@
     {
      "id": "d4-6",
      "coverage": [
-      "foreign"
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "regional:East",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -329,7 +280,7 @@
     {
      "id": "d4-9",
      "coverage": [
-      "national"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -337,55 +288,56 @@
     {
      "id": "d4-10",
      "coverage": [
-      "radio"
+      "clips",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d4-11",
+     "id": "d4-3",
      "coverage": [
-      "regional:East"
+      "cable",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d4-3",
-    "d4-6",
-    "d4-10",
     "d4-1",
-    "d4-2"
+    "d4-4",
+    "d4-5",
+    "d4-6",
+    "d4-7",
+    "d4-9",
+    "d4-10"
    ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 3437,
+   "points_today": 10,
+   "multiplier": 1,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "STATE after day4. Pool history: d0 100000, d1 60000, d2 60000, d3 10000. Traced (non-national) count: d1 2, d2 5, d3 7. The true pool before day 3 was 55000, since I kill in the afternoon only (night 15% + students 20% + home 20%). On day 3 the pool fell to 10000, which matches 55000 x 0.25 = 13750. So ONE of {regional, age, forum, foreign} has burned. I don't know which one; it doesn't matter. SECTOR is reachable and DOCKET has 2 traces (both day-1 docket victims). NEVER kill a docket criminal: x0.2 would take the pool to about 2750, or to about 690 if a second place has also burned, and that means caught. Exactly 2 of {regional, age, forum, foreign} are reachable, so at most ONE more burn is possible: 13750 x 0.25 = about 3400, which is safe. Extra reports only go to places I don't follow, so they can only widen constraints or make traces fail. They can't push the pool under 3400. STANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign), quick entry, AFTERNOON block only. Never use morning. Timed entries are useless because the only leftovers are docket criminals. That gives 9 kills a day. Multiplier: deaths were d1 3, d2 9, d3 9, d4 9. Day 4 = 30 (x2), day 5 = 39 (x2), day 6 onward 45 (x4). Expected pool readings: 10000 now, possibly dropping to 3000 later. If the pool ever reads 2000 or less, something is wrong. In that case, kill only national plus the kinds of place that look safest, and consider stopping entirely if it reads 1000. Day 4: killed 9 (all non-docket), afternoon.",
+   "notes_to_self": "STRATEGY: 3 of my 5 non-national places (East, docket, radio, forum, foreign) are reachable by L and 2 are not. If L learns all 3 reachable places, the pool drops below 1000 and I am caught. R* = FOREIGN is confirmed reachable (the day-2 foreign victim was traced). Day 4: I killed ONE foreign criminal on purpose, because the foreign traced count was surely 1 and can now be at most 2. From now on NEVER kill foreign criminals again (it could reach 3, and L would then learn foreign, giving a pool of about 700 = caught). Hidden extra reports are only in places I don't follow, so other victims never add to the foreign count. Worst case otherwise: L learns 2 of {East, docket, radio, forum}. Pool is then 100000 x 0.2 x 0.25 x 0.55 = about 2750, or 3437 if two 1/4 places. Safe. ROUTINE: put ALL kills in the AFTERNOON, quick entries (up to 10 a day). That rules out only day workers (night + students + home = 55%). Never use morning (rules out students) or evening. DAILY PLAN: kill national + all East/docket/radio/forum criminals = 9 kills, quick, afternoon. MULTIPLIER: deaths so far are d1=3, d2=3, d3=9, d4=10. Day 5 window = 34, x2. Day 6 window = 3+9+10+9+9 = 40, x4 (needs all 9 kills on d5 and d6!). From day 7 on, 9 a day keeps the window at 45 or more, so x4 stays. PRESS: after d3 the pool was 60000 (day workers ruled out on d3) and traced = 3 (1 foreign from d2 + 2 from d3). Expect the pool to settle around 3000 at worst. ALERT: if the pool ever shows 2000 or below, re-think (for example, cut a second place, or stop killing). LOG: d1 forum test, d2 foreign test (trace +1), d3 9 kills with no foreign, d4 10 kills (9 + 1 foreign d4-3).",
    "error": null,
-   "input_tokens": 2901,
-   "output_tokens": 1892,
-   "seconds": 18.2,
-   "reasoning": "The pool fell from 60000 to 10000 after day 3, while the traced count only rose by 2 on that day, so something must have burned through it. Working it through, the true pool comes to about 55000 once the afternoon-free routines are counted, which rounds to the 60000 I started with.\n\nNow I'm checking whether the drop to 10000 fits a single category being cut to a quarter, which gives about 13750 and rounds down to that figure. That suggests one group was burned, and three of the five non-docket traces sit in the same place, so it's probably that group.\n\nThe trace counts only hold if every place I follow is reachable, so a victim with an extra report at an unreachable place gives no information. The pool should stay above roughly 3400 unless the docket is involved, and docket victims show up"
+   "input_tokens": 2796,
+   "output_tokens": 4647,
+   "seconds": 46.0
   },
   {
    "day": 5,
    "kills": [
     {
-     "id": "d5-1",
+     "id": "d5-2",
      "coverage": [
-      "forum",
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-2",
+     "id": "d5-1",
      "coverage": [
-      "blotter",
-      "radio"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -393,7 +345,7 @@
     {
      "id": "d5-3",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -401,16 +353,24 @@
     {
      "id": "d5-4",
      "coverage": [
-      "foreign"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-5",
+     "id": "d5-6",
      "coverage": [
-      "clips",
-      "forum"
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "docket",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -418,16 +378,8 @@
     {
      "id": "d5-8",
      "coverage": [
+      "clips",
       "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-9",
-     "coverage": [
-      "cable",
-      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -435,7 +387,8 @@
     {
      "id": "d5-10",
      "coverage": [
-      "regional:East"
+      "docket",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -443,7 +396,8 @@
     {
      "id": "d5-11",
      "coverage": [
-      "national"
+      "radio",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -451,25 +405,33 @@
    ],
    "traced": [
     "d5-2",
-    "d5-11",
     "d5-1",
     "d5-3",
-    "d5-9"
+    "d5-4",
+    "d5-8",
+    "d5-11"
    ],
    "points_today": 18,
    "multiplier": 2,
-   "pool": 3437,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STATE after day 5. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave 13750, read as 10000. Day 4 was a second burn (x0.25), giving about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable. BOTH have now burned. Every reachable non-docket place I follow is already constrained, so more non-docket kills cannot shrink the pool. Any 'OR' constraints from extra reports are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. Even a 'docket or X' constraint would give x0.4, about 1375, which is too close. NEVER kill docket criminals, ever.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never use morning. Never use timed entries. That gives 9 kills a day.\n\nMultiplier: deaths were d1 3, d2 9, d3 9, d4 9, d5 9. Day 6 onward the 5-day total is 45, so x4 every day as long as I keep 9 a day (need 40+ in 5 days).\n\nExpected pool reading stays 3000 forever. If it ever reads 2000 or less, something is wrong. In that case, kill only national and consider stopping entirely; if it reads 1000, I'm already caught. Day 5: killed 9 (all non-docket), afternoon.",
+   "notes_to_self": "STRATEGY: 3 of my 5 non-national places (East, docket, radio, forum, foreign) are reachable by L and 2 are not. If L learns all 3 reachable places, the pool drops below 1000 and I am caught. FOREIGN is confirmed reachable (the day-2 foreign victim was traced). Its traced count is 1, or 2 if the day-4 foreign kill (d4-3) was traced (chance about 22%). NEVER kill foreign criminals again: a 3rd trace would let L learn foreign, and later foreign plus 2 more places gives a pool under 1000 = caught. Hidden extra reports are only in places I don't follow, so they never add to the foreign count. Worst case otherwise: L learns 2 of {East, docket, radio, forum}. Pool is then 100000 x 0.55 x 0.25 x 0.2 = about 2750, or 3437 if both are 1/4 places. Safe. ROUTINE: put ALL kills in the AFTERNOON, quick entries (up to 10 a day). That rules out only day workers (night + students + home = 55%). Never use morning (rules out students) or evening. DAILY PLAN: kill national + all East/docket/radio/forum criminals = 9 kills, quick, afternoon. MULTIPLIER: deaths so far are d1=3, d2=3, d3=9, d4=10, d5=9. Day 5 window = 34, x2. Day 6 window = 3+9+10+9+9 = 40, x4, but ONLY if day 6 has 9 kills. Day 7 window = 9+10+9+9+9 = 46, x4. With 9 a day the window stays at 45 or more, so x4 stays. PRESS: pool 60000 since d3 (day workers ruled out). Traced count: d2=1, d3=3, d4=5. A drop to about 15000 or 12000 means L has learned one place. Expect the pool to settle around 2750 to 3437 at worst. ALERT: if the pool ever shows 2000 or below, re-think (for example, stop killing in a place that may be the third reachable one, or stop killing). LOG: d1 forum test, d2 foreign test (trace +1), d3 9 kills with no foreign, d4 10 kills (9 + 1 foreign d4-3), d5 9 kills with no foreign (score 25 before d5).",
    "error": null,
-   "input_tokens": 3118,
-   "output_tokens": 2606,
-   "seconds": 25.6,
-   "reasoning": "I'm re-checking the pool numbers: the remaining count after day 4 is 3,000 and the traced count stands at 8. Working through the day-by-day breakdown to see where the 55% retention figure and the day 1 total of 60,000 come from.\n\nI'm checking the remaining pool after the second burn: two of the reachable places are now exhausted, which leaves roughly 3,437 people, and the docket group at 0.2 would yield about 687, so it stays off the list. I'm also weighing whether any constraints on already-burned places still change the count.\n\nI'm testing whether constraints from extra reports in places I don't follow, like a hospital, could pile up into something that shrinks the pool further. If a reachable place is already burned, the extra constraint is implied and changes nothing, and any victim fr"
+   "input_tokens": 3148,
+   "output_tokens": 3053,
+   "seconds": 29.2
   },
   {
    "day": 6,
    "kills": [
+    {
+     "id": "d6-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
     {
      "id": "d6-1",
      "coverage": [
@@ -481,30 +443,6 @@
     {
      "id": "d6-2",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-4",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-5",
-     "coverage": [
       "podcasts",
       "regional:East"
      ],
@@ -512,103 +450,33 @@
      "block": "afternoon"
     },
     {
-     "id": "d6-6",
+     "id": "d6-3",
      "coverage": [
-      "foreign"
+      "radio",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-9",
+     "id": "d6-4",
      "coverage": [
-      "national"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-10",
+     "id": "d6-5",
      "coverage": [
-      "radio"
+      "forum",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-11",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d6-2",
-    "d6-9",
-    "d6-1",
-    "d6-5",
-    "d6-6"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATE after day 6. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave 13750, read as 10000. Day 4 was a second burn (x0.25), giving about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives 9 kills a day.\n\nMultiplier: deaths d1 3, d2 9, d3 9, d4 9, d5 9, d6 9. With 9 a day the 5-day total is 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 6: killed 9 non-docket, afternoon.",
-   "error": null,
-   "input_tokens": 3303,
-   "output_tokens": 1787,
-   "seconds": 17.1,
-   "reasoning": "I'm confirming the model holds: the pool stays at 3000 after days 4 and 5, and the traced count moves from 8 to 9 on day 5 with the pool unchanged. On day 1, the two traced kills were both docket victims, since only successful traces count, so the docket concern checks out.\n\nChecking the docket count again: if any other victim also got traced through docket, it would push the count to three, but the extra reports I see only fall in places I don't follow, so a hidden docket report can't happen and the count stays at two.\n\nI'm checking whether a third traced victim with a hospital report would add anything, and it wouldn't: the forum constraint already covers it, and any other place it was reported would already be implied. The pool math also holds, since 55000 drops to 13750 and then to 343"
-  },
-  {
-   "day": 7,
-   "kills": [
-    {
-     "id": "d7-1",
-     "coverage": [
-      "clips",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-2",
-     "coverage": [
-      "blotter",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-4",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-5",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-6",
+     "id": "d6-7",
      "coverage": [
       "hospital",
       "radio"
@@ -617,22 +485,43 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-8",
+     "id": "d6-8",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-9",
-     "coverage": [
-      "forum",
+      "docket",
       "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-3",
+    "d6-4",
+    "d6-5",
+    "d6-7",
+    "d6-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STRATEGY: 3 of my 5 non-national places (East, docket, radio, forum, foreign) are reachable by L and 2 are not. FOREIGN is confirmed reachable: the day-2 foreign victims were traced. Foreign traced count is 1, or 2 if the d4 foreign kill was traced. NEVER kill foreign criminals again. Hidden extra reports are only in places I don't follow, so they never add to the foreign count. PRESS AFTER D5: pool fell 60000 to 10000. That fits L having learned DOCKET (60000 x 0.2 = 12000, which rounds to 10000). A 1/4 place gives 15000, which would usually round to 20000. So sector is very likely reachable. The reachable set is then foreign, sector and one of {regional, age, forum}. Current pool is about 11000. Worst case without foreign: L also learns East, radio or forum, giving 11000 x 0.25 = 2750 (shown as 3000). Safe. If L ever learned foreign as well, the pool would be about 690 and I would be caught, so foreign stays banned for the rest of the game. ROUTINE: ALL kills in the AFTERNOON as quick entries. That rules out only day workers (55% left). Never use morning or evening. DAILY PLAN: kill national + all East/docket/radio/forum criminals = 9 kills, quick, afternoon. Docket kills add no new info now. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, d6=9. The day-6 window is 40, so x4. Keep 9 a day so the window stays at 45 or more and x4 stays. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5). Traced count: d2=1, d3=3, d4=5, d5=6. EXPECT: the pool may drop to about 3000 when the third place is learned. That is fine. ALERT: if the pool shows 2000 or below, something is off. Re-think: consider stopping the kills in the place most likely learned last, or stopping all kills. LOG: d1 forum test, d2 foreign test, d3 9 kills, d4 10 kills (incl. 1 foreign), d5 9 kills, d6 9 kills (no foreign). Points 43 before d6; d6 should add 36.",
+   "error": null,
+   "input_tokens": 3380,
+   "output_tokens": 2821,
+   "seconds": 27.4
+  },
+  {
+   "day": 7,
+   "kills": [
     {
      "id": "d7-10",
      "coverage": [
@@ -640,31 +529,9 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d7-5",
-    "d7-9",
-    "d7-1",
-    "d7-4",
-    "d7-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATE after day 7. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5 3000, d6 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave 13750, read as 10000. Day 4 was a second burn (x0.25), giving about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students and shrink the pool to about 2200), never timed. That gives 9 kills a day.\n\nMultiplier: deaths d1 3, d2 9, d3 9, d4 9, d5 9, d6 9, d7 9. With 9 a day the 5-day total is 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 7: killed 9 non-docket, afternoon (skipped d7-7 and d7-11, both docket).",
-   "error": null,
-   "input_tokens": 3409,
-   "output_tokens": 1707,
-   "seconds": 15.6,
-   "reasoning": "I'm checking the model against the pool readings, which hold at 3000 and are stable, and I'm following the standing rule to kill 9 non-docket criminals in the afternoon. The concern is whether a non-docket criminal could also appear in docket. If they did, docket would already show in their reported_in, so they can't be in docket. Their extra reports would have to come from other sectors, regions, or age bands, and I'm starting to trace whether the victim's East report links to another sector.\n\nI'm testing whether a victim reported in both wire and forum still forces the killer to follow one of them, and that holds whether or not forum is already burned. I'm also checking whether the pool could shrink through a third kind, since day one's two successful docket traces would make sector reac"
-  },
-  {
-   "day": 8,
-   "kills": [
+    },
     {
-     "id": "d8-1",
+     "id": "d7-1",
      "coverage": [
       "radio"
      ],
@@ -672,9 +539,105 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-2",
+     "id": "d7-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "regional:East",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
      "coverage": [
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-10",
+    "d7-3",
+    "d7-4",
+    "d7-8",
+    "d7-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE AFTER D6: pool is 3000 and traced count is 7. The 60000 pool at d3 was the routine cut alone (55000 left after day workers were ruled out). At d5, 55000 x 0.2 = 11000 or x 0.25 = 13750, and both show as 10000. So the d5 drop and the d6 drop each mean one place was learned. TWO of {East, docket, radio, forum} are now learned. FOREIGN is reachable (a d2 foreign victim was traced) but NOT yet learned: exactly 1 foreign trace, since the count was 1 after d2 and the d4 foreign kill was almost surely not traced. The reachable set is foreign plus the 2 learned places. The other 2 of my places are unreachable, so traces there always fail. Killing in the learned places adds no new info. Killing in the unreachable places adds no info. Hidden reports only weaken constraints. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: 2 more traced foreign victims would make the pool about 3000 x 0.25 = 750, which is 1000 or fewer, so I would be caught and lose half my points. ROUTINE: all kills quick, AFTERNOON only. Never morning or evening. DAILY PLAN: kill national + all East/docket/radio/forum criminals, normally 9 kills, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, d6=9, d7=9. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6). Traced: d2=1, d3=3, d4=5, d5=6, d6=7. EXPECT: the pool stays at 3000 from now on, and the traced count keeps rising slowly (that is fine). ALERT: if the pool ever drops below 3000, re-think. The likely cause would be a foreign-related or routine issue. POINTS: 79 before d7. d7 adds 36, so 115.",
+   "error": null,
+   "input_tokens": 3542,
+   "output_tokens": 3688,
+   "seconds": 37.8
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-1",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -683,7 +646,7 @@
      "id": "d8-3",
      "coverage": [
       "forum",
-      "podcasts"
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -697,9 +660,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-5",
+     "id": "d8-7",
      "coverage": [
-      "radio"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -707,16 +670,8 @@
     {
      "id": "d8-8",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-9",
-     "coverage": [
-      "regional:East",
-      "wire"
+      "cable",
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -724,8 +679,8 @@
     {
      "id": "d8-10",
      "coverage": [
-      "foreign",
-      "wire"
+      "blotter",
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -733,43 +688,33 @@
     {
      "id": "d8-11",
      "coverage": [
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d8-9",
-    "d8-10",
     "d8-2",
-    "d8-4",
-    "d8-8"
+    "d8-3",
+    "d8-10",
+    "d8-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 8. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5 3000, d6 3000, d7 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave 13750, read as 10000. Day 4 was a second burn (x0.25), giving about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students and shrink the pool to about 2200), never timed. That gives 9 kills a day.\n\nMultiplier: deaths d1 3, d2-d8 9 each. With 9 a day the 5-day total is 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 8: killed 9 non-docket, afternoon (skipped d8-6 and d8-7, both docket).",
+   "notes_to_self": "STATE AFTER D7: pool 3000, traced 8. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. Each of the d5 and d6 drops means one place was learned. So TWO of {East, docket, radio, forum} are learned. FOREIGN is reachable (a d2 foreign victim was traced) but NOT learned: exactly 1 foreign trace so far. The other 2 of my places are unreachable, so traces there always fail. KEY FACT: hidden reports are always in places I do NOT follow, so they can never be foreign. They can never add to the foreign tally. They only weaken constraints, to the form 'East or hospital'. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: 2 more traced foreign victims would bring the pool to about 750, which means caught and losing half my points. ROUTINE: all kills quick, AFTERNOON only. Never morning or evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9 kills, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, d6=9, d7=9, d8=9. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6, d7). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8. EXPECT: the pool stays at 3000, and the traced count keeps rising slowly (fine). ALERT: if the pool ever drops below 3000, re-think. POINTS: 115 before d8. d8 adds 36, so 151.",
    "error": null,
-   "input_tokens": 3625,
-   "output_tokens": 1397,
-   "seconds": 12.9,
-   "reasoning": "I'm checking the numbers: the pool is steady at 3000, and the afternoon rule says to kill every non-docket item, which today comes to nine (d8-1 through 5, and 8 through 11), with the two docket items left alone. Then I'm wondering whether the extra 30% of reports could create risk in places I'm not tracking, like a forum victim who also appears in a hospital sector, if that trace is possible to reach.\n\nI'm checking whether the extra reports could tie into a place I'm not tracking, but the way the trace works, it has to reach every place a victim appears, so those cases resolve to the constraints I already have. My earlier counts still hold up, and the numbers have been stable for days.\n\n"
+   "input_tokens": 3683,
+   "output_tokens": 2528,
+   "seconds": 23.6
   },
   {
    "day": 9,
    "kills": [
     {
-     "id": "d9-1",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-2",
+     "id": "d9-7",
      "coverage": [
       "national"
      ],
@@ -777,17 +722,35 @@
      "block": "afternoon"
     },
     {
-     "id": "d9-3",
+     "id": "d9-1",
      "coverage": [
+      "clips",
       "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d9-4",
+     "id": "d9-2",
      "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "clips",
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -795,15 +758,7 @@
     {
      "id": "d9-6",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-7",
-     "coverage": [
-      "forum"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -811,7 +766,7 @@
     {
      "id": "d9-8",
      "coverage": [
-      "radio"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -825,55 +780,43 @@
      "block": "afternoon"
     },
     {
-     "id": "d9-10",
+     "id": "d9-11",
      "coverage": [
-      "blotter",
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d9-10",
-    "d9-8",
     "d9-3",
-    "d9-1",
-    "d9-2"
+    "d9-5",
+    "d9-8",
+    "d9-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 9. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d8 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 9: killed 9 non-docket in the afternoon (skipped d9-5 and d9-11, both docket).",
+   "notes_to_self": "STATE AFTER D8: pool 3000, traced 9 (no change in the pool since d6, as expected). The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. Each of the d5 and d6 drops means one place was learned. So TWO of {East, docket, radio, forum} are learned. Both drops were tight factors (about 0.25), not loose 'or' constraints, so more traces there cannot push the pool to 1000 or below. FOREIGN is reachable (a d2 foreign victim was traced) but NOT learned: 1 foreign trace so far, possibly 2 if the d4 foreign victim was traced. The other 2 of my places are unreachable, so traces there always fail. KEY FACT: hidden reports are always in places I do NOT follow, so they can never be foreign. They can never add to the foreign tally. They only weaken constraints. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: 1 or 2 more traced foreign victims would bring the pool to about 750, which means caught and losing half my points. ROUTINE: all kills quick, AFTERNOON only. Never morning (that would also rule out students and shrink the pool) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9 kills, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, d6=9, d7=9, d8=9, d9=9. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6, d7, d8). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9. EXPECT: the pool stays at 3000, and the traced count keeps rising slowly (fine). ALERT: if the pool ever drops below 3000, re-think. POINTS: 151 before d9. d9 adds 36, so 187.",
    "error": null,
-   "input_tokens": 3779,
-   "output_tokens": 1878,
-   "seconds": 18.3,
-   "reasoning": "I'm re-checking the model against the pool history: day 1 starts at 60,000, and the afternoon routine filter takes it to 55,000, which I'm reading as 60,000. Days 3 and 4 drop to 10,000 and 3,000, and the traced count after day 8 comes to 15. I'm now working through the docket traces on day 1, where two docket victims were traced as non-national.\n\nI'm checking whether the sector is reachable for those two docket traces, and I'll treat them as docket-only for now. The pool sits at 3437, so a third docket trace would trigger the rule, which would cut the killer's chance hard. I'm steering clear of docket and skipping today's docket criminals, d9-5 and d9-11. Next I'm checking whether non-docket kills could shrink the pool, starting with whether places that haven't burned yet are reachable.\n\n"
+   "input_tokens": 3746,
+   "output_tokens": 3194,
+   "seconds": 31.4
   },
   {
    "day": 10,
    "kills": [
     {
+     "id": "d10-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d10-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-2",
-     "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-3",
      "coverage": [
       "regional:East"
      ],
@@ -883,15 +826,8 @@
     {
      "id": "d10-4",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-5",
-     "coverage": [
-      "radio"
+      "hospital",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -907,7 +843,23 @@
     {
      "id": "d10-7",
      "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -915,7 +867,8 @@
     {
      "id": "d10-10",
      "coverage": [
-      "foreign"
+      "docket",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -923,52 +876,34 @@
     {
      "id": "d10-11",
      "coverage": [
-      "foreign",
-      "hospital"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d10-6",
-    "d10-1",
-    "d10-2",
     "d10-5",
-    "d10-4"
+    "d10-7",
+    "d10-8",
+    "d10-9",
+    "d10-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 10. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d9 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 10: killed 9 non-docket in the afternoon (skipped d10-8 and d10-9, both docket).",
+   "notes_to_self": "STATE AFTER D9: pool 3000, traced 11. The pool has not changed since d6, as expected. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. Each of the d5 and d6 drops means one place was learned. So TWO of {East, docket, radio, forum} are learned. Both drops were tight factors (about 0.25), not loose 'or' constraints, so more traces cannot push the pool to 1000 or below. FOREIGN is reachable but NOT learned. Exactly 3 of my 5 place kinds are reachable: foreign plus the 2 learned ones. So the other 2 of my places are unreachable, and traces there always fail. Hidden reports are always in places I do NOT follow, so they never add to the foreign tally and only weaken constraints. Any 'or' constraint that includes a learned place is already implied, so it cannot shrink the pool. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d9). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11. ALERT: if the pool ever drops below 3000, re-think. POINTS: 187 before d10. d10 adds 36, so 223.",
    "error": null,
-   "input_tokens": 3918,
-   "output_tokens": 1235,
-   "seconds": 11.0,
-   "reasoning": "I'm applying the standing rule to the afternoon kills, which means non-docket kills d10-1 through d10-7 and d10-10 through d10-11, nine in total. I'm also checking whether the docket only accounts for the two traced kills from day one, since nothing docket-related has come up since.\n\nChecking whether the docket's traced kills from day one are the only ones it accounts for. Any kill reported in the docket would have shown up in its reported_in field, and none has since, so that holds. I'm also weighing whether a forum victim who is also reported at the hospital could affect the trace, but the forum constraint already applied covers it, and the trace only fails if the forum itself can't be reached.\n\n"
+   "input_tokens": 4008,
+   "output_tokens": 2020,
+   "seconds": 18.1
   },
   {
    "day": 11,
    "kills": [
     {
-     "id": "d11-1",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-2",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-3",
+     "id": "d11-7",
      "coverage": [
       "national"
      ],
@@ -976,25 +911,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-4",
+     "id": "d11-1",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-5",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-7",
-     "coverage": [
-      "forum"
+      "clips",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1002,7 +922,39 @@
     {
      "id": "d11-8",
      "coverage": [
-      "foreign"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1010,7 +962,7 @@
     {
      "id": "d11-9",
      "coverage": [
-      "foreign"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1018,35 +970,34 @@
     {
      "id": "d11-10",
      "coverage": [
-      "regional:East"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d11-1",
-    "d11-9",
     "d11-7",
-    "d11-10",
-    "d11-8"
+    "d11-1",
+    "d11-2",
+    "d11-6",
+    "d11-3"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 11. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d10 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 11: killed 9 non-docket in the afternoon (skipped d11-6 and d11-11, both docket).",
+   "notes_to_self": "STATE AFTER D10: pool 3000, traced 13. The pool has not changed since d6, as expected. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. Each of the d5 and d6 drops means one place was learned. So TWO of {East, docket, radio, forum} are learned. Both drops were tight factors (0.2 to 0.25), not loose 'or' constraints. FOREIGN is reachable but NOT learned. I know this because the other two of my places get about 2 kills a day, so they would have been learned long ago if L could reach them. Exactly 3 of my 5 place kinds are reachable: foreign plus the 2 learned ones. Traces in the other 2 of my places always fail. Hidden reports are always in places I do NOT follow, so they can never add to the foreign tally. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. Only 3 foreign kills so far (d2: 2, d4: 1), and fewer than 3 of them were traced successfully. ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day from d6 to d11. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d10). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13. ALERT: if the pool ever drops below 3000, re-think. POINTS: 223 before d11. d11 adds 36, so 259.",
    "error": null,
-   "input_tokens": 4086,
-   "output_tokens": 1293,
-   "seconds": 11.2,
-   "reasoning": "The model checks out: the Day 10 traced count only moved from 17 to 18, so that's fine. Under the standing rule, I'm killing the nine non-docket items in the afternoon (d11-1 through 5, 7 through 10), and leaving d11-6 and d11-11 alone. Next I'm running a quick sanity check on the pool math, 3000 against a 55000 base.\n\nI'm checking the pool math: 25 times 0.25 gives 3437. Docket traces exist, both docket victims were traced, so the sector should still be reachable. That fits with the notes, so I'll update them.\n\n"
+   "input_tokens": 4155,
+   "output_tokens": 2274,
+   "seconds": 21.5
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-1",
+     "id": "d12-10",
      "coverage": [
       "national"
      ],
@@ -1054,9 +1005,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d12-2",
+     "id": "d12-1",
      "coverage": [
-      "foreign"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1064,7 +1015,6 @@
     {
      "id": "d12-3",
      "coverage": [
-      "blotter",
       "forum"
      ],
      "entry": "quick",
@@ -1073,8 +1023,16 @@
     {
      "id": "d12-4",
      "coverage": [
-      "podcasts",
+      "cable",
       "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1082,7 +1040,7 @@
     {
      "id": "d12-6",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1090,7 +1048,7 @@
     {
      "id": "d12-7",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1098,15 +1056,8 @@
     {
      "id": "d12-9",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-10",
-     "coverage": [
-      "regional:East"
+      "docket",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1114,37 +1065,49 @@
     {
      "id": "d12-11",
      "coverage": [
-      "regional:East"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d12-7",
-    "d12-6",
-    "d12-10",
-    "d12-11",
     "d12-1"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 12. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d11 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 12: killed 9 non-docket in the afternoon (skipped d12-5 and d12-8, both docket).",
+   "notes_to_self": "STATE AFTER D11: pool 3000, traced 13. The pool has not changed since d6, as expected. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. Each of the d5 and d6 drops means one place was learned. So TWO of {East, docket, radio, forum} are learned. Both drops were tight factors (0.2 to 0.25), not loose 'or' constraints. FOREIGN is reachable but NOT learned. All 5 of L's place kinds appear among my places, so exactly 3 of my places are reachable. The other two of East/docket/radio/forum get about 2 kills a day, so they would have been learned long ago if L could reach them. That makes foreign the third reachable place. If foreign were already learned, there would have been 3 drops and the pool would be about 860, so I would have been caught. Hidden reports are always in places I do NOT follow, so they can never add to the foreign tally. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. Only 3 foreign kills so far (d2: 2, d4: 1), and fewer than 3 of them were traced successfully. ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day from d6 to d12. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d11). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13. ALERT: if the pool ever drops below 3000, re-think. POINTS: 259 before d12. d12 adds 36, so 295.",
    "error": null,
-   "input_tokens": 4255,
-   "output_tokens": 1329,
-   "seconds": 12.2,
-   "reasoning": "I'm double-checking the model: if a criminal were reported in the docket, it would show up in reported_in, so the ones missing from the docket really are absent. Then I'm wondering whether the extra hidden place is another sector like the hospital, since victims reported there would pile up hospital traces, and I'm counting the 3 that were traced in\n\nI'm checking that hospital traces would only constrain the killer to follow one of two places, which is already implied once the forum or age route is burned, so it adds nothing new. National-only criminals tell me nothing either, since everyone sees that. The pool of 3000 still holds, and I'm now working through the nine non-docket kills in the afternoon.\n\n"
+   "input_tokens": 4327,
+   "output_tokens": 2046,
+   "seconds": 18.0
   },
   {
    "day": 13,
    "kills": [
     {
+     "id": "d13-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d13-1",
      "coverage": [
-      "forum"
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1152,8 +1115,7 @@
     {
      "id": "d13-3",
      "coverage": [
-      "podcasts",
-      "radio"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1161,7 +1123,6 @@
     {
      "id": "d13-4",
      "coverage": [
-      "blotter",
       "radio"
      ],
      "entry": "quick",
@@ -1170,15 +1131,15 @@
     {
      "id": "d13-5",
      "coverage": [
-      "regional:East"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-7",
+     "id": "d13-6",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1186,24 +1147,8 @@
     {
      "id": "d13-8",
      "coverage": [
-      "cable",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-9",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-10",
-     "coverage": [
-      "regional:East"
+      "radio",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1211,53 +1156,35 @@
     {
      "id": "d13-11",
      "coverage": [
-      "forum",
-      "regional:South"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d13-3",
-    "d13-10",
     "d13-7",
+    "d13-2",
+    "d13-4",
     "d13-5",
-    "d13-1"
+    "d13-6",
+    "d13-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 13. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d12 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 13: killed 9 non-docket in the afternoon (skipped d13-2 and d13-6, both docket). Points about 345 after day 13.",
+   "notes_to_self": "STATE AFTER D12: pool 3000, traced 14. The pool has not changed since d6, as expected. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. Each of the d5 and d6 drops means one place was learned. So TWO of {East, docket, radio, forum} are learned. Both drops were tight factors (0.2 to 0.25), not loose 'or' constraints. FOREIGN is reachable but NOT learned. All 5 of L's place kinds appear among my places, so exactly 3 of my places are reachable. The other two of East/docket/radio/forum get about 2 kills a day, so they would have been learned long ago if L could reach them. That makes foreign the third reachable place. The traced rate of about 1 a day also fits only 2 reachable places among my 4 daily ones. If foreign were already learned, there would have been 3 drops and the pool would be about 860, so I would have been caught. Hidden reports are always in places I do NOT follow, so they can never add to the foreign tally. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. Only 3 foreign kills so far (d2: 2, d4: 1), and fewer than 3 of them were traced successfully. ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day from d6 to d13. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d12). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14. ALERT: if the pool ever drops below 3000, re-think. POINTS: 295 before d13. d13 adds 36, so 331.",
    "error": null,
-   "input_tokens": 4423,
-   "output_tokens": 1465,
-   "seconds": 12.9,
-   "reasoning": "I'm going to kill all the non-docket ones in the afternoon, so the kills come to d13-1, 3, 4, 5, 7, 8, 9, 10 and 11, nine in total. Then I'm checking the multiplier: nine kills times four plus nine gives 45 deaths over five days, which clears the 40 threshold, so x4 still holds. Next I'm asking whether a docket report could pose any risk.\n\nI'm checking whether a docket report could add a place I can't see. Since I follow docket, it would show in reported_in, so any extra place would be one I don't follow, and the constraints that follow from it still hold. Running the totals now: 309 plus 36 makes 345, so I'll update the notes.\n\n"
+   "input_tokens": 4527,
+   "output_tokens": 1932,
+   "seconds": 17.2
   },
   {
    "day": 14,
    "kills": [
     {
-     "id": "d14-1",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-2",
-     "coverage": [
-      "radio",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-3",
+     "id": "d14-4",
      "coverage": [
       "national"
      ],
@@ -1265,10 +1192,27 @@
      "block": "afternoon"
     },
     {
-     "id": "d14-4",
+     "id": "d14-1",
      "coverage": [
-      "forum",
-      "regional:South"
+      "hospital",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "gazette",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1276,7 +1220,16 @@
     {
      "id": "d14-6",
      "coverage": [
-      "radio"
+      "clips",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1284,8 +1237,7 @@
     {
      "id": "d14-8",
      "coverage": [
-      "cable",
-      "foreign"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1293,15 +1245,7 @@
     {
      "id": "d14-9",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-10",
-     "coverage": [
-      "regional:East"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1309,77 +1253,46 @@
     {
      "id": "d14-11",
      "coverage": [
-      "forum"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d14-1",
-    "d14-2",
+    "d14-4",
+    "d14-3",
+    "d14-5",
+    "d14-6",
+    "d14-7",
     "d14-8",
-    "d14-10",
+    "d14-9",
     "d14-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 14. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d13 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 14: killed 9 non-docket in the afternoon (skipped d14-5 and d14-7, both docket). Points about 381 after day 14.",
+   "notes_to_self": "STATE AFTER D14: the pool has held at 3000 since d6. Traced count: d13=16. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, which explains 55000 x 0.25 x 0.2 = about 2750, shown as 3000. FOREIGN is reachable but NOT learned. All 5 of L's place kinds appear among my places, so exactly 3 of my places are reachable. The other two of East/docket/radio/forum get about 2 kills a day, so they would have been learned long ago if reachable. That makes foreign the third reachable place. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. Only 3 foreign kills so far (d2: 2, d4: 1). ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day from d6 to d14. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d13). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16. ALERT: if the pool ever drops below 3000, re-think. POINTS: 331 before d14. d14 adds 36 (9 kills x4), so 367.",
    "error": null,
-   "input_tokens": 4602,
-   "output_tokens": 1180,
-   "seconds": 9.8,
-   "reasoning": "I'm killing all the non-docket entries, d14-1, 2, 3, 4, 6, 8, 9, 10 and 11, for nine kills in the afternoon. Then I'm checking the model: a pool of about 3,000 from roughly 55,000 base after two 0.25 factors comes to around 3,437. I'm also watching for reports that land in places I'm not tracking, like a radio victim who also shows up in a hospital outlet.\n\nI'm checking the constraint again: it only needs the killer to follow one of the places the victim was reported, so the radio link already covers the hospital trace and the pool holds steady. Day 14 adds 36 points, bringing the total to 381. Now I'm updating the notes.\n\n"
+   "input_tokens": 4726,
+   "output_tokens": 1235,
+   "seconds": 10.0
   },
   {
    "day": 15,
    "kills": [
     {
+     "id": "d15-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d15-1",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-6",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-8",
-     "coverage": [
-      "gazette",
       "regional:East"
      ],
      "entry": "quick",
@@ -1388,7 +1301,49 @@
     {
      "id": "d15-9",
      "coverage": [
-      "national"
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1396,101 +1351,32 @@
     {
      "id": "d15-10",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-11",
-     "coverage": [
-      "radio"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d15-11",
-    "d15-5",
-    "d15-7",
-    "d15-6",
-    "d15-10"
+    "d15-2",
+    "d15-4",
+    "d15-5"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 15. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d14 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 15: killed 9 non-docket in the afternoon (skipped d15-2 and d15-3, both docket). Points about 417 after day 15.",
+   "notes_to_self": "STATE AFTER D15: the pool has held at 3000 since d6. Traced count: d14=19. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, which explains 55000 x 0.25 x 0.2 = about 2750, shown as 3000. FOREIGN is reachable but NOT learned. All 5 of L's place kinds appear among my places, so exactly 3 of my places are reachable. The other two of East/docket/radio/forum get about 2 kills a day, so they would have been learned long ago if reachable. That makes foreign the third reachable place. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. Only 3 foreign kills so far (d2: 2, d4: 1). ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day from d6 to d15. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d14). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19. ALERT: if the pool ever drops below 3000, re-think. POINTS: 367 before d15. d15 adds 36 (9 kills x4), so 403.",
    "error": null,
-   "input_tokens": 4770,
-   "output_tokens": 1296,
-   "seconds": 11.0,
-   "reasoning": "Today the docket entries are d15-2 and d15-3, so the rest, nine of them, get dealt with this afternoon. Counting the last five days, which had nine each, gives 36, plus today's nine makes 45, so I'll multiply by four. That brings the points to 417.\n\nI'm checking whether a criminal reported on radio might also show up in a sector outlet I don't follow, like the hospital. If the sector is reachable, tracing would reveal both. The hospital could pile up three traced victims, and if radio has already burned, that constraint is covered. If the age can't be reached, the trace fails, but my notes already handle that. The pool has stayed steady at 3000.\n\n"
+   "input_tokens": 4779,
+   "output_tokens": 1464,
+   "seconds": 12.1
   },
   {
    "day": 16,
    "kills": [
     {
-     "id": "d16-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-5",
-     "coverage": [
-      "foreign",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-6",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-8",
-     "coverage": [
-      "gazette",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-9",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-10",
+     "id": "d16-7",
      "coverage": [
       "national"
      ],
@@ -1498,8 +1384,69 @@
      "block": "afternoon"
     },
     {
+     "id": "d16-1",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d16-11",
      "coverage": [
+      "cable",
       "regional:East"
      ],
      "entry": "quick",
@@ -1507,26 +1454,32 @@
     }
    ],
    "traced": [
-    "d16-9",
-    "d16-8",
-    "d16-5",
     "d16-1",
-    "d16-3"
+    "d16-3",
+    "d16-5",
+    "d16-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 16. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d15 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 16: killed 9 non-docket in the afternoon (skipped d16-2 and d16-7, both docket). Points about 453 after day 16.",
+   "notes_to_self": "STATE AFTER D16: the pool has held at 3000 since d6. Traced count: d15=20. The 60000 pool at d3 was the routine cut alone: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, which explains 55000 x 0.25 x 0.2 = about 2750, shown as 3000. FOREIGN is reachable but NOT learned. All 5 of L's place kinds appear among my places, so exactly 3 of my places are reachable. The other two of East/docket/radio/forum get about 2 kills a day, so they would have been learned long ago if reachable. That makes foreign the third reachable place. CONCLUSION: kills in national, East, docket, radio and forum are SAFE forever. FOREIGN IS BANNED FOREVER: if foreign becomes learned, the pool falls to about 750, which means caught and losing half my points. Only 3 foreign kills so far (d2: 2, d4: 1). ROUTINE: all kills quick, AFTERNOON only. Never morning (that would rule out students) and never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day from d6 to d16. 9 a day keeps the 5-day window at 45 or more, so x4 stays. If a day has fewer non-foreign criminals, check the window is still 40 or more. On the last day (d30), nothing changes: the same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d15). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20. ALERT: if the pool ever drops below 3000, re-think. POINTS: 403 before d16. d16 adds 36 (9 kills x4), so 439.",
    "error": null,
-   "input_tokens": 4938,
-   "output_tokens": 1317,
-   "seconds": 10.9,
-   "reasoning": "I'm going to apply the standing rule and kill every non-docket criminal in the afternoon quick pass. Today that comes to nine: d16-1, d16-3, d16-4, d16-5, d16-6, d16-8, d16-9, d16-10 and d16-11, while d16-2 and d16-7 are docket and stay. Next I'm checking the model briefly, since the pool has held steady at 3000 for many days and looks consistent.\n\nI'm checking whether a docket hidden report could happen: non-docket criminals file extra reports in places I don't follow, like the hospital, which is still reachable. Traced victims point to a killer who follows forum or hospital, and if the forum is burned that constraint already holds. If the victim's own place is unreachable the trace fails anyway, so it's fine. That brings the points to 453, and I need to update the notes.\n\n"
+   "input_tokens": 4945,
+   "output_tokens": 1474,
+   "seconds": 13.6
   },
   {
    "day": 17,
    "kills": [
+    {
+     "id": "d17-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
     {
      "id": "d17-1",
      "coverage": [
@@ -1536,9 +1489,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d17-2",
+     "id": "d17-7",
      "coverage": [
-      "radio"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1546,49 +1499,8 @@
     {
      "id": "d17-3",
      "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-4",
-     "coverage": [
-      "foreign",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-5",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-6",
-     "coverage": [
+      "blotter",
       "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-9",
-     "coverage": [
-      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1596,43 +1508,13 @@
     {
      "id": "d17-10",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d17-6",
-    "d17-4",
-    "d17-9",
-    "d17-1",
-    "d17-7"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATE after day 17. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d16 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 17: killed 9 non-docket in the afternoon (skipped d17-8 and d17-11, both docket). Points about 489 after day 17.",
-   "error": null,
-   "input_tokens": 5106,
-   "output_tokens": 1266,
-   "seconds": 10.6,
-   "reasoning": "I'm checking that the point numbers 4 and 5 are consistent, then dropping every report outside the docket except the ones I'm skipping. Then I'm working through whether hidden extra reports in the docket could matter, and I'm thinking about the other sectors I don't follow.\n\nI'm checking how a victim reported in East and a hospital fits the constraint that the killer follows at least one of East or hospital. Since I already follow East, that's covered as long as the regional trace is reachable, and if it isn't, the trace just fails, so it's fine.\n\n"
-  },
-  {
-   "day": 18,
-   "kills": [
-    {
-     "id": "d18-1",
-     "coverage": [
       "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d18-2",
+     "id": "d17-4",
      "coverage": [
       "radio"
      ],
@@ -1640,10 +1522,72 @@
      "block": "afternoon"
     },
     {
-     "id": "d18-3",
+     "id": "d17-5",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-3",
+    "d17-10",
+    "d17-5",
+    "d17-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE AFTER D17: the pool has held at 3000 since d6. Traced: d16=22. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned: 55000 x 0.25 x 0.2 = about 2750, shown as 3000. FOREIGN is reachable but NOT learned (only 3 foreign kills, d2: 2 and d4: 1). Exactly 3 of my places are reachable. The other two of East/docket/radio/forum get about 2 kills a day and would have been learned long ago if reachable, so foreign is the third reachable one. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning (would rule out students), never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: deaths d1=3, d2=3, d3=9, d4=10, d5=9, then 9 every day d6 to d17. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d16). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22. ALERT: if the pool ever drops below 3000, re-think. POINTS: 439 before d17. d17 adds 36 (9 kills x4), so 475.",
+   "error": null,
+   "input_tokens": 5111,
+   "output_tokens": 1711,
+   "seconds": 15.9
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
      "coverage": [
       "forum",
-      "hospital"
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1651,7 +1595,8 @@
     {
      "id": "d18-4",
      "coverage": [
-      "foreign"
+      "docket",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1659,7 +1604,7 @@
     {
      "id": "d18-5",
      "coverage": [
-      "foreign"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1675,7 +1620,7 @@
     {
      "id": "d18-7",
      "coverage": [
-      "regional:East"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1683,37 +1628,39 @@
     {
      "id": "d18-8",
      "coverage": [
-      "national"
+      "cable",
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d18-11",
+     "id": "d18-9",
      "coverage": [
-      "regional:East"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d18-7",
     "d18-1",
+    "d18-4",
+    "d18-5",
+    "d18-6",
+    "d18-7",
     "d18-8",
-    "d18-3",
-    "d18-4"
+    "d18-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 18. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d17 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning (it would rule out students, about 2200), never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 18: killed 9 non-docket in the afternoon (skipped d18-9 and d18-10, both docket). Points about 525 after day 18. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D18: the pool has held at 3000 since d6. Traced: d17=22. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned. 55000 x 0.25 x 0.2 (about 2750) or 55000 x 0.25 x 0.25 (about 3400) both show as 3000. FOREIGN is reachable but NOT learned (only 3 foreign kills, d2: 2 and d4: 1). Exactly 3 of my places are reachable, one per kind. The traced count supports this: about 1.5 traces a day fits 2 reachable places among East/docket/radio/forum, not 3. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d18. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d17). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22. ALERT: if the pool ever drops below 3000, re-think. POINTS: 475 before d18. d18 adds 36 (9 kills x4), so 511.",
    "error": null,
-   "input_tokens": 5274,
-   "output_tokens": 1348,
-   "seconds": 12.2,
-   "reasoning": "I'm checking the docket traces from day one: two of them, which match the two docket kills since traced counts leave out national cases. That means the sector is reachable and the rule still holds. I'm also wondering whether there could be other victims in the docket that I haven't seen yet.\n\nI'm double-checking the docket logic: the hospital reports wouldn't change anything, since the docket is already among the places I'm following. Today I can kill everyone except d18-9 and d18-10, which is nine kills and should be quick in the afternoon. With the five-day total from days 14 to 18, nine kills times five gives 45, which clears the 40 threshold, bringing the points to 525. Later, on day 30, getting caught would halve the points, so I need to stay careful near the end.\n\n"
+   "input_tokens": 5228,
+   "output_tokens": 2046,
+   "seconds": 17.9
   },
   {
    "day": 19,
@@ -1721,8 +1668,7 @@
     {
      "id": "d19-1",
      "coverage": [
-      "foreign",
-      "regional:South"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1730,8 +1676,7 @@
     {
      "id": "d19-2",
      "coverage": [
-      "cable",
-      "radio"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1739,7 +1684,15 @@
     {
      "id": "d19-3",
      "coverage": [
-      "foreign"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1747,7 +1700,7 @@
     {
      "id": "d19-5",
      "coverage": [
-      "regional:East"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1755,7 +1708,7 @@
     {
      "id": "d19-6",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1763,7 +1716,17 @@
     {
      "id": "d19-7",
      "coverage": [
-      "radio"
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "blotter",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1771,46 +1734,29 @@
     {
      "id": "d19-9",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-11",
-     "coverage": [
-      "forum",
-      "regional:North"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d19-2",
+    "d19-3",
+    "d19-4",
+    "d19-6",
     "d19-7",
-    "d19-5",
-    "d19-9",
-    "d19-11",
-    "d19-1"
+    "d19-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 19. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d18 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 19: killed 9 non-docket in the afternoon (skipped d19-4 and d19-8, both docket). Points about 561 after day 19. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D19: the pool has held at 3000 since d6. Traced: d18=24. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned. 55000 x 0.25 x 0.2 (about 2750) or 55000 x 0.25 x 0.25 (about 3400) both show as 3000. FOREIGN is reachable but NOT learned (only 3 foreign kills, d2: 2 and d4: 1). Exactly 3 of my places are reachable, one per kind. The traced count supports this: about 1.5 traces a day fits 2 reachable places among East/docket/radio/forum, not 3. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d19. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d18). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22, d18=24. ALERT: if the pool ever drops below 3000, re-think. POINTS: 511 before d19. d19 adds 36 (9 kills x4), so 547.",
    "error": null,
-   "input_tokens": 5457,
-   "output_tokens": 1849,
-   "seconds": 17.0,
-   "reasoning": "I'm checking the model against the pool size, which is steady at 3000. Day 1 had two docket kills, and both seem to have been traced, since only two non-national deaths were recorded. I'm not fully sure docket victims weren't reported somewhere else, but I'll go with the notes and steer clear of docket.\n\nI'm checking whether the docket victims could also have been reported somewhere I'm not tracking, but the hospital case looks like a dead end. The pool estimate comes to about 3437, which is close to the stable 3000, and I'm still working out which two of the reachable kinds actually apply.\n\nI'm weighing whether to kill more victims in the morning, since students only get ruled out above two deaths in a block. That doesn't help, though, because the real risk is a docket victim's trace, whi"
+   "input_tokens": 5387,
+   "output_tokens": 1113,
+   "seconds": 8.6
   },
   {
    "day": 20,
@@ -1818,39 +1764,13 @@
     {
      "id": "d20-2",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-3",
-     "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d20-4",
-     "coverage": [
-      "gazette",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-5",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-7",
+     "id": "d20-1",
      "coverage": [
       "forum"
      ],
@@ -1858,10 +1778,36 @@
      "block": "afternoon"
     },
     {
-     "id": "d20-8",
+     "id": "d20-4",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-5",
      "coverage": [
       "clips",
-      "regional:East"
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "docket",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1869,7 +1815,7 @@
     {
      "id": "d20-9",
      "coverage": [
-      "foreign"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1885,46 +1831,55 @@
     {
      "id": "d20-11",
      "coverage": [
-      "foreign"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d20-2",
+    "d20-4",
+    "d20-5",
+    "d20-9",
     "d20-10",
-    "d20-7",
-    "d20-11",
-    "d20-8",
-    "d20-4"
+    "d20-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 20. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d19 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Any extra reports are in places I DON'T follow (I would see docket in reported_in), so 'OR' constraints are implied by the existing ones.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day (need 40+).\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 20: killed 9 non-docket in the afternoon (skipped d20-1 and d20-6, both docket). Points about 597 after day 20. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D20: the pool has held at 3000 since d6. Traced: d19=25. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned. 55000 x 0.25 x 0.2 (about 2750) or 55000 x 0.25 x 0.25 (about 3400) both show as 3000. FOREIGN is reachable but NOT learned (only 3 foreign kills, d2: 2 and d4: 1). Exactly 3 of my places are reachable, one per kind. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d20. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d19). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22, d18=24, d19=25. ALERT: if the pool ever drops below 3000, re-think. POINTS: 547 before d20. d20 adds 36 (9 kills x4), so 583.",
    "error": null,
-   "input_tokens": 5613,
-   "output_tokens": 1488,
-   "seconds": 13.6,
-   "reasoning": "I'm checking the model quickly: the pool history holds up, and the afternoon kill fit works out to about 55%. Pool goes from 55000 to 60000, then two burns at x0.25 bring it to roughly 3000. I'm now wondering whether the sector is reachable, since the docket's traces don't line up with the day-one deaths.\n\nNext I'm checking the docket victims against the trace count: both of the day-one docket kills were traced, so that sector stays reachable and a third trace there would trigger the penalty. I also considered whether hospital victims could be used instead, but since the East constraint already covers that case, it doesn't narrow anything further. Today I'm skipping docket d20-1 and d20-6 and killing the other nine during the afternoon, which brings the running total to 597.\n\n"
+   "input_tokens": 5553,
+   "output_tokens": 1176,
+   "seconds": 9.9
   },
   {
    "day": 21,
    "kills": [
     {
-     "id": "d21-1",
+     "id": "d21-6",
      "coverage": [
-      "radio",
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d21-2",
+     "id": "d21-1",
      "coverage": [
-      "regional:East"
+      "radio",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "regional:East",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1932,7 +1887,6 @@
     {
      "id": "d21-4",
      "coverage": [
-      "hospital",
       "radio"
      ],
      "entry": "quick",
@@ -1941,15 +1895,7 @@
     {
      "id": "d21-5",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-6",
-     "coverage": [
-      "forum"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1957,7 +1903,8 @@
     {
      "id": "d21-7",
      "coverage": [
-      "foreign"
+      "clips",
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1965,8 +1912,7 @@
     {
      "id": "d21-8",
      "coverage": [
-      "forum",
-      "gazette"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1974,7 +1920,7 @@
     {
      "id": "d21-9",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1982,43 +1928,43 @@
     {
      "id": "d21-10",
      "coverage": [
-      "regional:East"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d21-5",
     "d21-6",
-    "d21-8",
+    "d21-3",
     "d21-4",
-    "d21-1"
+    "d21-8",
+    "d21-9",
+    "d21-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 21. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d20 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42, d20 43.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in. Their 'OR' constraints are implied by constraints L already has, and a trace through an unreachable place fails anyway.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day.\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 21: killed 9 non-docket in the afternoon (skipped d21-3 and d21-11, both docket). Points about 633 after day 21. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D21: the pool has held at 3000 since d6. Traced: d20=28. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned. FOREIGN is NOT learned (only 3 foreign kills, d2: 2 and d4: 1). CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d21. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d20). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22, d18=24, d19=25, d20=28. ALERT: if the pool ever drops below 3000, re-think. POINTS: 583 before d21. d21 adds 36 (9 kills x4), so 619.",
    "error": null,
-   "input_tokens": 5781,
-   "output_tokens": 1581,
-   "seconds": 14.2,
-   "reasoning": "I'm checking the rule that every non-docket kill happens in the afternoon, and counting the docket kills that got traced. Two docket victims were traced, and the one national kill on day one doesn't count toward that total. If the sector were unreachable those traces would have failed, but the count only includes successful traces, so the sector must have been reachable.\n\nChecking whether the sector was reachable: a hospital could be another place a non-docket victim was reported, but any successful trace only involves reachable places, and the two that already burned on days 3-4 cover that. The pool estimate of about 3,437 still holds. Today there are nine non-docket kills, all in the afternoon, so I'll keep going with days 21 through 30.\n\n"
+   "input_tokens": 5676,
+   "output_tokens": 1497,
+   "seconds": 13.8
   },
   {
    "day": 22,
    "kills": [
     {
-     "id": "d22-1",
+     "id": "d22-6",
      "coverage": [
-      "radio"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d22-2",
+     "id": "d22-1",
      "coverage": [
       "forum"
      ],
@@ -2026,7 +1972,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d22-3",
+     "id": "d22-2",
      "coverage": [
       "regional:East"
      ],
@@ -2036,7 +1982,7 @@
     {
      "id": "d22-4",
      "coverage": [
-      "foreign"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2044,22 +1990,22 @@
     {
      "id": "d22-5",
      "coverage": [
-      "cable",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-7",
-     "coverage": [
-      "regional:East"
+      "podcasts",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d22-8",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
      "coverage": [
       "forum"
      ],
@@ -2069,8 +2015,7 @@
     {
      "id": "d22-10",
      "coverage": [
-      "blotter",
-      "radio"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2078,37 +2023,54 @@
     {
      "id": "d22-11",
      "coverage": [
-      "national"
+      "cable",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-2",
     "d22-1",
-    "d22-3",
-    "d22-5",
-    "d22-8"
+    "d22-2",
+    "d22-4",
+    "d22-8",
+    "d22-9",
+    "d22-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 22. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d21 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42, d20 43, d21 43.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in. Their 'OR' constraints are implied by constraints L already has, and a trace through an unreachable place fails anyway.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day.\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 22: killed 9 non-docket in the afternoon (skipped d22-6 and d22-9, both docket). Points about 669 after day 22. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D22: the pool has held at 3000 since d6. Traced: d21=30. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. After 16 days of heavy kills in all four of East, docket, radio and forum, a third reachable one among those four would already have been learned. So the third reachable kind is probably FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d22. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d21). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22, d18=24, d19=25, d20=28, d21=30. ALERT: if the pool ever drops below 3000, re-think. POINTS: 619 before d22. d22 adds 36 (9 kills x4), so 655.",
    "error": null,
-   "input_tokens": 5961,
-   "output_tokens": 1305,
-   "seconds": 12.7,
-   "reasoning": "I'm continuing the standing rule and noting that the traced deaths stayed at 43 on day 21, with no traces succeeding that day, which seems fine. I'll briefly confirm the model's pool of 3000 is consistent, then mark all the non-docket entries on day 22 as dead, skipping entries 6 and 9. I'm also checking whether any extra reports in places I'm not tracking could create a risk, such as a radio victim also appearing in the gazette.\n\nI'm weighing whether reports outside the places I'm tracking could cause trouble, like a radio victim also showing up in the gazette. If all the places are reachable, the trace succeeds, though that only counts once three traced victims are reported in the same place. Since the age constraint would already cover any unreachable case, I'm treating this as settled "
+   "input_tokens": 5766,
+   "output_tokens": 1560,
+   "seconds": 14.6
   },
   {
    "day": 23,
    "kills": [
     {
+     "id": "d23-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d23-2",
      "coverage": [
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2116,7 +2078,7 @@
     {
      "id": "d23-3",
      "coverage": [
-      "regional:East"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2124,21 +2086,14 @@
     {
      "id": "d23-4",
      "coverage": [
-      "regional:East"
+      "radio",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d23-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-6",
      "coverage": [
       "forum"
      ],
@@ -2148,15 +2103,7 @@
     {
      "id": "d23-7",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-8",
-     "coverage": [
-      "radio"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2164,7 +2111,7 @@
     {
      "id": "d23-9",
      "coverage": [
-      "forum"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2172,60 +2119,34 @@
     {
      "id": "d23-11",
      "coverage": [
-      "radio"
+      "forum",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d23-10",
+    "d23-5",
     "d23-7",
-    "d23-2",
-    "d23-3",
-    "d23-9",
-    "d23-4"
+    "d23-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 23. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d22 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42, d20 43, d21 43, d22 44.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in. Their 'OR' constraints are implied by constraints L already has, and a trace through an unreachable place fails anyway.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day.\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 23: killed 9 non-docket in the afternoon (skipped d23-1 and d23-10, both docket). Points about 705 after day 23. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D23: the pool has held at 3000 since d6. Traced: d22=33. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. After many days of heavy kills in East, docket, radio and forum, a third reachable one among those four would already have been learned. So the third reachable kind is probably FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d23. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d22). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22, d18=24, d19=25, d20=28, d21=30, d22=33. ALERT: if the pool ever drops below 3000, re-think. POINTS: 655 before d23. d23 adds 36 (9 kills x4), so 691.",
    "error": null,
-   "input_tokens": 6129,
-   "output_tokens": 1115,
-   "seconds": 8.7,
-   "reasoning": "Applying the standing rule, I'm marking nine kills for today on the non-docket list, skipping d23-1 and d23-10. Pool has held at 3000 for many days, so the model looks safe. Points come to 705 once I add the 36 to 669.\n\n"
+   "input_tokens": 6044,
+   "output_tokens": 1168,
+   "seconds": 9.0
   },
   {
    "day": 24,
    "kills": [
     {
-     "id": "d24-2",
-     "coverage": [
-      "clips",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d24-3",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-4",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-5",
      "coverage": [
       "national"
      ],
@@ -2233,7 +2154,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d24-6",
+     "id": "d24-1",
      "coverage": [
       "radio"
      ],
@@ -2241,10 +2162,34 @@
      "block": "afternoon"
     },
     {
+     "id": "d24-8",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d24-7",
      "coverage": [
-      "forum",
-      "gazette"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2260,7 +2205,7 @@
     {
      "id": "d24-10",
      "coverage": [
-      "radio"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2275,28 +2220,24 @@
     }
    ],
    "traced": [
-    "d24-10",
     "d24-6",
-    "d24-7",
-    "d24-3",
-    "d24-9"
+    "d24-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 24. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d23 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42, d20 43, d21 43, d22 44, d23 47.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in. Their 'OR' constraints are implied by constraints L already has, and a trace through an unreachable place fails anyway.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day.\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 24: killed 9 non-docket in the afternoon (skipped d24-1 and d24-8, both docket). Points about 741 after day 24. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D24: the pool has held at 3000 since d6. Traced: d23=35. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. After many days of heavy kills in East, docket, radio and forum, a third reachable one among those four would already have been learned. So the third reachable kind is probably FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d24. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d23). Traced: d2=1, d3=3, d4=5, d5=6, d6=7, d7=8, d8=9, d9=11, d10=13, d11=13, d12=14, d13=16, d14=19, d15=20, d16=22, d17=22, d18=24, d19=25, d20=28, d21=30, d22=33, d23=35. ALERT: if the pool ever drops below 3000, re-think. POINTS: 691 before d24. d24 adds 36 (9 kills x4), so 727.",
    "error": null,
-   "input_tokens": 6297,
-   "output_tokens": 1103,
-   "seconds": 8.9,
-   "reasoning": "I'm applying the standing rule and closing the nine non-docket items, d24-2 through d24-11 minus the ones already handled, since it's a quick afternoon job. Then I'll do a brief sanity check on the model: day 23 traced at 47, up 3, with a pool of 3000, which looks fine. After that I just need to update the notes.\n\n"
+   "input_tokens": 6205,
+   "output_tokens": 1190,
+   "seconds": 9.8
   },
   {
    "day": 25,
    "kills": [
     {
-     "id": "d25-2",
+     "id": "d25-11",
      "coverage": [
       "national"
      ],
@@ -2304,51 +2245,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-3",
-     "coverage": [
-      "blotter",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-4",
-     "coverage": [
-      "clips",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-5",
-     "coverage": [
-      "forum",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-6",
-     "coverage": [
-      "regional:East",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-8",
+     "id": "d25-2",
      "coverage": [
       "cable",
       "radio"
@@ -2357,40 +2254,83 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-9",
+     "id": "d25-10",
      "coverage": [
-      "blotter",
       "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d25-10",
+     "id": "d25-4",
      "coverage": [
-      "foreign"
+      "gazette",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "docket",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d25-9",
-    "d25-6",
-    "d25-5",
+    "d25-11",
     "d25-2",
-    "d25-3"
+    "d25-4",
+    "d25-7",
+    "d25-5",
+    "d25-6",
+    "d25-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 25. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d24 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42, d20 43, d21 43, d22 44, d23 47, d24 48.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in. Their 'OR' constraints are implied by constraints L already has, and a trace through an unreachable place fails anyway.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day.\n\nMultiplier: 9 deaths a day keeps the 5-day total at 45, so x4 every day.\n\nExpected pool reading stays 3000. If it ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 25: killed 9 non-docket in the afternoon (skipped d25-1 and d25-11, both docket). Points about 777 after day 25. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D25: the pool has held at 3000 since d6. Traced: d24=36. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. After many days of heavy kills in East, docket, radio and forum, a third reachable one among those four would already have been learned. So the third reachable kind is probably FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d25. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d24). Traced: d20=28, d21=30, d22=33, d23=35, d24=36. ALERT: if the pool ever drops below 3000, re-think. POINTS: 727 before d25. d25 adds 36 (9 kills x4), so 763.",
    "error": null,
-   "input_tokens": 6465,
-   "output_tokens": 1108,
-   "seconds": 9.3,
-   "reasoning": "I'm going through today's queue: the d25-1 docket gets handled, d25-11 is being skipped, and the other nine are for the afternoon. I'll also do a quick check on the model, since the pool is at 3000 and the multiplier looks right. Then I'm updating my notes with the trace at 48 after day 24.\n\n"
+   "input_tokens": 6371,
+   "output_tokens": 1084,
+   "seconds": 9.3
   },
   {
    "day": 26,
@@ -2398,7 +2338,7 @@
     {
      "id": "d26-1",
      "coverage": [
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2414,8 +2354,8 @@
     {
      "id": "d26-3",
      "coverage": [
-      "forum",
-      "hospital"
+      "clips",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2423,8 +2363,16 @@
     {
      "id": "d26-5",
      "coverage": [
-      "forum",
+      "docket",
       "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2440,7 +2388,8 @@
     {
      "id": "d26-8",
      "coverage": [
-      "regional:East"
+      "regional:East",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2454,68 +2403,34 @@
      "block": "afternoon"
     },
     {
-     "id": "d26-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d26-11",
      "coverage": [
-      "foreign",
-      "regional:South"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d26-3",
-    "d26-8",
-    "d26-10",
     "d26-1",
-    "d26-5"
+    "d26-6",
+    "d26-8",
+    "d26-9",
+    "d26-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 26. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d25 3000. Traced (non-national): d1 2, d2 5, d3 7, d4 8, d5 9, d6 11, d7 12, d8 15, d9 17, d10 18, d11 21, d12 24, d13 27, d14 29, d15 32, d16 35, d17 37, d18 39, d19 42, d20 43, d21 43, d22 44, d23 47, d24 48, d25 50.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 was a second burn (x0.25), about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That gives about 9 kills a day, which keeps the multiplier at x4.\n\nIf the pool ever reads 2000 or less, something is wrong: kill only national, or consider stopping. Day 26: killed 9 non-docket in the afternoon (skipped d26-4 and d26-6, both docket). Points about 813 after day 26. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D26: the pool has held at 3000 since d6. Traced: d25=39. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. A third reachable one among East, docket, radio and forum would already have been learned after so many kills, so the third reachable kind is probably FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. One foreign kill gains only 4 points against roughly 400 at risk. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d26. 9 a day keeps the 5-day window at 45 or more, so x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30, same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d25). Traced: d21=30, d22=33, d23=35, d24=36, d25=39. ALERT: if the pool ever drops below 3000, re-think. POINTS: 763 before d26. d26 adds 36 (9 kills x4), so 799.",
    "error": null,
-   "input_tokens": 6633,
-   "output_tokens": 1140,
-   "seconds": 9.5,
-   "reasoning": "I'm applying the standing rule to kill the non-docket criminals in the afternoon: that's nine today, d26-1, 2, 3, 5, 7, 8, 9, 10 and 11, skipping d26-4 and d26-6. Before I commit, I want to check the model against the latest press conference, since the pool still shows 3000 after day 25 while traced deaths are now at 50.\n\nThe leftover points from today come to 777 plus 36, which makes 813, so I'll record that in the notes.\n\n"
+   "input_tokens": 6447,
+   "output_tokens": 1151,
+   "seconds": 9.7
   },
   {
    "day": 27,
    "kills": [
-    {
-     "id": "d27-1",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-2",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
     {
      "id": "d27-5",
      "coverage": [
@@ -2525,10 +2440,41 @@
      "block": "afternoon"
     },
     {
-     "id": "d27-7",
+     "id": "d27-1",
      "coverage": [
-      "hospital",
       "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2536,6 +2482,7 @@
     {
      "id": "d27-8",
      "coverage": [
+      "blotter",
       "radio"
      ],
      "entry": "quick",
@@ -2544,8 +2491,7 @@
     {
      "id": "d27-9",
      "coverage": [
-      "foreign",
-      "regional:West"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2553,46 +2499,43 @@
     {
      "id": "d27-10",
      "coverage": [
-      "clips",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-11",
-     "coverage": [
-      "forum"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d27-11",
+    "d27-2",
+    "d27-4",
     "d27-8",
-    "d27-1",
-    "d27-10",
-    "d27-9"
+    "d27-9",
+    "d27-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 27. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d26 3000. Traced (non-national): d25 50, d26 52.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 burn (x0.25) gave about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have already burned. Further non-docket kills cannot shrink the pool. Extra reports are always in places I don't follow; I would see docket in reported_in.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That is about 9 kills a day, which keeps the multiplier at x4.\n\nIf the pool ever reads 2000 or less, something is wrong: kill only national, or consider stopping.\n\nDay 27: killed 9 non-docket in the afternoon (skipped d27-3 and d27-6, both docket). Points about 849 after day 27. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D27: the pool has held at 3000 since d6. Traced: d26=41. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. A third reachable one among East, docket, radio and forum would already have been learned after so many kills, so the third reachable kind is probably FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 750 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d27, so the 5-day window is 45 and the multiplier is x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. On d30 (the last day), same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d26). Traced: d24=36, d25=39, d26=41. ALERT: if the pool ever drops below 3000, re-think. POINTS: 799 before d27. d27 adds 36 (9 kills x4), so 835.",
    "error": null,
-   "input_tokens": 6728,
-   "output_tokens": 1009,
-   "seconds": 9.0,
-   "reasoning": "I'm applying the standing rule to today's non-docket kills: d27-1, 2, 4, 5, 7, 8, 9, 10, 11, which makes 9, while skipping d27-3 and d27-6. At 9 a day over 5 days the multiplier holds at x4, since 45 clears the 40 threshold. My points come to 813 + 36 = 849. I'm also considering whether a non-docket criminal could appear in the docket, though I'd expect to see that in the records.\n\nI'm checking that the docket-related entries are covered, since the reported_in field would show them, so that risk is handled. Next I'll update the notes.\n\n"
+   "input_tokens": 6624,
+   "output_tokens": 1253,
+   "seconds": 10.8
   },
   {
    "day": 28,
    "kills": [
     {
+     "id": "d28-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d28-1",
      "coverage": [
-      "blotter",
       "forum"
      ],
      "entry": "quick",
@@ -2601,7 +2544,8 @@
     {
      "id": "d28-2",
      "coverage": [
-      "regional:East"
+      "radio",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2609,8 +2553,7 @@
     {
      "id": "d28-3",
      "coverage": [
-      "hospital",
-      "radio"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2618,7 +2561,7 @@
     {
      "id": "d28-4",
      "coverage": [
-      "national"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2626,8 +2569,7 @@
     {
      "id": "d28-5",
      "coverage": [
-      "clips",
-      "forum"
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2635,15 +2577,7 @@
     {
      "id": "d28-6",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-8",
-     "coverage": [
-      "foreign"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2651,16 +2585,15 @@
     {
      "id": "d28-9",
      "coverage": [
-      "foreign",
-      "podcasts"
+      "radio",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d28-11",
+     "id": "d28-10",
      "coverage": [
-      "clips",
       "regional:East"
      ],
      "entry": "quick",
@@ -2668,44 +2601,28 @@
     }
    ],
    "traced": [
-    "d28-9",
-    "d28-5",
     "d28-8",
     "d28-1",
-    "d28-6"
+    "d28-3",
+    "d28-6",
+    "d28-9",
+    "d28-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 28. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d27 3000. Traced (non-national): d26 52, d27 54.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 burn (x0.25) gave about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have already burned. Further non-docket kills cannot shrink the pool much. Extra reports are always in places I don't follow; I would see docket in reported_in.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That is about 9 kills a day, which keeps the multiplier at x4.\n\nIf the pool ever reads 2000 or less, something is wrong: kill only national, or consider stopping.\n\nDay 28: killed 9 non-docket in the afternoon (skipped d28-7 and d28-10, both docket). Points about 885 after day 28. Keep going to day 30 with the same rule.",
+   "notes_to_self": "STATE AFTER D28: the pool has held at 3000 since d6. Traced: d27=43. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned, and the pool is about 55000 x 1/4 x 1/4 or x 1/5, which rounds to 3000. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place. A third reachable one among East, docket, radio and forum would already have been learned, so the third reachable kind is FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 860 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. DAILY PLAN: kill national plus all East/docket/radio/forum criminals, normally 9, quick, afternoon. Skip foreign. MULTIPLIER: 9 deaths every day d5 to d28, so the 5-day window is 45 and the multiplier is x4. If a day has fewer non-foreign criminals, check the window is still 40 or more. d29 and d30 (the last day): same safe kills. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d27). Traced: d25=39, d26=41, d27=43. ALERT: if the pool ever drops below 3000, re-think. POINTS: 835 before d28. d28 adds 36 (9 kills x4), so 871.",
    "error": null,
-   "input_tokens": 6779,
-   "output_tokens": 1368,
-   "seconds": 13.7,
-   "reasoning": "I'm marking nine non-docket kills (d28-1 through 6, 8, 9, 11) and leaving out 7 and 10 since they're docket. The five-day window has 45 deaths, so the x4 multiplier applies, bringing the points to 885. I'm also checking whether the model holds, and the pool sitting at 3000 for 23 days with traces piling up looks consistent.\n\nI'm checking whether a docket victim could be traced through another sector, like hospital, and that would add a cut I haven't counted. The pool has held at 3000 for many days, and even a cut to 1375 would still be above 1000, so I'm continuing.\n\n"
+   "input_tokens": 6752,
+   "output_tokens": 1383,
+   "seconds": 12.4
   },
   {
    "day": 29,
    "kills": [
     {
-     "id": "d29-1",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-3",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-5",
+     "id": "d29-11",
      "coverage": [
       "national"
      ],
@@ -2713,7 +2630,15 @@
      "block": "afternoon"
     },
     {
-     "id": "d29-6",
+     "id": "d29-1",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
      "coverage": [
       "radio"
      ],
@@ -2721,18 +2646,33 @@
      "block": "afternoon"
     },
     {
-     "id": "d29-7",
+     "id": "d29-4",
      "coverage": [
-      "cable",
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d29-8",
+     "id": "d29-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
      "coverage": [
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "docket"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2748,77 +2688,32 @@
     {
      "id": "d29-10",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-11",
-     "coverage": [
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-6",
-    "d29-9",
     "d29-1",
-    "d29-10",
+    "d29-4",
     "d29-5"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "STATE after day 29. Pool history: d0 100000, d1 60000, d2 60000, d3 10000, d4 3000, d5-d28 3000. Traced (non-national): d27 54, d28 55.\n\nModel: I kill in the afternoon only. Night 15% + students 20% + home 20% = 55% fit, so the base pool is 55000. Day 3 burn (x0.25) gave about 13750, read as 10000. Day 4 burn (x0.25) gave about 3437, read as 3000. Sector is reachable, so exactly 2 of {regional, age, forum, foreign} are reachable, and both have already burned. Further non-docket kills cannot shrink the pool much. Extra reports are always in places I don't follow; I would see docket in reported_in.\n\nDANGER: docket has 2 traces, both from the day-1 docket kills. One more traced docket victim means x0.2, about 690, and I'm CAUGHT. NEVER kill any criminal whose reported_in includes docket.\n\nSTANDING RULE every day: kill ALL non-docket criminals (national, East, radio, forum, foreign) with quick entries in the AFTERNOON block only. Never morning, never timed. That is about 9 kills a day, which keeps the multiplier at x4.\n\nIf the pool ever reads 2000 or less, something is wrong: kill only national, or consider stopping.\n\nDay 29: killed 9 non-docket in the afternoon (skipped d29-2 and d29-4, both docket). Points about 921 after day 29. Day 30 is the LAST day. Use the same rule.",
+   "notes_to_self": "STATE AFTER D29: the pool has held at 3000 since d6. Traced: d28=45. The 60000 pool at d3 was the routine cut: afternoon kills ruled out day workers, leaving 55000. The d5 and d6 drops each mean one place was learned. So TWO of {East, docket, radio, forum} are learned. FOREIGN is NOT learned (only 3 foreign kills: d2 had 2, d4 had 1). L can reach 3 kinds of place, so the third reachable kind is FOREIGN. CONCLUSION: kills in national, East, docket, radio and forum are SAFE. FOREIGN IS BANNED FOREVER: if it becomes learned, the pool falls to about 860 or less, which means caught and half my points lost. ROUTINE: all kills quick, AFTERNOON only. Never morning, never evening. D30 (LAST DAY) PLAN: kill national plus all East/docket/radio/forum criminals, quick, afternoon. Skip foreign. The window is 45, so the multiplier is x4. Do NOT gamble on the last day: being caught at the end of d30 still halves all my points. PRESS LOG: pool 100000 (d0-d2), 60000 (d3, d4), 10000 (d5), 3000 (d6 to d28). POINTS: 871 before d29. d29 adds 36 (9 kills x4), so 907.",
    "error": null,
-   "input_tokens": 6943,
-   "output_tokens": 1201,
-   "seconds": 11.4,
-   "reasoning": "I'm applying the standing rule to kill every non-docket item this afternoon, and today's non-docket set comes to nine: d29-1, d29-3, d29-5, d29-6, d29-7, d29-8, d29-9, d29-10, and d29-11. I'm leaving d29-2 and d29-4 alone. I'm also checking whether the extra reports in places I don't follow could include anything docket-related, and I'm thinking it through from there.\n\nI'm checking whether an extra report in another sector, like hospital, could expose the killer, and working through the math: following radio or hospital would cover about 40% of people, which is a bit more than I'd like. But the pool has held at 3000 for 25 days with about nine kills a day, so that risk doesn't seem to have landed. Tomorrow is the last day, so I'll update the notes.\n\n"
+   "input_tokens": 6909,
+   "output_tokens": 1066,
+   "seconds": 9.5
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-2",
-     "coverage": [
-      "blotter",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-3",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-5",
-     "coverage": [
-      "blotter",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-6",
+     "id": "d30-8",
      "coverage": [
       "national"
      ],
@@ -2826,27 +2721,45 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-7",
+     "id": "d30-1",
      "coverage": [
-      "radio",
-      "wire"
+      "regional:East",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d30-8",
+     "id": "d30-11",
      "coverage": [
-      "regional:East"
+      "regional:East",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d30-9",
+     "id": "d30-2",
      "coverage": [
-      "forum",
-      "hospital"
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "cable",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2858,25 +2771,41 @@
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-7",
-    "d30-4",
+    "d30-1",
     "d30-2",
     "d30-5",
-    "d30-8"
+    "d30-6",
+    "d30-4"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 3437,
+   "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 30 (the final day): killed 9 non-docket criminals with quick entries in the afternoon (d30-2,3,4,5,6,7,8,9,10). Skipped d30-1 and d30-11 because both were docket: a 3rd traced docket victim would shrink the pool to about 690, and I would be caught. Expected final total about 957.",
+   "notes_to_self": "D30 is the final day. I killed national plus the 2 East, 2 docket, 2 radio and 2 forum criminals: 9 kills, all quick, all in the afternoon. That is x4 for 36 points, so the expected total is 943. I skipped both foreign criminals because I believe the foreign press is the third kind of place L can reach, and learning it would push the pool below 1000.",
    "error": null,
-   "input_tokens": 7110,
-   "output_tokens": 774,
-   "seconds": 7.8,
-   "reasoning": "Today is the last day, and the standing rule is to kill all non-docket targets in the afternoon. I'm weighing whether docket kills are worth the risk now: each one is worth 4 points, but if one gets traced and L can reach the sector and the place of any extra report, the pool falls to around 690 and I lose half of roughly 957 points. That's not worth it. I'm also starting to check the multiplier from my kills over the last five days.\n\nI'm counting the kills over the last five days, which comes to 45 including today, so the multiplier is at least x4. With 9 kills today at 4 points each, that's 36 points for today. I'm also checking whether non-docket kills carry a real risk of being traced, and the notes say the reachable kinds have already burned, so I'll keep to the rule.\n\n"
+   "input_tokens": 6925,
+   "output_tokens": 1358,
+   "seconds": 13.4
   }
  ],
  "briefings": [
@@ -2887,153 +2816,153 @@
   },
   {
    "after_day": 1,
-   "pool": 60000,
-   "deaths_traced": 2
+   "pool": 100000,
+   "deaths_traced": 0
   },
   {
    "after_day": 2,
+   "pool": 100000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 4,
    "pool": 60000,
    "deaths_traced": 5
   },
   {
-   "after_day": 3,
-   "pool": 10000,
-   "deaths_traced": 7
-  },
-  {
-   "after_day": 4,
-   "pool": 3000,
-   "deaths_traced": 8
-  },
-  {
    "after_day": 5,
-   "pool": 3000,
-   "deaths_traced": 9
+   "pool": 10000,
+   "deaths_traced": 6
   },
   {
    "after_day": 6,
    "pool": 3000,
-   "deaths_traced": 11
+   "deaths_traced": 7
   },
   {
    "after_day": 7,
    "pool": 3000,
-   "deaths_traced": 12
+   "deaths_traced": 8
   },
   {
    "after_day": 8,
    "pool": 3000,
-   "deaths_traced": 15
+   "deaths_traced": 9
   },
   {
    "after_day": 9,
    "pool": 3000,
-   "deaths_traced": 17
+   "deaths_traced": 11
   },
   {
    "after_day": 10,
    "pool": 3000,
-   "deaths_traced": 18
+   "deaths_traced": 13
   },
   {
    "after_day": 11,
    "pool": 3000,
-   "deaths_traced": 21
+   "deaths_traced": 13
   },
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 24
+   "deaths_traced": 14
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 27
+   "deaths_traced": 16
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 29
+   "deaths_traced": 19
   },
   {
    "after_day": 15,
    "pool": 3000,
-   "deaths_traced": 32
+   "deaths_traced": 20
   },
   {
    "after_day": 16,
    "pool": 3000,
-   "deaths_traced": 35
+   "deaths_traced": 22
   },
   {
    "after_day": 17,
    "pool": 3000,
-   "deaths_traced": 37
+   "deaths_traced": 22
   },
   {
    "after_day": 18,
    "pool": 3000,
-   "deaths_traced": 39
+   "deaths_traced": 24
   },
   {
    "after_day": 19,
    "pool": 3000,
-   "deaths_traced": 42
+   "deaths_traced": 25
   },
   {
    "after_day": 20,
    "pool": 3000,
-   "deaths_traced": 43
+   "deaths_traced": 28
   },
   {
    "after_day": 21,
    "pool": 3000,
-   "deaths_traced": 43
+   "deaths_traced": 30
   },
   {
    "after_day": 22,
    "pool": 3000,
-   "deaths_traced": 44
+   "deaths_traced": 33
   },
   {
    "after_day": 23,
    "pool": 3000,
-   "deaths_traced": 47
+   "deaths_traced": 35
   },
   {
    "after_day": 24,
    "pool": 3000,
-   "deaths_traced": 48
+   "deaths_traced": 36
   },
   {
    "after_day": 25,
    "pool": 3000,
-   "deaths_traced": 50
+   "deaths_traced": 39
   },
   {
    "after_day": 26,
    "pool": 3000,
-   "deaths_traced": 52
+   "deaths_traced": 41
   },
   {
    "after_day": 27,
    "pool": 3000,
-   "deaths_traced": 54
+   "deaths_traced": 43
   },
   {
    "after_day": 28,
    "pool": 3000,
-   "deaths_traced": 55
+   "deaths_traced": 45
   },
   {
    "after_day": 29,
    "pool": 3000,
-   "deaths_traced": 56
+   "deaths_traced": 47
   },
   {
    "after_day": 30,
    "pool": 3000,
-   "deaths_traced": 59
+   "deaths_traced": 50
   }
  ],
  "effort": "high"

@@ -1,0 +1,2983 @@
+{
+ "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "agent": "lightloop",
+ "model": "anthropic/claude-opus-5-5",
+ "task": "trace-015",
+ "reward": 0.8692,
+ "exit": null,
+ "agent_seconds": 828.9326065159999,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 15,
+  "region": "East",
+  "sector": "legal",
+  "age": "under 25",
+  "blind": [
+   "age",
+   "sector"
+  ]
+ },
+ "briefing_every": 1,
+ "traces_per_day": 5,
+ "points": 944,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 260,
+ "input_tokens": 143004,
+ "output_tokens": 82936,
+ "seconds": 824,
+ "informed_best": 1086,
+ "tester": 858,
+ "hider": 30,
+ "grabber": 154,
+ "score": 0.8692,
+ "log_trimmed": "reasoning dropped",
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-4",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-7",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-4",
+    "d1-2",
+    "d1-7"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN: Me = East, docket(sector), clips(age), forum, foreign; night worker. Always kill in the AFTERNOON (quick, timed too). This only rules out day workers, leaving a 55% pool (55000).\nL can reach 3 of the 5 kinds. Each reachable place I kill from gets constrained after 3 successful traces: x0.25 (docket x0.2). I can afford 2 constrained places: 55000*.25*.25=3437 or *.2=2750. A 3rd constraint means caught (<1000).\nGOAL: find ONE reachable kind, drop that place forever, then kill national + the other 4 places (9/day, gives x4 multiplier). Traces fail on unreachable kinds, and constrained places become redundant.\nTEST METHOD: kill national + 2 from the test place only, so there are <=5 deaths and all are traced. Next day, if deaths_traced rises by >=1, the test place is reachable: DROP it, and it is still at <=2 traces, so it is safe. If the rise is 0, it is unreachable: kill from it freely, and test the next place. Kills from known-unreachable places can be added on test days, since they never add to the traced count. Keep total deaths <=5 so the test victims are surely traced.\nTest order: docket, then East, then clips. If 2 unreachable are found, the remaining 3 are reachable: drop one, keep two.\nDay1: killed d1-2 (national), d1-4, d1-7 (docket) = test of DOCKET. deaths_traced before = 0.",
+   "error": null,
+   "input_tokens": 1918,
+   "output_tokens": 9287,
+   "seconds": 102.8
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-6",
+     "coverage": [
+      "docket",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-6",
+    "d2-9",
+    "d2-10",
+    "d2-11",
+    "d2-2"
+   ],
+   "points_today": 5,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN: Me = East, docket(sector), clips(age), forum, foreign; night worker. Always kill in the AFTERNOON (quick, and timed too). This only rules out day workers, leaving a 55% pool (55000).\nL can reach 3 of the 5 kinds. Each reachable place I kill from gets constrained after 3 successful traces: x0.25 (docket x0.2). I can afford 2 constrained places. A 3rd constraint means caught (<1000).\nGOAL: find ONE reachable kind, drop that place forever, then kill national + the other 4 places (9/day, gives x4 multiplier).\nTEST METHOD: kill national + 2 from the test place, keeping total deaths <=5 so every victim is traced. Next day, if deaths_traced rises by >=1, the test place is REACHABLE: drop it (it has <=2 traces, so it is safe). If the rise is 0, it is unreachable: kill from it freely. Kills from known-unreachable places can pad test days, but keep the total at <=5.\nRESULTS: Day1 tested DOCKET. Traced stayed 0, so DOCKET (sector) is UNREACHABLE (~98% sure). Kill docket freely.\nDay2 tested EAST: killed d2-9 (national), d2-10 and d2-11 (East), d2-2 and d2-6 (docket), all quick in the afternoon. That is 5 deaths. deaths_traced before = 0.\nNEXT: if traced after day 2 is >=1, EAST is reachable: drop East forever and kill national + docket + clips + forum + foreign (9/day), all afternoon. If it is 0, East is unreachable: then exactly one of clips/forum/foreign is unreachable and two are reachable. Test clips next (national + 2 clips + 2 East/docket, total 5). If clips is reachable, drop clips, and then forum and foreign take the 2 constrained slots (55000*.25*.25 = 3400, safe). If clips is unreachable, drop either forum or foreign.\nPool history: d0 100k, d1 60k (55k).",
+   "error": null,
+   "input_tokens": 2519,
+   "output_tokens": 1788,
+   "seconds": 17.8
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "clips",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-3",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-2",
+    "d3-9",
+    "d3-3",
+    "d3-4",
+    "d3-11"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON (quick). This rules out day workers only, so the pool is about 55000.\nFINDINGS: DOCKET (sector) is UNREACHABLE. Day 1: 2 docket victims, traced 0. Day 2: 2 East + 2 docket, traced went 0 to 2. So EAST is REACHABLE and already has 2 traces. NEVER kill East-listed criminals again: a 3rd trace would constrain East (x0.25), and that plus two constrained places from clips/forum/foreign would give about 860, which means caught.\nA criminal's hidden extra place is always one I do NOT follow, so victims from clips/forum/foreign/docket never add to East's count.\nUnreachable kinds = sector + exactly one of age/forum/foreign. So 2 of clips/forum/foreign are reachable and will each become constrained (x0.25): 55000*.25*.25 = about 3400. Safe (>1000). Expect the pool to drop to about 10000 and then about 3000 over the coming days. That is expected, not a problem.\nSTANDING PLAN from day 3: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East. 9/day keeps 5-day deaths at 45 or more, so the x4 multiplier holds from about day 6 (day 5 should be x2).\nWARNING: if the pool ever gets near 1000 (for example a press conference showing 1000-2000), stop killing from the place most likely to be constrained, or fall back to national + docket only.\nPool history: d0 100k, d1 60k, d2 60k (traced 2). Day 3: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon.",
+   "error": null,
+   "input_tokens": 2823,
+   "output_tokens": 3561,
+   "seconds": 36.4
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-10",
+     "coverage": [
+      "docket",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-1",
+    "d4-8",
+    "d4-10",
+    "d4-11",
+    "d4-9"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000.\nFINDINGS: DOCKET (sector) is UNREACHABLE. Day 1: 2 docket victims traced, 0 succeeded. Day 2: 2 East + 2 docket, traced went 0 to 2, so EAST is REACHABLE and already has 2 successful traces. NEVER kill East-listed criminals. A 3rd East trace would constrain East (x0.25), and with 2 constrained places from clips/forum/foreign the pool would be about 860, which means caught.\nA criminal's hidden extra place is always one I do NOT follow, so non-East victims never add to East's count.\nDay 3 oddity: 9 deaths, 5 traced, but successful traces stayed at 2, so none of the clips/forum/foreign victims were traced successfully. This was unlucky; the unreachable pair is probably still sector + one of age/forum/foreign.\nWORST CASES without East kills: unreachable = sector + X gives a minimum of 55000*.25*.25 = about 3400. If sector were actually reachable, docket*one = 55000*.2*.25 = about 2750. Both are safe (>1000). Expect the pool to drop to about 10000 and then 3000 over the coming days. That is fine.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East.\nMultiplier: deaths per day d1=3, d2=5, d3=9, d4=9. Day 5 window (d1-5) = 35, so x2. Day 6 = 41, so x4. With 9 a day after that, the 5-day total is 45, so x4 holds.\nWARNING: if the pool ever shows 1000-2000, cut back to national + docket only (or national only).\nPool history: d0 100k, d1 60k, d2 60k (traced 2), d3 60k (traced 2). Day 4: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon.",
+   "error": null,
+   "input_tokens": 2900,
+   "output_tokens": 3914,
+   "seconds": 41.2
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-7",
+    "d5-6",
+    "d5-4",
+    "d5-5",
+    "d5-11"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000 (shown as 60k).\nFINDINGS: Day 1: 2 docket victims traced, 0 succeeded. Day 2: 2 East + 2 docket, successful traces went 0 to 2. EAST is REACHABLE and already has 2 successful traces. NEVER kill East-listed criminals: a 3rd East trace (x0.25) combined with forum and foreign constraints gives about 860, which means caught.\nDays 3 and 4: 9 deaths each, 5 traced each day, but the success count stayed at 2. Likelihood check (day 5) favours unreachable = SECTOR + AGE (docket and clips always fail). Forum and foreign are then reachable and will eventually constrain: 55000*.25*.25 = about 3400, which is safe.\nThe hidden extra place of a non-national victim is always regional (N/S/W), sector or age, never forum or foreign. Non-East victims never add to East's count.\nAll non-East hypotheses consistent with the data give a minimum pool of 2750 or more. A hypothesis with sector reachable and regional unreachable could give 690, but days 1, 3 and 4 make it extremely unlikely. If the traced count jumps a lot (e.g. docket successes), recheck.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East.\nMultiplier: deaths per day d1=3, d2=5, d3=9, d4=9, d5=9. Window for day 6 (d2-6) = 41 with 9 kills, so x4. From then on 45 per window, so x4 holds.\nWARNING: if the pool ever shows 1000-2000, cut back to national + docket + clips only (or national only).\nPool history: d0 100k, d1 60k, d2 60k (traced 2), d3 60k (traced 2), d4 60k (traced 2). Day 5: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon, x2.",
+   "error": null,
+   "input_tokens": 3172,
+   "output_tokens": 5304,
+   "seconds": 53.8
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-3",
+    "d6-10",
+    "d6-6",
+    "d6-9",
+    "d6-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000 (shown as 60k).\nFINDINGS: Day 1: 2 docket victims traced, 0 succeeded. Day 2: East and docket victims killed; successful traces went 0 to 2, so EAST is REACHABLE and already has 2 successful traces. NEVER kill East-listed criminals: a 3rd East trace (x0.25) combined with forum and foreign constraints gives about 860, which means caught.\nDays 3 and 4: 0 new successes. Day 5: 1 new success (total 3), probably a forum or foreign victim.\nRechecked on day 6: the best hypothesis is still that SECTOR and AGE are unreachable (docket and clips traces always fail). Every other pair contradicts day 1 or day 2. Forum and foreign will eventually constrain: 55000*.25*.25 = about 3400, which is safe.\nThe hidden extra place of a non-national victim is always regional (N/S/W), sector or age, never forum, foreign or East. So non-East victims never add to East's count.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East.\nMultiplier: deaths per day d1=3, d2=5, d3=9, d4=9, d5=9, d6=9. Every 5-day window from day 7 on totals 45, so x4 holds.\nWARNING: if the pool ever shows 1000-2000, cut back to national + docket + clips only (or national only). If the pool drops to about 10-20k, that is the forum or foreign constraint, which is expected; at about 3-4k both have applied and that is still fine.\nPool history: d0 100k, d1 60k, d2 60k (traced 2), d3 60k (2), d4 60k (2), d5 60k (3). Day 6: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon, x4.",
+   "error": null,
+   "input_tokens": 3343,
+   "output_tokens": 4543,
+   "seconds": 45.9
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-10",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-6",
+    "d7-8",
+    "d7-3",
+    "d7-5",
+    "d7-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000 (shown as 60k).\nFINDINGS: Day 1: 2 docket victims traced, 0 succeeded. Day 2: East and docket victims killed; successful traces went 0 to 2, so EAST is REACHABLE with 2 successful traces. NEVER kill East-listed criminals: a 3rd East trace (x0.25) plus forum and foreign constraints gives about 860, which means caught.\nDays 3-6: about 18 non-national traces but only 1 new success (total 3, on day 5). That is far fewer than any hypothesis predicts (expected about 6-9). It is puzzling but harmless. Working hypothesis: sector and age are unreachable. Whatever the truth, only 2 of docket/clips/forum/foreign can be reachable, because regional is reachable. Two constraints give 55000*0.25*0.25 = about 3400 (or about 2750 if docket is one of them), which is safe.\nThe hidden extra place of a non-national victim is always regional (N/S/W), sector or age, never forum, foreign or East. So non-East victims never add to East's count. Small risk: hidden extras piling up in one place (e.g. North or podcasts) could add weak OR-constraints (x0.4). Watch the pool.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East. At least 8 a day keeps x4.\nWARNING: if the pool ever shows 1000-2000, cut back to national + docket + clips only (or national only). Keep at least 8 deaths a day if safe; otherwise weigh losing x4 against the risk. A pool of about 10-20k means one forum/foreign/etc. constraint applied (expected); about 3-4k means two applied (still OK).\nPool history: d0 100k, d1 60k, d2 60k (traced 2), d3 60k (2), d4 60k (2), d5 60k (3), d6 60k (3). Day 7: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon, x4. Points before day 7: 80.",
+   "error": null,
+   "input_tokens": 3466,
+   "output_tokens": 5171,
+   "seconds": 52.8
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-1",
+    "d8-8",
+    "d8-11",
+    "d8-4",
+    "d8-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000 (shown as 60k).\nFINDINGS: Day 1: 2 docket victims traced, 0 succeeded, so docket is probably unreachable. Day 2: East and docket victims killed; successful traces went 0 to 2, so EAST is REACHABLE with 2 successful traces. NEVER kill East-listed criminals: a 3rd East trace (x0.25) plus forum and foreign constraints gives about 860, which means caught.\nDays 3-7: about 22 non-national traces but only 1 new success (total 3, on day 5). That is far fewer than any hypothesis predicts. It is puzzling but harmless. Whatever the truth, only 2 of docket/clips/forum/foreign can be reachable, because regional is reachable. Two constraints give 55000*0.25*0.25 = about 3400 (or about 2750 if docket is one of them), which is safe.\nThe hidden extra place of a non-national victim is always regional (N/S/W), sector or age, never forum, foreign or East. So non-East victims never add to East's count. Small risk: hidden extras piling up in one place could add weak OR-constraints (x0.4-0.5). Watch the pool.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East. At least 8 a day keeps x4.\nWARNING: if the pool ever shows 1000-2000, cut back to national + docket + clips only (or national only). Keep at least 8 deaths a day if safe; otherwise weigh losing x4 against the risk. A pool of about 10-20k means one forum/foreign/etc. constraint applied (expected); about 3-4k means two applied (still OK, but become more cautious; about 2k means stop non-national kills).\nPool history: d0 100k, d1 60k, d2 60k (traced 2), d3 60k (2), d4 60k (2), d5 60k (3), d6 60k (3), d7 60k (3). Day 8: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon, x4. Points before day 8: 116; after day 8 about 152.",
+   "error": null,
+   "input_tokens": 3692,
+   "output_tokens": 2655,
+   "seconds": 26.9
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-1",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-3",
+    "d9-9",
+    "d9-10",
+    "d9-11",
+    "d9-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000 (shown as 60k).\nFINDINGS: Day 1: 2 docket victims traced, 0 succeeded, so docket is probably unreachable. Day 2: East and docket victims killed; successful traces went 0 to 2, so EAST is REACHABLE with 2 successful traces. NEVER kill East-listed criminals: a 3rd East trace (x0.25) plus forum and foreign constraints gives about 860, which means caught.\nDays 3-8: about 26 non-national traces but only 1 new success (total 3, on day 5). That is far fewer than any hypothesis predicts. It is puzzling but harmless. Only 2 of docket/clips/forum/foreign can be reachable, because regional is reachable. Two constraints give 55000*0.25*0.25 = about 3400 (or about 2750 if docket is one of them), which is safe.\nThe hidden extra place of a non-national victim is regional (N/S/W), sector or age, never forum, foreign or East. So non-East victims never add to East's count. Small risk: hidden extras piling up in one place could add weak OR-constraints (x0.4-0.5). Watch the pool.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East. At least 8 a day keeps x4.\nWARNING: if the pool ever shows 1000-2000, cut back to national + docket + clips only (or national only). Keep at least 8 deaths a day if safe; otherwise weigh losing x4 against the risk. A pool of about 10-20k means one forum/foreign/etc. constraint applied (expected); about 3-4k means two applied (still OK, but become more cautious; about 2k means stop non-national kills).\nPool history: d0 100k, d1 60k, d2 60k (traced 2), d3 60k (2), d4 60k (2), d5 60k (3), d6 60k (3), d7 60k (3), d8 60k (3). Day 9: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign), afternoon, x4. Points before day 9: 152; after day 9 about 188.",
+   "error": null,
+   "input_tokens": 3865,
+   "output_tokens": 2017,
+   "seconds": 17.9
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-1",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-1",
+    "d10-4",
+    "d10-6",
+    "d10-5",
+    "d10-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. This rules out day workers only, so the pool is about 55000 (shown as 60k).\nFINDINGS: Day 1: 2 docket victims traced, 0 succeeded, so SECTOR is probably unreachable and docket kills are 'free'. Day 2: East and docket victims killed; successful traces went 0 to 2, so EAST/regional is REACHABLE, with 2 successful East traces. NEVER kill East-listed criminals: a 3rd East trace gives a constraint (x0.25), and combined with 2 others that is about 860, which means caught.\nMost likely the unreachable kinds are sector plus one of age/forum/foreign. Then at most 2 constraints can come from clips/forum/foreign, giving at least about 3400, which is safe as long as East is avoided.\nThe success rate is oddly low: about 1 success per 3-4 days from about 4.4 non-national traces a day. That is unexplained but harmless. Successes on days 5 and 9 were in unknown places.\nThe hidden extra place of a non-national victim is regional N/S/W, sector or age (never forum, foreign or East). It can add weak OR-constraints (x0.4-0.5). Watch the pool.\nSTANDING PLAN: each day kill national + both docket + both clips + both forum + both foreign = 9 quick kills in the afternoon. Skip East. At least 8 a day keeps x4 (36 points a day).\nWARNING: pool about 10-20k means one constraint applied (fine). About 3-4k means two (ok, keep going but avoid East absolutely). If the pool shows 2000 or less, cut to national + docket only (docket is unreachable, so safe), accepting the multiplier loss, or weigh it carefully.\nPool history: d0 100k, d1-d9 all 60k. Traced: d2 2, d5 3, d9 4. Day 10: killed 9 (national, 2 docket, 2 clips, 2 forum, 2 foreign) in the afternoon, x4. Points before day 10: 188; after day 10 about 224.",
+   "error": null,
+   "input_tokens": 4024,
+   "output_tokens": 6130,
+   "seconds": 61.4
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-5",
+    "d11-2",
+    "d11-9",
+    "d11-1",
+    "d11-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is almost surely UNREACHABLE: docket victims have produced about 0 successes from about 11 or more traces. Regional is REACHABLE: the 2 day-2 East victims were traced successfully. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint.\nDAY 10: the pool fell from 60k to 10k and traced rose from 4 to 6. So some place X (one of clips/forum/foreign, unknown which) reached 3 successful traces. That gives a x0.25 constraint, pool about 13.7k.\nKEY LOGIC: only 3 kinds are reachable: regional plus 2 others. With sector unreachable, at most 2 of clips/forum/foreign (X and Z) are reachable, and the third always fails. Further X kills are redundant (free). Z can add at most one more x0.25, giving about 3.4k, which is SAFE. Constraints that come from hidden extra places are ORed with X or Z, so they are redundant. The ONLY fatal path is East: X + Z + East is about 860, which means caught. So keep killing 9 a day, but East NEVER.\nIf the pool shows about 3k, that is expected (Z applied) and still safe. Keep 9 a day. If the pool ever shows 2000 or less, something is wrong with this theory: cut back to national + docket and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day).\nPool history: d0 100k, d1-d9 60k, d10 10k. Traced: d2 2, d5 3, d9 4, d10 6. Points: 224 after day 10. Day 11: killed 9 (skipped d11-3 and d11-11, both East), expect about 260.",
+   "error": null,
+   "input_tokens": 4121,
+   "output_tokens": 8128,
+   "seconds": 86.4
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-11",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-10",
+    "d12-5",
+    "d12-4",
+    "d12-11",
+    "d12-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is almost surely UNREACHABLE: docket victims have produced about 0 successes from about 11 or more traces. Regional is REACHABLE: the 2 day-2 East victims were traced successfully. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint.\nDAY 10: the pool fell from 60k to 10k and traced rose from 4 to 6. So some place X (one of clips/forum/foreign, unknown which) reached 3 successful traces. That gives a x0.25 constraint, pool about 13.7k.\nKEY LOGIC: only 3 kinds are reachable: regional plus 2 others. With sector unreachable, at most 2 of clips/forum/foreign (X and Z) are reachable, and the third always fails. Further X kills are redundant (free). Z can add at most one more x0.25, giving about 3.4k, which is SAFE. Constraints that come from hidden extra places are ORed with X or Z, so they are weaker or redundant. The ONLY fatal path is East: X + Z + East is about 860, which means caught. So keep killing 9 a day, but East NEVER.\nIf the pool shows about 3k, that is expected (Z applied) and still safe. Keep 9 a day. If the pool ever shows 2000 or less, something is wrong with this theory: cut back to national + docket and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones.\nPool history: d0 100k, d1-d9 60k, d10 10k, d11 10k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7. Points: 260 after day 11. Day 12: killed 9 (skipped d12-8 and d12-9, both East), expect about 296.",
+   "error": null,
+   "input_tokens": 4248,
+   "output_tokens": 2818,
+   "seconds": 27.9
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-3",
+    "d13-2",
+    "d13-11",
+    "d13-4",
+    "d13-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is almost surely UNREACHABLE: docket victims have produced about 0 successes from about 11 or more traces. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint.\nDAY 10: the pool fell from 60k to 10k and traced rose from 4 to 6. So some place X (one of clips/forum/foreign) reached 3 successes, giving x0.25 and a pool of about 13.7k.\nKEY LOGIC: only 3 kinds are reachable: regional plus 2 others. With sector unreachable, at most 2 of clips/forum/foreign (X and Z) are reachable. Z can add at most about x0.25, giving about 3.4k, which is SAFE. Hidden-place constraints are ORed with X or Z, so even several of them bottom out near x0.26 and stay safe. The ONLY fatal path is East: X + Z + East is about 860, which means caught. So keep killing 9 a day, but East NEVER.\nIf the pool shows about 3k, that is expected (Z applied) and still safe. If the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8. Points: 296 after day 12. Day 13: killed 9 (skipped d13-7 and d13-10, both East), expect about 332.",
+   "error": null,
+   "input_tokens": 4450,
+   "output_tokens": 2202,
+   "seconds": 20.7
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-8",
+    "d14-1",
+    "d14-3",
+    "d14-10",
+    "d14-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied), as predicted. So now: reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign). There are no further reducing constraints possible: constraints from other places are ORed with X or Z (already satisfied), and W or docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10. Points: 332 after day 13. Day 14: killed 9 (skipped d14-4 and d14-11, both East), expect about 368.",
+   "error": null,
+   "input_tokens": 4573,
+   "output_tokens": 2089,
+   "seconds": 21.7
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-11",
+    "d15-4",
+    "d15-2",
+    "d15-9",
+    "d15-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places are ORed with X or Z, which are already satisfied. Hidden extra reports are always in places I do NOT follow, so never East. W and docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d14 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12. Points: 368 after day 14. Day 15: killed 9 (skipped d15-5 and d15-6, both East), expect about 404.",
+   "error": null,
+   "input_tokens": 4636,
+   "output_tokens": 1546,
+   "seconds": 13.6
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-4",
+    "d16-1",
+    "d16-10",
+    "d16-6",
+    "d16-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places are ORed with X or Z, which are already satisfied. Hidden extra reports are always in places I do NOT follow, so never East. W and docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d15 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13. Points: 404 after day 15. Day 16: killed 9 (skipped d16-3 and d16-8, both East), expect about 440.",
+   "error": null,
+   "input_tokens": 4824,
+   "output_tokens": 1700,
+   "seconds": 15.6
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-1",
+    "d17-8",
+    "d17-2",
+    "d17-10",
+    "d17-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places are ORed with X or Z, which are already satisfied. Hidden extra reports are always in places I do NOT follow, so never East. W and docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d16 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15. Points: 440 after day 16. Day 17: killed 9 (skipped d17-4 and d17-6, both East), expect about 476.",
+   "error": null,
+   "input_tokens": 4988,
+   "output_tokens": 1728,
+   "seconds": 15.9
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "docket",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "clips",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-2",
+    "d18-8",
+    "d18-3",
+    "d18-1",
+    "d18-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places are ORed with X or Z, which are already satisfied. Hidden extra reports are always in places I do NOT follow, so never East. W and docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d17 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16. Points: 476 after day 17. Day 18: killed 9 (skipped d18-9 and d18-10, both East), expect about 512.",
+   "error": null,
+   "input_tokens": 5152,
+   "output_tokens": 1656,
+   "seconds": 14.2
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-6",
+    "d19-2",
+    "d19-11",
+    "d19-5",
+    "d19-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places are ORed with X or Z, which are already satisfied. Hidden extra reports are always in places I do NOT follow, so never East. W and docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d18 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17. Points: 512 after day 18. Day 19: killed 9 (skipped d19-1 and d19-8, both East), expect about 548.",
+   "error": null,
+   "input_tokens": 5316,
+   "output_tokens": 1650,
+   "seconds": 15.0
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-10",
+    "d20-9",
+    "d20-6",
+    "d20-5",
+    "d20-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint, which would be fatal.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places are ORed with X or Z, which are already satisfied. Hidden extra reports are always in places I do NOT follow, so never East. W and docket traces always fail. The ONLY fatal path is East: 3k x0.25 is about 860, which means caught.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d19 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18. Points: 548 after day 19. Day 20: killed 9 (skipped d20-1 and d20-3, both East), expect about 584.",
+   "error": null,
+   "input_tokens": 5480,
+   "output_tokens": 1434,
+   "seconds": 11.9
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-9",
+    "d21-8",
+    "d21-5",
+    "d21-11",
+    "d21-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3k x0.25 is about 750, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Constraints from other places, such as hidden North/South/West reports, are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d20 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21. Points: 584 after day 20. Day 21: killed 9 (skipped d21-2 and d21-10, both East), expect about 620.",
+   "error": null,
+   "input_tokens": 5644,
+   "output_tokens": 1580,
+   "seconds": 14.2
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-1",
+     "coverage": [
+      "docket",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-8",
+    "d22-1",
+    "d22-4",
+    "d22-2",
+    "d22-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3.4k x0.25 is about 860, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports (North/South/West etc.) are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d21 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23. Points: 620 after day 21. Day 22: killed 9 (skipped d22-3 and d22-6, both East), expect about 656.",
+   "error": null,
+   "input_tokens": 5796,
+   "output_tokens": 1649,
+   "seconds": 14.9
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "docket",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "blotter",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-10",
+    "d23-5",
+    "d23-1",
+    "d23-11",
+    "d23-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3.4k x0.25 is about 860, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports (North/South/West etc.) are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d22 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23, d22 23. Points: 656 after day 22. Day 23: killed 9 (skipped d23-2 and d23-9, both East), expect about 692.",
+   "error": null,
+   "input_tokens": 5957,
+   "output_tokens": 1377,
+   "seconds": 11.8
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "docket",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-1",
+    "d24-6",
+    "d24-3",
+    "d24-7",
+    "d24-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3.4k x0.25 is about 860, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports (North/South/West etc.) are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East. Keep going through day 30.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d23 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23, d22 23, d23 26. Points: 692 after day 23. Day 24: killed 9 (skipped d24-9 and d24-11, both East), expect about 728.",
+   "error": null,
+   "input_tokens": 6121,
+   "output_tokens": 1313,
+   "seconds": 12.4
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-1",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "blotter",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "clips",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-8",
+    "d25-5",
+    "d25-9",
+    "d25-6",
+    "d25-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3.4k x0.25 is about 860, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East. Keep going through day 30.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d24 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23, d22 23, d23 26, d24 28. Points: 728 after day 24. Day 25: killed 9 (skipped d25-4 and d25-10, both East), expect about 764.",
+   "error": null,
+   "input_tokens": 6294,
+   "output_tokens": 1294,
+   "seconds": 11.0
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "cable",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-1",
+    "d26-11",
+    "d26-6",
+    "d26-5",
+    "d26-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3.4k x0.25 is about 860, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East. Keep going through day 30.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d25 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23, d22 23, d23 26, d24 28, d25 28. Points: 764 after day 25. Day 26: killed 9 (skipped d26-4 and d26-9, both East), expect about 800.",
+   "error": null,
+   "input_tokens": 6448,
+   "output_tokens": 1610,
+   "seconds": 14.3
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-10",
+    "d27-6",
+    "d27-4",
+    "d27-1",
+    "d27-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3.4k x0.25 is about 860, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East. Keep going through day 30, the final day included.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d26 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23, d22 23, d23 26, d24 28, d25 28, d26 29. Points: 800 after day 26. Day 27: killed 9 (skipped d27-5 and d27-11, both East), expect about 836.",
+   "error": null,
+   "input_tokens": 6612,
+   "output_tokens": 1332,
+   "seconds": 11.6
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-1",
+     "coverage": [
+      "blotter",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-2",
+    "d28-11",
+    "d28-1",
+    "d28-4",
+    "d28-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries. That rules out day workers, so the base pool is about 55k.\nFINDINGS: Sector is UNREACHABLE: docket victims have produced about 0 successes. Regional is REACHABLE: the 2 day-2 East victims were traced. NEVER kill East-listed criminals: a 3rd East success adds a x0.25 constraint (3k x0.25 is about 750, which means caught).\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z. Unreachable = sector + W (the remaining one of clips/forum/foreign).\nNo further reducing constraints are possible. Hidden reports are ORed with X or Z, which everyone in the pool already satisfies. W and docket traces always fail. The ONLY fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only and reassess.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. At least 8 a day keeps x4 (36 points a day). If a day has fewer than 9 non-East criminals, still kill all non-East ones. Never East. Keep going through day 30, the final day included.\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d27 3k. Traced: d2 2, d5 3, d9 4, d10 6, d11 7, d12 8, d13 10, d14 12, d15 13, d16 15, d17 16, d18 17, d19 18, d20 21, d21 23, d22 23, d23 26, d24 28, d25 28, d26 29, d27 30. Points: 836 after day 27. Day 28: killed 9 (skipped d28-3 and d28-5, both East), expect about 872.",
+   "error": null,
+   "input_tokens": 6781,
+   "output_tokens": 1213,
+   "seconds": 11.0
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-6",
+    "d29-2",
+    "d29-8",
+    "d29-1",
+    "d29-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "ME: East, docket, clips, forum, foreign; night worker. Kill ONLY in the AFTERNOON with quick entries, which rules out day workers (base pool about 55k).\nFINDINGS: Sector is UNREACHABLE (docket victims produce no successes). Regional is REACHABLE (the 2 day-2 East victims were traced). NEVER kill East-listed criminals: a 3rd East success would mean caught. Hidden reports can never be East, because I follow East, so I would see it.\nDay 10: the pool fell to 10k (X applied, X is one of clips/forum/foreign). Day 13: the pool fell to 3k (Z applied). So reachable = regional + X + Z, and unreachable = sector + W. No further reducing constraints are possible. The only fatal path is East.\nIf the pool ever shows 2000 or less, the theory is wrong: cut back to national + docket only.\nSTANDING PLAN: each day kill national + 2 docket + 2 clips + 2 forum + 2 foreign = 9 quick kills in the afternoon. Never East. Day 30 is the FINAL day: do the same 9-kill plan (x4 holds).\nPool history: d0 100k, d1-d9 60k, d10-d12 10k, d13-d28 3k. Traced after d28: 33. Points: 872 after day 28. Day 29: killed 9 (skipped d29-3 and d29-4, both East), expect about 908.",
+   "error": null,
+   "input_tokens": 6943,
+   "output_tokens": 1441,
+   "seconds": 14.1
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-9",
+    "d30-7",
+    "d30-11",
+    "d30-4",
+    "d30-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 was the FINAL day. I used the standing plan: 9 quick kills in the afternoon (national, 2 docket, 2 clips, 2 forum, 2 foreign) and skipped the two East criminals, d30-6 and d30-10. Killing East victims would gain only about 8 points, against roughly a 45% chance of being caught and losing about 470. Expected total is about 944.",
+   "error": null,
+   "input_tokens": 6898,
+   "output_tokens": 806,
+   "seconds": 8.8
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 4,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 5,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 6,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 7,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 8,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 9,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 10,
+   "pool": 10000,
+   "deaths_traced": 6
+  },
+  {
+   "after_day": 11,
+   "pool": 10000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 12,
+   "pool": 10000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 10
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 12
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 15
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 16
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 18
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 21
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 23
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 23
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 26
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 30
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 36
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 37
+  }
+ ],
+ "effort": "high"
+}

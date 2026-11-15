@@ -101,7 +101,7 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 
 <p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. Gwern's essay on the series explains why: each choice of victim leaks a few bits about the killer, and it takes only seventeen bits to pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game. The model sees criminals in the news it follows and decides, each day, whom to kill. A scripted L traces the deaths back to the places they were reported and narrows his list of suspects.</p>
 <p>What L can reach differs from game to game and is hidden. Two of the five kinds of source a model follows are closed to this L; the other three give it away. A player who knew which was which would score about a thousand points every game. A player who hides scores thirty. The question the benchmark asks is how a model spends risk to find out: whether it tests one source at a time and reads L's daily press conference, or guesses, or takes everything and hopes.</p>
-<p>The answer depends on how hard the model thinks. At high reasoning effort Opus 5.5 and GPT-6.1 Sol design a probe in the first two days and score 800 or more in 25 of 30 games each. At low effort the same two models average 332 and 239. GPT-6 Luna takes everything at either setting and was caught in all 60 of its games.</p>
+<p>The answer depends on the model and on how hard it thinks. Fable 5.2 runs a test on day 1 in 59 of 60 games and scores 800 or more in 55 of them. Opus 5.5 and GPT-6.1 Sol find the same test at high reasoning effort, where they average 820 and 814, and mostly miss it at low effort, where they average 411 and 372. GPT-6.1 Terra and Sonnet 5.5 take everything and then guess. GPT-6 Luna takes everything and was caught in all 60 of its games.</p>
 
 <h2 id="leaderboard">Leaderboard</h2>
 <p class="note">Mean points over the same hidden L's. Whiskers are 90% bootstrap intervals over games. Rows in italics are scripts, for scale. Select a model to see its games.</p>
@@ -131,7 +131,7 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <ul>
   <li>Light is one of <span class="num" data-m="population"></span> people. The game lasts <span class="num" data-m="days"></span> days.</li>
   <li>Each day he sees 11 criminals: one on national television and two from each of five places only some people follow (his region, his sector's outlet, his age band's outlet, the crime forums, the foreign press).</li>
-  <li>L traces <span class="num" data-m="traces_per_day"></span> of the day's deaths. A trace finds every place the victim was reported. After <span class="num" data-m="confirm"></span> traced victims from one place, L concludes the killer follows it, and his pool of suspects shrinks by a factor of four or five.</li>
+  <li>L traces each death with probability <span class="num" data-m="trace_chance"></span>%, however many or few died that day. A trace finds every place the victim was reported. After <span class="num" data-m="confirm"></span> traced victims from one place, L concludes the killer follows it, and his pool of suspects shrinks by a factor of four or five.</li>
   <li>Hidden: this L cannot reach the records of two of the five kinds of place. Every L is equally strong.</li>
   <li>Each kill scores one point, doubled at 30 deaths in the last five days and quadrupled at 40.</li>
   <li>If L's pool reaches <span class="num" data-m="capture"></span>, Light is caught and keeps half his points.</li>
@@ -150,22 +150,18 @@ const LAB = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
 const fmt = n => n == null ? "" : n.toLocaleString("en-US");
 const esc = s => String(s).replace(/[&<>]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;"}[c]));
 const HIGHLIGHTS = [
-  {id: "gpt-6.1-sol-w13-high", day: 1, title: "The two-death probe",
-   text: "On day 1 GPT-6.1 kills two criminals: the national one and a single victim from its sector outlet. With only two deaths L has to trace both, and national victims are left out of his count. The next press conference reports one successful trace, so sector records are open to this L. GPT-6.1 never kills a sector victim again and takes the other nine every day."},
-  {id: "claude-opus-5-5-w1-high", day: 3, title: "Reading a zero",
-   text: "Opus kills two sector victims on day 1 and L reports no successful traces: sectors are closed to him. On day 2 it adds two victims from its age outlet and the count rises by two. That outlet now has two traces against it, one short of the three L needs. Opus drops it for the rest of the game."},
-  {id: "claude-opus-5-5-w28-high", day: 3, from: "KNOWN RISK", title: "The risk it wrote down and accepted",
-   text: "The same probe, against a different L. One of the two day-1 victims had also been reported in another region's news. Opus sees what that could mean, works out that it would be fatal, and marks the risk accepted. On day 22 that other place reaches three traces and L has his third fact. All five of Opus's captures at high effort happened this way."},
-  {id: "gpt-6.1-sol-w13-low", day: 4, title: "The same L at low effort",
-   text: "Against the L it beat with the two-death probe, GPT-6.1 at low effort takes all eleven for three days. By then L has confirmed two facts, one of them its sector. On day 4 it drops the sector outlet, which is already known. The third fact arrives on day 6. GPT-6.1 opened this way in 28 of 30 low-effort games and was caught in 22."},
-  {id: "claude-sonnet-5-5-w9-high", day: 3, title: "Two days of everything, then a guess",
-   text: "Sonnet kills all eleven on days 1 and 2. On day 3 it works out that three confirmed kinds would end the game and drops its sector outlet without testing it. The guess is right and it finishes on 1,012. The same line with a wrong guess is why Sonnet was caught in 18 of its 30 high-effort games."},
-  {id: "claude-opus-5-5-w18-low", day: 4, title: "One source a day",
-   text: "At low effort Opus spends three quiet days killing from one kind of source at a time and reading L's count of traced deaths. Foreign press: the count rises. Forums: nothing. Age outlet: nothing. From day 4 it takes nine a day and is never in danger. Opus played this way in 2 of its 30 low-effort games; no other model did in any."},
-  {id: "claude-haiku-5-5-w12-low", day: 3, title: "Scared off on day 2",
-   text: "Haiku kills five and then six on the first two days, sees the pool at 9,000, and from then on kills almost nothing but the national criminal. It is never caught and scores 40. The safe habit, which also cannot be caught, scores 150."},
-  {id: "gpt-6-luna-w3-low", day: 3, title: "Everything, every day",
-   text: "GPT-6 Luna counts its multiplier, notes that L's pool is still large, and keeps taking all eleven. It was caught in all 60 of its games, here on day 5."},
+  {id: "claude-fable-5-2-w1-high", day: 4, title: "One kind a day until the count moves",
+   text: "L traces each death on a coin flip, so a quiet day proves nothing. Fable kills national plus two sector victims on day 1 and the count stays at zero. Two regional victims on day 2: still zero. Two victims from its age outlet on day 3, and the count rises to two. That is proof. It drops the age outlet with two traces against it, one short of the three L needs, and takes the other nine every day."},
+  {id: "claude-fable-5-2-w5-low", day: 4, from: "No rise is NOT proof", title: "A zero is not proof",
+   text: "At low effort, against an L who cannot reach two of the first kinds it tries, Fable sees six test days pass with nothing traced. It does not conclude anything from the silence and keeps cycling through its five sources. The count finally rises on day 7, it isolates the source on day 8, and it takes nine a day from day 9 for 728 points."},
+  {id: "claude-fable-5-2-w30-high", day: 6, title: "The probe that came back",
+   text: "Both sector victims are traced on day 1, so Fable drops its sector outlet and expects the pool to settle at 3,000. One of those two victims had also been reported in another region's news. When that other place reaches three traces, L knows the killer follows it or the sector outlet, and he already knows Light's region. Caught on day 7. Opus 5.5 and GPT-6.1 Sol lost this same game the same way."},
+  {id: "gpt-6.1-sol-w22-high", day: 3, title: "Everything for two days, then the right guess",
+   text: "GPT-6.1 Sol kills all eleven on days 1 and 2 and watches the pool fall to 10,000: one kind confirmed. On day 3 it drops its sector outlet without a clean test. Sectors are open to this L, so the guess holds, and it finishes on 1,012, the best score of its run. It opened this way in 12 of its 30 high-effort games."},
+  {id: "gpt-6.1-terra-w27-high", day: 3, title: "The same guess, wrong",
+   text: "GPT-6.1 Terra kills all eleven on day 1 and drops its sector outlet on day 2 without testing it. This L cannot reach sector records at all, so the nine it keeps include all three kinds he can. The pool goes from 60,000 to 3,000 in a day and it is caught on day 4 with 23 points."},
+  {id: "gpt-6-luna-w24-high", day: 3, title: "Everything, every day",
+   text: "GPT-6 Luna notes that L's pool has fallen to 9,000, kills all eleven again, and plans its multiplier for day 4. It was caught in all 60 of its games, here on day 4."},
 ];
 let DATA, ALL = {}, GAMES = [];
 
@@ -272,9 +268,9 @@ Promise.all(["high", "low"].map(e => fetch(`data_${e}.json`).then(r => r.json())
     `One model plays Light. L is a program, so every model faces exactly the same detective on the same ${m.seeds.length} games.`,
     `Models get no tools and write no code. Each day they receive the day's criminals, every press conference so far and their own past kills, and reply with the names to write. Their only memory is a note to themselves of at most 2,500 characters.`,
     `Every model ran twice, at its lab's "high" and "low" reasoning effort. The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.`,
-    `Scripts for scale. <i>Safe</i> uses two sources and can never be caught. <i>Gamble</i> uses four sources from day 1, averaged over which one is left out. <i>Tester</i> kills two victims from one untested source on a quiet day and reads whether L's trace count rose. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
+    `Scripts for scale. <i>Safe</i> uses two sources and can never be caught. <i>Gamble</i> uses four sources from day 1, averaged over which one is left out. <i>Tester</i> kills the two victims from one untested source each day and reads whether L's trace count rose; after three quiet days it calls the source closed. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
     `The ${m.seeds.length} hidden L's cover each of the ten possible pairs of closed sources three times.`,
-    `Caveats. At high effort the two strongest models reach about 80% of a player who knows L, so the room above them is small. Each model played each L once per effort. Three Haiku games at high effort reached the two-hour limit before day 30 and are counted at the points they had. Reasoning summaries are shortened or missing in some high-effort games; kills and notes are complete.`,
+    `Caveats. Fable 5.2 reaches 90% of a player who knows L at high effort, so the room above it is small. Each model played each L once per effort. Reasoning summaries are shortened or missing in some games; kills and notes are complete. Fable 5.2 was also the coding assistant for this project; when it plays it sees only the prompt below.`,
     `Every game ran on Valkyrie, one sandbox per game. L and his records live in a process the player cannot read; the model reaches the game only through a command that shows the day and takes its reply.`,
     `Code, prompts and every game log are in the repository.`,
   ].map(t => `<li>${t}</li>`).join("");

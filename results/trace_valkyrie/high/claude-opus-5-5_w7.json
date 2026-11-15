@@ -1,11 +1,11 @@
 {
- "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "run_id": "540f49af-651b-49fa-9b9f-a8054498fa59",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-007",
- "reward": 0.8776,
+ "reward": 0.9275,
  "exit": null,
- "agent_seconds": 660.2115061809999,
+ "agent_seconds": 699.7682253199999,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,21 +19,21 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 889,
+ "trace_chance": 0.5,
+ "points": 946,
  "caught": false,
  "days": 30,
  "final_pool": 3437,
- "kills": 250,
- "input_tokens": 141079,
- "output_tokens": 67245,
- "seconds": 654,
- "informed_best": 1013,
- "tester": 858,
+ "kills": 259,
+ "input_tokens": 145354,
+ "output_tokens": 71350,
+ "seconds": 694,
+ "informed_best": 1020,
+ "tester": 701,
  "hider": 30,
- "grabber": 66,
- "score": 0.8776,
- "log_trimmed": "reasoning dropped",
+ "grabber": 88,
+ "score": 0.9275,
+ "log_trimmed": "reasoning cut to 800 characters a day",
  "log": [
   {
    "day": 1,
@@ -43,40 +43,40 @@
      "coverage": [
       "national"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     },
     {
-     "id": "d1-1",
+     "id": "d1-4",
      "coverage": [
-      "forum"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d1-2",
+     "id": "d1-9",
      "coverage": [
-      "forum"
+      "blotter",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d1-5",
-    "d1-2",
-    "d1-1"
+    "d1-9"
    ],
    "points_today": 3,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "PLAN: L can't reach 2 of 5 kinds (South=regional, hospital=sector, radio=age, forum, foreign). If 3 reachable kinds each get >=3 successful traces, pool = 55000(routine after afternoon kills) x ~1/64 < 1000 = caught. With only 2 reachable kinds activated, pool >= 55000 x 0.2 x 0.25 = 2750, safe. GOAL: find the 2 unreachable kinds (their victims never trace). Then kill daily: national + both unreachable kinds + 2 chosen reachable kinds (9/day, which gives x4 since 40 in 5 days). Avoid the 3rd reachable kind (K3) except at most 2 victims EVER, which can never activate it. National victims are always safe. ROUTINE: put all quick kills in the AFTERNOON (keeps students, night, home = 0.55). Never more than 2 deaths in the morning, and none in evening or night. TEST METHOD: on test days keep deaths <=5 so all are traced. Kill national + 2 victims of the test kind (plus kinds already known unreachable, which add 0 traces). Increment in deaths_traced: >=1 means reachable (certain); 0 means unreachable (very likely). Day 1 test = FORUM (killed d1-5 national, d1-1 and d1-2 forum, all afternoon). Traced count before day 1 = 0. Next tests, in order: foreign, radio, South, hospital. Stop when 2 unreachable are found, or when 3 reachable are found (then the other 2 are unreachable). Prefer to make hospital K3 if there is a choice. Watch the pool: expect ~60000/50000 after day 1. A drop by ~4-5x means a kind got activated (3 traces).",
+   "notes_to_self": "STRATEGY: L can reach 3 of 5 kinds (regional South, sector hospital, age radio, forum, foreign). A place 'triggers' after 3 traced victims, which cuts the pool by about x0.25 (hospital x0.2). Ruling out day workers gives x0.55. Two triggers leave about 3000 (safe). Three triggers mean caught. PLAN: find ONE place X that is surely reachable, then avoid X forever and kill everything else daily: national plus the 4 other places, about 9 a day. That gives x4 once 40 kills fall in 5 days. With X avoided, at most 2 reachable places can trigger. TEST DAY: kill only national plus the 2 criminals from one untested place. If the next press conference's deaths_traced rises by 1 or more, that place is reachable: set it as X (it has at most 2 traces, so it is safe). If there is no rise, that place leans unreachable; test a different place next day. Test order: hospital, forum, foreign, radio, South. On test days put the 2 quick kills in the afternoon and national as a timed evening entry, so that no routine is ruled out. FULL MODE: quick entries in the afternoon (never morning, which also rules out students), max 10 quick; use timed afternoon if more are needed. Expect the pool to go about 60000 to about 10000 to about 3000. If it falls below about 2000, cut back hard (national only). LOG: Day 1 tested HOSPITAL (d1-4, d1-9) plus national d1-5. Traced count before day 1 = 0.",
    "error": null,
-   "input_tokens": 1923,
-   "output_tokens": 14132,
-   "seconds": 155.7
+   "input_tokens": 1935,
+   "output_tokens": 13254,
+   "seconds": 146.2,
+   "reasoning": "I'm working out the scoring: each kill is worth 1 point, doubled when 30 or more criminals died in the last five days including today, and quadrupled at 40 or more. With only 11 criminals available per day, the cap is 11 a day, so 55 over five days, and reaching 40 would need about 8 a day while 30 would need about 6.\n\nThe pool needs to drop to 1,000 or below at day's end or I lose half my points, and the game ends then. Taking a 15% chunk from night workers is routine. Quick kills only fit when I'm free, morning or afternoon. Morning kills would rule out both day workers and students, leaving only 35%. Afternoon kills only rule out day workers, so 55% remains, about 55,000 people.\n\nI'm checking how the evening kills would affect the routines: two deaths in the evening would only keep nigh"
   },
   {
    "day": 2,
@@ -86,46 +86,48 @@
      "coverage": [
       "national"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     },
     {
-     "id": "d2-5",
+     "id": "d2-4",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d2-9",
+     "id": "d2-7",
      "coverage": [
-      "foreign"
+      "forum",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d2-5",
-    "d2-9",
-    "d2-6"
+    "d2-6",
+    "d2-4",
+    "d2-7"
    ],
    "points_today": 3,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "PLAN: L can't reach 2 of 5 kinds (regional=South, sector=hospital, age=radio, forum, foreign). If 3 reachable kinds each get >=3 successful traces, the pool drops to about 55000 (routine left after afternoon kills) x ~1/64, which is under 1000, so I get caught. If only 2 reachable kinds are activated, the pool stays >= 55000 x 0.2 x 0.25 = 2750, which is safe. GOAL: find the 2 unreachable kinds (their victims never trace). Then kill daily: national + both unreachable kinds + 2 chosen reachable kinds (9/day, which gives x4 since 40 in 5 days). Avoid the 3rd reachable kind (K3) except at most 2 victims EVER, which can never activate it. National victims are always safe. ROUTINE: put all quick kills in the AFTERNOON (keeps students, night, home = 0.55). Never more than 2 deaths in the morning, and none in evening or night. TEST METHOD: on test days keep deaths <=5 so all are traced. Kill national + 2 victims of the test kind (plus kinds already known unreachable, which add 0 traces). Increment in deaths_traced: >=1 means reachable (certain); 0 means unreachable (very likely). RESULTS: Day 1 test FORUM: traced went 0->2, so FORUM IS REACHABLE. 2 forum victims are already traced, so forum is at the cap if it ends up as K3 (no more forum kills then). If forum is chosen as one of the 2 'free' reachable kinds, kill freely. Pool after day 1 = 60000 (as expected). Day 2 test = FOREIGN (killed d2-6 national, d2-5 and d2-9 foreign, all quick afternoon). Traced count before day 2 = 2. Next tests: radio, South, hospital. Stop when 2 unreachable are found, or when 3 reachable are found (then the other 2 are unreachable). Prefer hospital as K3 if there is a choice, but forum is already at 2 traces, so forum as K3 is also acceptable (it then gets zero more kills). Watch the pool: expect ~60000. A drop by ~4-5x means a kind got activated.",
+   "notes_to_self": "STRATEGY: L can reach 3 of 5 kinds (regional South, sector hospital, age radio, forum, foreign). A place 'triggers' after 3 traced victims, which cuts the pool by about x0.25 (hospital x0.2). Ruling out day workers gives x0.55. Two triggers leave about 3000 (safe). Three triggers mean caught. PLAN: find ONE place X that is surely reachable, then avoid X forever and kill everything else daily: national plus the 4 other places, about 9 a day. That gives x4 once 40 kills fall in 5 days. With X avoided, at most 2 reachable places can trigger. TEST DAY: kill only national plus the 2 criminals from one untested place. If the next press conference's deaths_traced rises by 1 or more, that place is reachable: set it as X (it has at most 2 traces, so it is safe). If there is no rise, that place leans unreachable; test a different place next day. Test order: hospital, forum, foreign, radio, South. On test days put the 2 quick kills in the afternoon and national as a timed evening entry, so that no routine is ruled out. FULL MODE: quick entries in the afternoon (never morning, which also rules out students), max 10 quick; use timed afternoon if more are needed. Expect the pool to go about 60000 to about 10000 to about 3000. If it falls below about 2000, cut back hard (national only). LOG: Day 1 tested HOSPITAL (d1-4, d1-9) plus national d1-5. Traced after day 1 = 0, so hospital has 0 traces and leans UNREACHABLE (about 70%). Day 2 tested FORUM (d2-4, d2-7) plus national d2-6. Traced before day 2 = 0. If traced stays 0 after day 2, test FOREIGN on day 3. If a place shows a rise, it is X. If two places show no rise, both lean unreachable, but a third place showing no rise is still possible from bad luck.",
    "error": null,
-   "input_tokens": 2604,
-   "output_tokens": 1698,
-   "seconds": 16.1
+   "input_tokens": 2538,
+   "output_tokens": 1529,
+   "seconds": 15.1,
+   "reasoning": "I'm working through the day-one results: the hospital test produced two kills but no deaths traced afterward. That could mean the hospital is unreachable, both traces failed, or the victims were reported somewhere unreachable. I'm now estimating the chance that zero traces succeed if the hospital is reachable.\n\nI'm estimating the chance that the hospital is unreachable, given zero traces after the first test. With a reachable hospital, zero successes comes out near 0.3, and the prior of 0.4 for unreachable updates to about 0.69, so it leans unreachable. I'm keeping the plan to test the forum next, since mixing tests at once would make the trace counts ambiguous.\n\nI'm noting that the hospital result points to zero traced deaths, and I'm logging that the hospital most likely is unreachable, "
   },
   {
    "day": 3,
    "kills": [
     {
-     "id": "d3-10",
+     "id": "d3-7",
      "coverage": [
       "national"
      ],
@@ -133,16 +135,32 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-2",
+     "id": "d3-1",
      "coverage": [
-      "docket",
-      "radio"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-6",
+     "id": "d3-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-3",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
      "coverage": [
       "radio"
      ],
@@ -152,7 +170,24 @@
     {
      "id": "d3-5",
      "coverage": [
+      "docket",
       "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -161,34 +196,35 @@
      "id": "d3-11",
      "coverage": [
       "docket",
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d3-2",
+    "d3-9",
+    "d3-4",
+    "d3-5",
     "d3-10",
-    "d3-11",
-    "d3-6",
-    "d3-5"
+    "d3-11"
    ],
-   "points_today": 5,
+   "points_today": 9,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "PLAN: L can't reach 2 of 5 kinds (regional=South, sector=hospital, age=radio, forum, foreign). If 3 reachable kinds each get >=3 successful traces, the pool drops to about 55000 x ~1/64, under 1000, and I get caught. If only 2 reachable kinds are activated, the pool stays >= ~2750, which is safe. GOAL: find the 2 unreachable kinds. Then kill daily: national + both unreachable kinds + 2 chosen reachable kinds (9/day, which gives x4). Never let the 3rd reachable kind (K3) reach 3 traced victims. Kill at most 2 K3 victims EVER, counting ones already traced. National victims are always safe. ROUTINE: all quick kills in the AFTERNOON (keeps students, night, home = 0.55). Never more than 2 deaths in the morning, and none in evening or night. TEST METHOD: keep deaths <=5 on test days so all are traced. Kill national + 2 of the test kind + victims of known-unreachable kinds. Increment in deaths_traced: >=1 means reachable; 0 means unreachable. RESULTS: Day 1 FORUM: traced 0->2, so FORUM REACHABLE (2 traced already; if forum becomes K3, no more forum kills). Day 2 FOREIGN: traced stayed 2, so FOREIGN UNREACHABLE (very likely). Day 3 test = RADIO: killed d3-10 national, d3-2 and d3-6 radio, d3-5 and d3-11 foreign, all quick afternoon. Traced before day 3 = 2. If traced is still 2 after day 3, RADIO is unreachable: then the unreachable kinds are foreign + radio, and South, hospital and forum are reachable. Choose 2 'free' reachable kinds (forum + South, say) and make hospital K3 (0 traced, could still take up to 2 ever, but better to just skip it). If traced is 4 after day 3, RADIO is reachable (2 traced). Then test South next (national + 2 South + 2 foreign). If South is unreachable, the unreachable kinds are foreign + South; forum, radio and hospital are reachable, and hospital should be K3 (0 traces). If South is reachable, hospital must be the unreachable one. Then forum, radio and South are reachable, each with 2 traces, and one becomes K3 with no further kills. If traced goes up by 1, the kind is still reachable (the other trace failed via a hidden unreachable place). Watch the pool: expect ~60000. A ~4-5x drop means a kind got activated.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds (regional South, sector hospital, age radio, forum, foreign). A place triggers after 3 traced victims, which cuts the pool by about x0.25 (hospital x0.2). Ruling out day workers gives x0.55. Two triggers leave about 3000 (safe). Three triggers mean caught. RESULT OF TESTS: Day 1 tested hospital and traced stayed 0. Day 2 tested forum and traced went to 1. So FORUM IS REACHABLE and is X. It has 1 trace, possibly 2. NEVER KILL FORUM CRIMINALS AGAIN. That leaves at most 2 reachable kinds among the places I kill, so I stay safe. FULL MODE from day 3: kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day. All are quick entries in the afternoon. This rules out day workers only (x0.55). Never use the morning, which also rules out students. Max 10 quick a day. Multiplier forecast: day 5 about x2, day 6 x2 (39 in 5 days), day 7 onward x4 (45 or more). WATCH: the pool should drop 100000 to about 55000 (day workers out), then about 14000 or 11000 (first trigger), then about 2750 (second trigger). Once a place triggers, that kind is reachable. If two of my killed kinds have triggered, the remaining ones are unreachable. If the pool ever falls below about 2000, something unexpected happened (cross-traces from other-place reports): cut back hard to national only, or to the places known to be unreachable. LOG: D1 national + hospital x2 (traced 0 after). D2 national + forum x2 (traced 1 after, pool 100000). D3 full mode, 9 kills, all afternoon.",
    "error": null,
-   "input_tokens": 2851,
-   "output_tokens": 1748,
-   "seconds": 17.9
+   "input_tokens": 2762,
+   "output_tokens": 2527,
+   "seconds": 25.7,
+   "reasoning": "After day 2, the trace count went up by one, so I'm testing whether a forum victim was traced. A trace only succeeds if every place the victim was reported is reachable, and one victim may also appear in another report, so the forum being reachable is what lets me conclude X is the forum.\n\nI'm planning to avoid the forum entirely and eliminate every other location: national, the two South reports, the two hospital reports, the two radio reports, and the two foreign reports, nine in total. I'm also wondering whether some victims were reported in places I'm not tracking, which would mean a trace could point to a place I haven't considered, and that cut looks weak.\n\nI'm checking whether the numbers still hold if I cut the regional, sector, age, and foreign reports too, since that leaves only "
   },
   {
    "day": 4,
    "kills": [
     {
-     "id": "d4-2",
+     "id": "d4-3",
      "coverage": [
       "national"
      ],
@@ -196,25 +232,26 @@
      "block": "afternoon"
     },
     {
-     "id": "d4-3",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-11",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-5",
+     "id": "d4-1",
      "coverage": [
       "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-2",
+     "coverage": [
+      "docket",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -222,35 +259,68 @@
     {
      "id": "d4-10",
      "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
       "docket",
-      "foreign"
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d4-10",
-    "d4-11",
+    "d4-2",
+    "d4-4",
     "d4-5",
-    "d4-3",
-    "d4-2"
+    "d4-7"
    ],
-   "points_today": 5,
+   "points_today": 9,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "PLAN: L can't reach 2 of 5 kinds (regional=South, sector=hospital, age=radio, forum, foreign). If 3 reachable kinds each get >=3 successful traces, the pool drops below 1000 and I am caught. If only 2 reachable kinds are activated, the pool stays around 3000 or more, which is safe. GOAL: find the 2 unreachable kinds. Then kill 9 a day: national + both unreachable kinds + 2 chosen reachable kinds. That pace gives x4 once 40 deaths fall in 5 days. Never let the 3rd reachable kind (K3) reach 3 successful traces in total. National victims are always safe. ROUTINE: all quick kills in the AFTERNOON (keeps students, night, home = 0.55, pool ~55000 shown as 60000). Never more than 2 deaths in the morning, and none in evening or night. TEST METHOD: keep deaths <=5 so all are traced. Kill national + 2 of the test kind + 2 foreign. Increment in traced >=1 means reachable; 0 means unreachable. RESULTS: D1 forum: traced 0->2, so FORUM REACHABLE, forum has 2 successful traces. D2 foreign: +0, so FOREIGN UNREACHABLE. D3 radio: traced 2->3 (+1). The foreign victims can't succeed, so it was a radio success: RADIO REACHABLE, radio has 1 successful trace. The other radio trace failed via a hidden extra place. So the remaining unreachable kind is South or hospital. D4 TEST SOUTH: killed d4-2 national, d4-3 and d4-11 South, d4-5 and d4-10 foreign, all quick afternoon. Traced before day 4 = 3. INTERPRET: if traced is still 3 after D4, SOUTH UNREACHABLE. Then the safe kinds are national, foreign, South. Reachable: forum(2), radio(1), hospital(0). Pick FREE = forum + radio, K3 = hospital: NEVER kill hospital again. Daily from D5: national + 2 foreign + 2 South + 2 forum + 2 radio = 9, all quick afternoon. If traced is >=4 after D4, SOUTH REACHABLE and HOSPITAL UNREACHABLE. Then the safe kinds are national, foreign, hospital. Reachable: forum(2), radio(1), South(1-2). Pick FREE = radio + South, K3 = forum: NEVER kill forum again (it already has 2). Daily: national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, all quick afternoon. After choosing, watch the pool. Expect ~60000 to drop to a few thousand as the 2 free kinds activate (~3000-5000). If the pool ever shows <=2000, stop killing reachable kinds and kill only national + unreachable victims.",
+   "notes_to_self": "STRATEGY: L can reach exactly 3 of the 5 kinds. FORUM IS CONFIRMED REACHABLE: on day 2 my 2 forum kills raised traced from 0 to 1, so forum has exactly 1 trace. That means exactly 2 of {regional, sector, age, foreign} are reachable. A place triggers after 3 traced victims and cuts the pool by about x0.25 (hospital x0.2). The pool is about 55000 after day workers were ruled out (shown as 60000 after day 3). If both reachable kinds among my kill places trigger, the pool has a floor of about 55000 x 0.2 x 0.25 = 2750, or 3400 otherwise. That stays above 1000 for the whole game, provided forum NEVER triggers. Forum only counts victims carried by forum itself, so avoiding forum kills keeps it at 1 or 2 traces. FULL MODE: kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day. All are quick entries in the afternoon, which rules out day workers only. Never use morning or evening blocks. Max 10 quick a day. Note that day 1 (hospital, 0 traced) did NOT prove hospital unreachable; it was just a 25% chance. It does not matter, since the floor is safe either way. MULTIPLIER: day 5 window (days 1-5) = 33, giving x2. DAY 6 SPECIAL: kill the usual 9 PLUS ONE forum criminal (10 quick, afternoon). Then days 2-6 = 3+9+9+9+10 = 40, giving x4 on day 6 (40 points versus 18). Forum then has 1 or 2 traces and still has not triggered. After day 6, NEVER kill forum again. Day 7 onward: 9 a day gives 45 or more in 5 days, so x4 stays on. GUARD: if the pool ever shows 2000 or below, something unexpected happened (cross-report traces): cut back to national only, or to kinds known to be unreachable. LOG: D1 national + hospital x2 (traced 0 after). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 kills: national, South x2, hospital x2, radio x2, foreign x2.",
    "error": null,
-   "input_tokens": 3090,
-   "output_tokens": 3525,
-   "seconds": 35.1
+   "input_tokens": 2884,
+   "output_tokens": 4802,
+   "seconds": 49.9,
+   "reasoning": "I'm tallying day 3: nine kills, with traces rising from one to three, so two new traces came from the eight non-national kills. The pool sits at 60,000 after the day workers left. I don't see a trigger yet, but I'm also checking whether cross-reports could produce traces, since about three in ten non-national criminals are reported somewhere I'm not tracking.\n\nI'm checking whether the day 1 hospital result is conclusive: two kills with none traced could still happen a quarter of the time even if the hospital is reachable, so it isn't ruled out. I'm also working through how a trigger would play out, since a place with three traced victims would tell L the killer follows that place, and cross-reports to places L can't reach would make a trace fail.\n\nI'm working through the forum count now: i"
   },
   {
    "day": 5,
    "kills": [
     {
-     "id": "d5-11",
+     "id": "d5-5",
      "coverage": [
       "national"
      ],
@@ -260,40 +330,7 @@
     {
      "id": "d5-1",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-3",
-     "coverage": [
-      "foreign",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-7",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-10",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-4",
-     "coverage": [
-      "radio"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -301,16 +338,15 @@
     {
      "id": "d5-6",
      "coverage": [
-      "radio",
-      "regional:East"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-8",
+     "id": "d5-3",
      "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -318,53 +354,70 @@
     {
      "id": "d5-9",
      "coverage": [
-      "regional:South"
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d5-4",
-    "d5-9",
-    "d5-11",
+    "d5-5",
     "d5-7",
-    "d5-10"
+    "d5-8",
+    "d5-4"
    ],
-   "points_today": 9,
-   "multiplier": 1,
-   "pool": 13750,
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D4: traced went 3->5 (+2). Foreign is unreachable, so both South victims were traced successfully. RESULT: SOUTH REACHABLE, HOSPITAL UNREACHABLE. Unreachable kinds are FOREIGN and HOSPITAL (sector). Successful trace counts: forum 2, radio 1, South 2. DECISION: FREE kinds = radio + South (they get activated, pool expected ~55000*0.25*0.25 ~3400, likely shown 3000-5000). K3 = FORUM: NEVER kill any criminal whose reported_in includes forum (one more forum trace activates forum, the pool goes ~850 and I am CAUGHT). Also never kill anyone carried in BOTH forum and another place. DAILY PLAN from D5: national + 2 foreign + 2 hospital + 2 radio + 2 South = 9 kills, ALL quick, ALL AFTERNOON (afternoon-free routines = students, night, home = 0.55). Never evening or night. Hidden extra places can't be my own places, so they can't add to forum. MULTIPLIER: deaths D1-4 = 3,3,5,5. At 9/day: D6 5-day total 31 (x2), D7 37, D8 41 (x4), and x4 from then on. SAFETY: watch the pool each day. If the pool shows <=2000, stop killing radio and South. Kill only national + foreign + hospital (5/day). If the pool drops sharply when I expected none, re-check. D5: killed d5-11 national, d5-1 and d5-3 foreign, d5-7 and d5-10 hospital, d5-4 and d5-6 radio, d5-8 and d5-9 South, all quick afternoon. Skipped forum d5-2 and d5-5.",
+   "notes_to_self": "STRATEGY: L can reach exactly 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1, so forum has 1 trace. That leaves exactly 2 of {regional, sector, age, foreign} reachable. A place triggers at 3 traced victims and cuts the pool by about x0.25 (hospital x0.2). Day workers are ruled out, so the base pool is about 55000. After day 4 the pool showed 10000, so one of my non-forum places has triggered (x0.2 or x0.25). Expected floor once both reachable kinds trigger: 55000 x 0.2 x 0.25 = 2750, or about 3400. Safe above 1000 PROVIDED FORUM NEVER REACHES 3 TRACES. Cross-reports only go to places I do NOT follow, so forum traces come only from forum kills I make. Cross-report constraints ('X or Y') end up redundant once my own places trigger. FULL MODE: kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day. All quick entries in the afternoon, which rules out day workers only and keeps night workers, students and home. Never use morning or evening blocks. Max 10 quick a day. MULTIPLIER: day 5 window = 3+3+9+9+9 = 33, giving x2. DAY 6 SPECIAL: kill the usual 9 PLUS ONE forum criminal (10 quick, afternoon). Days 2-6 = 3+9+9+9+10 = 40, giving x4. Forum then has 1 or 2 traces and still has not triggered. AFTER DAY 6, NEVER KILL FORUM AGAIN. Day 7 onward: 9 a day gives 45 in 5 days, so x4 stays on. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only (no info for L). If the pool shows about 3000, that is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 kills (traced 5, pool 10000). D5 9 kills: national, South x2, hospital x2, radio x2, foreign x2.",
    "error": null,
-   "input_tokens": 3307,
-   "output_tokens": 2496,
-   "seconds": 25.9
+   "input_tokens": 3209,
+   "output_tokens": 4573,
+   "seconds": 46.2,
+   "reasoning": "I'm noting that the pool fell from about 60000 to roughly 10000 after day 4, with 5 deaths traced, so the current figure sits somewhere in the 5000 to 15000 range. Next I'm going through the day 1 and day 2 schedules, where the national timed evening session and the hospital and forum sessions overlap, and checking which session the deaths line up with.\n\nI'm checking the day 1 and day 3 timelines against the busy-schedule constraint, and the pool figure fits after accounting for the 5 traced deaths. Since only 5 of roughly 20 non-national kills have been traced, I'm weighing whether a place triggered with 3 traces, and the hospital cut of about 0.2 lines up with the drop to roughly 10000.\n\nNow I'm weighing the floor: if both reachable kinds trigger, the pool could fall to roughly 2750 or 3"
   },
   {
    "day": 6,
    "kills": [
     {
-     "id": "d6-7",
+     "id": "d6-9",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-6",
-     "coverage": [
-      "blotter",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-11",
-     "coverage": [
-      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -372,24 +425,16 @@
     {
      "id": "d6-3",
      "coverage": [
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-9",
+     "id": "d6-4",
      "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-1",
-     "coverage": [
-      "cable",
-      "radio"
+      "regional:South",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -397,15 +442,15 @@
     {
      "id": "d6-2",
      "coverage": [
-      "radio"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-8",
+     "id": "d6-5",
      "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -413,42 +458,31 @@
     {
      "id": "d6-10",
      "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d6-1",
-    "d6-10",
-    "d6-2",
-    "d6-7",
-    "d6-9"
-   ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS after D5: the pool showed 10000 (true range 9500-15000) and traced was 7. The pool is about 55000 (afternoon routine) x 0.25 = 13750, so exactly ONE of radio/South is now activated. Successful non-national traces: forum 2, radio+South 5 together. If the other of radio/South activates, the pool goes to about 3400. That is still safe (>1000), and there are no other constraints. Unreachable kinds are FOREIGN and SECTOR (hospital). FORUM IS DEADLY: never kill any criminal whose reported_in includes forum. One more forum trace means about 860 suspects and I am CAUGHT. Hidden extra places are never my own places, so forum can't be hit indirectly. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. SAFETY: if the pool ever shows <=2000, stop killing radio and South and kill only national, foreign and hospital (5/day). If the pool drops unexpectedly below about 3000, re-check. MULTIPLIER: deaths D1-6 = 3,3,5,5,9,9. D6 x2 (31). D7 window total 37 x2. D8 41 x4. At 9/day it stays x4 (45) from D9 on. D6: killed d6-7 national, d6-6 and d6-11 foreign, d6-3 and d6-9 hospital, d6-1 and d6-2 radio, d6-8 and d6-10 South, all quick afternoon. Skipped forum d6-4 and d6-5.",
-   "error": null,
-   "input_tokens": 3092,
-   "output_tokens": 2953,
-   "seconds": 30.7
-  },
-  {
-   "day": 7,
-   "kills": [
-    {
-     "id": "d7-2",
-     "coverage": [
-      "national"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-7",
+     "id": "d6-11",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
      "coverage": [
       "foreign"
      ],
@@ -456,86 +490,38 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-11",
+     "id": "d6-6",
      "coverage": [
-      "foreign",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-1",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-6",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-4",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-10",
-     "coverage": [
-      "clips",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-3",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-8",
-     "coverage": [
-      "regional:South"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d7-7",
-    "d7-3",
-    "d7-1",
-    "d7-8",
-    "d7-10"
+    "d6-5",
+    "d6-10",
+    "d6-11",
+    "d6-1",
+    "d6-8",
+    "d6-6"
    ],
-   "points_today": 18,
-   "multiplier": 2,
+   "points_today": 40,
+   "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D6: the pool showed 3000 and traced was 10. That matches about 55000 (afternoon routine) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are now fully pinned. Further radio or South kills add no information and are safe. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. National traces tell L nothing. FORUM IS DEADLY: it has 2 successful traces, and one more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. Hidden extra places are never my own places, so the risk can't come in indirectly. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. Skip both forum criminals. SAFETY: the expected pool stays about 3000. If it ever shows 2000 or less, something new has activated. Then stop radio and South and kill only national, foreign and hospital. If it shows 1000 or less I am already caught. MULTIPLIER: deaths D1-7 = 3,3,5,5,9,9,9. D7 window total 37, x2. D8 window 41, x4. From D9 on, 45 at 9/day, x4. D7: killed d7-2 national, d7-7 and d7-11 foreign, d7-1 and d7-6 hospital, d7-4 and d7-10 radio, d7-3 and d7-8 South, all quick afternoon. Skipped forum d7-5 and d7-9.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1. So exactly 2 of {regional, sector, age, foreign} are reachable. Pool after day 5 was 3000, which matches 55000 (day workers ruled out) x 0.2 x 0.25 = 2750 or x0.25 x0.25 = 3440. So both reachable kinds have triggered and this is the floor. Cross-report constraints ('X or Y') are redundant now. The only remaining danger is FORUM reaching 3 traces (pool x0.25, about 700, caught). Forum traces come only from my forum kills. Day 6: I killed 1 forum (the 10th kill, for x4), so forum now has 1 or 2 traces. NEVER KILL FORUM AGAIN. Small residual risk I accept: if a forum victim was cross-reported to a place P (for example North or clips) and P later gets 3 traces, then 'forum or P' forces forum and I am caught. Nothing I can do about that. FULL MODE from day 7: kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home. Never use morning or evening. MULTIPLIER: day 7 window (days 3-7) = 9+9+9+10+9 = 46, giving x4. Every later window of 9/day = 45, so x4 holds. Skip forum even if it means fewer than 9 on a day; 9 a day is enough. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 kills: national, South x2, hospital x2, radio x2, foreign x2, forum x1, all quick afternoon.",
    "error": null,
-   "input_tokens": 3205,
-   "output_tokens": 3134,
-   "seconds": 31.9
+   "input_tokens": 3383,
+   "output_tokens": 7645,
+   "seconds": 78.6,
+   "reasoning": "I'm narrowing down the pool size from the day-5 count, which gives a range of roughly 2500 to 3499. Then I'm checking the day 1 kills: one national timed in the evening and two hospital quick kills in the afternoon. The afternoon quick kills seem to rule out day workers, since they're busy then, which leaves the routines that are busy in more than two of those deaths.\n\nI'm checking the day 1 kills against the routines: night workers are busy in the evening, and day workers are only busy for two afternoon deaths, so nothing gets ruled out that day. Day 3's nine afternoon kills rule out day workers, which brings the pool to about 55,000 and, rounded, 60,000. Applying the later kill ratios gives roughly 3,000 by day 5, consistent with the earlier range.\n\nI'm confirming that the forum is reach"
   },
   {
-   "day": 8,
+   "day": 7,
    "kills": [
     {
-     "id": "d8-9",
+     "id": "d7-11",
      "coverage": [
       "national"
      ],
@@ -543,51 +529,15 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-2",
+     "id": "d7-1",
      "coverage": [
-      "foreign",
-      "regional:West"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d8-7",
-     "coverage": [
-      "foreign",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-5",
-     "coverage": [
-      "cable",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-11",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-6",
-     "coverage": [
-      "radio",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-10",
+     "id": "d7-7",
      "coverage": [
       "radio",
       "wire"
@@ -596,7 +546,43 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-4",
+     "id": "d7-2",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
      "coverage": [
       "regional:South"
      ],
@@ -604,9 +590,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d8-8",
+     "id": "d7-9",
      "coverage": [
-      "blotter",
+      "regional:East",
       "regional:South"
      ],
      "entry": "quick",
@@ -614,27 +600,30 @@
     }
    ],
    "traced": [
-    "d8-6",
-    "d8-8",
-    "d8-11",
-    "d8-9",
-    "d8-4"
+    "d7-11",
+    "d7-7",
+    "d7-2",
+    "d7-4",
+    "d7-6",
+    "d7-5",
+    "d7-9"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D7: the pool showed 3000 and traced was 13. That matches about 55000 (afternoon routine) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are fully pinned. More radio or South kills add no new information and are safe. Hidden extra places only create OR constraints, which I already satisfy. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. National traces tell L nothing. FORUM IS DEADLY: it has 2 successful traces, and one more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. Hidden extra places are never my own places, so the risk can't come in indirectly. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. Skip both forum criminals. SAFETY: the expected pool stays about 3000. If it ever shows 2000 or less, something new has activated. Then stop radio and South and kill only national, foreign and hospital. If it shows 1000 or less I am already caught. MULTIPLIER: deaths D1-8 = 3,3,5,5,9,9,9,9. D8 window (D4-8) 41, x4. From D9 on, the window is 45 at 9/day, x4 (needs 40; even a day of 7 is fine). D8: killed d8-9 national, d8-2 and d8-7 foreign, d8-5 and d8-11 hospital, d8-6 and d8-10 radio, d8-4 and d8-8 South, all quick afternoon. Skipped forum d8-1 and d8-3.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1. So exactly 2 of {regional, sector, age, foreign} are reachable. Pool after day 5 was 3000, which matches 55000 (day workers ruled out) x 0.2 x 0.25 = 2750 or x0.25 x0.25 = 3440. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum now has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN, because a 3rd trace means pool x0.25, about 700, and I am caught. Small residual risk I accept: a forum victim cross-reported to a reachable place P that later reaches 3 traces would force forum. Nothing I can do. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon.",
    "error": null,
-   "input_tokens": 3372,
-   "output_tokens": 1722,
-   "seconds": 16.0
+   "input_tokens": 3498,
+   "output_tokens": 2232,
+   "seconds": 22.1,
+   "reasoning": "I'm checking the state: day 6's traced count went from 7 to 10, so 3 of the 9 non-national kills were traced, and the pool stayed at 3000. The multiplier reads 4, but my running total for days 3-7 is only 37 against a threshold of 40, so I'm trying to reconcile that.\n\nI'm working through whether forum traces can come from cross-reports, and concluding they can't: I only follow the forum, so cross-reports go to the places I don't follow. That leaves the forum traces coming only from my own forum kills, which I'm setting aside. Next I'm checking the pool of 3000 against the day workers, who are busy in the afternoon and so ruled out, leaving the night workers, students, and home-bound people free.\n\nI'm weighing whether the pool could shrink over time through cross-report constraints, like \"S"
   },
   {
-   "day": 9,
+   "day": 8,
    "kills": [
     {
-     "id": "d9-1",
+     "id": "d8-4",
      "coverage": [
       "national"
      ],
@@ -642,26 +631,107 @@
      "block": "afternoon"
     },
     {
-     "id": "d9-2",
+     "id": "d8-7",
      "coverage": [
-      "clips",
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d9-7",
+     "id": "d8-10",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d9-3",
+     "id": "d8-5",
      "coverage": [
       "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-1",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-7",
+    "d8-10",
+    "d8-5",
+    "d8-8",
+    "d8-1",
+    "d8-3",
+    "d8-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1. So exactly 2 of {regional, sector, age, foreign} are reachable. Pool after day 5 was 3000, which matches 55000 (day workers ruled out) x 0.2 x 0.25 = 2750 or x0.25 x0.25 = 3440. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum now has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN, because a 3rd trace means pool x0.25, about 700, and I am caught. Small residual risk I accept: a forum victim cross-reported to a reachable place P that later reaches 3 traces would force forum. Nothing I can do. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 kills (traced 12, pool 3000). D8 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
+   "error": null,
+   "input_tokens": 3602,
+   "output_tokens": 2126,
+   "seconds": 18.9,
+   "reasoning": "Re-checking the setup: from a pool of 3000, the routine afternoon kills are all quick, and day workers are busy in the afternoon, so they're ruled out, leaving 55% or 55000 candidates. Now I'm looking at day 1, where the national timed evening and the two hospital quick afternoons are being sorted out.\n\nI'm checking the pool estimate: 55000 times two reduction factors of about 0.2\u20130.25 gives roughly 2750\u20133437, which rounds to 3000 either way. The forum doesn't seem to have triggered, since it only has one or two traces against a threshold of three, so the reduction must come from two of the other kinds. I'm now weighing whether cross-reports in places I don't follow could change that count.\n\nI'm reconsidering the pool estimate: cross-reports to places I don't track could weaken the constra"
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-1",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -669,13 +739,30 @@
     {
      "id": "d9-6",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d9-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
      "coverage": [
       "regional:South"
      ],
@@ -685,8 +772,15 @@
     {
      "id": "d9-9",
      "coverage": [
-      "regional:East",
       "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -698,90 +792,30 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d9-11",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d9-7",
-    "d9-11",
-    "d9-10",
-    "d9-2",
-    "d9-6"
+    "d9-4",
+    "d9-7"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D8: the pool showed 3000 and traced was 15. That matches about 55000 (afternoon routines) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are fully pinned. More radio or South kills add no new information and are safe. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. National traces tell L nothing. Hidden extra places are never my own places, so they only create OR constraints, which I already satisfy. FORUM IS DEADLY: it has 2 successful traces, and one more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. Skip both forum criminals. SAFETY: the expected pool stays about 3000. If it ever shows 2000 or less, something new has activated. Then stop radio and South and kill only national, foreign and hospital. If it shows 1000 or less I am already caught. MULTIPLIER: deaths D1-9 = 3,3,5,5,9,9,9,9,9. The window holds 45 at 9/day, x4 (needs 40; a day of 7 is fine). D9: killed d9-1 national, d9-2 and d9-7 foreign, d9-3 and d9-6 hospital, d9-4 and d9-9 South, d9-10 and d9-11 radio, all quick afternoon. Skipped forum d9-5 and d9-8.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. Pool after day 5 was 3000, which matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 = 2750 or x 0.25 x 0.25 = 3440. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum now has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN, because a 3rd trace means pool x0.25, about 700, and I am caught. Timed entries do not help here, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 (traced 12, pool 3000). D8 9 (traced 16, pool 3000). D9 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 3576,
-   "output_tokens": 1538,
-   "seconds": 13.3
+   "input_tokens": 3795,
+   "output_tokens": 2072,
+   "seconds": 20.3,
+   "reasoning": "I'm checking the strategy numbers: after day 8 the pool is 3000, and the afternoon, home and night routines together cover 55%, which gives 55,000. Day 1 and day 2 evening kills are timed, so they're allowed, and the afternoon quick kills rule out day workers. Next I'm working through which two kinds of trigger apply, starting with region.\n\nI'm checking whether the forum could be traced, and it looks like a forum trace would mostly come from the forum kills themselves, since cross-reports only land in places I'm not following. Counting the day 2 and day 6 kills puts the forum traces at around one, so a forum trigger would still leave the victims caught.\n\nI'm checking the forum trace math: day 6 brought the traced count from 7 to 10, so forum traces sit at one or two at most. I'm also makin"
   },
   {
    "day": 10,
    "kills": [
     {
-     "id": "d10-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d10-1",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-11",
-     "coverage": [
-      "foreign",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-4",
-     "coverage": [
-      "blotter",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-6",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-5",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-9",
-     "coverage": [
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -789,43 +823,93 @@
     {
      "id": "d10-2",
      "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
       "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d10-8",
+     "id": "d10-10",
      "coverage": [
-      "docket",
       "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d10-5",
+    "d10-2",
     "d10-4",
-    "d10-9",
-    "d10-11",
-    "d10-1"
+    "d10-6",
+    "d10-7",
+    "d10-10",
+    "d10-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D9: the pool showed 3000 and traced was 17. That matches about 55000 (afternoon routines) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are fully pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. National traces tell L nothing. FORUM IS DEADLY: it has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum. Residual risk: a radio or South victim might also be reported in forum without my knowing, which would trigger forum. That is roughly 2-3% per kill, and I accept it because x4 is worth far more. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. Skip both forum criminals. SAFETY: the expected pool stays about 3000. If it shows 2000 or less, stop radio and South and kill only national, foreign and hospital. If it shows 1000 or less I am already caught. MULTIPLIER: deaths D1-10 = 3,3,5,5,9,9,9,9,9,9. The window holds 45 at 9/day, x4 (needs 40; a day of 7 is fine). D10: killed d10-10 national, d10-1 and d10-11 foreign, d10-4 and d10-6 hospital, d10-5 and d10-9 South, d10-2 and d10-8 radio, all quick afternoon. Skipped forum d10-3 and d10-7.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. Pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 (traced 12). D8 9 (traced 16). D9 9 (traced 17, pool 3000). D10 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 3703,
-   "output_tokens": 2071,
-   "seconds": 20.2
+   "input_tokens": 3990,
+   "output_tokens": 1954,
+   "seconds": 18.5,
+   "reasoning": "I'm checking the pool floor first: day workers are out, which leaves night workers, students, and home workers at 55%, so 55,000 before the reachable kinds factor in. Then I need to look at the forum risk, since forum traces only come from my own forum kills.\n\nI'm working through the cross-report rule: a South criminal might also show up on cable, so the trace would tell me the killer follows South or cable, which isn't a clean 0.25 factor. The pool still sits at 3000, and since forum traces only come from my own forum kills, one more forum kill would carry about a 50% chance of a trace that drops the pool to roughly 750, so it isn't worth it.\n\nI'm double-checking the cross-report constraints: a South victim might also be reported somewhere I don't follow, so the intersection still lands o"
   },
   {
    "day": 11,
    "kills": [
     {
-     "id": "d11-3",
+     "id": "d11-1",
      "coverage": [
       "national"
      ],
@@ -833,7 +917,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-5",
+     "id": "d11-2",
      "coverage": [
       "foreign"
      ],
@@ -841,27 +925,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-11",
+     "id": "d11-3",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-6",
-     "coverage": [
-      "hospital",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-9",
-     "coverage": [
-      "hospital",
-      "podcasts"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -869,7 +935,16 @@
     {
      "id": "d11-4",
      "coverage": [
-      "radio"
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "cable",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -883,9 +958,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d11-1",
+     "id": "d11-8",
      "coverage": [
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -897,30 +972,37 @@
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
     }
    ],
    "traced": [
-    "d11-1",
-    "d11-5",
-    "d11-11",
-    "d11-6",
-    "d11-4"
+    "d11-4",
+    "d11-8"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D10: the pool showed 3000 and traced was 19. That matches about 55000 (afternoon routines) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. National traces tell L nothing. FORUM IS DEADLY: it has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum. CORRECTION: a victim's hidden extra report is always in a place I do NOT follow, so a radio or South victim can never secretly be in forum. Those kills carry no forum risk. Any extra place on them gives L only 'South or X' or 'radio or X', which he has already implied. Tiny residual risk: a D1 forum victim might also have been in some place X, and X might later reach 3 traces. That would cut the pool to about 1500. I cannot control it, so I accept it. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. Skip both forum criminals. SAFETY: the expected pool stays about 3000. If it shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). That drops the multiplier, but if the pool reaches 1000 I am caught. MULTIPLIER: deaths D1-11 = 3,3,5,5,9,9,9,9,9,9,9. At 9/day the window holds 45, so x4 holds (needs 40). D11: killed d11-3 national, d11-5 and d11-11 foreign, d11-6 and d11-9 hospital, d11-4 and d11-7 radio, d11-1 and d11-10 South, all quick afternoon. Skipped forum d11-2 and d11-8.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. Pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 (traced 12). D8 9 (traced 16). D9 9 (traced 17, pool 3000). D10 9 (traced 21, pool 3000). D11 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 3891,
-   "output_tokens": 2207,
-   "seconds": 21.1
+   "input_tokens": 4147,
+   "output_tokens": 1895,
+   "seconds": 17.9,
+   "reasoning": "I'm checking the numbers: a pool of 3000 holds steady, and the routine shares add up to 55% of 55000 people free in the afternoon. Both ways of applying the sector and probability fractions land at about 3000, so the plan still holds. Next I'm looking at cross-reports, where a death at a hospital might also show up under a regional heading and get traced twice.\n\nI'm weighing whether the forum is reachable, since a successful trace implies all places are. I'm also checking cross-reported victims, where the constraint becomes a union and so weakens, and the pool still holds at about 3000.\n\nI'm checking whether any cross-reported victims could tighten the constraint further, and concluding that each still leaves me among those following one of the reachable places, so the pool holds.\n\n"
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-7",
+     "id": "d12-5",
      "coverage": [
       "national"
      ],
@@ -928,10 +1010,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d12-2",
+     "id": "d12-1",
      "coverage": [
-      "foreign",
-      "gazette"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -939,23 +1020,25 @@
     {
      "id": "d12-4",
      "coverage": [
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d12-5",
+     "id": "d12-2",
      "coverage": [
-      "hospital"
+      "blotter",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d12-10",
+     "id": "d12-7",
      "coverage": [
-      "hospital"
+      "clips",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -963,7 +1046,8 @@
     {
      "id": "d12-3",
      "coverage": [
-      "radio"
+      "cable",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -971,7 +1055,7 @@
     {
      "id": "d12-8",
      "coverage": [
-      "radio"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -979,8 +1063,8 @@
     {
      "id": "d12-6",
      "coverage": [
-      "regional:South",
-      "wire"
+      "hospital",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -988,34 +1072,32 @@
     {
      "id": "d12-9",
      "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d12-9",
-    "d12-7",
-    "d12-10",
     "d12-4",
-    "d12-3"
+    "d12-2"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D11: the pool showed 3000 and traced was 21. That matches about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. Evidence: traced rises only about 2 a day, consistent with only radio and South succeeding. National traces tell L nothing. FORUM IS DEADLY: it has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so a radio or South victim can never secretly be in forum. Any extra place on them gives L only 'radio or X' or 'South or X', which he has already implied. Tiny residual risk: a D1 forum victim might also have been in some place X, and X might later reach 3 traces. I cannot control it, so I accept it. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). Five a day plus earlier 9s keeps the window at 40 or more for a while; check the sum. If the pool reaches 1000 or less I am caught and lose half my points. MULTIPLIER: deaths D1-12 = 3,3,5,5,9,9,9,9,9,9,9,9. At 9/day the window holds 45, so x4 holds (needs 40). D12: killed d12-7 national, d12-2 and d12-4 foreign, d12-5 and d12-10 hospital, d12-3 and d12-8 radio, d12-6 and d12-9 South, all quick afternoon. Skipped forum d12-1 and d12-11.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. Pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 (traced 12). D8 9 (traced 16). D9 9 (traced 17, pool 3000). D10 9 (traced 21, pool 3000). D11 9 (traced 21, pool 3000). D12 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 4156,
-   "output_tokens": 2216,
-   "seconds": 20.3
+   "input_tokens": 4329,
+   "output_tokens": 1981,
+   "seconds": 19.6,
+   "reasoning": "I'm checking the strategy numbers: the pool comes to about 3000, built from 55% of the population after ruling out day workers. Applying 20% and 25% to 55000 gives roughly 2750 to 3400, which I'll round to 3000.\n\nI'm working through whether the pool can shrink further: cross-reported victims point to regions I don't follow, so those traces fail, while forum kills stay reachable. Where a victim is reported in two regions, the intersection with an earlier South-only constraint still lands on South, so the floor of about 3000 holds.\n\nI'm also checking whether a victim cross-reported to another kind, like South plus docket, would shrink the pool further, and it doesn't beyond the pure South constraint. Forum kills stay reachable since I follow the forum, and the expected yield of about 36 per "
   },
   {
    "day": 13,
    "kills": [
     {
-     "id": "d13-7",
+     "id": "d13-4",
      "coverage": [
       "national"
      ],
@@ -1023,15 +1105,23 @@
      "block": "afternoon"
     },
     {
-     "id": "d13-2",
+     "id": "d13-1",
      "coverage": [
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-5",
+     "id": "d13-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
      "coverage": [
       "foreign",
       "regional:West"
@@ -1040,10 +1130,17 @@
      "block": "afternoon"
     },
     {
-     "id": "d13-1",
+     "id": "d13-7",
      "coverage": [
-      "hospital",
-      "podcasts"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1051,16 +1148,15 @@
     {
      "id": "d13-6",
      "coverage": [
-      "clips",
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-10",
+     "id": "d13-5",
      "coverage": [
-      "radio"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1068,23 +1164,7 @@
     {
      "id": "d13-11",
      "coverage": [
-      "clips",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-8",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-9",
-     "coverage": [
+      "regional:North",
       "regional:South"
      ],
      "entry": "quick",
@@ -1092,27 +1172,25 @@
     }
    ],
    "traced": [
-    "d13-6",
-    "d13-2",
-    "d13-7",
-    "d13-10",
-    "d13-1"
+    "d13-1",
+    "d13-2"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D12: pool 3000, traced 23. That matches about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR, so hospital and foreign traces always fail. Traced rises only about 2 a day, consistent with only radio and South succeeding. FORUM IS DEADLY: it has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. An extra place gives L only 'radio or X' or 'South or X', which he has already implied. Tiny residual risk: a D1 forum victim might also have been in some place X that later reaches 3 traces. I accept it. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). Check the 5-day sum stays at 40 or more for x4 (30 or more for x2). If the pool reaches 1000 or less I am caught and lose half my points. MULTIPLIER: deaths D1-13 = 3,3,5,5,9,9,9,9,9,9,9,9,9. At 9/day the window holds 45, so x4 holds. D13: killed d13-7 national, d13-2 and d13-5 foreign, d13-1 and d13-6 hospital, d13-10 and d13-11 radio, d13-8 and d13-9 South, all quick afternoon. Skipped forum d13-3 and d13-4.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: day 2's 2 forum kills raised traced from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. Pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that would shrink the routine share and the pool. Each 5-day window of 9/day = 45, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10, pool 3000). D7 9 (traced 12). D8 9 (traced 16). D9 9 (traced 17, pool 3000). D10 9 (traced 21). D11 9 (traced 21). D12 9 (traced 22, pool 3000). D13 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 4350,
-   "output_tokens": 2154,
-   "seconds": 20.6
+   "input_tokens": 4511,
+   "output_tokens": 1692,
+   "seconds": 15.5,
+   "reasoning": "I'm double-checking the numbers: the afternoon free routines come to 55%, and the pool estimate of about 3000 holds up under both calculations. Now I'm starting to look at the cross-report figure, though that sentence is still taking shape.\n\nI'm checking whether cross-reports could narrow the pool: a hospital criminal might also show up in the docket or the north region, so a successful trace would mean the killer follows at least one of those, which still leaves the floor intact. Since I follow the forum, cross-reports can't land there, so I'm skipping it. Afternoon stays as the constraint, and today's kill count still needs four more to reach forty.\n\n"
   },
   {
    "day": 14,
    "kills": [
     {
-     "id": "d14-11",
+     "id": "d14-1",
      "coverage": [
       "national"
      ],
@@ -1122,8 +1200,7 @@
     {
      "id": "d14-2",
      "coverage": [
-      "foreign",
-      "regional:West"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1131,14 +1208,30 @@
     {
      "id": "d14-3",
      "coverage": [
-      "clips",
       "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d14-6",
+     "id": "d14-4",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
      "coverage": [
       "hospital"
      ],
@@ -1148,15 +1241,7 @@
     {
      "id": "d14-8",
      "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-5",
-     "coverage": [
-      "radio"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1164,16 +1249,7 @@
     {
      "id": "d14-9",
      "coverage": [
-      "cable",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-7",
-     "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1181,34 +1257,33 @@
     {
      "id": "d14-10",
      "coverage": [
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d14-8",
-    "d14-10",
-    "d14-6",
-    "d14-11",
-    "d14-9"
+    "d14-2",
+    "d14-4",
+    "d14-5"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D13: pool 3000, traced 24. That matches about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: D2 foreign kills left traced unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Residual risk: a D1 forum victim might also have been in a reachable place X (North/East/West regional, or clips/podcasts/cable). If X reaches 3 traces through the hidden extras of my radio or South victims, the pool drops to about 860 and I am caught. I accept this, because x4 (36 points a day) far outweighs the alternative (5 a day at x1). DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). Check the 5-day sum stays at 40 or more for x4 (30 or more for x2). If the pool reaches 1000 or less I am caught. MULTIPLIER: deaths D1-14 = 3,3,5,5,9,9,9,9,9,9,9,9,9,9. At 9/day the window holds 45, so x4 holds. D14: killed d14-11 national, d14-2 and d14-3 foreign, d14-6 and d14-8 hospital, d14-5 and d14-9 radio, d14-7 and d14-10 South, all quick afternoon. Skipped forum d14-1 and d14-4.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: on day 2 the traced count rose from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that would shrink the routine share and the pool. 9/day gives 45 per 5-day window, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10). D7-D13 9/day, pool 3000 (traced 22 after D13). D14 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 4480,
-   "output_tokens": 2553,
-   "seconds": 27.4
+   "input_tokens": 4696,
+   "output_tokens": 1724,
+   "seconds": 15.9,
+   "reasoning": "I'm double-checking the plan: continue with 9 kills and skip the forum, and re-verifying the pool of 3000. Routines that are busy during more than two of the deaths are ruled out, which removes the day workers, leaving night workers, students, and people home all day, about 55% or 55,000. I'm now turning to the two reachable kinds among those.\n\nNow I'm checking the pool arithmetic for the two reachable kinds: 55,000 times those factors comes to 2,750 and 3,437, both rounding to the 3,000 figure. Cross-reported victims only give an either-or constraint, which is weaker than narrowing, so the reduction comes only from victims reported solely in the South. Whether the forum count stays at one depends on whether the day 6 forum kill was traced, and adding more forum kills risks a third trace.\n"
   },
   {
    "day": 15,
    "kills": [
     {
-     "id": "d15-4",
+     "id": "d15-9",
      "coverage": [
       "national"
      ],
@@ -1216,33 +1291,17 @@
      "block": "afternoon"
     },
     {
-     "id": "d15-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d15-1",
      "coverage": [
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d15-9",
+     "id": "d15-4",
      "coverage": [
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1256,53 +1315,74 @@
      "block": "afternoon"
     },
     {
-     "id": "d15-6",
+     "id": "d15-5",
      "coverage": [
-      "docket",
       "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d15-2",
+     "id": "d15-7",
      "coverage": [
-      "regional:South"
+      "clips",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d15-5",
+     "id": "d15-8",
      "coverage": [
-      "regional:South"
+      "blotter",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d15-6",
-    "d15-7",
+    "d15-9",
+    "d15-4",
+    "d15-3",
     "d15-5",
-    "d15-1",
-    "d15-2"
+    "d15-7",
+    "d15-10",
+    "d15-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D14: pool 3000, traced 26. That matches about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so BOTH radio and South are already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: D2 foreign kills left traced unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. A radio or South victim with a hidden extra (for example radio+podcasts) only gives L 'radio OR podcasts', which is weaker than what he already has, so it is harmless. Residual risk: a D1 forum victim might also have been in a reachable place X (North/East/West regional, or clips/podcasts/cable). If X reaches 3 traces through the hidden extras of my radio or South victims, the pool drops to about 860 and I am caught. I accept this, because x4 (36 points a day) far outweighs the alternative (5 a day at x1). DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). Check the 5-day sum stays at 40 or more for x4 (30 or more for x2). If the pool reaches 1000 or less I am caught. MULTIPLIER: deaths D1-15 = 3,3,5,5,9,9,9,9,9,9,9,9,9,9,9. At 9/day the window holds 45, so x4 holds. D15: killed d15-4 national, d15-7 and d15-10 foreign, d15-1 and d15-9 hospital, d15-3 and d15-6 radio, d15-2 and d15-5 South, all quick afternoon. Skipped forum d15-8 and d15-11.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: on day 2 the traced count rose from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that would shrink the routine share and the pool. 9/day gives 45 per 5-day window, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10). D7-D14 9/day, pool 3000 (traced 25 after D14). D15 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 4682,
-   "output_tokens": 2103,
-   "seconds": 19.4
+   "input_tokens": 4799,
+   "output_tokens": 1476,
+   "seconds": 12.9,
+   "reasoning": "I'm keeping the current full mode going: the pool is steady at 3000, and the remaining checks are quick for the afternoon. I'm also double-checking the forum reasoning, since two forum kills on day 2 brought the traced count to 1, and those victims may have been cross-reported to places I'm not tracking.\n\nI'm checking the forum reasoning again: if the forum kills fit within the places I can reach, the numbers still come out near 3000 with the extra factor added, so the model holds.\n\n"
   },
   {
    "day": 16,
    "kills": [
     {
-     "id": "d16-3",
+     "id": "d16-6",
      "coverage": [
       "national"
      ],
@@ -1310,26 +1390,24 @@
      "block": "afternoon"
     },
     {
+     "id": "d16-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d16-2",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d16-9",
+     "id": "d16-5",
      "coverage": [
-      "foreign",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-7",
-     "coverage": [
-      "docket",
       "hospital"
      ],
      "entry": "quick",
@@ -1344,60 +1422,62 @@
      "block": "afternoon"
     },
     {
-     "id": "d16-5",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-11",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d16-4",
      "coverage": [
-      "regional:South"
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d16-6",
     "d16-5",
-    "d16-11",
-    "d16-10",
-    "d16-9",
-    "d16-3"
+    "d16-4",
+    "d16-3",
+    "d16-9"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D15: pool 3000, traced 28. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Their hidden extras only give L weaker 'radio OR X' facts, which are harmless. Residual risk: a D1 forum victim might also have been in a reachable place X; I accept this. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths D1-16 = 3,3,5,5,9,9,9,9,9,9,9,9,9,9,9,9. At 9 a day the window holds 45, so x4 holds. D16: killed d16-3 national, d16-2 and d16-9 foreign, d16-7 and d16-10 hospital, d16-5 and d16-11 radio, d16-1 and d16-4 South, all quick afternoon. Skipped forum d16-6 and d16-8.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: on day 2 the traced count rose from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that would shrink the routine share and the pool. 9/day gives 45 per 5-day window, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10). D7-D15 9/day, pool 3000 (traced 28 after D15). D16 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 4907,
-   "output_tokens": 1322,
-   "seconds": 10.9
+   "input_tokens": 4964,
+   "output_tokens": 1660,
+   "seconds": 13.9,
+   "reasoning": "I'm re-checking the strategy numbers: the pool stays at 3000, and the afternoon free routines add up to 55%, which gives roughly 2750 to 3437 that round to 3000 either way, so it holds. Now I'm wondering whether the forum's traced victims matter for the plan.\n\nNow I'm checking whether forum traces can come from cross-reported kills, and I think they can't: the cross-reports go to places I don't follow, so only my own forum kills can leave a forum trace. A third forum trace would tell him the killer follows the forum, so I should keep away from it.\n\nNow I'm going over the kill tallies for today: one national, two in the South, two at the hospital, two on the radio, and two abroad. The multiplier holds at 4 so far, so I'll keep counting the window as it goes.\n\n"
   },
   {
    "day": 17,
    "kills": [
     {
-     "id": "d17-6",
+     "id": "d17-9",
      "coverage": [
       "national"
      ],
@@ -1407,7 +1487,7 @@
     {
      "id": "d17-5",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1415,24 +1495,8 @@
     {
      "id": "d17-8",
      "coverage": [
-      "clips",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-3",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-10",
-     "coverage": [
-      "hospital"
+      "regional:East",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1440,24 +1504,25 @@
     {
      "id": "d17-1",
      "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
       "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-2",
-     "coverage": [
-      "radio",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-4",
-     "coverage": [
-      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1465,34 +1530,48 @@
     {
      "id": "d17-11",
      "coverage": [
-      "regional:South"
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d17-6",
-    "d17-10",
-    "d17-3",
-    "d17-4",
-    "d17-1"
+    "d17-5",
+    "d17-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D16: pool 3000, traced 30. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Their hidden extras only give L weaker 'radio OR X' facts, which are harmless. Residual risk: a D1 forum victim might also have been in a reachable place X; I accept this. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths D1-17 = 3,3,5,5, then 9 every day from D5 to D17. At 9 a day the window holds 45, so x4 holds. D17: killed d17-6 national, d17-5 and d17-8 foreign, d17-3 and d17-10 hospital, d17-1 and d17-2 radio, d17-4 and d17-11 South, all quick afternoon. Skipped forum d17-7 and d17-9.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: on day 2 the traced count rose from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. This holds on the last day too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that would shrink the routine share and the pool. 9/day gives 45 per 5-day window, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10). D7-D16 9/day, pool 3000 (traced 29 after D16). D17 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 4959,
-   "output_tokens": 1275,
-   "seconds": 10.5
+   "input_tokens": 5129,
+   "output_tokens": 1722,
+   "seconds": 14.8,
+   "reasoning": "I'm checking the numbers: a pool of 3000, with the routine afternoon kills ruled out since day workers are busy then. That leaves night workers, students, and home at 55%, which gives roughly 2750 or 3437, both rounding to 3000. I'm now weighing a third trace from the forum.\n\nI'm noting that a few earlier traces may be cross-reports, which would make some kills untraceable through the places I follow. Day 2's forum kill being traced means the forum is reachable, but day 1's zero traces could just be luck. The pool still looks stable at 3000, so I'll keep going.\n\nI'm going through the possible kill sites and the cross-reported victims, and I'm deciding against a late forum kill on day 30, since getting caught at the end would cost half. Today I've logged nine quick kills across the afternoo"
   },
   {
    "day": 18,
    "kills": [
     {
-     "id": "d18-8",
+     "id": "d18-5",
      "coverage": [
       "national"
      ],
@@ -1500,23 +1579,23 @@
      "block": "afternoon"
     },
     {
+     "id": "d18-2",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d18-10",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d18-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-7",
+     "id": "d18-3",
      "coverage": [
       "hospital"
      ],
@@ -1524,9 +1603,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d18-9",
+     "id": "d18-11",
      "coverage": [
-      "blotter",
+      "gazette",
       "hospital"
      ],
      "entry": "quick",
@@ -1541,7 +1620,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d18-3",
+     "id": "d18-4",
      "coverage": [
       "radio"
      ],
@@ -1549,38 +1628,41 @@
      "block": "afternoon"
     },
     {
-     "id": "d18-2",
+     "id": "d18-7",
      "coverage": [
-      "regional:South"
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d18-6",
+     "id": "d18-8",
      "coverage": [
-      "regional:South"
+      "foreign",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d18-1",
+    "d18-10",
     "d18-3",
-    "d18-8",
-    "d18-2",
-    "d18-6"
+    "d18-11",
+    "d18-1",
+    "d18-4"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D17: pool 3000, traced 32. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Their hidden extras only give L weaker 'radio OR X' facts, which are harmless. Residual risk: a D1 forum victim might also have been in a reachable place X; I accept this. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths D1-18 = 3,3,5,5, then 9 every day from D5 to D18. At 9 a day the window holds 45, so x4 holds. D18: killed d18-8 national, d18-10 and d18-11 foreign, d18-7 and d18-9 hospital, d18-1 and d18-3 radio, d18-2 and d18-6 South, all quick afternoon. Skipped forum d18-4 and d18-5. Continue the same plan through D30.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds. FORUM IS REACHABLE: on day 2 the traced count rose from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That leaves exactly 2 of {regional, sector, age, foreign} reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25. So both reachable kinds have triggered and this is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace means pool x0.25, about 700, and I am caught and lose half my points. This holds on the last day too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national plus South x2, hospital x2, radio x2, foreign x2, which is 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that would shrink the routine share and the pool. 9/day gives 45 per 5-day window, at least 40, so x4 holds. Skip forum even if it leaves fewer than 9 on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 incl. 1 forum (traced 10). D7-D17 9/day, pool 3000 (traced 31 after D17). D18 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 5114,
-   "output_tokens": 1232,
-   "seconds": 10.2
+   "input_tokens": 5303,
+   "output_tokens": 1251,
+   "seconds": 9.6,
+   "reasoning": "I'm confirming the pool is still at 3000 and that my trace of day 17 holds up. The plan stays the same: nine kills on day 18, with the forum skipped. I also want a quick sanity check on the forum ris\n\nI'm checking the cross-report logic: a South victim can't also show up in the forum, since I follow the forum and cross-reports only go to places I don't follow. That means any forum trace comes only from my own forum kills, which is fine. I'll also update my notes with the day 17 result and the day 18 plan.\n\n"
   },
   {
    "day": 19,
@@ -1596,16 +1678,7 @@
     {
      "id": "d19-3",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-6",
-     "coverage": [
-      "foreign",
-      "podcasts"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1619,15 +1692,15 @@
      "block": "afternoon"
     },
     {
-     "id": "d19-10",
+     "id": "d19-4",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d19-2",
+     "id": "d19-10",
      "coverage": [
       "radio"
      ],
@@ -1637,16 +1710,25 @@
     {
      "id": "d19-5",
      "coverage": [
-      "radio",
-      "regional:East"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d19-4",
+     "id": "d19-6",
      "coverage": [
+      "regional:North",
       "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "blotter",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1654,7 +1736,7 @@
     {
      "id": "d19-11",
      "coverage": [
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1662,20 +1744,18 @@
    ],
    "traced": [
     "d19-9",
-    "d19-3",
-    "d19-7",
-    "d19-2",
-    "d19-11"
+    "d19-6"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D18: pool 3000, traced 36. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Their hidden extras only give L weaker 'radio OR X' facts, which are harmless. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths D1-19 = 3,3,5,5, then 9 every day from D5 to D19. At 9 a day the window holds 45, so x4 holds. D18 traced count rose by 4 instead of about 2 (random variation); the pool held at 3000. D19: killed d19-7 national, d19-3 and d19-6 foreign, d19-9 and d19-10 hospital, d19-2 and d19-5 radio, d19-4 and d19-11 South, all quick afternoon. Skipped forum d19-1 and d19-8. Continue the same plan through D30.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that shrinks the routine share. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D18 9/day, pool 3000 (traced 34 after D18). D19 9 kills: national, South x2, hospital x2, radio x2, foreign x2, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 5290,
-   "output_tokens": 1464,
-   "seconds": 12.3
+   "input_tokens": 5468,
+   "output_tokens": 1419,
+   "seconds": 12.2,
+   "reasoning": "I'm keeping the strategy going with the pool steady at 3000, and I'm dropping nine of the d19 sub-segments (national, hospital, radio, South, foreign, and the numbered ones) while skipping forums 1 and 2. Next I'm checking whether it holds that the pool is sitting at its floor, since 55000 \u00d7 0.05 gives 2750, which rounds to 3000.\n\nChecking the pool math, 55000 \u00d7 0.0625 comes to about 3437, which still rounds to 3000, so the floor holds. I'm also considering whether reports that cross into places I don't follow could shrink the pool further, but the OR constraints already cover that and the pool has stayed at 3000 for 14 days, so I'll keep going.\n\n"
   },
   {
    "day": 20,
@@ -1691,16 +1771,23 @@
     {
      "id": "d20-2",
      "coverage": [
-      "foreign",
-      "podcasts"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d20-11",
+     "id": "d20-9",
      "coverage": [
-      "foreign"
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1714,15 +1801,16 @@
      "block": "afternoon"
     },
     {
-     "id": "d20-10",
+     "id": "d20-1",
      "coverage": [
-      "hospital"
+      "radio",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d20-4",
+     "id": "d20-3",
      "coverage": [
       "radio"
      ],
@@ -1732,60 +1820,6 @@
     {
      "id": "d20-5",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-1",
-     "coverage": [
-      "podcasts",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-3",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d20-10",
-    "d20-11",
-    "d20-5",
-    "d20-4",
-    "d20-3"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS after D19: pool 3000, traced 38. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Their hidden extras only give L weaker 'radio OR X' facts, which are harmless. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths: D1-4 = 3,3,5,5, then 9 every day from D5 to D20. At 9 a day the window holds 45, so x4 holds. D20: killed d20-6 national, d20-2 and d20-11 foreign, d20-8 and d20-10 hospital, d20-4 and d20-5 radio, d20-1 and d20-3 South, all quick afternoon. Skipped forum d20-7 and d20-9. Continue the same plan through D30.",
-   "error": null,
-   "input_tokens": 5457,
-   "output_tokens": 1654,
-   "seconds": 14.4
-  },
-  {
-   "day": 21,
-   "kills": [
-    {
-     "id": "d21-5",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-7",
-     "coverage": [
       "foreign",
       "regional:North"
      ],
@@ -1793,10 +1827,39 @@
      "block": "afternoon"
     },
     {
-     "id": "d21-8",
+     "id": "d20-7",
      "coverage": [
-      "foreign",
-      "regional:East"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-2",
+    "d20-4",
+    "d20-8",
+    "d20-1",
+    "d20-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that shrinks the routine share. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D19 9/day, pool 3000 (traced 35 after D19). D20 9 kills, same pattern, all quick afternoon; skipped 2 forum.",
+   "error": null,
+   "input_tokens": 5634,
+   "output_tokens": 1479,
+   "seconds": 12.9,
+   "reasoning": "I'm continuing with the strategy: the pool of 3000 checks out, and I'm marking nine targets for quick afternoon kills, spread across the national, South, hospital, radio and foreign groups. Then I want to sanity-check the 3000 floor reasoning, ruling out day workers since they're only free in the evening or at night, which leaves night workers at 15% and students at 20%.\n\nI'm checking the 3000 floor against the remaining pool: 55000 if I take only the 55% that's left after ruling out day workers. Forum kills stay reachable but would only yield one or two traces, so they aren't triggered. Two other kinds, regional and age, each at 0.25, cover the rest of the reasoning. I also need to account for cross-reports to reachable places, which loosens the pool somewhat, though it should still sit a"
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-2",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1804,16 +1867,15 @@
     {
      "id": "d21-3",
      "coverage": [
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d21-11",
+     "id": "d21-4",
      "coverage": [
-      "gazette",
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1827,7 +1889,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d21-4",
+     "id": "d21-5",
      "coverage": [
       "radio"
      ],
@@ -1835,10 +1897,26 @@
      "block": "afternoon"
     },
     {
-     "id": "d21-2",
+     "id": "d21-9",
      "coverage": [
-      "docket",
-      "regional:South"
+      "blotter",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1846,36 +1924,75 @@
     {
      "id": "d21-10",
      "coverage": [
-      "regional:South"
+      "cable",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d21-2",
     "d21-4",
-    "d21-5",
-    "d21-8",
-    "d21-1"
+    "d21-9"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D20: pool 3000, traced 41. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. Their hidden extras only give L weaker 'radio OR X' facts, which are harmless. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths: D1-4 = 3,3,5,5, then 9 every day from D5 to D21. At 9 a day the window holds 45, so x4 holds. D21: killed d21-5 national, d21-7 and d21-8 foreign, d21-3 and d21-11 hospital, d21-1 and d21-4 radio, d21-2 and d21-10 South, all quick afternoon. Skipped forum d21-6 and d21-9. Continue the same plan through D30.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening, since that shrinks the routine share. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D20 9/day, pool 3000 (traced 36 after D20). D21 9 kills, same pattern, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 5590,
-   "output_tokens": 1848,
-   "seconds": 16.9
+   "input_tokens": 5786,
+   "output_tokens": 1617,
+   "seconds": 14.2,
+   "reasoning": "Checking the pool math: excluding day workers leaves 55% of 3000, about 55,000. Applying the 0.2 and 0.25 factors gives roughly 2,750, which rounds to 3,000. Then I'm weighing whether the forum traces also stack another 0.25, which would drop it to around 700.\n\nI'm checking whether the forum traces could stack another factor, and I'm keeping the forum out of the pool since it's only partly confirmed. I'm also checking whether a cross-report could add a third constraint, but the pool has held at 3000 for fifteen days, and the forum isn't a place I'm following for cross-reports anyway. Last, I'm verifying the kill window: the nine quick afternoon kills fall within days 17 to 21, which is 45 days, enough to fit the 40-day requirement.\n\n"
   },
   {
    "day": 22,
    "kills": [
     {
-     "id": "d22-9",
+     "id": "d22-7",
      "coverage": [
       "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1889,22 +2006,6 @@
      "block": "afternoon"
     },
     {
-     "id": "d22-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-3",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d22-8",
      "coverage": [
       "hospital"
@@ -1913,60 +2014,34 @@
      "block": "afternoon"
     },
     {
-     "id": "d22-1",
+     "id": "d22-10",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-5",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-2",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-6",
-     "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-5",
-    "d22-9",
-    "d22-11",
-    "d22-4",
+    "d22-2",
     "d22-6"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D21: pool 3000, traced 43. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths are 9 every day from D5 onward, so the window holds 45 and x4 holds. D22: killed d22-9 national, d22-4 and d22-11 foreign, d22-3 and d22-8 hospital, d22-1 and d22-5 radio, d22-2 and d22-6 South, all quick afternoon. Skipped forum d22-7 and d22-10. Continue the same plan through D30.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. New traces cannot shrink it further: a traced victim gives 'follows South OR X', and everyone left in the pool already follows South (and the other reached place). Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D21 9/day, pool 3000 (traced 37 after D21). D22 9 kills, same pattern, all quick afternoon; skipped 2 forum.",
    "error": null,
-   "input_tokens": 5755,
-   "output_tokens": 1175,
-   "seconds": 9.4
+   "input_tokens": 5951,
+   "output_tokens": 1386,
+   "seconds": 11.4,
+   "reasoning": "I'm keeping the strategy going and checking that the pool of 3000 still holds. The forum victims only come from forum kills, since cross-reports go to places I'm not following, and the 55% share of 55000 works out to about 2750, which rounds to 3000.\n\nI'm checking whether the pool can shrink further when other victim traces come in, but each new constraint is already met by pool members who all follow South, so it stays at 3000. Next I'm settling on which nine kills to make.\n\n"
   },
   {
    "day": 23,
    "kills": [
     {
-     "id": "d23-4",
+     "id": "d23-8",
      "coverage": [
       "national"
      ],
@@ -1976,25 +2051,15 @@
     {
      "id": "d23-2",
      "coverage": [
-      "foreign"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d23-10",
+     "id": "d23-4",
      "coverage": [
-      "clips",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-1",
-     "coverage": [
-      "hospital",
-      "regional:North"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2008,23 +2073,16 @@
      "block": "afternoon"
     },
     {
-     "id": "d23-5",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d23-7",
      "coverage": [
-      "radio"
+      "docket",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d23-8",
+     "id": "d23-6",
      "coverage": [
       "regional:South"
      ],
@@ -2034,34 +2092,53 @@
     {
      "id": "d23-9",
      "coverage": [
-      "regional:South"
+      "regional:South",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d23-4",
-    "d23-9",
-    "d23-2",
     "d23-8",
-    "d23-1"
+    "d23-2",
+    "d23-4",
+    "d23-7",
+    "d23-6",
+    "d23-9"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D22: pool 3000, traced 45. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths are 9 every day from D5 onward, so the window holds 45 and x4 holds. D23: killed d23-4 national, d23-2 and d23-10 foreign, d23-1 and d23-3 hospital, d23-5 and d23-7 radio, d23-8 and d23-9 South, all quick afternoon. Skipped forum d23-6 and d23-11. Continue the same plan through D30.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. New traces cannot shrink it further: a traced victim gives 'follows South OR X', and everyone left in the pool already follows South (and the other reached place). Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D22 9/day, pool 3000 (traced 39 after D22). D23 9 kills, same pattern, all quick afternoon; skipped 2 forum (d23-1, d23-5).",
    "error": null,
-   "input_tokens": 5868,
-   "output_tokens": 1710,
-   "seconds": 15.6
+   "input_tokens": 6154,
+   "output_tokens": 1116,
+   "seconds": 8.4,
+   "reasoning": "I'm going with the plan to kill everything except the forum instances (d23-1 and d23-5), which is nine kills and should be a quick afternoon. I'll also do a quick check that pool 3000 is stable, then continue and update the notes log.\n\n"
   },
   {
    "day": 24,
    "kills": [
     {
-     "id": "d24-3",
+     "id": "d24-9",
      "coverage": [
       "national"
      ],
@@ -2069,57 +2146,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d24-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-8",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-6",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-10",
-     "coverage": [
-      "gazette",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-2",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-9",
-     "coverage": [
-      "gazette",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-5",
+     "id": "d24-4",
      "coverage": [
       "regional:South"
      ],
@@ -2129,59 +2156,13 @@
     {
      "id": "d24-11",
      "coverage": [
-      "regional:South",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d24-8",
-    "d24-9",
-    "d24-3",
-    "d24-7",
-    "d24-10"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATUS after D23: pool 3000, traced 47. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so radio or South victims can never secretly be in forum. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window, x2 needs 30+. Deaths are 9 every day from D5 onward, so the window holds 45 and x4 holds. D24: killed d24-3 national, d24-7 and d24-8 foreign, d24-6 and d24-10 hospital, d24-2 and d24-9 radio, d24-5 and d24-11 South, all quick afternoon. Skipped forum d24-1 and d24-4. Continue the same plan through D30.",
-   "error": null,
-   "input_tokens": 6033,
-   "output_tokens": 1161,
-   "seconds": 10.1
-  },
-  {
-   "day": 25,
-   "kills": [
-    {
-     "id": "d25-5",
-     "coverage": [
-      "national"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d25-6",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-7",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-4",
+     "id": "d24-5",
      "coverage": [
       "hospital"
      ],
@@ -2189,7 +2170,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-9",
+     "id": "d24-8",
      "coverage": [
       "hospital"
      ],
@@ -2197,7 +2178,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-10",
+     "id": "d24-6",
      "coverage": [
       "radio"
      ],
@@ -2205,10 +2186,56 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-11",
+     "id": "d24-10",
      "coverage": [
-      "radio",
-      "regional:East"
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-11",
+    "d24-8",
+    "d24-6",
+    "d24-10",
+    "d24-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. New traces cannot shrink it further: a traced victim gives 'follows South OR X', and everyone left in the pool already follows South (and the other reached place). Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D23 9/day, pool 3000 (traced 43 after D23). D24 9 kills, same pattern, all quick afternoon; skipped 2 forum (d24-3, d24-7).",
+   "error": null,
+   "input_tokens": 6329,
+   "output_tokens": 1461,
+   "seconds": 12.1,
+   "reasoning": "I'm checking the pool figure: 55% of 100,000 non-day-workers gives about 55,000, and the cutoffs round to 3,000 either way, so that holds. The forum is reachable, but its third trace cuts the yield to roughly 750 to 860, so I'm leaning away from it. I'm starting to wonder whether a traced South\n\nI'm going through the remaining cases where a traced victim was also cross-reported somewhere I don't follow, and whether that would narrow the pool beyond what I already have, since the pool sits at its floor. Then I'm ruling out nine of the d24 candidates and keeping d24-3 and d24-7.\n\n"
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-6",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2222,36 +2249,90 @@
      "block": "afternoon"
     },
     {
-     "id": "d25-8",
+     "id": "d25-11",
      "coverage": [
       "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "foreign",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d25-11",
-    "d25-9",
+    "d25-6",
     "d25-2",
+    "d25-11",
     "d25-4",
-    "d25-7"
+    "d25-8",
+    "d25-3",
+    "d25-5"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D24: pool 3000, traced 47. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed. A victim's hidden extra report is always in a place I do NOT follow, so non-forum victims can never secretly be in forum. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window. Deaths are 9 every day, so the window holds 45 and x4 holds. D25: killed d25-5 national, d25-6 and d25-7 foreign, d25-4 and d25-9 hospital, d25-10 and d25-11 radio, d25-2 and d25-8 South, all quick afternoon. Skipped forum d25-1 and d25-3. Continue the same plan through D30, the last day included.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 matches 55000 (day workers ruled out by afternoon quick kills) x 0.2 x 0.25 or x 0.25 x 0.25, so both reachable kinds have triggered and 3000 is the floor. New traces cannot shrink it further: a traced victim gives 'follows South OR X', and everyone left in the pool already follows South (and the other reached place). Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. Timed entries do not help, because tracing does not depend on the block. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Afternoon keeps night workers, students and home; never use morning or evening. 9/day gives 45 per 5-day window, which is at least 40, so x4 holds. Skip forum even if that leaves fewer than 9 kills on a day. GUARD: if the pool shows 2000 or below, something unexpected happened: cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1 national + hospital x2 (traced 0). D2 national + forum x2 (traced 1). D3 9 kills (traced 3, pool 60000). D4 9 (traced 5, pool 10000). D5 9 (traced 7, pool 3000). D6 10 including 1 forum (traced 10). D7-D24 9/day, pool 3000 (traced 46 after D24). D25 9 kills, same pattern, all quick afternoon; skipped 2 forum (d25-1, d25-10).",
    "error": null,
-   "input_tokens": 6198,
-   "output_tokens": 1464,
-   "seconds": 12.5
+   "input_tokens": 6494,
+   "output_tokens": 1263,
+   "seconds": 10.3,
+   "reasoning": "I'm skipping forum criminals d25-1 and d25-10 and going after the other nine, which should be quick work for the afternoon. I'm also checking the pool against its floor: 3000 comes out the same whether I use 5% or 6.25% of 55000, so that figure holds.\n\nThe multiplier checks out: 36 kills over the last four days plus today's 9 makes 45, which clears the 40-kill bar for x4. Next I'm logging today's D25 entry in the notes.\n\n"
   },
   {
    "day": 26,
    "kills": [
     {
-     "id": "d26-7",
+     "id": "d26-5",
      "coverage": [
       "national"
      ],
@@ -2259,42 +2340,17 @@
      "block": "afternoon"
     },
     {
-     "id": "d26-4",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-1",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-5",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d26-6",
      "coverage": [
-      "docket",
-      "radio"
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2302,6 +2358,31 @@
     {
      "id": "d26-9",
      "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "cable",
       "radio"
      ],
      "entry": "quick",
@@ -2310,93 +2391,46 @@
     {
      "id": "d26-3",
      "coverage": [
-      "regional:South"
+      "foreign",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d26-10",
+     "id": "d26-4",
      "coverage": [
-      "regional:South"
+      "docket",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d26-11",
-    "d26-3",
-    "d26-4",
-    "d26-7",
-    "d26-10"
+    "d26-5",
+    "d26-6",
+    "d26-8",
+    "d26-1"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D25: pool 3000, traced 49. The pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437, so radio and South are both already pinned. More radio or South kills add no new information. Unreachable kinds are FOREIGN and SECTOR: the D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail. FORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed, not even on D30. A victim's hidden extra report is always in a place I do NOT follow, so non-forum victims can never secretly be in forum. DAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9, ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals. SAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught. MULTIPLIER: x4 needs 40+ deaths in the 5-day window. Deaths are 9 every day, so the window holds 45 and x4 holds. D26: killed d26-7 national, d26-4 and d26-11 foreign, d26-1 and d26-5 hospital, d26-6 and d26-9 radio, d26-3 and d26-10 South, all quick afternoon. Skipped forum d26-2 and d26-8. Continue the same plan through D30, the last day included.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 is the floor: both reachable kinds have triggered, and every traced non-forum victim gives 'South OR X', which everyone left in the pool already satisfies. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 700, which means caught and half points lost. This holds on the last day (day 30) too. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Never use morning or evening. 9/day gives 45 per 5-day window, so x4 holds. Skip forum even if that leaves fewer than 9 kills. GUARD: if the pool shows 2000 or below, cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1-D25 as before; pool 3000 since D5; traced 48 after D25. D26 9 kills, same pattern, quick afternoon; skipped forum d26-2 and d26-7.",
    "error": null,
-   "input_tokens": 6353,
-   "output_tokens": 1951,
-   "seconds": 18.2
+   "input_tokens": 6659,
+   "output_tokens": 1019,
+   "seconds": 9.0,
+   "reasoning": "I'm assigning today's tasks: national to d26-5, South to d26-6 and d26-8, hospital to d26-9 and d26-11, radio to d26-1 and d26-10, and foreign to d26-3 and d26-4, leaving out forum d26-2 and d26-7. I'm also double-checking the forum trace count, since day 2 shows one trace and day 6 is less clear.\n\nI'm checking whether the next part of the forum count still holds up, since a third trace would leave fewer targets. Either way, I'm keeping forum out of today's list and moving on to writing the notes.\n\n"
   },
   {
    "day": 27,
    "kills": [
     {
-     "id": "d27-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-4",
-     "coverage": [
-      "foreign",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-11",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-7",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-10",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d27-8",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-9",
-     "coverage": [
-      "radio"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2410,37 +2444,87 @@
      "block": "afternoon"
     },
     {
-     "id": "d27-3",
+     "id": "d27-6",
      "coverage": [
-      "cable",
       "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d27-7",
+    "d27-8",
     "d27-6",
-    "d27-11",
+    "d27-7",
     "d27-9",
-    "d27-8"
+    "d27-4",
+    "d27-5"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D26: pool 3000, traced 51.\n\nWHY THE POOL IS STUCK AT 3000: the pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437. So radio and South are both already pinned, and more radio or South kills add no new information.\n\nUNREACHABLE KINDS are FOREIGN and SECTOR. The D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail.\n\nFORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed, not even on D30. A victim's hidden extra report is always in a place I do NOT follow, so non-forum victims can never secretly be in forum.\n\nDAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9. ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals.\n\nSAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught.\n\nMULTIPLIER: x4 needs 40+ deaths in the 5-day window. Deaths are 9 every day, so the window holds 45 and x4 holds.\n\nD27: killed d27-6 national, d27-4 and d27-11 foreign, d27-7 and d27-10 hospital, d27-8 and d27-9 radio, d27-2 and d27-3 South, all quick afternoon. Skipped forum d27-1 and d27-5.\n\nContinue the same plan through D30, the last day included.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 is the floor: 100000 x 0.55 (routines free in the afternoon) x 0.25 x 0.25 is about 3400. Every traced non-forum victim gives 'South OR X', which everyone left in the pool already satisfies. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 850, which means caught and half points lost. This holds on the last day (day 30) too. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Never use morning or evening. 9/day gives 45 per 5-day window, so x4 holds. Skip forum even if that leaves fewer than 9 kills. GUARD: if the pool shows 2000 or below, cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1-D26 as before; pool 3000 since D5; traced 51 after D26. D27 9 kills, same pattern, quick afternoon; skipped forum d27-1 and d27-3.",
    "error": null,
-   "input_tokens": 6524,
-   "output_tokens": 1492,
-   "seconds": 12.7
+   "input_tokens": 6596,
+   "output_tokens": 1351,
+   "seconds": 11.9,
+   "reasoning": "I'm going back over the strategy and checking the numbers: the pool of 3000 doesn't obviously match 100000 times a routine filter, so I'm testing whether the afternoon share of about 55% actually produces it.\n\nI'm checking that the afternoon share of 55% times the two reachable kinds at 25% each gives a pool near 3000, and that a morning window would still leave it too large, so I'll stay in the afternoon. That leaves nine kills today, with days 27-1 and 27-3 skipped, and four more days to go.\n\n"
   },
   {
    "day": 28,
    "kills": [
     {
-     "id": "d28-7",
+     "id": "d28-8",
      "coverage": [
       "national"
      ],
@@ -2448,9 +2532,25 @@
      "block": "afternoon"
     },
     {
-     "id": "d28-3",
+     "id": "d28-1",
      "coverage": [
       "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2458,15 +2558,16 @@
     {
      "id": "d28-9",
      "coverage": [
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d28-1",
+     "id": "d28-3",
      "coverage": [
-      "hospital"
+      "docket",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2474,7 +2575,7 @@
     {
      "id": "d28-4",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2482,15 +2583,7 @@
     {
      "id": "d28-5",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-8",
-     "coverage": [
-      "radio"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2502,38 +2595,31 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d28-11",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d28-5",
-    "d28-6",
+    "d28-11",
+    "d28-2",
+    "d28-3",
     "d28-4",
-    "d28-1",
-    "d28-9"
+    "d28-6"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D27: pool 3000, traced 53.\n\nWHY THE POOL IS STUCK AT 3000: the pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437. So radio and South are both already pinned, and more radio or South kills add no new information.\n\nUNREACHABLE KINDS are FOREIGN and SECTOR. The D2 foreign kills left the traced count unchanged. Hospital and foreign traces always fail.\n\nFORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed, not even on D30. A victim's hidden extra report is always in a place I do NOT follow, so non-forum victims can never secretly be in forum.\n\nDAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9. ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals.\n\nSAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital (5 a day). If the pool reaches 1000 or less I am caught.\n\nMULTIPLIER: x4 needs 40+ deaths in the 5-day window. Deaths are 9 every day, so the window holds 45 and x4 holds.\n\nD28: killed d28-7 national, d28-3 and d28-9 foreign, d28-1 and d28-4 hospital, d28-5 and d28-8 radio, d28-6 and d28-11 South, all quick afternoon. Skipped forum d28-2 and d28-10. Points before D28 were 781; expect 817 after.\n\nContinue the same plan on D29 and D30, the last day included.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 is the floor: 100000 x 0.55 (routines free in the afternoon) x 0.25 x 0.25 is about 3400. Every traced non-forum victim gives 'South OR X', which everyone left in the pool already satisfies. Cross-reports only go to places I do NOT follow, so forum traces come only from my own forum kills. Forum has 1 or 2 traces (day 2 gave 1; day 6 killed 1 more forum). NEVER KILL FORUM AGAIN: a 3rd trace cuts the pool x0.25 to about 850, which means caught and half points lost. This holds on the last day (day 30) too. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Never use morning or evening. 9/day gives 45 per 5-day window, so x4 holds. Skip forum even if that leaves fewer than 9 kills. GUARD: if the pool shows 2000 or below, cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: D1-D27 as before; pool 3000 since D5; traced 53 after D27. Points 838 at start of D28. D28 9 kills, same pattern, quick afternoon; skipped forum d28-7 and d28-10.",
    "error": null,
-   "input_tokens": 6746,
-   "output_tokens": 1189,
-   "seconds": 10.1
+   "input_tokens": 6788,
+   "output_tokens": 1432,
+   "seconds": 13.0,
+   "reasoning": "I'm going back over the strategy: starting with a 3,000-person pool from the 100,000 who fit the routine filter, then narrowing to the afternoon-free group at about 55%. I'm also checking non-forum victims, where a regional pattern could cut the suspect pool to a quarter if the killer's movements are traceable.\n\nI'm checking the constraint logic: the 3,000 pool comes from two active \u00d70.25 cuts, and with the forum reachable, a third forum trace would drop it to about 850, so I'm keeping clear of the forum. Today's kill count is 9 with a multiplier of 4, putting the score at 838.\n\n"
   },
   {
    "day": 29,
    "kills": [
     {
-     "id": "d29-9",
+     "id": "d29-2",
      "coverage": [
       "national"
      ],
@@ -2543,22 +2629,23 @@
     {
      "id": "d29-6",
      "coverage": [
-      "foreign",
-      "regional:West"
+      "regional:South",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d29-11",
+     "id": "d29-9",
      "coverage": [
-      "foreign"
+      "gazette",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d29-3",
+     "id": "d29-7",
      "coverage": [
       "hospital"
      ],
@@ -2568,24 +2655,7 @@
     {
      "id": "d29-10",
      "coverage": [
-      "cable",
       "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-2",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-8",
-     "coverage": [
-      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2593,7 +2663,24 @@
     {
      "id": "d29-1",
      "coverage": [
-      "regional:South"
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2601,34 +2688,32 @@
     {
      "id": "d29-4",
      "coverage": [
-      "regional:South"
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-3",
-    "d29-8",
-    "d29-4",
-    "d29-2",
-    "d29-1"
+    "d29-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATUS after D28: pool 3000, traced 55.\n\nWHY THE POOL IS STUCK AT 3000: the pool fits about 55000 (people free in the afternoon) x 0.25 (South) x 0.25 (radio) = 3437. Radio and South are both already pinned, so more radio or South kills add no new information.\n\nUNREACHABLE KINDS are FOREIGN and SECTOR. Hospital and foreign traces always fail.\n\nFORUM IS DEADLY: it already has 2 successful traces (the D1 forum kills). One more means x0.25, about 860 suspects, and I am CAUGHT. NEVER kill any criminal reported in forum, quick or timed, not even on D30. A victim's hidden extra report is always in a place I do not follow, so non-forum victims can never secretly be in forum.\n\nDAILY PLAN: kill national + 2 foreign + 2 hospital + 2 radio + 2 South = 9. ALL quick, ALL AFTERNOON. Never morning, evening or night. Skip both forum criminals.\n\nSAFETY: if the pool shows 2000 or less, stop radio and South and kill only national, foreign and hospital. If the pool reaches 1000 or less I am caught.\n\nMULTIPLIER: x4 holds, since 9 deaths a day gives 45 in the 5-day window.\n\nD29: killed d29-9 national, d29-6 and d29-11 foreign, d29-3 and d29-10 hospital, d29-2 and d29-8 radio, d29-1 and d29-4 South, all quick afternoon. Skipped forum d29-5 and d29-7. Points were 817 before D29; expect 853 after.\n\nD30 is the LAST day: same plan. Remember the catch check also happens at the end of D30, so still skip forum.",
+   "notes_to_self": "STRATEGY: L can reach 3 of the 5 kinds of place. FORUM IS REACHABLE: on day 2 the traced count went from 0 to 1, and that day had only forum kills plus national, so exactly 1 forum trace came from day 2. That means exactly 2 of {regional, sector, age, foreign} are reachable. The pool of 3000 is the floor: 100000 x 0.55 (routines free in the afternoon) x 0.25 x 0.25 is about 3400. Every traced non-forum victim gives 'South OR X', which everyone left in the pool already satisfies. Forum has 1 or 2 traces. NEVER KILL FORUM AGAIN, including on day 30: a 3rd trace would cut the pool to about 850, which means caught and half points lost. FULL MODE: each day kill national, South x2, hospital x2, radio x2, foreign x2 = 9 a day, all quick, all afternoon. Never use morning or evening. 9/day keeps x4. Skip forum even if that leaves fewer than 9 kills. GUARD: if the pool shows 2000 or below, cut back to national only. A pool of 3000 is the expected floor, so continue. LOG: pool 3000 since D5; traced 55 after D28. Points 874 at start of D29. D29: 9 kills, same pattern, quick afternoon; skipped forum d29-5 and d29-8. D30 is the last day: same pattern, no forum.",
    "error": null,
-   "input_tokens": 6932,
-   "output_tokens": 1191,
-   "seconds": 10.0
+   "input_tokens": 6964,
+   "output_tokens": 924,
+   "seconds": 8.0,
+   "reasoning": "Points are up to 874 now, after adding 838 and 36. I'm marking nine of the listed items as kills, the national, hospital, South, radio, and foreign ones among them, and skipping the two forum entries. The pool is still at 3000, and the last five days show 45 kills, so the multiplier at x4 holds. Next I'm updating the notes.\n\n"
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-10",
+     "id": "d30-6",
      "coverage": [
       "national"
      ],
@@ -2636,17 +2721,25 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-3",
+     "id": "d30-8",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d30-6",
+     "id": "d30-10",
      "coverage": [
-      "foreign"
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2660,17 +2753,27 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-11",
+     "id": "d30-1",
      "coverage": [
-      "hospital"
+      "gazette",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d30-1",
+     "id": "d30-3",
      "coverage": [
       "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "foreign",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2678,45 +2781,28 @@
     {
      "id": "d30-7",
      "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-2",
-     "coverage": [
-      "regional:North",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-8",
-     "coverage": [
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-8",
-    "d30-10",
-    "d30-7",
-    "d30-1",
-    "d30-3"
+    "d30-6",
+    "d30-5",
+    "d30-9",
+    "d30-1"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "D30 was the final day. I used the same plan as before: 9 quick afternoon kills (national, 2 foreign, 2 hospital, 2 radio, 2 South). I skipped forum criminals d30-4 and d30-5 because one more forum trace would put L at about 860 suspects and get me caught. I expected 853 + 36 = 889 points with no capture.",
+   "notes_to_self": "D30, the final day. Killed 9: national, South x2, hospital x2, radio x2, foreign x2, all quick in the afternoon. Skipped forum d30-2 and d30-11, because a 3rd forum trace could drop the pool to 1,000 or below and cost half the points. Points were 910 before today; expected final is about 946.",
    "error": null,
-   "input_tokens": 7071,
-   "output_tokens": 867,
-   "seconds": 8.6
+   "input_tokens": 7057,
+   "output_tokens": 768,
+   "seconds": 8.8,
+   "reasoning": "Last day, with 910 points and a multiplier of 4 so far today. The nine kills are listed for 36 points, and I'm wondering whether to take the forum kill too, since each one is worth 4 points but carries a 50% chance of being traced, and a third trace would trigger the forum constraint.\n\nI'm going to skip the forum kill: if two forum traces already exist, a third would trigger the constraint and cost about half my 950 points to gain only 4. Nothing else today needs checking, since the pool has stayed at 3000.\n\n"
   }
  ],
  "briefings": [
@@ -2727,13 +2813,13 @@
   },
   {
    "after_day": 1,
-   "pool": 60000,
-   "deaths_traced": 2
+   "pool": 100000,
+   "deaths_traced": 0
   },
   {
    "after_day": 2,
-   "pool": 60000,
-   "deaths_traced": 2
+   "pool": 100000,
+   "deaths_traced": 1
   },
   {
    "after_day": 3,
@@ -2742,12 +2828,12 @@
   },
   {
    "after_day": 4,
-   "pool": 60000,
+   "pool": 10000,
    "deaths_traced": 5
   },
   {
    "after_day": 5,
-   "pool": 10000,
+   "pool": 3000,
    "deaths_traced": 7
   },
   {
@@ -2758,12 +2844,12 @@
   {
    "after_day": 7,
    "pool": 3000,
-   "deaths_traced": 13
+   "deaths_traced": 12
   },
   {
    "after_day": 8,
    "pool": 3000,
-   "deaths_traced": 15
+   "deaths_traced": 16
   },
   {
    "after_day": 9,
@@ -2773,7 +2859,7 @@
   {
    "after_day": 10,
    "pool": 3000,
-   "deaths_traced": 19
+   "deaths_traced": 21
   },
   {
    "after_day": 11,
@@ -2783,17 +2869,17 @@
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 23
+   "deaths_traced": 22
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 24
+   "deaths_traced": 22
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 26
+   "deaths_traced": 25
   },
   {
    "after_day": 15,
@@ -2803,52 +2889,52 @@
   {
    "after_day": 16,
    "pool": 3000,
-   "deaths_traced": 30
+   "deaths_traced": 29
   },
   {
    "after_day": 17,
    "pool": 3000,
-   "deaths_traced": 32
+   "deaths_traced": 31
   },
   {
    "after_day": 18,
    "pool": 3000,
-   "deaths_traced": 36
+   "deaths_traced": 34
   },
   {
    "after_day": 19,
    "pool": 3000,
-   "deaths_traced": 38
+   "deaths_traced": 35
   },
   {
    "after_day": 20,
    "pool": 3000,
-   "deaths_traced": 41
+   "deaths_traced": 36
   },
   {
    "after_day": 21,
    "pool": 3000,
-   "deaths_traced": 43
+   "deaths_traced": 37
   },
   {
    "after_day": 22,
    "pool": 3000,
-   "deaths_traced": 45
+   "deaths_traced": 39
   },
   {
    "after_day": 23,
    "pool": 3000,
-   "deaths_traced": 47
+   "deaths_traced": 43
   },
   {
    "after_day": 24,
    "pool": 3000,
-   "deaths_traced": 47
+   "deaths_traced": 46
   },
   {
    "after_day": 25,
    "pool": 3000,
-   "deaths_traced": 49
+   "deaths_traced": 48
   },
   {
    "after_day": 26,
@@ -2868,12 +2954,12 @@
   {
    "after_day": 29,
    "pool": 3000,
-   "deaths_traced": 59
+   "deaths_traced": 56
   },
   {
    "after_day": 30,
    "pool": 3000,
-   "deaths_traced": 62
+   "deaths_traced": 56
   }
  ],
  "effort": "high"

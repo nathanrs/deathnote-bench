@@ -1,11 +1,11 @@
 {
- "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "run_id": "540f49af-651b-49fa-9b9f-a8054498fa59",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-003",
- "reward": 0.9421,
+ "reward": 0.8488,
  "exit": null,
- "agent_seconds": 559.869369591,
+ "agent_seconds": 1089.364599278,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,33 +19,25 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 944,
+ "trace_chance": 0.5,
+ "points": 859,
  "caught": false,
  "days": 30,
- "final_pool": 2750,
- "kills": 260,
- "input_tokens": 144519,
- "output_tokens": 58374,
- "seconds": 554,
- "informed_best": 1002,
- "tester": 891,
+ "final_pool": 3437,
+ "kills": 247,
+ "input_tokens": 146129,
+ "output_tokens": 107890,
+ "seconds": 1084,
+ "informed_best": 1012,
+ "tester": 794,
  "hider": 30,
  "grabber": 66,
- "score": 0.9421,
- "log_trimmed": "reasoning cut to 800 characters a day",
+ "score": 0.8488,
+ "log_trimmed": "reasoning dropped",
  "log": [
   {
    "day": 1,
    "kills": [
-    {
-     "id": "d1-5",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
     {
      "id": "d1-7",
      "coverage": [
@@ -61,126 +53,91 @@
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d1-9",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d1-11",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "timed",
+     "block": "evening"
     }
    ],
-   "traced": [
-    "d1-5",
-    "d1-7",
-    "d1-10"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 4,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "STRATEGY: Each day L does a random trace on 5 deaths. If a day has 5 or fewer deaths, every one is traced. L acts on a place only after 3 successfully traced victims share it. My kinds: regional:East, gazette (sector, factor 0.2), podcasts (age), forum, foreign (each 0.25). Routine: always use quick entries in the AFTERNOON. That rules out only day workers, so the pool is about 55,000. Put any timed entry in the afternoon too. L can reach 3 of the 5 kinds. If he burns all 3 reachable kinds, the pool falls below 1000 and I am caught. If he burns only 2, the pool is about 2750-3400, which is safe. So I must find ONE reachable kind and never kill from it again, because its place already has up to 2 traces. Everything else I kill freely: national, the unreachable kinds and the other reachable kinds. That is 9 kills a day, which gives x4 once 40+ deaths fall in a 5-day window. National victims are always free. PROBE PLAN: Day 1 killed national d1-5 plus forum d1-7 and d1-10 (3 deaths, all traced). DAY 2 RULE: if deaths_traced after day 1 is 1 or more, forum is reachable. EXCLUDE FORUM forever and kill everything else each day (national, East, gazette, podcasts, foreign); skip any victim that also shows forum. If deaths_traced is 0, forum is unreachable, so it is free. Day 2: kill national + forum + 2 foreign, 5 deaths max, avoiding multi-place victims except forum+foreign. Day 3: if the increase is 1 or more, exclude foreign. If it is 0, exclude podcasts (East, gazette, podcasts would all be reachable) and kill all the rest. Watch the pool each day; it should never drop below about 2000.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds (accessible), 2 inaccessible (never traced). A place 'burns' (pool x~0.25) once 3 of its victims are traced (~43% trace chance per kill if accessible). deaths_traced only increases from accessible-kind kills (national excluded) -> any increment on a day = some tested kind accessible.\nROUTINE: SAFE MODE = max 4 kills/day: 2 quick AFTERNOON + 2 timed EVENING -> no routine ruled out, pool stays 100k x burns; even 3 burns leaves >=1250 (safe). HIGH MODE = quick afternoon up to 10 + timed -> pool x0.55 PERMANENTLY (day workers out) -> then only 2 burns ever allowed (3 burns ~700-860 = caught).\nPLAN: In SAFE MODE identify the 3 accessible kinds. Burn 2 of them (prefer not S), identify the 3rd (V) while keeping V traced <=2. Then switch to HIGH MODE: kill national + 2 inaccessible kinds + 2 burned kinds (9/day -> 40+ per 5 days -> x4). Never kill a victim whose reported places are V only. Victims also in a burned place are safe. Do NOT switch to high mode if 3 kinds burned (stay safe mode forever).\nTest design: 2 kills per kind per test keeps a fresh kind's count <=2 (no burn). Prefer clean attribution (one unknown kind per day when possible).\nLOG:\nDay1: SAFE mode. Killed F x2 (d1-7,d1-10), X x2 (d1-9,d1-11). Pool before: 100000, traced 0. Next: check traced increment e1 (from F+X). Day2 plan: test R x2 + A x2 (or adapt).",
    "error": null,
-   "input_tokens": 1931,
-   "output_tokens": 10888,
-   "seconds": 116.3,
-   "reasoning": "I'm working out how many of the 11 visible criminals can be killed each day, since quick and timed kills together top out at 12. I'm also tracking the score multiplier, which doubles at 30 deaths over the last five days and quadruples at 40, and I see that steady daily kills would reach that 40 threshold by day four.\n\nI'm working out how the deaths would be distributed across the day blocks, since spreading kills across mornings and afternoons could affect which routines L rules out. Killing all quick kills in the afternoon would only rule out day workers, which leaves about 55% of the pool still possible.\n\nI'm checking how L's traces could narrow the pool. A victim reported only in one place would let L shrink the pool to about a fifth if the killer follows that place, while victims repor"
+   "input_tokens": 1943,
+   "output_tokens": 26811,
+   "seconds": 299.6
   },
   {
    "day": 2,
    "kills": [
     {
+     "id": "d2-7",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d2-11",
      "coverage": [
       "national"
      ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-8",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-5",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     }
    ],
-   "traced": [
-    "d2-8",
-    "d2-1",
-    "d2-5",
-    "d2-11",
-    "d2-3"
-   ],
-   "points_today": 5,
+   "traced": [],
+   "points_today": 3,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "STRATEGY: Each day L traces 5 random deaths, so if a day has 5 or fewer deaths every one is traced. L acts on a place only after 3 successfully traced victims share it. My kinds: regional:East, gazette (sector, factor 0.2), podcasts (age, 0.25), forum (0.25), foreign (0.25). ROUTINE: always use quick entries in the AFTERNOON. That rules out only day workers (pool 55k, press said 60000 after day 1, consistent). Put any timed entry in the afternoon too. L can reach 3 of the 5 kinds. If he burns all 3 reachable kinds I am caught (pool under 1000). If he burns only 2, the pool is about 2750-3400, which is safe. So I must find ONE reachable kind and never kill from it again. Everything else I kill freely. National victims are always free. Aim for 9-10 kills a day to reach x4 (40+ deaths in a 5-day window). FINDINGS: Day 1 killed national + 2 forum, deaths_traced stayed 0, so forum is about 97% UNREACHABLE and treated as free. Day 2 killed national d2-11, forum d2-1 and d2-8, foreign d2-3 and d2-5 (5 deaths, all traced). DAY 3 RULE: compare deaths_traced after day 2 with 0. If it rose by 1 or more, foreign is reachable: EXCLUDE FOREIGN forever (it has up to 2 traces) and from day 3 kill everything else every day (national, East, gazette, podcasts, forum), skipping any victim that also shows foreign. If it is still 0, forum and foreign are both unreachable, so East, gazette and podcasts are all reachable: EXCLUDE GAZETTE forever (burning East + podcasts leaves about 3400, versus 2750 if gazette is burned) and kill national, East, podcasts, forum and foreign every day, skipping any victim that also shows gazette. Use up to 10 quick kills, all in the afternoon, plus timed entries in the afternoon if there are more than 10 targets. Watch the pool each day; it should stay at or above about 2000-3000. If it ever reports 2000 or less, stop killing anything except national and confirmed-unreachable kinds.",
+   "notes_to_self": "STRATEGY (revised day2): Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds; 2 are never traced. A place burns (pool x~0.25) once 3 of its victims are traced. Hidden extra places are never my places, so a place's traced count only comes from victims I saw it carry. deaths_traced rises only from kills in reachable kinds (national excluded).\nKEY INSIGHT: I only need to find ONE reachable kind V. Then HIGH MODE: kill every victim EXCEPT any carried by V's place (national + the other 4 kinds, ~9/day -> x4). The other 2 reachable kinds burn, pool = 55k(routine) x0.25 x0.25(or 0.2) >= 2750, which is safe. Never kill a V-carried victim after the switch, even if it is also carried by another place.\nROUTINE: SAFE MODE = max 4 deaths/day (2 quick afternoon + 2 timed evening), no routine ruled out. HIGH MODE = quick afternoon up to 10 + 2 timed evening. This rules out day workers for good, giving a 55k base.\nTEST METHOD: test one unknown kind per day (2 kills, ~69% detect if reachable) plus national (national is free info-wise). If traced rises -> that kind = V -> switch to HIGH MODE next day.\nPosterior after day1 (F2+X2 gave 0 traced): F, X each ~40% reachable; R, S, A each ~74%.\nLOG:\nDay1: SAFE. Killed F x2, X x2. Traced after day1 = 0.\nDay2: SAFE. Killed A x2 (d2-7, d2-9 quick afternoon) + national d2-11 (timed evening). Traced before day2 = 0. DAY3 CHECK: if traced >= 1, A (podcasts) is V -> HIGH MODE: kill all except podcasts-carried. If 0, test R x2 (+ national) in safe mode (or S if R is unavailable). After that, test S.",
    "error": null,
-   "input_tokens": 2643,
-   "output_tokens": 2456,
-   "seconds": 25.6,
-   "reasoning": "I'm checking the forum kills from day one, and none of their deaths were traced. But a forum victim might also be reported somewhere I can't reach, which would make the trace fail even if the forum is reachable. So zero traced doesn't prove the forum is unreachable, and if it were reachable, both traced failures would only happen with roughly 0.3 probability.\n\nEven if the forum were reachable, an unreachable extra location would explain both trace failures, which makes the forum likely unreachable at roughly 97% once the numbers are weighed. I'm also checking that the 60,000 figure fits ruling out day workers, since the remaining 55% rounds to that. Day 2 then looks like it'll be five deaths across the national target, the forum, and two foreign victims.\n\nDay 2 plan holds up: the forum vic"
+   "input_tokens": 2726,
+   "output_tokens": 6517,
+   "seconds": 72.0
   },
   {
    "day": 3,
    "kills": [
     {
-     "id": "d3-4",
+     "id": "d3-6",
      "coverage": [
-      "national"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-1",
+     "id": "d3-8",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-2",
-     "coverage": [
-      "gazette",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-3",
-     "coverage": [
-      "gazette"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -188,113 +145,32 @@
     {
      "id": "d3-5",
      "coverage": [
-      "cable",
-      "regional:East"
+      "national"
      ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-10",
-     "coverage": [
-      "blotter",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-6",
-     "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-11",
-     "coverage": [
-      "docket",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d3-5",
-    "d3-1",
-    "d3-6",
-    "d3-9",
-    "d3-10"
+    "d3-8"
    ],
-   "points_today": 9,
+   "points_today": 3,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "STRATEGY: Each day L traces 5 random deaths. L acts on a place only after 3 successfully traced victims share it. My kinds: regional:East, gazette (sector, factor 0.2), podcasts (age, 0.25), forum (0.25), foreign (0.25). ROUTINE: always use quick entries in the AFTERNOON, and put any timed entry in the afternoon too. This rules out only day workers, giving a pool of 55k. L can reach 3 of the 5 kinds. If he burns all 3 reachable kinds I am caught (pool under 1000). If he burns only 2, the pool is about 2750-3400, which is safe. FINDINGS: Day 1 forum kills gave 0 traces, so FORUM IS UNREACHABLE. Day 2: deaths_traced went from 0 to 2, and both came from the foreign victims, so FOREIGN IS REACHABLE and already has 2 successful traces. RULE FROM DAY 3 ON: NEVER kill any victim reported in foreign, even if he also appears elsewhere. Kill everything else every day: national, East, gazette, podcasts, forum. L can then burn at most 2 of East/gazette/podcasts, leaving a pool of about 2750-3400, which is safe. Use up to 10 quick kills in the afternoon, plus up to 2 timed entries in the afternoon if there are more than 10 eligible targets. Day 3: killed 9 (national, 2 East, 2 gazette, 2 podcasts, 2 forum). Deaths so far: d1=3, d2=5, d3=9. Five-day window: x2 needs 30 or more deaths, x4 needs 40 or more. Expect x2 from about day 5 and x4 from about day 7 if I keep making about 9 kills a day. Watch the pool. Expected values: 60000 now, falling to about 15000 (one kind burned), then about 3000 (two burned). If it ever reports 2000 or less, something is wrong: stop killing everything except national and forum.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced. deaths_traced rises only from kills in reachable kinds (national excluded). Per-kill trace chance if the kind is reachable is about 0.43, so 2 kills give about 67% detection.\nKEY: find ONE reachable kind V, then HIGH MODE: kill every victim EXCEPT any carried by V's place (national + the other 4 kinds, ~9/day -> 45 in 5 days -> x4). The other 2 reachable kinds burn: pool >= 55k x0.25 x0.2 = 2750, safe. Never kill a V-carried victim after the switch. Do NOT let V itself burn during tests (keep test kills <=2 per kind per day, and stop once detected). Never guess V without a trace rise: a wrong guess means about 3 burns and getting caught.\nROUTINE: SAFE MODE = max 4 deaths/day (2 quick afternoon + 2 timed evening). HIGH MODE = quick morning/afternoon up to 10 + 2 timed evening (rules out day workers, 55k base).\nTEST: test one unknown kind per day (2 kills) plus national (free). Never mix two untested kinds in one day, because the aggregate traced count would be ambiguous.\nPosterior before day3 (F, X, A each tested with 2 kills, 0 traced): R, S ~78% reachable; A, F, X ~48%.\nIf R test fails (0 traced after day3): S ~82% reachable, R ~59%, A/F/X ~50%. Then test S x2 (+national) on day4.\nLOG:\nDay1: SAFE. F x2, X x2. Traced=0.\nDay2: SAFE. A x2 + national. Traced=0.\nDay3: SAFE. R x2 (d3-6, d3-8 quick afternoon) + national d3-5 timed evening. Traced before day3 = 0.\nDAY4 CHECK: if traced >= 1 -> R (regional:East) = V -> HIGH MODE: kill all except East-regional-carried. If 0 -> test S (gazette) x2 + national in SAFE mode. If S also fails, consider testing F/A/X again (each ~50%).\nAlways check pool: if it drops unexpectedly (e.g. to 3e4), something burned, so reassess.",
    "error": null,
-   "input_tokens": 2890,
-   "output_tokens": 2047,
-   "seconds": 19.9,
-   "reasoning": "I'm tallying the deaths traced after day 2, which comes to 2 of the 5. The forum victims were already ruled unreachable on day 1, so I'm working out which of those day-2 cases could still succeed.\n\nI'm checking whether the forum victims could still have been reached through some other place, but I think that's unlikely given how small that chance is. That leaves foreign as reachable, so I'm planning to exclude it and work out which of the remaining places L would burn to cover the most victims.\n\nI'm checking the remaining day-3 targets: I'll set aside the two foreign victims and keep the rest, since a foreign trace would reveal the killer's place. That leaves nine people to hit this afternoon, which together with the earlier deaths puts the count at seventeen so far.\n\nI'm checking whether,"
+   "input_tokens": 2861,
+   "output_tokens": 5347,
+   "seconds": 55.1
   },
   {
    "day": 4,
    "kills": [
     {
-     "id": "d4-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-2",
+     "id": "d4-5",
      "coverage": [
       "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-3",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-4",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-7",
-     "coverage": [
-      "blotter",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-8",
-     "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-9",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -302,54 +178,43 @@
     {
      "id": "d4-10",
      "coverage": [
-      "regional:East"
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d4-11",
+     "id": "d4-2",
      "coverage": [
-      "podcasts"
+      "national"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d4-3",
-    "d4-2",
-    "d4-8",
-    "d4-4",
-    "d4-11"
+    "d4-5",
+    "d4-10",
+    "d4-2"
    ],
-   "points_today": 9,
+   "points_today": 3,
    "multiplier": 1,
-   "pool": 13750,
+   "pool": 100000,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. My kinds and their factors: regional:East 0.25, gazette (sector) 0.2, podcasts (age) 0.25, forum 0.25, foreign 0.25. ROUTINE: every quick entry and any timed entry goes in the AFTERNOON. That rules out only day workers, so the pool is about 55-60k. L can reach 3 of the 5 kinds. FINDINGS: Day 1 gave 0 traces from 2 forum kills, so FORUM IS UNREACHABLE. Day 2 traced count went 0 to 2, both foreign victims, so FOREIGN IS REACHABLE and already has 2 traces. So the reachable kinds are foreign plus 2 of East/gazette/podcasts. Day 3: traced count went 2 to 3 (one trace among East/gazette/podcasts/forum). Hidden extra places are always places I don't follow, so a victim not shown in foreign is never a foreign victim. RULE: NEVER kill any victim reported in foreign. Its third trace means 3 kinds burned, pool about 750-940, and I am caught. Kill everything else every day: national, East, gazette, podcasts, forum. The worst case is 2 of East/gazette/podcasts burned, pool about 3000-3750, which is safe. Up to 10 quick kills in the afternoon, plus up to 2 timed entries in the afternoon if there are more than 10 eligible targets. KILL LOG: d1=3, d2=5, d3=9, d4=9 (national, 2 East, 2 gazette, 2 podcasts, 2 forum). Points before d4: 17. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. Day 5: 26 + d5 gives about 35, so x2. Day 6: 5+9+9+9+d6 gives about 41, so x4 likely. EXPECTED POOL: 60000, then about 15000 (one kind burned), then about 3000 (two burned). If the pool is ever reported at 2000 or less, something is wrong: stop all kills except national and forum.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced. deaths_traced rises only from kills in reachable kinds (national excluded). Per-kill trace chance if the kind is reachable is about 0.43, so P(0 of 2 traced | reachable) is about 0.33.\nKEY: find ONE reachable kind V, then HIGH MODE: kill every victim EXCEPT any carried by V's place (national + the other 4 kinds, ~9/day -> 45 in 5 days -> x4). The other 2 reachable kinds burn: pool >= 55k x0.25 x0.2 = 2750, safe. Never kill a V-carried victim after the switch. Do not let V burn during tests (max 2 test kills per kind per day; stop once detected). Never guess V without a trace rise.\nROUTINE: SAFE MODE = max 4 deaths/day (2 quick afternoon + 2 timed evening). HIGH MODE = quick morning/afternoon up to 10 + 2 timed evening (rules out day workers, 55k base).\nTEST: one unknown kind per day (2 kills) plus national (free). Never mix two untested kinds in one day.\nLOG:\nDay1: SAFE. F x2, X x2. Traced=0.\nDay2: SAFE. A x2 + national. Traced=0.\nDay3: SAFE. R x2 + national. Traced still 0 after day3. P(S reachable) now ~82%.\nDay4: SAFE. S (gazette) x2 (d4-5, d4-10 quick afternoon) + national d4-2 timed evening. Traced before day4 = 0.\nDAY5 CHECK: if traced >= 1 -> S (gazette) = V -> HIGH MODE: kill everything except gazette-carried victims (quick morning/afternoon, max 10, plus 2 timed evening).\nIf 0: all 5 kinds now equal at ~60% reachable (each tested once with 2 kills, all failed). Then retest S x2 + national on day5. Next retest R, then A, F, X, one kind per day, until traced rises. The first kind whose kill raises traced = V -> HIGH MODE.\nAlways check pool: if it drops unexpectedly (e.g. to 3e4), something burned, so reassess.",
    "error": null,
-   "input_tokens": 2970,
-   "output_tokens": 3113,
-   "seconds": 31.1,
-   "reasoning": "On day 3, 9 people were killed and the traced count rose from 2 to 3, so one non-national victim was successfully traced. Foreign victims are reachable, and two of the regional, sector, and age categories are too, with the forum and one other category out of reach.\n\nI'm checking whether the day 1 forum kills fit with forum being unreachable, and that it does: the zero traces there match forum being out of reach, while day 2's two traced foreign victims fit foreign being reachable. On day 3, with 9 deaths and only one new trace among the non-national victims, I'm weighing which of the remaining categories could explain that single success.\n\nNow I'm weighing whether a hidden place could explain the single day 3 trace, and it can't touch foreign, since I don't follow any hidden place. A victi"
+   "input_tokens": 3087,
+   "output_tokens": 2270,
+   "seconds": 21.4
   },
   {
    "day": 5,
    "kills": [
     {
-     "id": "d5-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d5-1",
      "coverage": [
-      "blotter",
-      "podcasts"
+      "cable",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -357,7 +222,8 @@
     {
      "id": "d5-2",
      "coverage": [
-      "forum"
+      "podcasts",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -365,16 +231,15 @@
     {
      "id": "d5-3",
      "coverage": [
-      "blotter",
-      "gazette"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-5",
+     "id": "d5-4",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -382,14 +247,22 @@
     {
      "id": "d5-6",
      "coverage": [
-      "docket",
+      "blotter",
       "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d5-8",
+     "id": "d5-7",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
      "coverage": [
       "regional:East"
      ],
@@ -397,97 +270,56 @@
      "block": "afternoon"
     },
     {
-     "id": "d5-10",
+     "id": "d5-5",
      "coverage": [
-      "gazette",
-      "regional:North"
+      "national"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     },
     {
      "id": "d5-11",
      "coverage": [
-      "forum",
+      "foreign",
       "wire"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d5-7",
-    "d5-1",
-    "d5-8",
     "d5-2",
-    "d5-10"
+    "d5-3",
+    "d5-7",
+    "d5-9",
+    "d5-11"
    ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 13750,
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. My kinds and their factors: regional:East 0.25, gazette (sector) 0.2, podcasts (age) 0.25, forum 0.25, foreign 0.25. ROUTINE: every quick entry and any timed entry goes in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (day 1 gave 0 traces). Foreign is REACHABLE and has exactly 2 traces from day 2. Exactly one of East/gazette/podcasts is unreachable. Day 3 gave 1 trace and day 4 gave 4, so the 5 traces among East/gazette/podcasts are split over the 2 reachable ones. The day 4 pool of 10000 means one of them BURNED (55000 x 0.2 or 0.25 = 11-14k). The other reachable one, X (identity unknown), may sit at 2 traces. Hidden extra places are never places I follow, so a victim not shown in foreign is never a foreign victim. SAFETY MATH: one more burn gives about 2750-3440 (safe). Two more burns gives about 550-860 (caught). Foreign and X are the only kinds that can still burn. So NEVER KILL FOREIGN, EVER (not even after X burns). Kill everything else every day: national, East, gazette, podcasts, forum. If X burns, the pool should land around 3000 and then stay there, since further East/gazette/podcasts kills cannot shrink it. ALARM: if the pool is ever reported at 2000 or less, something is wrong: stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9 (national, 2 East, 2 gazette, 2 podcasts, 2 forum; foreign skipped). Points: 26 before d5, and d5 is at x2 (window 35), so +18 = 44. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. Day 6 window = 5+9+9+9+d6, so with 9 kills it is 41 = x4. Day 7 onward: 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if more than 10 eligible targets.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nRESULT: after day4, traced jumped 0->2 from the 2 gazette kills on day4. So SECTOR (gazette) = V is reachable, and gazette has 2 traced victims. One more traced gazette victim would burn it. NEVER kill a gazette-carried victim again.\nHIGH MODE from day5: kill every victim except gazette-carried ones: national + East + podcasts + forum + foreign, about 9/day. Use quick afternoon for all but 2, and 2 timed evening. This rules out day workers, so the pool goes to ~55k (night 15 + students 20 + home 20). Use afternoon only, not morning, so students are not ruled out. The other 2 reachable kinds among R/A/F/X will burn: 55k x 0.25 x 0.25 = ~3.4k. Hidden-place burns (e.g. other sectors or regions also carrying my victims) may cut the pool further.\nSAFETY: watch the pool each day. Expected path: 1e5 -> 5e4 -> ~1e4 -> ~3e3. If the pool reaches 2e3 or below, or keeps falling, stop killing the kinds that appear to be still burning (drop 1-2 kinds) and keep only national plus the safest kinds. If the pool reaches 1e3, the game is lost anyway. A pool under 2000 is danger.\nMULTIPLIER: kills in the last 5 days by day: d1 4, d2 3, d3 3, d4 3, d5 9. At 9/day: d7 window 33 (x2), d9 window 45 (x4). Keep at least 8/day to sustain x4 (needs 40 in 5 days).\nLOG:\nDay1: F x2, X x2. Traced 0.\nDay2: A x2 + national. Traced 0.\nDay3: R x2 + national. Traced 0.\nDay4: S x2 + national. Traced -> 2 (pool 1e5).\nDay5: HIGH MODE start. 9 kills: 7 quick afternoon (forum x2, podcasts x2, East x2, foreign d5-4), 2 timed evening (national d5-5, foreign d5-11). Skipped gazette d5-8 and d5-10.",
    "error": null,
-   "input_tokens": 3201,
-   "output_tokens": 3889,
-   "seconds": 39.3,
-   "reasoning": "I'm checking the pool figures: it should be 10000 after day 4, so I'm working through the starting 100000 and whether the afternoon kills leave 55% that rounds to 60000.\n\nI'm re-checking the 55000 figure, which rounds to 60000 at one significant figure. Then I'm testing which kind of trace was burned: foreign can't be it, since its count is still 2, so it has to be East, gazette or podcasts, and a factor of about 0.2 to 0.25 gives roughly 10000 either way.\n\nI'm testing whether three traces can sit in one reachable place: foreign is out of reach, so the burned kind has to be among the two reachable ones from East, gazette and podcasts, and the five traces must split between them.\n\nI'm checking whether foreign is still safe to kill: one more traced foreign victim would cut the pool to roughl"
+   "input_tokens": 3154,
+   "output_tokens": 3874,
+   "seconds": 40.9
   },
   {
    "day": 6,
    "kills": [
     {
-     "id": "d6-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d6-1",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-4",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-5",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-8",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-6",
-     "coverage": [
+      "blotter",
       "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d6-11",
+     "id": "d6-2",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -501,48 +333,76 @@
      "block": "afternoon"
     },
     {
-     "id": "d6-9",
+     "id": "d6-5",
      "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d6-3",
-    "d6-9",
-    "d6-5",
-    "d6-8",
-    "d6-6"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 2750,
-   "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. My kinds and their factors: regional:East 0.25, gazette (sector) 0.2, podcasts (age) 0.25, forum 0.25, foreign 0.25. ROUTINE: every quick entry and any timed entry goes in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (day 1 gave 0 traces). Foreign is REACHABLE and has exactly 2 traces from day 2. Exactly one of East/gazette/podcasts is unreachable, and victims there never trace. Traces by day: d3=1, d4=4, d5=1. That makes 6 traces among East/gazette/podcasts, split between the burned one B and the other reachable one X. The pool of 10000 after d5 means only B has burned, so X has at most 2 traces. SAFETY MATH: if X burns, the pool lands around 2750-3440 (safe) and East/gazette/podcasts can then shrink it no further. If foreign burns as well, it falls to about 700 (caught). So NEVER KILL FOREIGN, EVER. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, something is wrong: stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9 (national, 2 East, 2 gazette, 2 podcasts, 2 forum; foreign skipped). Points: 44 before d6. d6 is at x4 (window 41), so +36 = 80 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. Day 7 onward: 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets.",
-   "error": null,
-   "input_tokens": 3445,
-   "output_tokens": 2547,
-   "seconds": 24.9,
-   "reasoning": "I'm checking the pool figures: after day 5 it's about 10,000 with 8 traced, and day 5 added one trace. The rounding to 10,000 holds whether the true value is 11,000 or 13,750. Now I'm going back to the day 1 pool, where ruling out day workers leaves about 55,000, which rounds to 60,000.\n\nI'm checking whether the day 4 figure of 10,000 still means a single burn, then working through day 5's trace. If X had been at 2 and been traced, the pool would have dropped to about 3,000, so X didn't burn. Most of the remaining traces seem to fall between the burned victim and X, with some places ruled out as unreachable.\n\nI'm weighing the remaining places: the forum is unreachable, so it doesn't count, and a victim reported in both gazette and North only constrains the killer's choice of place. With X "
-  },
-  {
-   "day": 7,
-   "kills": [
-    {
-     "id": "d7-7",
-     "coverage": [
-      "national"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-1",
+     "id": "d6-6",
      "coverage": [
       "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    }
+   ],
+   "traced": [
+    "d6-3",
+    "d6-6",
+    "d6-11"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: The day-4 gazette kills moved traced from 0 to 2, so SECTOR is reachable and gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it, and with the other burns the pool falls to ~690, which means caught. Hidden places are only places I don't follow, so a non-gazette victim can never secretly be gazette.\nHIGH MODE (from day5): kill every non-gazette victim, 9 a day: 7 quick afternoon and 2 timed evening (national plus one more). Day workers are ruled out, so the pool is ~55k. Use afternoon only, never morning, so students stay in the pool. The expected floor is 55k/16 = ~3.4k, once both reachable kinds among R/A/F/X burn. After that, more burns of the same places cost nothing.\nSMALL RISK: a hidden other-sector place (e.g. docket) could gather 3 traced victims. If one of the day-4 gazette victims was also in it, the pool is cut by x0.4, giving ~1.4k. If the pool is announced at 2e3 or below, stop killing everything except national and think about it. If it reads 1e3, the game is lost anyway.\nPool after day5 was 6e4 (the ~55k routine cut, no burn yet). Traced after day5 was 4.\nMULTIPLIER: kills by day: d1 4, d2 3, d3 3, d4 3, d5 9, d6 9. Windows at 9/day: d6 = 27 (x1), d7 = 33 (x2), d8 = 39 (x2), d9 onward = 45 (x4). Keep 9/day; 8/day still gives 40, which holds x4.\nLOG:\nDay1: F x2, X x2. Traced 0.\nDay2: A x2 + national. Traced 0.\nDay3: R x2 + national. Traced 0.\nDay4: S x2 + national. Traced -> 2.\nDay5: 9 kills (forum x2, podcasts x2, East x2, foreign x2, national). Traced -> 4, pool 6e4.\nDay6: 9 kills: podcasts x2, foreign x2, forum x2, East x2, national d6-4. 7 quick afternoon, timed evening for d6-4 and d6-11. Skipped gazette d6-9 and d6-10.",
+   "error": null,
+   "input_tokens": 3312,
+   "output_tokens": 6011,
+   "seconds": 63.0
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-1",
+     "coverage": [
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -550,13 +410,21 @@
     {
      "id": "d7-2",
      "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
       "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-3",
+     "id": "d7-5",
      "coverage": [
       "podcasts"
      ],
@@ -564,9 +432,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-6",
+     "id": "d7-7",
      "coverage": [
-      "podcasts"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -574,15 +442,7 @@
     {
      "id": "d7-8",
      "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-11",
-     "coverage": [
-      "gazette"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -590,7 +450,6 @@
     {
      "id": "d7-9",
      "coverage": [
-      "clips",
       "forum"
      ],
      "entry": "quick",
@@ -601,67 +460,38 @@
      "coverage": [
       "forum"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d7-10",
-    "d7-11",
-    "d7-8",
-    "d7-3",
-    "d7-9"
+    "d7-2",
+    "d7-4",
+    "d7-8"
    ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 2750,
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: every quick entry (and any timed entry) goes in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. After day 6 the pool was 3000 with 11 traces, which means both reachable ones have now burned. The pool sits around 2750-3440, and traces from East/gazette/podcasts can only shrink it toward the floor of about 2750 (still safe). If foreign burns, the pool drops to about 700-860 and I am CAUGHT. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, something is wrong: stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9. Points were 80 before d7; d7 at x4 (window 45) gives +36, so 116 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: The day-4 gazette kills moved traced from 0 to 2, so SECTOR is reachable and gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it, and with the other burns the pool falls to ~690, which means caught. Hidden places are only places I don't follow (other region/sector/age band), so a non-gazette victim can never secretly be gazette.\nHIGH MODE (from day5): kill every non-gazette victim, 9 a day: 7 quick afternoon and 2 timed evening (national plus one more). Day workers are ruled out, so the pool is ~55k. Use afternoon only, never morning, so students stay in the pool. The expected floor is 55k/16 = ~3.4k, once both reachable kinds among R/A/F/X burn. After that, more burns of the same places cost nothing.\nSMALL RISK: a hidden other-sector place (e.g. docket) could gather 3 traced victims. If one of the day-4 gazette victims was also in it, the pool is cut by x0.4, giving ~1.4k. If the pool is announced at 2e3 or below, stop killing everything except national and think about it. If it reads 1e3, the game is lost anyway.\nTraces so far are slow: 2 from 22 non-gazette kills. No burn yet. Pool 6e4 after days 5 and 6, traced 4 after both.\nMULTIPLIER: kills by day: d1 4, d2 3, d3 3, d4 3, d5 9, d6 9, d7 9. Windows: d7 = 33 (x2), d8 = 39 (x2), d9 onward = 45 (x4). Keep 9/day; 8/day still gives 40, which holds x4.\nLOG:\nDay1: F x2, X x2. Traced 0.\nDay2: A x2 + national. Traced 0.\nDay3: R x2 + national. Traced 0.\nDay4: S x2 + national. Traced -> 2.\nDay5: 9 kills (F2, A2, R2, X2, national). Traced -> 4, pool 6e4.\nDay6: 9 kills (A2, X2, F2, R2, national). Traced stayed 4, pool 6e4.\nDay7: 9 kills: podcasts d7-1 and d7-5, foreign d7-2 and d7-8, East d7-4 and d7-7, forum d7-9 and d7-10, national d7-11. 7 quick afternoon, timed evening for d7-10 and d7-11. Skipped gazette d7-3 and d7-6.",
    "error": null,
-   "input_tokens": 3486,
-   "output_tokens": 2825,
-   "seconds": 28.4,
-   "reasoning": "I'm re-checking the numbers: the pool fell to 3000 after day 6 while traces rose to 11, so the X burn estimate sits around 2750 to 3440. I'm also weighing the case where foreign burns, which would drop the pool to about 700, and I'm noting foreign has only 2 traces and is not to be touched. Now I'm revisiting the base pool figure of 55000, since the day 1 value I recorded may be a rounded estimate.\n\nI'm checking the pool estimate on day 1 and seeing that the 55000 base works out to roughly 10000 by day 4, since a victim reported in East could be followed through one other place too. After day 6, with two of East, gazette and podcasts burned, I'm asking whether extra traced victims could shrink the pool further, since the constraints may narrow toward East alone.\n\nI'm checking whether the r"
+   "input_tokens": 3525,
+   "output_tokens": 3380,
+   "seconds": 31.7
   },
   {
    "day": 8,
    "kills": [
     {
-     "id": "d8-1",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d8-3",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-4",
-     "coverage": [
-      "clips",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-5",
      "coverage": [
       "regional:East"
      ],
@@ -677,10 +507,34 @@
      "block": "afternoon"
     },
     {
+     "id": "d8-4",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d8-7",
      "coverage": [
-      "podcasts",
-      "regional:South"
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -688,38 +542,44 @@
     {
      "id": "d8-8",
      "coverage": [
-      "gazette",
-      "radio"
+      "foreign",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d8-11",
+     "id": "d8-10",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
-     "entry": "quick",
-     "block": "afternoon"
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d8-7",
-    "d8-1",
+    "d8-3",
     "d8-4",
     "d8-5",
     "d8-8"
    ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 2750,
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: every quick entry (and any timed entry) goes in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. After day 6 the pool was 3000 with 11 traces, which means both reachable ones have burned. The pool sits around 2750-3440, and traces from East/gazette/podcasts can only shrink it toward the floor of about 2750 (still safe). If foreign burns, the pool drops to about 700-860 and I am CAUGHT. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, something is wrong: stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9, d8=9. Points were 116 before d8; d8 at x4 (window 45) gives +36, so 152 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. After day 7: pool 3000, traced 14.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: The day-4 gazette kills moved traced from 0 to 2, so SECTOR is reachable and gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it, which means the pool falls to ~690 and I am caught. Hidden places are only places I don't follow, so a non-gazette victim can't secretly be gazette.\nFIRST BURN after day 7: pool fell 6e4 to 1e4 (traced 6), so one of R/A/F/X burned. The pool is >=9.5k (likely ~13.7k). When the other reachable kind burns, expect ~3.4k (rounds to 3e3). After that, more burns of the same places cost nothing. Worst extra hidden cut: a docket-type burn that includes a day-4 gazette victim, x0.4, giving ~1.4k. Still safe, but watch it.\nRULE: if the pool is announced at 2e3 or lower, stop all non-national kills and reconsider. If it reads 1e3, I'm lost anyway.\nHIGH MODE: kill every non-gazette victim, 9 a day: 7 quick afternoon and 2 timed evening (national plus one). Never use morning, and never more than 2 evening deaths, so students, home and night workers stay in the pool. Day workers are already ruled out.\nMULTIPLIER: kills by day: d1 4, d2 3, d3 3, d4 3, d5 9, d6 9, d7 9, d8 9. From day 9 the 5-day window is 45 (x4). Keep 9/day; 8/day still gives 40.\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, pool 6e4. Day6: 9 kills, traced 4, pool 6e4. Day7: 9 kills (A2, X2, R2, F2, nat), traced 6, pool 1e4.\nDay8: 9 kills: East d8-3 and d8-6, forum d8-4 and d8-5, podcasts d8-7 and d8-9, foreign d8-8 and d8-10 timed evening, national d8-2 timed evening. Skipped gazette d8-1 and d8-11.",
    "error": null,
-   "input_tokens": 3530,
-   "output_tokens": 1587,
-   "seconds": 14.4,
-   "reasoning": "I'm re-checking the current state: day 8, 116 points, and a multiplier of 4 for today's window. Today's 9 kills would bring the total to 45, which is enough for the x4 threshold, though I'm not sure the multiplier count is right.\n\nI'm checking the pool reasoning: the base pool of 55,000 holds up through day 6, and the places I don't follow can't hide a contradiction that would break the trace.\n\nI'm confirming the pool floor: with both of those places burned and three traces, it bottoms out around 2750, which is safe. I'm logging day 8's nine kills, bringing the expected points to 152.\n\n"
+   "input_tokens": 3765,
+   "output_tokens": 4474,
+   "seconds": 46.3
   },
   {
    "day": 9,
@@ -727,7 +587,7 @@
     {
      "id": "d9-1",
      "coverage": [
-      "gazette"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -741,17 +601,17 @@
      "block": "afternoon"
     },
     {
-     "id": "d9-3",
+     "id": "d9-4",
      "coverage": [
-      "forum"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d9-4",
+     "id": "d9-5",
      "coverage": [
-      "national"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -759,24 +619,7 @@
     {
      "id": "d9-6",
      "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-7",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-8",
-     "coverage": [
-      "regional:East",
-      "regional:North"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -784,37 +627,52 @@
     {
      "id": "d9-9",
      "coverage": [
-      "gazette"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d9-11",
+     "id": "d9-10",
      "coverage": [
-      "forum"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
-    "d9-6",
-    "d9-7",
-    "d9-2",
+    "d9-1",
     "d9-4",
-    "d9-11"
+    "d9-9",
+    "d9-7",
+    "d9-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: every quick entry (and any timed entry) goes in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9, d8=9, d9=9. Points were 152 before d9. d9 is at x4 (window 45), +36, so 188 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d8: pool 3000, traced 16.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: The day-4 gazette kills moved traced from 0 to 2, so SECTOR is reachable and gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it, which means the pool falls to ~690 and I am caught. Hidden places are only places I don't follow, so a non-gazette victim can't secretly be gazette.\nFIRST BURN after day 7: pool fell 6e4 to 1e4 (traced 6), so one of R/A/F/X burned. Rounding puts the pool at 9.5k to 15k (likely ~13.7k). When the other reachable kind burns, expect ~3.4k (reads 3e3, worst ~2.4k). After that, more burns of the same places cost nothing. Worst extra hidden cut: a hidden-place burn (e.g. docket or North) that includes a day-4 gazette victim, x0.4, giving ~1.4k. Still safe. Two such cuts (~1% chance) would catch me.\nRULE: if the pool is announced at 2e3 or lower, stop all non-national kills and reconsider. If it reads 1e3, I'm lost anyway. Near the end the value of kills shrinks while the cost of being caught (half of all points) does not, so get more cautious in the last days if the pool is low.\nHIGH MODE: kill every non-gazette victim, 9 a day: 7 quick afternoon and 2 timed evening (national plus one). Never use morning, and never more than 2 evening deaths, so students, home and night workers stay in the pool. Day workers are already ruled out.\nMULTIPLIER: kills by day: d1 4, d2 3, d3 3, d4 3, d5 9, d6 9, d7 9, d8 9, d9 9. The 5-day window stays at 45 (x4) while I keep 9/day; 8/day still gives 40.\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, pool 6e4. Day6: 9 kills, traced 4, pool 6e4. Day7: 9 kills (A2, X2, R2, F2, nat), traced 6, pool 1e4.\nDay8: 9 kills (R2, F2, A2, X2, nat), traced still 6, pool 1e4.\nDay9: 9 kills: forum d9-1 and d9-5, podcasts d9-2 and d9-9, East d9-4 and d9-10, foreign d9-6 quick, foreign d9-8 timed evening, national d9-7 timed evening. Skipped gazette d9-3 and d9-11.",
    "error": null,
-   "input_tokens": 3717,
-   "output_tokens": 1648,
-   "seconds": 15.9,
-   "reasoning": "I'm re-checking the notes' logic: the pool is 3000 after day 6, and the day 1 base of 60000 already accounts for the afternoon kills, with 55% working out to the rounded figure.\n\nI'm checking whether a victim reported only in East would push the pool down to about 10000, and whether adding a gazette factor brings it to 3000. Foreign is close to burning after one more trace, but a victim reported there alongside an unreachable place can't be traced, so I'm avoiding any victim who lists foreign.\n\nSince the floor is about 2750 to 3437 either way, I'm satisfied the plan holds. I'm counting today's eligible kills: nine, with foreign excluded, and the day 5\u20139 window gives a \u00d74 multiplier for 36 points, around 188 expected. I'll leave the timed entries alone since no other targets remain, and I'l"
+   "input_tokens": 3836,
+   "output_tokens": 7166,
+   "seconds": 72.4
   },
   {
    "day": 10,
@@ -822,65 +680,7 @@
     {
      "id": "d10-1",
      "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-4",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-5",
-     "coverage": [
       "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-7",
-     "coverage": [
-      "clips",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-8",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-9",
-     "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-10",
-     "coverage": [
-      "clips",
-      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -888,30 +688,86 @@
     {
      "id": "d10-11",
      "coverage": [
-      "regional:East",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-2",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "forum",
       "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "timed",
+     "block": "evening"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "timed",
+     "block": "evening"
     }
    ],
    "traced": [
+    "d10-2",
     "d10-8",
-    "d10-7",
-    "d10-10",
-    "d10-5",
+    "d10-3",
+    "d10-9",
     "d10-6"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 13750,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9. Points were 188 before d10. d10 is at x4 (window 45), +36, so 224 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d9: pool 3000, traced 18.",
+   "notes_to_self": "STRATEGY: Kinds: R=regional East(x0.25), S=gazette(x0.2), A=podcasts(x0.25), F=forum(x0.25), X=foreign(x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: The day-4 gazette kills moved traced from 0 to 2, so SECTOR is reachable and gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it (now x0.2 gives ~2.7k, and after the second R/A/F/X burn ~690, which means caught). Hidden places are only places I don't follow, so a non-gazette victim can't secretly be gazette.\nPOOL HISTORY: 55k after d5 (day workers cut by 7 afternoon deaths). FIRST BURN after d7: 1e4 (~13.7k, rounding range 9.5-15k). After d9, traced 8 (6 non-gazette), pool still 1e4, so the other reachable kind Q has at most 2 traces. When Q burns, expect ~3.4k (worst ~2.4k). After that, more burns of the same places cost nothing. Worst extra hidden cut: a hidden-place burn (docket, North etc.) at x0.4. One is survivable, two (~1%) are fatal.\nRULE: if the pool is announced at 2e3 or lower, stop all non-national kills and reconsider. If it reads 1e3, I'm lost anyway. Get more cautious in the last days if the pool is low (the value of kills shrinks while the cost of being caught, half of all points, does not).\nHIGH MODE: kill every non-gazette victim, 9 a day: 7 quick afternoon and 2 timed evening (national plus one). Never use morning, and never more than 2 evening deaths, so students, home and night workers stay in the pool. Day workers are already ruled out.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day still gives 40.\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, pool 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4.\nDay10: 9 kills (A2, F2, R2, X2, nat). Quick afternoon: d10-1, 11, 2, 8, 3, 10, 7. Timed evening: d10-9 (foreign) and d10-6 (national). Skipped gazette d10-4 and d10-5.",
    "error": null,
-   "input_tokens": 3854,
-   "output_tokens": 1437,
-   "seconds": 14.6,
-   "reasoning": "I'm working from my notes and dropping everything except the foreign targets, which come to nine places for day 10. My multiplier so far today is 4. Next I want to check the danger level: the pool is at 3000, I've traced 18, and two of the burned places are among East, gazette and podcasts.\n\nI'm checking the pool estimate against the burned places: with East, gazette and podcasts accounting for most of it, the floor lands around 2750 to 3440, so 3000 still holds. I'm also noting that the hidden reports in places I don't follow don't change that picture, and I'll update the kill log to nine for day 10, bringing points to 224.\n\n"
+   "input_tokens": 4134,
+   "output_tokens": 3456,
+   "seconds": 33.3
   },
   {
    "day": 11,
@@ -919,7 +775,7 @@
     {
      "id": "d11-1",
      "coverage": [
-      "forum"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -927,7 +783,7 @@
     {
      "id": "d11-2",
      "coverage": [
-      "national"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -935,16 +791,7 @@
     {
      "id": "d11-3",
      "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-4",
-     "coverage": [
-      "gazette"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -952,7 +799,7 @@
     {
      "id": "d11-5",
      "coverage": [
-      "podcasts"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -960,7 +807,8 @@
     {
      "id": "d11-6",
      "coverage": [
-      "podcasts"
+      "forum",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -968,7 +816,7 @@
     {
      "id": "d11-7",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -976,8 +824,7 @@
     {
      "id": "d11-9",
      "coverage": [
-      "clips",
-      "gazette"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -989,31 +836,38 @@
      ],
      "entry": "quick",
      "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
     }
    ],
    "traced": [
+    "d11-1",
+    "d11-2",
     "d11-3",
-    "d11-9",
-    "d11-7",
-    "d11-10",
-    "d11-1"
+    "d11-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9. Points were 224 before d11. d11 is at x4 (window 45), +36, so 260 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d10: pool 3000, traced 20.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it and leads to ~690, which means caught. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn (kind P) after d7 gave 1e4 (~13.7k). The other reachable kind Q of R/A/F/X still has 2 or fewer traces. When Q burns, expect ~3.4k.\nFLOOR INSIGHT (d11): every constraint L can get is 'killer follows one of this victim's places', and each includes one of my places. Once P and Q are both known, hidden-place burns (docket, North etc.) are redundant. My unreachable kinds are never traced. So the pool can't fall below about 55k x 0.25 x 0.25 = ~3.4k unless GAZETTE burns or the routine filter tightens. That is safe above 1000. Safe to keep max kills through day 30, including the last day.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day. Use only the afternoon block (quick, up to 10) or at most 2 evening deaths. Never morning. That keeps students, home and night workers in the pool. From day 11 on I use all quick afternoon (all remaining routines are free then).\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (still x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, pool 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 kills, all quick afternoon (A2, X2, R2, F2, nat). Skipped gazette d11-4 and d11-8.",
    "error": null,
-   "input_tokens": 4025,
-   "output_tokens": 1699,
-   "seconds": 14.4,
-   "reasoning": "I'm checking the setup: the pool is at 3000 after day 10 with 20 traced, and my plan is to keep eliminating 9 per day while leaving out the foreign group. Next I'm rechecking the pool floor, working out the afternoon base as night workers, students and home folks adding up to 55%, which comes to 55000, and noting which channels can and can't be reached, with two of the five kinds out of reach.\n\nI'm working through the numbers again: the base pool comes to roughly 2750 if the East and gazette sources are the ones burned, or about 3437 with East and podcasts, so 3000 sits in that range. Foreign would hold around 700 to 860, which means it would get caught. I'm also wondering whether a victim could have been reported in a place I never traced, which would loosen the constraint a little.\n\nI'm "
+   "input_tokens": 4222,
+   "output_tokens": 8254,
+   "seconds": 86.4
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-2",
+     "id": "d12-1",
      "coverage": [
       "forum"
      ],
@@ -1021,15 +875,16 @@
      "block": "afternoon"
     },
     {
-     "id": "d12-3",
+     "id": "d12-2",
      "coverage": [
-      "podcasts"
+      "regional:East",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d12-4",
+     "id": "d12-3",
      "coverage": [
       "regional:East"
      ],
@@ -1039,7 +894,8 @@
     {
      "id": "d12-5",
      "coverage": [
-      "gazette"
+      "cable",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1047,7 +903,7 @@
     {
      "id": "d12-6",
      "coverage": [
-      "national"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1055,7 +911,7 @@
     {
      "id": "d12-7",
      "coverage": [
-      "regional:East"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1063,7 +919,7 @@
     {
      "id": "d12-9",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1071,8 +927,8 @@
     {
      "id": "d12-10",
      "coverage": [
-      "gazette",
-      "wire"
+      "podcasts",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1087,30 +943,36 @@
     }
    ],
    "traced": [
-    "d12-3",
-    "d12-4",
-    "d12-6",
-    "d12-10",
-    "d12-9"
+    "d12-1",
+    "d12-2",
+    "d12-9",
+    "d12-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9, d12=9. Points were 260 before d12. d12 is at x4 (window 45), +36, so 296 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d11: pool 3000, traced 21.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it and leads to ~690, which means caught. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn (P) after d7 gave 1e4. Second burn (Q) after d11 gave 3e3 (~3.4k), as predicted. Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned (P/Q). So all further constraints are redundant, and the pool stays at ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30, including the last day.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (still x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 kills, all quick afternoon; traced 12, pool 3e3 (Q burned).\nDay12: 9 kills, all quick afternoon (F2, R2, X2, A2, nat). Skipped gazette d12-4 and d12-8. Points before today 175, +36 expected.",
    "error": null,
-   "input_tokens": 4197,
-   "output_tokens": 1918,
-   "seconds": 17.7,
-   "reasoning": "I'm checking the current state: the pool has 3000 and 21 have been traced, with a strategy of eliminating everyone except foreign targets. I'm weighing the risk that some non-national criminals are also reported in a place I'm not tracking, and whether that extra location could be one I'd need to reach to trace them.\n\nI'm checking whether foreign targets are the only gap: anyone reported in a place I don't follow (other regions, sectors, or ages) would be invisible to me. Since one of the reachable kinds is out of reach, a victim with a hidden extra of that kind would be untraceable. Running the numbers, the pool of 3000 fits the two burned places, and adding foreign would shrink it to roughly 700 to 860.\n\nI'm checking whether victims reported in two places could narrow the pool any furthe"
+   "input_tokens": 4346,
+   "output_tokens": 2503,
+   "seconds": 24.5
   },
   {
    "day": 13,
    "kills": [
     {
-     "id": "d13-2",
+     "id": "d13-1",
      "coverage": [
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1118,7 +980,8 @@
     {
      "id": "d13-3",
      "coverage": [
-      "podcasts"
+      "regional:East",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1126,7 +989,8 @@
     {
      "id": "d13-4",
      "coverage": [
-      "regional:East"
+      "docket",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1134,16 +998,7 @@
     {
      "id": "d13-5",
      "coverage": [
-      "gazette",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-6",
-     "coverage": [
-      "national"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1151,15 +1006,15 @@
     {
      "id": "d13-7",
      "coverage": [
-      "regional:East"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d13-8",
+     "id": "d13-9",
      "coverage": [
-      "podcasts"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1167,7 +1022,7 @@
     {
      "id": "d13-10",
      "coverage": [
-      "forum"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1175,41 +1030,32 @@
     {
      "id": "d13-11",
      "coverage": [
-      "gazette"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d13-10",
-    "d13-8",
+    "d13-1",
+    "d13-3",
     "d13-4",
-    "d13-7",
-    "d13-3"
+    "d13-9",
+    "d13-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4=9, d5=9, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9, d12=9, d13=9. Points were 296 before d13. d13 is at x4 (window 45), +36, so 332 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d12: pool 3000, traced 24.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim: one more trace burns it and leads to ~690, which means caught. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn (P) after d7 gave 1e4. Second burn (Q) after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned (P/Q). So all further constraints are redundant, and the pool stays at ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30, including the last day.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening. A morning kill would rule out students and drop the pool to ~2.2k, so don't.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (still x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 kills, all quick afternoon; traced 12, pool 3e3 (Q burned).\nDay12: 9 kills, all quick afternoon; traced 13, pool 3e3.\nDay13: 9 kills, all quick afternoon (F2, A2, R2, X2, nat). Skipped gazette d13-6 and d13-8. Points before today 211, +36 expected (x4).",
    "error": null,
-   "input_tokens": 4399,
-   "output_tokens": 1708,
-   "seconds": 15.4,
-   "reasoning": "I'm checking the notes' reasoning: a pool of 3000 with an afternoon routine, where the afternoon-free groups (night workers, students, home) add up to 55%, giving 55000. Then I'm weighing the two reachable places among East, the gazette and podcasts, which are 25%, 20% and 25%, against the \"at least one of the places the victim was reported\" constraint, and I'm thinking about how hidden extra reports would change that constraint.\n\nI'm checking the podcast and gazette pairings against the pool of 3000 out of 55000, which comes to roughly 5.5%, and the results land near 2750 to 3437 depending on the pair. I'm also confirming that the forum place is unreachable, since the day 1 trace count of zero for the forum victims fits that, which leaves the foreign place as the reachable one.\n\nI'm confi"
+   "input_tokens": 4463,
+   "output_tokens": 1787,
+   "seconds": 15.2
   },
   {
    "day": 14,
    "kills": [
-    {
-     "id": "d14-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
     {
      "id": "d14-1",
      "coverage": [
@@ -1222,8 +1068,8 @@
     {
      "id": "d14-2",
      "coverage": [
-      "podcasts",
-      "wire"
+      "radio",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1231,7 +1077,41 @@
     {
      "id": "d14-3",
      "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "blotter",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "clips",
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1245,57 +1125,32 @@
      "block": "afternoon"
     },
     {
-     "id": "d14-5",
+     "id": "d14-11",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-10",
-     "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-6",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-7",
-     "coverage": [
-      "clips",
-      "gazette"
+      "docket",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d14-3",
-    "d14-7",
-    "d14-10",
     "d14-1",
-    "d14-2"
+    "d14-2",
+    "d14-3",
+    "d14-4",
+    "d14-5",
+    "d14-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day and acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d14=9 each. Points were 332 before d14. d14 is at x4 (window 45), +36, so 368 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 per day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon, plus timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d13: pool 3000, traced 26.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn (P) after d7 gave 1e4. Second burn (Q) after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned. So further constraints are redundant, and the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening. A morning kill would rule out students (pool ~2.2k).\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 quick afternoon; traced 12, pool 3e3 (Q burned).\nDay12: 9 quick afternoon; traced 13, 3e3.\nDay13: 9 quick afternoon; traced 15, 3e3.\nDay14: 9 quick afternoon (A2, R2, X2, F2, nat). Skipped gazette d14-8 and d14-10. Points before today 247, +36 expected (x4).",
    "error": null,
-   "input_tokens": 4571,
-   "output_tokens": 1466,
-   "seconds": 12.7,
-   "reasoning": "Checking the notes' figures: the 332 points hold up, and the pool of 3000 after d13 traces back to 26. Next I'm sorting today's kills: nine of them (national d14-8, podcasts d14-1 and d14-2, forum d14-3 and d14-9, East d14-5 and d14-10, gazette d14-6 and d14-7), while foreign d14-4 and d14-11 get skipped. Then I want to look at the safety reasoning around the hidden extra reports, which reads as 3 in 10.\n\nI'm checking whether hidden extra reports could change the trace: a forum victim also reported elsewhere would fail to trace since the forum is unreachable, while an East victim also reported in hospital might still succeed. Either way the constraint only narrows to a place already burned, so the 3000 pool stays safe.\n\n"
+   "input_tokens": 4698,
+   "output_tokens": 2191,
+   "seconds": 19.2
   },
   {
    "day": 15,
@@ -1303,7 +1158,7 @@
     {
      "id": "d15-1",
      "coverage": [
-      "gazette"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1311,7 +1166,7 @@
     {
      "id": "d15-2",
      "coverage": [
-      "regional:East"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1319,7 +1174,7 @@
     {
      "id": "d15-3",
      "coverage": [
-      "gazette"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1327,7 +1182,8 @@
     {
      "id": "d15-4",
      "coverage": [
-      "podcasts"
+      "foreign",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1335,15 +1191,16 @@
     {
      "id": "d15-5",
      "coverage": [
-      "national"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d15-6",
+     "id": "d15-7",
      "coverage": [
-      "forum"
+      "blotter",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1351,7 +1208,15 @@
     {
      "id": "d15-8",
      "coverage": [
-      "regional:East"
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1359,39 +1224,27 @@
     {
      "id": "d15-10",
      "coverage": [
-      "docket",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-11",
-     "coverage": [
-      "forum",
-      "radio"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d15-6",
+    "d15-2",
     "d15-4",
-    "d15-1",
-    "d15-10",
-    "d15-5"
+    "d15-8",
+    "d15-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d15=9 each. Points were 368 before d15. d15 is at x4 (window 45), +36, so 404 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d14: pool 3000, traced 28.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned. So further constraints are redundant, and the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening. A morning kill would rule out students (pool ~2.2k).\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 quick afternoon; traced 12, pool 3e3 (second burn).\nDay12: 9 quick afternoon; traced 13, 3e3.\nDay13: 9 quick afternoon; traced 15, 3e3.\nDay14: 9 quick afternoon; traced 18, 3e3.\nDay15: 9 quick afternoon (A2, F2, X2, R2, nat). Skipped gazette d15-6 and d15-11. Points before today 283, +36 expected (x4).",
    "error": null,
-   "input_tokens": 4698,
-   "output_tokens": 1719,
-   "seconds": 16.3,
-   "reasoning": "I'm double-checking the earlier notes: narrowing the pool to afternoon-only cases leaves about 3000 out of the 55000 base, after removing the day workers. Two of the reachable cases are burned, and each one might have the victim reporting a second hidden location, which would let the trace succeed under the either-or constraint.\n\nI'm checking the rough numbers for the reachable pools: the East, gazette, and podcast combinations land near 2750\u20133440, which rounds to the 3000 I had. A foreign burn would cut that to about 700\u2013860, so I'd get caught. The unreachable places never complete a trace, and hidden reports elsewhere still fall under constraints that include one of my places, though they could shave the pool a bit more.\n\nI'm checking whether hidden reports in places I don't follow could"
+   "input_tokens": 4871,
+   "output_tokens": 1922,
+   "seconds": 15.9
   },
   {
    "day": 16,
@@ -1399,8 +1252,7 @@
     {
      "id": "d16-1",
      "coverage": [
-      "forum",
-      "radio"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1416,7 +1268,7 @@
     {
      "id": "d16-3",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1424,7 +1276,7 @@
     {
      "id": "d16-4",
      "coverage": [
-      "podcasts"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1432,7 +1284,6 @@
     {
      "id": "d16-5",
      "coverage": [
-      "blotter",
       "regional:East"
      ],
      "entry": "quick",
@@ -1441,68 +1292,13 @@
     {
      "id": "d16-6",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-7",
-     "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d16-9",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-11",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d16-4",
-    "d16-2",
-    "d16-5",
-    "d16-6",
-    "d16-9"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 2750,
-   "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d16=9 each. Points were 404 before d16. d16 is at x4 (window 45), +36, so 440 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d15: pool 3000, traced 31. The game ends after day 30.",
-   "error": null,
-   "input_tokens": 4867,
-   "output_tokens": 1106,
-   "seconds": 8.8,
-   "reasoning": "I'm checking the strategy: the pool is steady at 3000, and the plan is to eliminate the nine non-foreign targets today. Foreign is reachable with two traces, and I'm weighing whether a hidden report could place a victim there, since my notes say those extras only show up where I'm not looking.\n\nI'm confirming the pool floor stays in a safe range, then planning to eliminate the nine targets this afternoon and updating the notes: d16 is 9, and points come to 440. Once the press conference after d15 wraps up, I'll record the pool at 3000 with 31 traced.\n\n"
-  },
-  {
-   "day": 17,
-   "kills": [
-    {
-     "id": "d17-1",
-     "coverage": [
-      "blotter",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-2",
+     "id": "d16-8",
      "coverage": [
       "forum"
      ],
@@ -1510,9 +1306,64 @@
      "block": "afternoon"
     },
     {
+     "id": "d16-10",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-1",
+    "d16-2",
+    "d16-3",
+    "d16-4",
+    "d16-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned. So further constraints are redundant, and the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening. A morning kill would rule out students (pool ~2.2k).\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 quick afternoon; traced 12, pool 3e3 (second burn).\nDay12-15: 9/day quick afternoon; pool held at 3e3, traced 13,15,18,20.\nDay16: 9 quick afternoon (A2, X2, R2, F2, nat). Skipped gazette d16-7 and d16-9. Points before today 319, +36 expected (x4).",
+   "error": null,
+   "input_tokens": 5056,
+   "output_tokens": 1728,
+   "seconds": 14.3
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-1",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d17-3",
      "coverage": [
-      "gazette"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1520,15 +1371,7 @@
     {
      "id": "d17-5",
      "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-6",
-     "coverage": [
-      "regional:East"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1537,6 +1380,14 @@
      "id": "d17-7",
      "coverage": [
       "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1552,7 +1403,7 @@
     {
      "id": "d17-10",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1560,30 +1411,28 @@
     {
      "id": "d17-11",
      "coverage": [
-      "clips",
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d17-3",
+    "d17-4",
     "d17-7",
-    "d17-6",
-    "d17-10",
-    "d17-5"
+    "d17-8",
+    "d17-9",
+    "d17-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d17=9 each. Points were 440 before d17. d17 is at x4 (window 45), +36, so 476 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d16: pool 3000, traced 34 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned. So further constraints are redundant, and the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening. A morning kill would rule out students (pool ~2.2k).\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 quick afternoon; traced 12, pool 3e3 (second burn).\nDay12-16: 9/day quick afternoon; pool held at 3e3, traced 13,15,18,20,23.\nDay17: 9 quick afternoon (R2, A2, F2, X2, nat). Skipped gazette d17-2 and d17-6. Points before today 355, +36 expected (x4).",
    "error": null,
-   "input_tokens": 5043,
-   "output_tokens": 1116,
-   "seconds": 9.5,
-   "reasoning": "I'm going through the kills now: everything goes except the two foreign targets, d17-4 and d17-8, which makes nine eliminations. The pool holds steady at 3000, so I'll update the notes. I'm also checking whether further kills could reduce things more, and whether reports from regions or sectors I'm not tracking might add constraints.\n\nI'm weighing whether a reporting link between regions could narrow the pool a bit more, but the notes say the floor holds and the pool has been steady for ten days. I'm also tallying the expected points: 440 plus 36 brings it to 476 after today.\n\n"
+   "input_tokens": 5184,
+   "output_tokens": 1731,
+   "seconds": 15.2
   },
   {
    "day": 18,
@@ -1591,7 +1440,8 @@
     {
      "id": "d18-1",
      "coverage": [
-      "regional:East"
+      "regional:East",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1599,7 +1449,15 @@
     {
      "id": "d18-3",
      "coverage": [
-      "gazette",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "foreign",
       "regional:South"
      ],
      "entry": "quick",
@@ -1608,7 +1466,7 @@
     {
      "id": "d18-5",
      "coverage": [
-      "forum"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1616,8 +1474,8 @@
     {
      "id": "d18-6",
      "coverage": [
-      "hospital",
-      "podcasts"
+      "forum",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1625,7 +1483,8 @@
     {
      "id": "d18-7",
      "coverage": [
-      "gazette"
+      "blotter",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1633,7 +1492,7 @@
     {
      "id": "d18-8",
      "coverage": [
-      "regional:East"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1641,6 +1500,7 @@
     {
      "id": "d18-9",
      "coverage": [
+      "clips",
       "forum"
      ],
      "entry": "quick",
@@ -1649,14 +1509,6 @@
     {
      "id": "d18-10",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-11",
-     "coverage": [
       "podcasts"
      ],
      "entry": "quick",
@@ -1664,22 +1516,21 @@
     }
    ],
    "traced": [
-    "d18-10",
     "d18-1",
-    "d18-11",
+    "d18-4",
     "d18-5",
-    "d18-3"
+    "d18-6",
+    "d18-9"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d18=9 each. Points were 476 before d18. d18 is at x4 (window 45), +36, so 512 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d17: pool 3000, traced 37 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: every successful trace includes only reachable places. Each constraint is 'killer follows one of this victim's places' and includes one of my places, which are already burned. So further constraints are redundant, and the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then, so no routine filtering). Never morning or evening. A morning kill would rule out students (pool ~2.2k).\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5: 9 kills, traced 4, 6e4. Day6: 9, traced 4, 6e4. Day7: 9, traced 6, 1e4. Day8: 9, traced 6, 1e4. Day9: 9, traced 8, 1e4. Day10: 9, traced 9, 1e4.\nDay11: 9 quick afternoon; traced 12, pool 3e3 (second burn).\nDay12-17: 9/day quick afternoon; pool held at 3e3, traced 13,15,18,20,23,26.\nDay18: 9 quick afternoon (R2, X2, A2, F2, nat). Skipped gazette d18-2 and d18-11. Points before today 391, +36 expected (x4).",
    "error": null,
-   "input_tokens": 5226,
-   "output_tokens": 1016,
-   "seconds": 7.9,
-   "reasoning": "I'm going with the plan to drop everything except the foreign kills, which leaves nine d18 targets that should go quickly. Pool is steady at 3000, so that's fine. Points are 476 before d18, and with the expected +36 from d18 I should land near 512, with 37 traced after the d17 push.\n\n"
+   "input_tokens": 5353,
+   "output_tokens": 1627,
+   "seconds": 13.2
   },
   {
    "day": 19,
@@ -1695,6 +1546,7 @@
     {
      "id": "d19-2",
      "coverage": [
+      "clips",
       "regional:East"
      ],
      "entry": "quick",
@@ -1711,15 +1563,15 @@
     {
      "id": "d19-4",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d19-6",
+     "id": "d19-5",
      "coverage": [
-      "regional:East"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1727,7 +1579,7 @@
     {
      "id": "d19-7",
      "coverage": [
-      "podcasts"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1735,8 +1587,8 @@
     {
      "id": "d19-8",
      "coverage": [
-      "docket",
-      "gazette"
+      "podcasts",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1744,7 +1596,7 @@
     {
      "id": "d19-10",
      "coverage": [
-      "forum"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1752,30 +1604,28 @@
     {
      "id": "d19-11",
      "coverage": [
-      "gazette",
-      "hospital"
+      "forum",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d19-10",
-    "d19-3",
     "d19-2",
-    "d19-7",
-    "d19-1"
+    "d19-3",
+    "d19-4",
+    "d19-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day. Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d19=9 each. Points were 512 before d19. d19 is at x4 (window 45), +36, so 548 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d18: pool 3000, traced 38 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: further constraints are redundant, so the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then). Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-18: 9/day quick afternoon; pool held at 3e3, traced up to 27 after d18.\nDay19: 9 quick afternoon (A2, R2, X2, F2, nat). Skipped gazette d19-6 and d19-9. Points before today 427, +36 expected.",
    "error": null,
-   "input_tokens": 5393,
-   "output_tokens": 1165,
-   "seconds": 9.7,
-   "reasoning": "I'm checking that the strategy holds: the pool is steady at 3000, and the plan is to keep eliminating the nine targets outside the foreign category. I don't see a gap in reported_in, since I'm following the foreign reports. The remaining worry is whether kills in reachable categories could shrink the pool more, but those traces only add constraints that the pool has to satisfy.\n\nI'm settling the constraint logic: extra hidden reports only weaken a victim's constraint, and the single-place ones already pin the pool, so it stays stable. Points should land at 548 after today, and I'll work through the nine kills in the afternoon.\n\n"
+   "input_tokens": 5522,
+   "output_tokens": 1324,
+   "seconds": 11.4
   },
   {
    "day": 20,
@@ -1783,13 +1633,13 @@
     {
      "id": "d20-1",
      "coverage": [
-      "national"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d20-3",
+     "id": "d20-2",
      "coverage": [
       "regional:East"
      ],
@@ -1797,9 +1647,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d20-4",
+     "id": "d20-3",
      "coverage": [
-      "podcasts"
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1807,7 +1658,7 @@
     {
      "id": "d20-5",
      "coverage": [
-      "gazette"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1815,16 +1666,8 @@
     {
      "id": "d20-6",
      "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-7",
-     "coverage": [
-      "podcasts"
+      "podcasts",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1832,8 +1675,7 @@
     {
      "id": "d20-8",
      "coverage": [
-      "regional:East",
-      "wire"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1849,29 +1691,37 @@
     {
      "id": "d20-10",
      "coverage": [
-      "gazette"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "blotter",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d20-6",
-    "d20-9",
-    "d20-7",
     "d20-3",
-    "d20-1"
+    "d20-5",
+    "d20-8",
+    "d20-9",
+    "d20-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d20=9 each. Points were 548 before d20. d20 is at x4 (window 45), +36, so 584 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d19: pool 3000, traced 40 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k = 55k x 0.0625). Both reachable non-sector kinds are now burned.\nFLOOR: further constraints are redundant, so the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon (students, home and night workers are all free then). Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4); 8/day gives 40 (x4).\nLOG:\nDay1: F2, X2. Day2: A2+nat. Day3: R2+nat. Day4: S2+nat (traced -> 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-18: 9/day quick afternoon; pool held at 3e3, traced up to 27 after d18.\nDay19: 9 quick afternoon; pool 3e3, traced 29.\nDay20: 9 quick afternoon (X2, R2, A2, F2, nat). Skipped gazette d20-4 and d20-7. Points before today 463, +36 expected.",
    "error": null,
-   "input_tokens": 5560,
-   "output_tokens": 1474,
-   "seconds": 12.7,
-   "reasoning": "I'm double-checking the numbers: a pool of 3,000 with a base of 55,000, where the afternoon slot leaves only night workers, students, and people at home, which comes to about 55% of the base. Foreign contacts are reachable but the forum isn't, so I'm sorting out which segments are unreachable and which two are still open.\n\nI'm checking the foreign victims next: if one of them burns, the pool shrinks to roughly 700 to 860 and the killer gets caught, and hidden extra places could make the trace fail or widen the constraint, so I'm avoiding them. Tracing count is up to 40, and the day-30 pool check rules out saving foreign for last. For today I'm going with the national, East, gazette, podcast, and forum victims, nine kills, bringing the score to 584.\n\n"
+   "input_tokens": 5514,
+   "output_tokens": 1181,
+   "seconds": 10.9
   },
   {
    "day": 21,
@@ -1879,7 +1729,16 @@
     {
      "id": "d21-1",
      "coverage": [
-      "national"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "forum",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1887,24 +1746,7 @@
     {
      "id": "d21-3",
      "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-4",
-     "coverage": [
       "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-5",
-     "coverage": [
-      "forum",
-      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1912,8 +1754,8 @@
     {
      "id": "d21-6",
      "coverage": [
-      "regional:East",
-      "regional:South"
+      "cable",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1929,7 +1771,15 @@
     {
      "id": "d21-8",
      "coverage": [
-      "gazette"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1937,8 +1787,7 @@
     {
      "id": "d21-10",
      "coverage": [
-      "regional:East",
-      "wire"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1946,29 +1795,26 @@
     {
      "id": "d21-11",
      "coverage": [
-      "gazette"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d21-4",
-    "d21-10",
     "d21-3",
-    "d21-1",
-    "d21-5"
+    "d21-8",
+    "d21-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d21=9 each. Points were 584 before d21. d21 is at x4 (window 45), +36, so 620 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d20: pool 3000, traced 41 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-20: 9/day quick afternoon; pool held at 3e3, traced 30 after d20.\nDay21: 9 quick afternoon (R2, F2, A2, X2, nat). Skipped gazette d21-4 and d21-5. Points before today 499, +36 expected.",
    "error": null,
-   "input_tokens": 5740,
-   "output_tokens": 1355,
-   "seconds": 11.6,
-   "reasoning": "I'm settling on the plan to take out nine non-foreign targets in the afternoon, with the pool holding steady at 3000 and my score at 584. I'm going back over the pool floor: the base of 55000 comes from night workers, students, and home residents having free time, and I'm checking which of the East, gazette, and podcast options are still reachable.\n\nI'm checking the pool math against the East-and-podcasts and East-and-gazette combinations, which come out near 2750 to 3437, so 3000 still holds. I'm also noting that a victim reported in two places only loosens the constraint, and that the floor stays the product of the exact places. The plan is nine kills: d21-1 and 3 through 11, skipping 9. Updating my notes next.\n\n"
+   "input_tokens": 5709,
+   "output_tokens": 1526,
+   "seconds": 12.9
   },
   {
    "day": 22,
@@ -1976,16 +1822,7 @@
     {
      "id": "d22-1",
      "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-2",
-     "coverage": [
-      "gazette",
-      "radio"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1993,7 +1830,7 @@
     {
      "id": "d22-3",
      "coverage": [
-      "regional:East"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2001,7 +1838,7 @@
     {
      "id": "d22-4",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2009,8 +1846,8 @@
     {
      "id": "d22-6",
      "coverage": [
-      "blotter",
-      "podcasts"
+      "podcasts",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2027,8 +1864,15 @@
     {
      "id": "d22-8",
      "coverage": [
-      "forum",
-      "regional:North"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2036,7 +1880,7 @@
     {
      "id": "d22-10",
      "coverage": [
-      "national"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2051,22 +1895,22 @@
     }
    ],
    "traced": [
-    "d22-11",
-    "d22-10",
     "d22-3",
+    "d22-4",
     "d22-6",
-    "d22-1"
+    "d22-7",
+    "d22-9",
+    "d22-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d22=9 each. Points were 620 before d22. d22 is at x4, +36, so 656 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d21: pool 3000, traced 42 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-21: 9/day quick afternoon; pool held at 3e3, traced 31 after d21.\nDay22: 9 quick afternoon (X2, A2, R2, F2, nat). Skipped gazette d22-2 and d22-5. Points before today 535, +36 expected.",
    "error": null,
-   "input_tokens": 5907,
-   "output_tokens": 1564,
-   "seconds": 13.9,
-   "reasoning": "I'm checking the strategy: the pool is steady at 3000 and points are at 620, so I'll keep removing everyone except the foreign group. I'm also testing whether the pool floor estimate holds up, starting from a base of 55,000 and the share free in the afternoon, then working out what two reachable segments would contribute.\n\nI'm sanity-checking the pool estimate: from 55,000 people with the afternoon free, two reachable segments would leave roughly 2,750 to 3,400, which lines up with the 3,000 figure. A third trace would cut that down to around 700 to 860, so I'd get caught. I'm also weighing how hidden reports in places I can't reach would make some traces fail.\n\nI'm checking whether the floor holds: the people who match every constraint I can see are the ones who actually narrow the pool, "
+   "input_tokens": 5863,
+   "output_tokens": 1349,
+   "seconds": 11.0
   },
   {
    "day": 23,
@@ -2074,7 +1918,7 @@
     {
      "id": "d23-1",
      "coverage": [
-      "regional:East"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2088,49 +1932,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d23-3",
-     "coverage": [
-      "cable",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d23-4",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-5",
-     "coverage": [
-      "gazette",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-6",
-     "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-7",
-     "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-8",
      "coverage": [
       "national"
      ],
@@ -2138,35 +1940,83 @@
      "block": "afternoon"
     },
     {
-     "id": "d23-11",
+     "id": "d23-5",
      "coverage": [
       "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d23-11",
     "d23-2",
-    "d23-8",
-    "d23-5",
-    "d23-1"
+    "d23-6",
+    "d23-7",
+    "d23-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d23=9 each. Points were 656 before d23. d23 is at x4, +36, so 692 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d22: pool 3000, traced 44 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 55k after d5 (day workers ruled out). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-22: 9/day quick afternoon; pool held at 3e3, traced 34 after d22.\nDay23: 9 quick afternoon (A2, F2, R2, X2, nat). Skipped gazette d23-3 and d23-10. Points before today 571, +36 expected.",
    "error": null,
-   "input_tokens": 6069,
-   "output_tokens": 972,
-   "seconds": 7.9,
-   "reasoning": "I'm continuing the strategy: I'll drop every defender except the foreign ones, D23-1 through D23-8 and D23-11, and the nine kill quickly in the afternoon. My points are at 656 now, and with today's 36 they'll reach 692, so I need to update the notes.\n\n"
+   "input_tokens": 6030,
+   "output_tokens": 1387,
+   "seconds": 11.8
   },
   {
    "day": 24,
    "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "blotter",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
     {
      "id": "d24-3",
      "coverage": [
@@ -2178,7 +2028,7 @@
     {
      "id": "d24-4",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2187,15 +2037,7 @@
      "id": "d24-5",
      "coverage": [
       "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-6",
-     "coverage": [
-      "gazette"
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2203,7 +2045,7 @@
     {
      "id": "d24-7",
      "coverage": [
-      "gazette"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2211,7 +2053,7 @@
     {
      "id": "d24-8",
      "coverage": [
-      "national"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2235,37 +2077,47 @@
     {
      "id": "d24-11",
      "coverage": [
-      "podcasts"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d24-9",
-    "d24-10",
+    "d24-1",
     "d24-3",
-    "d24-6",
-    "d24-11"
+    "d24-4",
+    "d24-5",
+    "d24-7",
+    "d24-8",
+    "d24-9",
+    "d24-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d24=9 each. Points were 692 before d24. d24 is at x4, +36, so 728 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d23: pool 3000, traced 44 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 55k after d5 (day workers ruled out; afternoon kills fit night, student and home routines). First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-23: 9/day quick afternoon; pool held at 3e3, traced 35 after d23.\nDay24: 9 quick afternoon (A2, F2, R2, X2, nat). Skipped gazette d24-2 and d24-6. Points before today 607, +36 expected.",
    "error": null,
-   "input_tokens": 6236,
-   "output_tokens": 1187,
-   "seconds": 9.7,
-   "reasoning": "I'm going with the plan to drop everything except the foreign option, so I'll double-check the pool numbers first. The day-worker exclusion leaves 55%, which is 55000, close to the 60000 pool from day one. After that I subtract 10000 and 3000, and the ones that were already spent are East, the gazette, and the podcasts.\n\nI'm checking the foreign-burning math against the pool, and it lands around 700-860, which is low enough to catch. That's why I'm avoiding foreign. Today there are 9 non-foreign criminals, all quick afternoon jobs, for 728 points total.\n\n"
+   "input_tokens": 6197,
+   "output_tokens": 1354,
+   "seconds": 11.0
   },
   {
    "day": 25,
    "kills": [
     {
+     "id": "d25-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d25-2",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2281,16 +2133,7 @@
     {
      "id": "d25-4",
      "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-5",
-     "coverage": [
-      "blotter",
-      "regional:East"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2298,7 +2141,7 @@
     {
      "id": "d25-6",
      "coverage": [
-      "national"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2306,6 +2149,7 @@
     {
      "id": "d25-7",
      "coverage": [
+      "clips",
       "podcasts"
      ],
      "entry": "quick",
@@ -2314,7 +2158,8 @@
     {
      "id": "d25-8",
      "coverage": [
-      "gazette"
+      "regional:East",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2322,7 +2167,7 @@
     {
      "id": "d25-9",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2330,30 +2175,28 @@
     {
      "id": "d25-11",
      "coverage": [
-      "cable",
-      "podcasts"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d25-4",
-    "d25-5",
-    "d25-6",
     "d25-2",
+    "d25-3",
+    "d25-4",
+    "d25-6",
     "d25-7"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d25=9 each. Points were 728 before d25. d25 is at x4, +36, so 764 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d24: pool 3000, traced 46 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 55k after d5. First burn after d7 gave 1e4. Second burn after d11 gave 3e3 (~3.4k). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns or the routine filter tightens. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-24: 9/day quick afternoon; pool held at 3e3, traced 39 after d24.\nDay25: 9 quick afternoon (nat, X2, R2, A2, F2). Skipped gazette d25-5 and d25-10. Points before today 643, +36 expected.",
    "error": null,
-   "input_tokens": 6403,
-   "output_tokens": 1056,
-   "seconds": 8.9,
-   "reasoning": "I'm continuing the strategy now: points stand at 728, and I'm narrowing the kill list to d25-1 and d25-10, which are the foreign ones, with the pool at 3000 after d24. I'm also checking whether rounding could be masking a shrinking pool, and the 2500\u20133499 range against the computed floor of roughly 2750\u20133440 still holds up. Next I'm working through the quick afternoon kills for d25-2 through d25-11, skipping the two I'm keeping.\n\nUpdating the notes for the kill plan.\n\n"
+   "input_tokens": 6380,
+   "output_tokens": 1335,
+   "seconds": 10.7
   },
   {
    "day": 26,
@@ -2361,16 +2204,15 @@
     {
      "id": "d26-1",
      "coverage": [
-      "podcasts",
-      "wire"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d26-2",
+     "id": "d26-3",
      "coverage": [
-      "gazette"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2378,7 +2220,6 @@
     {
      "id": "d26-4",
      "coverage": [
-      "clips",
       "regional:East"
      ],
      "entry": "quick",
@@ -2387,7 +2228,16 @@
     {
      "id": "d26-5",
      "coverage": [
-      "national"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "podcasts",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2411,7 +2261,7 @@
     {
      "id": "d26-9",
      "coverage": [
-      "gazette"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2419,15 +2269,6 @@
     {
      "id": "d26-10",
      "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-11",
-     "coverage": [
-      "docket",
       "forum"
      ],
      "entry": "quick",
@@ -2436,29 +2277,28 @@
    ],
    "traced": [
     "d26-1",
-    "d26-10",
-    "d26-11",
     "d26-5",
-    "d26-8"
+    "d26-8",
+    "d26-9",
+    "d26-10"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d26=9 each. Points were 764 before d26. d26 is at x4, +36, so 800 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d25: pool 3000, traced 48 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 100k x0.55 (afternoon kills rule out day workers) = 55k. First burn x0.25 gave ~14k (1e4). Second burn gave ~3.4k (3e3). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns. Morning kills would cut it to ~2.2k, which is still safe but gains nothing. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-25: 9/day quick afternoon; pool held at 3e3, traced 42 after d25.\nDay26: 9 quick afternoon (nat, X2, R2, A2, F2). Skipped gazette d26-2 and d26-11. Points before today 679, +36 expected.",
    "error": null,
-   "input_tokens": 6570,
-   "output_tokens": 1240,
-   "seconds": 10.1,
-   "reasoning": "I'm keeping the plan going: nine non-foreign targets in the afternoon, with the score at 764 as I expected. That leaves out d26-3 and d26-6, which are foreign. Next I'll check what's left in the pool.\n\nI'm checking whether the pool could shrink further if a victim carries a hidden report, and the answer is no, since East already constrains it. Then I'll update the notes, including the press conference after d25.\n\n"
+   "input_tokens": 6522,
+   "output_tokens": 2149,
+   "seconds": 19.2
   },
   {
    "day": 27,
    "kills": [
     {
-     "id": "d27-2",
+     "id": "d27-1",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2466,7 +2306,7 @@
     {
      "id": "d27-3",
      "coverage": [
-      "podcasts"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2474,7 +2314,8 @@
     {
      "id": "d27-4",
      "coverage": [
-      "regional:East"
+      "blotter",
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2482,8 +2323,7 @@
     {
      "id": "d27-5",
      "coverage": [
-      "clips",
-      "gazette"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2491,7 +2331,7 @@
     {
      "id": "d27-6",
      "coverage": [
-      "forum"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2499,8 +2339,16 @@
     {
      "id": "d27-7",
      "coverage": [
-      "blotter",
-      "gazette"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "foreign",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2509,14 +2357,6 @@
      "id": "d27-9",
      "coverage": [
       "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-10",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2531,22 +2371,19 @@
     }
    ],
    "traced": [
+    "d27-1",
     "d27-6",
-    "d27-4",
-    "d27-9",
-    "d27-7",
-    "d27-5"
+    "d27-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d27=9 each. Points were 800 before d27. d27 is at x4, +36, so 836 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d26: pool 3000, traced 50 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim gives a constraint like 'forum or docket'. That is redundant once the kind is burned. If the kind is unreachable, the trace fails. So it is harmless.\nPOOL: 100k x0.55 (afternoon kills rule out day workers) = 55k. First burn x0.25 gave ~14k (1e4). Second burn gave ~3.4k (3e3). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns. Morning kills would cut it to ~2.2k, which is still safe but gains nothing. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-26: 9/day quick afternoon; pool held at 3e3, traced 44 after d26.\nDay27: 9 quick afternoon (nat, X2, R2, A2, F2). Skipped gazette d27-2 and d27-10. Points before today 715, +36 expected. Same plan for d28-30.",
    "error": null,
-   "input_tokens": 6737,
-   "output_tokens": 1267,
-   "seconds": 11.3,
-   "reasoning": "I'm double-checking the plan: the pool is stable at 3000 and the foreign group has two traces left. That leaves nine non-foreign targets to take out this afternoon. On the hidden-reports question, the extra reports sit in places I'm not tracking, so foreign can't be one of them.\n\nI'm checking whether a hidden report could make a trace fail or shrink the pool further. Either way it only helps, since the burned places are already burned. The pool has held steady for twenty days, so I'll keep going, and I'm expecting about 836 points after d27.\n\n"
+   "input_tokens": 6729,
+   "output_tokens": 1491,
+   "seconds": 12.7
   },
   {
    "day": 28,
@@ -2560,17 +2397,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d28-2",
-     "coverage": [
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d28-3",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2578,15 +2407,7 @@
     {
      "id": "d28-4",
      "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-5",
-     "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2594,8 +2415,15 @@
     {
      "id": "d28-6",
      "coverage": [
-      "podcasts",
-      "regional:West"
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2603,6 +2431,7 @@
     {
      "id": "d28-8",
      "coverage": [
+      "docket",
       "regional:East"
      ],
      "entry": "quick",
@@ -2611,7 +2440,7 @@
     {
      "id": "d28-9",
      "coverage": [
-      "gazette"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2619,38 +2448,52 @@
     {
      "id": "d28-10",
      "coverage": [
+      "clips",
       "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "docket",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d28-2",
-    "d28-1",
-    "d28-3",
-    "d28-9",
-    "d28-5"
+    "d28-4",
+    "d28-8"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on the last day (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d28=9 each. Points were 836 before d28. d28 is at x4, +36, so 872 expected. Multiplier window (last 5 days including today): x2 at 30 or more deaths, x4 at 40 or more. 9 a day keeps the window at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d27: pool 3000, traced 52 (pool has been stable at 3000 since d6). The game ends after day 30.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim only adds a redundant or failed constraint. Harmless.\nPOOL: 100k x0.55 (afternoon kills rule out day workers) = 55k. First burn gave ~14k (1e4). Second burn gave ~3.4k (3e3). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-27: 9/day quick afternoon; pool held at 3e3, traced 47 after d27. Points 751 before d28.\nDay28: 9 quick afternoon (nat, X2, A2, F2, R2). Skipped gazette d28-2 and d28-5. +36 expected, so ~787. Same plan for d29-30.",
    "error": null,
-   "input_tokens": 6904,
-   "output_tokens": 1112,
-   "seconds": 9.2,
-   "reasoning": "I'm going with the plan to eliminate the non-foreign targets in the afternoon. The pool sits steady at 3000, and the two foreign traces mean I'm keeping foreign kills off the table. I also checked whether any victims were reported somewhere I'm not tracking, and they weren't, since reported_in covers every place that carried them.\n\nI'm checking the kill list for day 28 now: the non-foreign targets 1 through 6, 8, 9 and 10. The hidden-report worry is settled, since foreign is one of the places I already track.\n\n"
+   "input_tokens": 6906,
+   "output_tokens": 1169,
+   "seconds": 9.4
   },
   {
    "day": 29,
    "kills": [
     {
+     "id": "d29-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d29-2",
      "coverage": [
-      "gazette",
-      "regional:South"
+      "hospital",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2658,8 +2501,7 @@
     {
      "id": "d29-3",
      "coverage": [
-      "gazette",
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2667,8 +2509,8 @@
     {
      "id": "d29-4",
      "coverage": [
-      "regional:East",
-      "regional:South"
+      "forum",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2676,7 +2518,7 @@
     {
      "id": "d29-5",
      "coverage": [
-      "regional:East"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2684,23 +2526,7 @@
     {
      "id": "d29-6",
      "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-7",
-     "coverage": [
       "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-8",
-     "coverage": [
-      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2708,7 +2534,8 @@
     {
      "id": "d29-9",
      "coverage": [
-      "national"
+      "blotter",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2716,55 +2543,44 @@
     {
      "id": "d29-10",
      "coverage": [
-      "forum"
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-9",
+    "d29-2",
+    "d29-3",
+    "d29-4",
     "d29-10",
-    "d29-8",
-    "d29-5",
-    "d29-2"
+    "d29-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STRATEGY: L traces 5 random deaths a day. He acts on a place once 3 successfully traced victims share it. ROUTINE: put every quick entry (and any timed entry) in the AFTERNOON. That rules out only day workers, so the base pool is 55000. FINDINGS: Forum is UNREACHABLE (0 traces on day 1). Foreign is REACHABLE with exactly 2 traces from day 2, so it is 1 trace from burning. Of East/gazette/podcasts, one is unreachable and two are reachable. Both reachable ones have already burned (pool 3000). The pool's floor is about 2750-3440, which is safe. Hidden extra reports are always in places I do not follow, so they cannot add a foreign trace. If foreign burns, the pool drops to about 700-860 and I am CAUGHT, losing half my points. So NEVER KILL FOREIGN, and never kill any victim whose reported_in includes foreign, even on day 30 (the pool is checked after day 30 too). Kill everything else every day: national, East, gazette, podcasts, forum. ALARM: if the pool is ever reported at 2000 or less, stop all kills except national and forum. KILL LOG: d1=3, d2=5, d3=9, d4-d29=9 each. Points 872 before d29. d29 is at x4, +36, so 908 expected. Multiplier window (last 5 days including today): x4 at 40 or more deaths. 9 a day keeps it at 45 = x4. Use up to 10 quick kills in the afternoon. Use timed entries (afternoon) only if there are more than 10 eligible targets. Press conference after d28: pool 3000, traced 54 (stable at 3000 since d6). Day 30 is the LAST day: same rules, skip foreign.",
+   "notes_to_self": "STRATEGY: Kinds are R=regional East (x0.25), S=gazette (x0.2), A=podcasts (x0.25), F=forum (x0.25), X=foreign (x0.25). L reaches exactly 3 kinds. A place burns (pool x~0.25) once 3 of its victims are traced.\nKEY FACTS: SECTOR is reachable, because the day-4 gazette kills moved traced from 0 to 2. Gazette has 2 traced victims. NEVER kill a gazette-carried victim, not even on day 30: one more trace burns it, the pool falls to ~690 and I am caught, losing half. A non-gazette victim can't secretly be gazette, because I'm told all my own places.\nHIDDEN PLACES: a hidden docket or other sector report on a reachable-kind victim only adds an OR-constraint I already satisfy. Harmless.\nPOOL: 100k x0.55 (afternoon kills rule out day workers) = 55k. First burn gave ~14k (1e4). Second burn gave ~3.4k (3e3). Both reachable non-sector kinds are now burned.\nFLOOR: the pool stays ~3.4k unless GAZETTE burns. Safe through day 30.\nRULE: if the pool is announced at 2e3 or lower, something is wrong. Stop non-national kills and reconsider.\nHIGH MODE: kill every non-gazette victim, usually 9 a day, ALL quick afternoon. Never morning or evening.\nMULTIPLIER: 9/day keeps the 5-day window at 45 (x4).\nLOG:\nDay1-4: setup (S2 on d4 -> traced 2).\nDay5-10: 9/day; pool 6e4, then 1e4 after d7.\nDay11: pool 3e3 (second burn).\nDay12-28: 9/day quick afternoon; pool held at 3e3, traced 48 after d28. Points 787 before d29.\nDay29: 9 quick afternoon (nat, X2, A2, F2, R2). Skipped gazette d29-7 and d29-8. +36 expected, so ~823. Day 30 (last day): same plan, 9 non-gazette quick afternoon, still NO gazette.",
    "error": null,
-   "input_tokens": 7071,
-   "output_tokens": 1035,
-   "seconds": 8.5,
-   "reasoning": "I'm going with a strategy of eliminating everyone except the foreign targets (d29-1 and d29-11), which comes to nine kills and should be quick. I'm also checking whether a victim that only appears in the gazette could still be in foreign. It can't be, since foreign is a place I follow and would show up in reported_in. My points are now 908, so I need to update the notes.\n\n"
+   "input_tokens": 7013,
+   "output_tokens": 1532,
+   "seconds": 13.1
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-4",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d30-1",
      "coverage": [
-      "gazette",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-11",
-     "coverage": [
-      "gazette",
-      "wire"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2778,35 +2594,18 @@
      "block": "afternoon"
     },
     {
-     "id": "d30-7",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-6",
-     "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-10",
-     "coverage": [
-      "hospital",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d30-3",
      "coverage": [
-      "cable",
-      "forum"
+      "regional:East",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2814,29 +2613,62 @@
     {
      "id": "d30-5",
      "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "podcasts",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
       "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-11",
-    "d30-7",
     "d30-1",
-    "d30-10",
-    "d30-6"
+    "d30-4",
+    "d30-6",
+    "d30-8",
+    "d30-9",
+    "d30-11"
    ],
    "points_today": 36,
    "multiplier": 4,
-   "pool": 2750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "Day 30 was the final day. I killed 9 victims in the afternoon: national, both East, both gazette, both podcasts and both forum. I skipped both foreign victims (d30-8, d30-9). Foreign has 2 successful traces, so a third would burn it and drop the pool below 1000, which means capture. Pool before today: 3000, traced 55. Points: 908 before today, plus 36 at x4, so 944 expected if I stay uncaught.",
+   "notes_to_self": "Day 30 is the final day. The plan was 9 non-gazette kills, all quick in the afternoon: d30-1 forum, d30-2 East, d30-3 East, d30-4 podcasts, d30-5 foreign, d30-6 podcasts, d30-8 national, d30-9 forum, d30-11 foreign. I skipped gazette d30-7 and d30-10. Gazette already has 2 traced victims, so one more trace would burn it and cut the pool to about 600, and I would be caught and lose half. Expected +36, so about 859 total.",
    "error": null,
-   "input_tokens": 7236,
-   "output_tokens": 762,
-   "seconds": 7.9,
-   "reasoning": "The pool holds at 3000 with 55 traces, so the plan stays the same: kill 9 and skip the foreign targets. I'm weighing whether to go after the two foreign ones, which would bring in 8 points, but they already sit at 2 traces, so a third would burn them and drop the pool under 1000, which risks losing about 458 points.\n\nI'm checking the pool's footing at 908 points on the final day, and I need the notes to stay brief and accurate. I'm also testing the claim that a hidden extra report can never be foreign. It holds, since I don't follow hidden reports and I do follow foreign ones, so I'm keeping the plan unchanged.\n\n"
+   "input_tokens": 7208,
+   "output_tokens": 1044,
+   "seconds": 10.1
   }
  ],
  "briefings": [
@@ -2847,153 +2679,153 @@
   },
   {
    "after_day": 1,
-   "pool": 60000,
+   "pool": 100000,
    "deaths_traced": 0
   },
   {
    "after_day": 2,
-   "pool": 60000,
-   "deaths_traced": 2
+   "pool": 100000,
+   "deaths_traced": 0
   },
   {
    "after_day": 3,
-   "pool": 60000,
-   "deaths_traced": 3
+   "pool": 100000,
+   "deaths_traced": 0
   },
   {
    "after_day": 4,
-   "pool": 10000,
-   "deaths_traced": 7
+   "pool": 100000,
+   "deaths_traced": 2
   },
   {
    "after_day": 5,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 6,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 7,
+   "pool": 10000,
+   "deaths_traced": 6
+  },
+  {
+   "after_day": 8,
+   "pool": 10000,
+   "deaths_traced": 6
+  },
+  {
+   "after_day": 9,
    "pool": 10000,
    "deaths_traced": 8
   },
   {
-   "after_day": 6,
-   "pool": 3000,
-   "deaths_traced": 11
-  },
-  {
-   "after_day": 7,
-   "pool": 3000,
-   "deaths_traced": 14
-  },
-  {
-   "after_day": 8,
-   "pool": 3000,
-   "deaths_traced": 16
-  },
-  {
-   "after_day": 9,
-   "pool": 3000,
-   "deaths_traced": 18
-  },
-  {
    "after_day": 10,
-   "pool": 3000,
-   "deaths_traced": 20
+   "pool": 10000,
+   "deaths_traced": 9
   },
   {
    "after_day": 11,
    "pool": 3000,
-   "deaths_traced": 21
+   "deaths_traced": 12
   },
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 24
+   "deaths_traced": 13
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 26
+   "deaths_traced": 15
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 28
+   "deaths_traced": 18
   },
   {
    "after_day": 15,
    "pool": 3000,
-   "deaths_traced": 31
+   "deaths_traced": 20
   },
   {
    "after_day": 16,
    "pool": 3000,
-   "deaths_traced": 34
+   "deaths_traced": 23
   },
   {
    "after_day": 17,
    "pool": 3000,
-   "deaths_traced": 37
+   "deaths_traced": 26
   },
   {
    "after_day": 18,
    "pool": 3000,
-   "deaths_traced": 38
+   "deaths_traced": 27
   },
   {
    "after_day": 19,
    "pool": 3000,
-   "deaths_traced": 40
+   "deaths_traced": 29
   },
   {
    "after_day": 20,
    "pool": 3000,
-   "deaths_traced": 41
+   "deaths_traced": 30
   },
   {
    "after_day": 21,
    "pool": 3000,
-   "deaths_traced": 42
+   "deaths_traced": 31
   },
   {
    "after_day": 22,
    "pool": 3000,
-   "deaths_traced": 44
+   "deaths_traced": 34
   },
   {
    "after_day": 23,
    "pool": 3000,
-   "deaths_traced": 44
+   "deaths_traced": 35
   },
   {
    "after_day": 24,
    "pool": 3000,
-   "deaths_traced": 46
+   "deaths_traced": 39
   },
   {
    "after_day": 25,
    "pool": 3000,
-   "deaths_traced": 48
+   "deaths_traced": 42
   },
   {
    "after_day": 26,
    "pool": 3000,
-   "deaths_traced": 50
+   "deaths_traced": 44
   },
   {
    "after_day": 27,
    "pool": 3000,
-   "deaths_traced": 52
+   "deaths_traced": 47
   },
   {
    "after_day": 28,
    "pool": 3000,
-   "deaths_traced": 54
+   "deaths_traced": 48
   },
   {
    "after_day": 29,
    "pool": 3000,
-   "deaths_traced": 55
+   "deaths_traced": 49
   },
   {
    "after_day": 30,
    "pool": 3000,
-   "deaths_traced": 58
+   "deaths_traced": 52
   }
  ],
  "effort": "high"

@@ -1,0 +1,3003 @@
+{
+ "run_id": "f7885c90-63fd-4493-8a87-8bdc69c71155",
+ "agent": "lightloop",
+ "model": "anthropic/claude-opus-5-5",
+ "task": "trace-006",
+ "reward": 0.9246,
+ "exit": null,
+ "agent_seconds": 566.2169580440001,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 6,
+  "region": "North",
+  "sector": "media",
+  "age": "40 to 59",
+  "blind": [
+   "forum",
+   "sector"
+  ]
+ },
+ "briefing_every": 1,
+ "traces_per_day": 5,
+ "points": 944,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 260,
+ "input_tokens": 145307,
+ "output_tokens": 59545,
+ "seconds": 561,
+ "informed_best": 1021,
+ "tester": 891,
+ "hider": 30,
+ "grabber": 88,
+ "score": 0.9246,
+ "log_trimmed": "reasoning cut to 800 characters a day",
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-1",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-8",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-8",
+    "d1-10",
+    "d1-1",
+    "d1-2"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: All kills in AFTERNOON (quick; use timed only if >10 kills, also afternoon). Afternoon-only kills rule out only day workers, so the pool is about 55k. L can reach 3 of my 5 kinds (regional North, wire=sector 0.2, cable=age, forum, foreign). If all 3 reachable kinds trigger (3+ traced victims in a place), the pool drops below 1000 and I'm caught. Rule: never let a 3rd reachable kind trigger. Victims from the 2 UNREACHABLE kinds can never be traced, so they are safe. PLAN: Days 1-2 are tests with 5 or fewer deaths so every death is traced and deaths_traced is clean. Each day kill 2 from kind A and 1 from kind B (plus national, which isn't counted). The rise in traced = 2*(A reachable) + 1*(B reachable), with some noise: about 30% of victims have an extra place, and the trace fails if that place is unreachable. Day 1: A=forum (d1-1, d1-8), B=foreign (d1-2), plus national d1-10. Day 2: test A=regional North x2, B=cable x1. Infer wire from the rest. From day 3: kill national + all victims of the 2 unreachable kinds + 2 reachable kinds freely (9/day, which reaches 4x). Protect 1 reachable kind with zero kills, or at most 2 traced total. If two kinds are learned, the pool is about 3000 (fine).",
+   "error": null,
+   "input_tokens": 1920,
+   "output_tokens": 7226,
+   "seconds": 81.6,
+   "reasoning": "I'm working out the scoring rules first: each kill is worth one point, doubled if at least 30 criminals died in the last five days counting today, and quadrupled at 40 or more. Then I'm checking how many kills are actually possible per day given the limit of 11 visible criminals, which caps the window at 55 kills total.\n\nI'm weighing whether getting caught late is worth it, since losing half the points is a big cost. Then I'm comparing where to place the quick kills against L's routine information: putting them in the afternoon only rules out day workers, which keeps about 55% of the pool alive, versus the morning, which would rule out more.\n\nI'm checking the routine constraint now: if all my quick kills land in the afternoon, day workers are the only routine ruled out, leaving 55% of the "
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-9",
+    "d2-8",
+    "d2-2",
+    "d2-10"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: Make every kill quick in the AFTERNOON. Use timed entries only if I need more than 10 kills, also afternoon. Afternoon-only kills rule out only day workers, so the pool is about 55k (shown as 60000). L can reach 3 of the 5 kinds. My places: regional North, wire (sector), cable (age), forum, foreign. If all 3 reachable kinds trigger (3+ successfully traced victims in one place), the pool drops below 1000 and I'm caught. Rule: never let a 3rd reachable kind trigger. Victims from unreachable kinds can never be traced, so they are safe. A victim's extra place (30%) is always regional, sector or age, never forum or foreign. If that extra kind is unreachable, the trace fails.\n\nDAY 1: killed national, forum x2, foreign x1. Traced went 0 to 1. Posterior: about 76% forum UNREACHABLE and foreign reachable (the 1 traced is foreign). About 15% forum reachable and foreign unreachable. About 8% both reachable, with regional/sector/age containing one unreachable.\n\nDAY 2 TEST: killed national d2-2, North x2 (d2-8, d2-10), cable x1 (d2-9). All 4 deaths are traced. Let d = traced after day 2 minus 1. Expect d = 2*(regional reachable) + 1*(age reachable), minus noise.\n- d=3: regional and age reachable. With foreign reachable, forum and sector are unreachable. Then from day 3 kill all forum and wire victims plus national freely. Keep foreign at 1 traced; never kill more foreign. Regional (2 traced) and age (1) could trigger. I may let ONE of regional or age trigger (2 known kinds give a pool of about 3k), but never both. Best is to pick one, e.g. regional, and protect the other completely.\n- d=2: regional reachable, age unreachable (or noise). Likely the unreachable pair is forum+age. Kill forum, cable and national freely. Wire is likely reachable, so keep it at 0 or pick one to sacrifice.\n- d=1: age reachable, regional not (or regional with a failure). Likely forum+regional unreachable. Kill North, forum and national freely.\n- d=0: regional and age both unreachable, so forum, sector and foreign are reachable. Kill North, cable and national freely.\n\nGOAL: about 9+ kills a day from safe kinds to reach 30 deaths in 5 days (2x) and 40 (4x). With 5 traces a day randomly chosen, more deaths means each is less likely traced. Tally traced counts per place each day; the press conference only gives the total.",
+   "error": null,
+   "input_tokens": 2522,
+   "output_tokens": 3409,
+   "seconds": 35.0,
+   "reasoning": "I'm tallying day one: four deaths and five traces, all of them traced, which leaves three non-national victims and only one traced successfully. If the forum is reachable, two victims should come from there, so the expected count is around three minus any failures, but I only got one, which points to the forum or the foreign site being unreachable.\n\nI'm weighing the remaining possibilities for which places are reachable: most likely the forum is unreachable and the foreign site is reachable, with less likely cases where the forum is reachable but an extra place failed. I'm also noting that the traced count includes traces not yet used, and that an extra place like the gazette could make a forum-only trace succeed if the sector is reachable.\n\nI'm weighing the probability of each pair of unr"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-3",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-1",
+    "d3-11",
+    "d3-9",
+    "d3-2",
+    "d3-3"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "DEDUCED (day 3): Day 2 traced 3 of 3 non-national victims (North, North, cable), so REGIONAL and AGE are both REACHABLE. That leaves one more reachable kind, which is forum or foreign. SECTOR (wire) is certainly UNREACHABLE: if sector were the third, day 1's single trace (forum or foreign) could not have succeeded. Foreign is about 83% likely to be the reachable one, forum about 17%.\n\nPOOL MATH: afternoon kills rule out only day workers, giving 55k. Each triggered kind (3+ successful traces in one place) multiplies the pool by about 0.25. Two triggers give about 3.4k, which is safe. Three triggers give about 860, which means I'm caught. So at most 2 kinds may ever trigger.\n\nSTRATEGY FROM DAY 3, KEPT FOREVER:\n- Kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is 9 a day.\n- NEVER kill cable (age). Cable stays at 1 traced forever.\n- Possible triggers are then regional plus whichever of forum/foreign is reachable. That is exactly 2, which is safe for certain.\n- Do not kill cable even on the last day: the risk of losing half my points is not worth 8 points.\n- If a day has more than 10 safe candidates, use timed entries in the afternoon (max 2).\n\nMULTIPLIER: deaths so far are day 1: 4, day 2: 4, day 3: 9. At 9 a day the window reaches 35 on day 5 (2x) and 40+ from day 6 (4x).\n\nMONITOR: the pool should settle around 3000 (it may show 3000 or 4000, or larger because of OR constraints from victims' extra places). If the pool ever shows 1000 or less I'm already caught. If it drops toward 2000 or less unexpectedly, reconsider and cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3029,
+   "output_tokens": 5196,
+   "seconds": 56.1,
+   "reasoning": "Checking the counts after day 2: four deaths are traced, and the non-national ones all succeeded, so the regional and age reachability holds, with one of the remaining options still open.\n\nI'm working through the day 1 numbers next: one success out of three, with a forum victim and a foreign victim. If the forum is reachable and foreign isn't, the data probability comes out around 0.18, while if foreign is reachable and forum isn't, it's about 0.9. So the foreign option looks much more likely.\n\nI'm noting that the extra place on a victim's record can't be forum or foreign, since I already follow both of those. Day 1's single success is probably the foreign one, and the trace counts per place are North at 2, cable at 1, and foreign or forum at 1, with nothing reaching three yet.\n\nI'm checki"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-6",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-10",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-4",
+    "d4-9",
+    "d4-2",
+    "d4-5",
+    "d4-10"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "DEDUCED (day 3): Day 2 traced 3 of 3 non-national victims (North, North, cable), so REGIONAL and AGE are both REACHABLE. That leaves one more reachable kind, which is forum or foreign. SECTOR (wire) is certainly UNREACHABLE. Foreign is about 83% likely to be the reachable one, forum about 17%.\n\nDAY 4 READING: the pool fell to 10k after day 3 (7 traced). That fits North triggering (55k x 0.25 = 13.75k, which rounds to 10k). So regional has probably already triggered. The second possible trigger is foreign (or forum), which would take the pool to about 3.4k. That is still safe. A third trigger is impossible under my strategy: cable is never killed, wire and the other of forum/foreign are unreachable, and extra unseen places only add OR constraints that are redundant once my own place has triggered.\n\nPOOL MATH: afternoon kills rule out only day workers, giving 55k. Each trigger multiplies the pool by about 0.25. Two triggers give about 3.4k (safe). Three give about 860 (caught).\n\nSTRATEGY FROM DAY 3, KEPT FOREVER:\n- Kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is 9 a day.\n- NEVER kill cable (age). Cable stays at 1 traced forever.\n- Do not kill cable even on the last day.\n- If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2).\n\nMULTIPLIER: deaths per day are d1: 4, d2: 4, d3: 9, d4: 9 (planned). On day 5, 9 kills give a 35 window, so 2x. From day 6, 9 a day gives 40+, so 4x. Keep 9 a day to hold 4x (the 5-day window of 45 stays at or above 40).\n\nMONITOR: expect the pool to settle around 3000 to 4000 once the second trigger hits. If it drops toward 2000 or less unexpectedly, cut down to wire + national only (both are untraceable or uninformative).",
+   "error": null,
+   "input_tokens": 2953,
+   "output_tokens": 2725,
+   "seconds": 27.6,
+   "reasoning": "I'm checking where the pool stands after day 3: 10,000, with seven traced so far. Counting back through days 1 to 3, the pool fell from 60k and the trace count rose step by step. The rounded 10k suggests a value between 9,500 and 15,000, so I'm testing whether one trigger plus some OR effects can account for the drop from 55k, with day workers excluded.\n\nI'm checking whether North reaching three traces would account for the pool dropping to about 10k, which would mean only one trigger. If a second trigger were in play the pool would be near 3.4k, and OR effects from extra places only push it higher, so one trigger looks right. I'm still weighing whether a cable victim with an extra place could matter, but that only counts if three share a place.\n\nI'm working out whether a victim carrying b"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-6",
+    "d5-8",
+    "d5-7",
+    "d5-4",
+    "d5-5"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 4: pool 3000, traced 8. That matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got only 1 success. So FOREIGN is very likely reachable and FORUM unreachable. Day 2 gave 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are now North and foreign (or North and forum in the unlikely case).\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30: 8 points is not worth risking half of ~900.\nVictims with hidden reports in places I do not follow are harmless. Their OR constraints are redundant once North or foreign has triggered, or the trace fails because the place is unreachable.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 9, d4 9, d5 9, so day 5 is 2x. Day 6 onward, 9 a day keeps the 5-day window at 45, which is 4x. If a day has fewer safe candidates, check that the 5-day window stays at or above 40.\n\nMONITOR: expect the pool to stay at about 3000. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3184,
+   "output_tokens": 3261,
+   "seconds": 32.5,
+   "reasoning": "I'm re-checking the numbers: the pool sits at 3000 after day 4, and the day 1 figure of 60k still holds once the 45% afternoon kills are taken out. The day 4 drop to 3000 fits two triggers firing on a 55k base, since 55k \u00d7 0.25 \u00d7 0.25 comes to about 3.4k. That points to the regional trigger plus either the forum or the foreign one.\n\nI'm checking whether age could have triggered too, but there's only one traced cable kill, so it doesn't fit. Hidden reports in places we don't follow could still matter if we reach and trace them, though that would only trim the pool a little.\n\nI'm sorting out which of the remaining deaths could be traced, since day 4 seems to have yielded fewer successful traces than I'd expect from the five picked. Whether the national broadcasts count is what decides whethe"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-6",
+    "d6-4",
+    "d6-10",
+    "d6-11",
+    "d6-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 5: pool 3000, traced 10. This matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got 1 success, so FOREIGN is likely reachable and FORUM unreachable. Day 2 got 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are North and foreign.\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30. Hidden reports can never be in cable, because I follow cable and would see it listed. So only cable victims I kill can raise the cable count, which means skipping them makes this safe. Hidden reports in other places produce OR constraints that are redundant, since North or foreign has already triggered, or the trace fails.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 9, d4 9, d5 9, d6 9 (planned). The day 6 window (days 2 to 6) is 40, so 4x. From day 7 on, 9 a day gives a window of 45, so 4x. If a day has fewer safe candidates, check that the 5-day window stays at or above 40.\n\nMONITOR: expect the pool to stay at about 3000. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3257,
+   "output_tokens": 2561,
+   "seconds": 24.1,
+   "reasoning": "I'm rechecking the pool after day five: it's at 3000 with 10 traced. The afternoon kills take out the day workers, leaving about 55k, and the North and foreign shares bring it to roughly 3000, which still fits. I'm now wondering whether one of the groups is actually foreign rather than forum, since the day-one victims and the single success leave two kinds unaccounted for.\n\nI'm checking which groups are reachable on day two, where the three successes point to North, North and cable, so regional and age must both be reachable. On day one only one success is possible, so I'm now inclined to think foreign is reachable while forum and sector are not. I still need to watch the age constraint at cable, in case hidden reports in other age bands change who gets traced.\n\nI'm checking whether hidden"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-1",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "podcasts",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-11",
+    "d7-9",
+    "d7-2",
+    "d7-6",
+    "d7-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 6: pool 3000, traced 13. This is stable and matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got 1 success, so FOREIGN is likely reachable and FORUM unreachable. The pool did not drop while I killed about 2 forum victims a day, which confirms forum is unreachable. Day 2 got 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are North and foreign.\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30. Hidden reports can never be in cable, because I follow cable and would see it listed. Hidden reports elsewhere only produce OR constraints that are redundant with North or foreign, or the trace fails.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 9, d4 9, d5 9, d6 9, d7 9 (planned). For 4x, the 5-day window including today must be at least 40. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3439,
+   "output_tokens": 2087,
+   "seconds": 19.4,
+   "reasoning": "I'm checking the pool against the day-6 numbers: it's at 3000 after day 6, and the trace reads 13. Removing the afternoon kills leaves 55k, and the North and foreign splits bring that to about 3.4k, which roughly matches the reported 3000. I'm also looking at the note about the day-6 window of 40 and the 4x multiplier.\n\nI'm checking the cable reasoning and whether a hidden report could change the pool. Forum and Wire look unreachable, so traces on those victims fail, and the North constraint already covers the region overlap.\n\nI'm checking whether foreign actually triggered, since the pool drop could also fit North plus cable, but cable has only one traced victim, so foreign stands. The fall to 10000 after day 3 and then 3000 after day 4 still fits two quarter-factor constraints, so I'll k"
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-5",
+    "d8-3",
+    "d8-11",
+    "d8-6",
+    "d8-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 7: pool 3000, traced 15. This is stable and matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got 1 success, so FOREIGN is likely reachable and FORUM unreachable. The pool did not drop while I killed about 2 forum victims a day, which confirms forum is unreachable. Day 2 got 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are North and foreign.\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30, because capture is checked at the end of the last day too. Hidden reports can never be in cable, because I follow cable and would see it listed. Hidden reports elsewhere only produce OR constraints that are redundant with North or foreign, or the trace fails.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 9, d4 9, d5 9, d6 9, d7 9, d8 9 (planned). For 4x, the 5-day window including today must be at least 40. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3585,
+   "output_tokens": 1728,
+   "seconds": 15.6,
+   "reasoning": "I'm rechecking the current state: the pool is at 3000 after day 7 with 15 traced, and I plan to keep the nine kills of national, foreign twice, North twice, forum twice, and wire twice, while skipping cable. Next I'm working through the pool estimate, taking 55% of 100k as free in the afternoon, then applying the North and foreign fractions of 0.25 each.\n\nThe pool estimate checks out: 3437 rounds to 3000. Next I'm weighing the risk that a North victim also has a hidden age report, like clips, which would only add a redundant constraint since I'm already in North. A national victim with a hidden report is excluded, because being reported on national TV tells me nothing.\n\nI'm checking the day-7 numbers against the plan: 4 kills today gets me the multiplier, and 9 kills total, so I'll get 36 "
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-1",
+    "d9-10",
+    "d9-6",
+    "d9-5",
+    "d9-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 8: pool 3000, traced 18. This is stable and matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got 1 success, so FOREIGN is likely reachable and FORUM unreachable. The pool did not drop while I killed about 2 forum victims a day, which confirms forum is unreachable. Day 2 got 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are North and foreign.\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30, because capture is checked at the end of the last day too. Hidden reports can never be in cable, because I follow cable and would see it listed. Hidden reports elsewhere only produce OR constraints that are redundant with North or foreign, or the trace fails.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 to d8 9 each, d9 9 (planned). For 4x, the 5-day window including today must be at least 40. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3768,
+   "output_tokens": 1588,
+   "seconds": 13.3,
+   "reasoning": "I'm confirming the pool holds at 3000 after day 8, and the plan is to kill nine targets and skip the cable one. Excluding day workers at 45% leaves 55k, and with the 0.25 rates that works out to roughly 3437, which rounds to 3000, so it checks out. I'm starting to think through the risk side next.\n\nI'm checking whether a hidden report could add a second constraint, like radio alongside foreign, and concluding it's redundant since foreign is already established. Cable is the risk, because a cable victim with a hidden report would give an OR I can't rule out, so I'm keeping cable off the list. The wire and forum traces fail on their own, and the multiplier works out to 4x, making nine kills worth 36 points.\n\n"
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-1",
+    "d10-6",
+    "d10-3",
+    "d10-4",
+    "d10-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 9: pool 3000, traced 20. This is stable and matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got 1 success, so FOREIGN is likely reachable and FORUM unreachable. The pool did not drop while I killed about 2 forum victims a day, which confirms forum is unreachable. Day 2 got 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are North and foreign.\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30, because capture is checked at the end of the last day too. Hidden reports can never be in cable, because I follow cable and would see it listed. Hidden reports elsewhere only produce OR constraints that are redundant with North or foreign, or the trace fails.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 to d9 9 each, d10 9 (planned). For 4x, the 5-day window including today must be at least 40. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 3917,
+   "output_tokens": 1511,
+   "seconds": 13.0,
+   "reasoning": "I'm checking the current state: the pool is at 3000 with 20 traced, and the plan is to kill the national, wire, forum, foreign, and North targets while skipping cable. The pool math holds up, since the afternoon routine leaves about 55k after the day-worker share, and the North and foreign triggers bring it down to roughly 3.4k, which rounds to 3000. I'm now looking at whether a North victim might carry a hidden report.\n\nI'm checking the hidden-report risks across the remaining targets: a victim hidden in a sector that's unreachable would make the trace fail, while the foreign and podcast overlaps are already covered by the existing constraints. Cable stays skipped because it has only one trace, and today's nine quick afternoon candidates should bring the total to 45, past the 40 I need.\n\n"
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-1",
+    "d11-3",
+    "d11-10",
+    "d11-7",
+    "d11-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 10: pool 3000, traced 22. This is stable and matches two triggers: 55k x 0.25 x 0.25 = 3.4k, which rounds to 3000.\n\nREACHABILITY: Day 1 traced all 3 non-national victims (forum, forum, foreign) and got 1 success, so FOREIGN is likely reachable and FORUM unreachable. The pool did not drop while I killed about 2 forum victims a day, which confirms forum is unreachable. Day 2 got 3 of 3 (North, North, cable), so REGIONAL and AGE are reachable. SECTOR (wire) is unreachable. The triggered constraints are North and foreign.\n\nDANGER: AGE. Cable sits at 1 traced (day 2). If it reaches 3 traced, the pool becomes about 860 and I am caught. NEVER kill cable, not even on day 30, because capture is checked at the end of the last day too. Hidden reports can never be in cable, because I follow cable and would see it listed. Hidden reports elsewhere only produce OR constraints that are redundant with North or foreign, or the trace fails.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. Afternoon kills rule out only day workers. If a day has more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day are d1 4, d2 4, d3 to d10 9 each, d11 9 (planned). For 4x, the 5-day window including today must be at least 40. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with traced count rising by about 2 or 3 a day. If it drops toward 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 4080,
+   "output_tokens": 1721,
+   "seconds": 15.1,
+   "reasoning": "I'm checking the pool, which should be 3000 after day 10 with 22 traced, and my plan is to kill the nine safe ones while skipping the cable cases d11-2 and d11-11.\n\nI'm checking whether the 3000 pool fits a 55k start with two 25% triggers, and I'm weighing whether a victim reported in North and another place could still count toward a third place's tally.\n\nCable cases stay off the list since their trace count is already at one, and forum and wire are out of reach anyway, so nine is the cap. Days 11 through 30 remain, so I'll update the notes and keep the traced-per-day rate in view.\n\n"
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-1",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-2",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-9",
+    "d12-1",
+    "d12-10",
+    "d12-7",
+    "d12-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 11: pool 3000, traced 24. Stable. This matches the 55k x 0.25 x 0.25 = 3.4k estimate: afternoon kills rule out day workers, and the North and foreign constraints are triggered.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If it reaches 3, the pool falls to about 860 and I am caught. NEVER kill cable, including day 30. On day 12 I considered one extra cable kill for +4 points and rejected it. That kill could also carry a hidden report in another region. If that region later reached 3 traced, L would get the constraint 'cable or East', which with North means cable. That is a small risk of losing half my points, and it is not worth 4 points.\n\nLATENT RISK I cannot control: the day-2 cable victim may have had a hidden report in another region. Nothing to do about it.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d11 9 each, d12 9. Need 40 or more in the 5-day window including today for 4x. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 2 or 3 a day. If it drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 4261,
+   "output_tokens": 3399,
+   "seconds": 34.5,
+   "reasoning": "I'm double-checking the logic in my notes. After day 4 the pool is 3,000, and out of 100k, a 0.55 factor leaves 55k, since afternoon rules out day workers who are busy then. Next I'm applying the North 0.25 factor.\n\nI'm checking whether a hidden report could slip past the constraint. A North victim reported in podcasts, which I don't follow, would still be covered since North already holds. For victims reported only in places I don't track, the OR condition becomes the deciding factor, so I'm looking at whether wire-only victims break it.\n\nI'm checking the hidden-report cases: a victim tied only to a region or sector I don't track can't be traced, so those fail. The \"North or East\" constraints are redundant, since North already holds. Cable stays at one trace because I'd see any cable repo"
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-2",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-7",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-2",
+    "d13-6",
+    "d13-10",
+    "d13-11",
+    "d13-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 12: pool 3000, traced 25. Stable. This matches the 55k x 0.25 x 0.25 = 3.4k estimate: afternoon kills rule out day workers, and the North and foreign constraints are triggered.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If it reaches 3, the pool falls to about 860 and I am caught. NEVER kill cable, including day 30. One extra cable kill is not worth the small risk of losing half my points.\n\nLATENT RISK I cannot control: the day-2 cable victim may have had a hidden report in another region. Nothing to do about it.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'), which is already satisfied. So it adds nothing.\n\nSTRATEGY, KEPT FOREVER: kill every national, wire, forum, foreign and North victim, all quick in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries in the afternoon (max 2). Skip cable always.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d12 9 each, d13 9. Need 40 or more in the 5-day window including today for 4x. With 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 2 or 3 a day. If it drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 4359,
+   "output_tokens": 1353,
+   "seconds": 11.4,
+   "reasoning": "I'm killing nine of the d13 targets today, skipping d13-1 and d13-9 because they're the cable ones. Counting the earlier days, 9 + 9 + 9 + 9 + today's 9 comes to 45, which clears the 40 threshold, so the multiplier is 4x. On the pool, the afternoon kills route through night workers, students, and home at 15%, 20%, and 20%, which adds up to 55%.\n\nI'm checking the North and foreign shares of the pool, which gives about 3.4k and rounds to 3000. I'm also weighing whether a hidden report could slip past tracing, and I'm finding that the only reachable cases are the ones I've already covered. Day 13 is done with 9 deaths.\n\n"
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "radio",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-7",
+    "d14-2",
+    "d14-9",
+    "d14-11",
+    "d14-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 13: pool 3000, traced 29. Stable. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 14: 9 kills, cable skipped. Points before day 14: 332, so about 368 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. One extra cable kill is not worth even a small chance of losing half my points.\n\nLATENT RISK I cannot control: the day-2 cable victim may also have been reported in another region. Nothing to do about it.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d14 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 2 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 4526,
+   "output_tokens": 1203,
+   "seconds": 10.0,
+   "reasoning": "I'm continuing the strategy by sorting today's targets: foreign d14-1 and d14-9, forum d14-2 and d14-4, national d14-5, North d14-6 and d14-10, wire d14-7 and d14-11, with cable d14-3 and d14-8 skipped, which makes nine kills. Now I'm checking the pool reasoning, where 3000 fits the afternoon count of non-day-workers at 55k, and North and foreign at 0.25 each give 3437, and I'm starting to trace the cable risk.\n\nI'm tallying the window again: days 10 to 13 come to 36, plus today's nine kills gives 45, which is four times. Points are 332 plus 36, so 368. I'll update the notes next.\n\n"
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-1",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-6",
+    "d15-11",
+    "d15-2",
+    "d15-1",
+    "d15-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 14: pool 3000, traced 31. Stable. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 15: 9 kills, cable skipped. Points before day 15: 368, so about 404 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. One extra cable kill is not worth even a small chance of losing half my points.\n\nLATENT RISK I cannot control: the day-2 cable victim may also have been reported in another region. Nothing to do about it.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d15 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 2 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 4741,
+   "output_tokens": 1171,
+   "seconds": 8.9,
+   "reasoning": "I'm narrowing the strategy to kill everything except the cable options, which would make nine quick afternoon kills. Then I'm rechecking the pool estimate: 100k times the afternoon-free share of 55% (night workers, students, and home folks), times 25% North and 25% foreign, comes to about 3,437, which rounds to 3,000. That checks out.\n\nAge matters here too: cable-traced victims would still lead back to me, so the plan holds. I'm tallying points next: 368 now, and nine kills at four points each adds 36 for 404 today. Then I'll update my notes.\n\n"
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-2",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-7",
+    "d16-4",
+    "d16-10",
+    "d16-3",
+    "d16-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 15: pool 3000, traced 32. Stable. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 16: 9 kills, cable skipped (d16-1 and d16-6). Points before day 16: 404, so about 440 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. One extra cable kill is not worth even a small chance of losing half my points. Any cable report on a criminal is always visible to me, because I follow cable.\n\nLATENT RISK I cannot control: the day-2 cable victim may also have been reported in another region. Nothing to do about it.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d16 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 4904,
+   "output_tokens": 1521,
+   "seconds": 13.5,
+   "reasoning": "I'm planning to keep only the cable-related tests running and kill the other nine on day 16, since points sit at 404 and they're all quick afternoon checks. The traced count only rose by one after day 15, which looks fine to me. Now I'm checking whether the pool of 3000 is really just night plus home.\n\nI'm checking whether any hidden constraint could break the pool estimate, like a cable report, and the cable count is still just one, so that's fine. Then I'm tallying the multiplier: today's nine kills bring the total to 45, which gives the 4x factor and 440 for the day.\n\n"
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-4",
+    "d17-7",
+    "d17-10",
+    "d17-8",
+    "d17-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 16: pool 3000, traced 34. Stable. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 17: 9 kills, cable skipped (d17-9 and d17-11). Points before day 17: 440. Day 17 adds 9 x 4 = 36, so about 476 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so a victim of mine can never carry a hidden cable report. Skipping visible cable criminals therefore fully prevents the cable count from rising.\n\nLATENT RISK I cannot control: the day-2 cable victim may also have been reported in another region. Nothing to do about it.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d17 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 5102,
+   "output_tokens": 1796,
+   "seconds": 15.5,
+   "reasoning": "I'm working out the strategy for today's criminals, which break down into a mix of foreign, wire, national, forum, North and cable types, and I'm planning to take out nine of the non-cable ones in a quick afternoon run. Next I'm checking the multiplier: days 13 through 16 add up to 36, and with today's nine that reaches 45, which clears the 40 threshold for a 4x bonus. I'm also sanity-checking the pool, since it went from 100k to 60k after day one, and I'm working out what remains after the afternoon kills against the night, student and home percentages.\n\nI'm checking the pool numbers against the afternoon kills: the night, student and home percentages leave about 55%, which rounds to the 60k shown, and the later days fit the estimate. Cable has one traced victim, so I'm still skipping it."
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-10",
+    "d18-6",
+    "d18-5",
+    "d18-9",
+    "d18-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 17: pool 3000, traced 38. Stable. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 18: 9 kills, cable skipped (d18-2 and d18-4). Points before day 18: 476. Day 18 adds 36, so about 512 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals therefore fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving 35% x 1/16 = about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d18 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 5298,
+   "output_tokens": 1658,
+   "seconds": 15.0,
+   "reasoning": "I'm keeping the plan going: the pool is 3000 after day 17 and traced at 38. Today I'll eliminate day-18 entries 1, 3, 5 through 11, and skip 2 and 4 since they're cable. Quick check: 100000 \u00d7 0.55 \u00d7 0.25 \u00d7 0.25 is about 3437, which rounds to 3000, and the age constraint doesn't apply.\n\nI'm checking the cable case too: if it triggered, the pool would drop to about 860 and be caught, so skipping it is right. Hidden reports in other places could change traces, but the forum ones fail to trace and the podcast one only repeats the North constraint, so nothing new. Afternoon still looks like the right block, since it keeps the 55% that fits night workers, students, and people at home.\n\n"
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-5",
+    "d19-2",
+    "d19-11",
+    "d19-7",
+    "d19-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 18: pool 3000, traced 40. The pool has been stable since day 4. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 19: 9 kills, cable skipped (d19-1 and d19-10). Points before day 19: 512. Day 19 adds 36, so about 548 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals therefore fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving 35% x 1/16 = about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d19 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 5471,
+   "output_tokens": 1407,
+   "seconds": 12.7,
+   "reasoning": "I'm going with the cable route today: d19-1 gets the cable and d19-10 skips it. That means killing 2 through 9 and 11, nine kills total, which should make for a quick afternoon. Before I move on, I want to recheck the numbers: the pool has held at 3000 since day 4, and the estimate of 55k non-day-workers times 0.25 for North and 0.25 for foreign gives about 3.4k.\n\nThe cable approach is still holding: the pool has been steady at about 3000, and the only traced victim so far is the day 2 kill. Forum and wire look unreachable, since reaching forum would have dropped the pool to roughly 860, so the route stays as it is.\n\n"
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-1",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-7",
+    "d20-10",
+    "d20-2",
+    "d20-1",
+    "d20-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 19: pool 3000, traced 41. The pool has been stable since day 4. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Day 20: 9 kills, cable skipped (d20-4 and d20-6). Points were 548 before day 20. Day 20 adds 36, so about 584 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving 35% x 1/16 = about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d20 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 5642,
+   "output_tokens": 1325,
+   "seconds": 11.2,
+   "reasoning": "I'm going through the list of eleven entries, marking which ones to eliminate. Everyone except the cable group gets marked for removal, which comes to nine people, and the afternoon timing keeps it quick. Next I want to double-check the reasoning in the notes, starting with the pool of 3000 and why the day workers were set aside.\n\nI'm working out the remaining pool of 55k and how the constraints narrow it to about 3000. I'm also tallying the multiplier and points, coming to 584, and then I'll update the notes.\n\n"
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "regional:West",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-5",
+    "d21-1",
+    "d21-6",
+    "d21-9",
+    "d21-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 20: pool 3000, traced 44. The pool has been stable since day 4. This matches the estimate of 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points: 584 before day 21. Day 21: 9 kills, cable skipped (d21-4 and d21-8), worth 36 at 4x, so about 620 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving 35% x 1/16 = about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d21 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 5803,
+   "output_tokens": 1382,
+   "seconds": 10.4,
+   "reasoning": "I'm going with the plan to eliminate everyone except the cable suspects, which should be quick in the afternoon. Before committing, I'm checking whether a hidden report could add a constraint, like a North victim whose report sits somewhere I'm not tracking, such as radio.\n\nI'm checking whether hidden reports could create new constraints, and they don't seem to: a wire, forum, or foreign victim with a hidden report would either fail to trace or be covered by an existing constraint. I'm also confirming that day 30 adds nothing new, and I'm tallying the points to 620.\n\n"
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-1",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "podcasts",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-9",
+    "d22-1",
+    "d22-5",
+    "d22-8",
+    "d22-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 21: pool 3000, traced 48. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 620 at the start of day 22. Day 22: 9 kills, cable skipped (d22-3 and d22-10), worth 36 at 4x, so about 656 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d22 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 5988,
+   "output_tokens": 1409,
+   "seconds": 11.2,
+   "reasoning": "I'm continuing the strategy for today: the wire, North, forum, foreign and national items, with d22-3 and d22-10 cable skipped, nine kills in all. I'm also checking whether my victims might have a hidden report somewhere I'm not following, such as another age band like podcasts.\n\nI'm double-checking that the hidden-report idea doesn't break anything: a victim with a hidden report in another place would still put the killer in a place I follow, and cable reports would show up since I follow cable. Points go from 620 to 656 with the +36, so I'll update my notes.\n\n"
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-2",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-3",
+    "d23-1",
+    "d23-2",
+    "d23-4",
+    "d23-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 22: pool 3000, traced 49. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 656 at the start of day 23. Day 23: 9 kills, cable skipped (d23-6 and d23-9), worth 36 at 4x, so about 692 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d23 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 6139,
+   "output_tokens": 1161,
+   "seconds": 9.2,
+   "reasoning": "I'm going to kill everything except the cable entries (d23-6 and d23-9), which comes to 9 kills that should take an afternoon. Points are at 656 with the multiplier already at 4, so today's gains bring it to 692. The pool is holding steady at 3000, so the logic checks out. Next I'll update the notes.\n\n"
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-7",
+    "d24-11",
+    "d24-5",
+    "d24-2",
+    "d24-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 23: pool 3000, traced 51. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 692 at the start of day 24. Day 24: 9 kills, cable skipped (d24-9 and d24-10), worth 36 at 4x, so about 728 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d24 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 6302,
+   "output_tokens": 1168,
+   "seconds": 8.9,
+   "reasoning": "I'm sticking with the strategy: dropping the d24 group 1 through 8 and 11, and skipping cable 9 and 10. I checked whether hidden reports could be in cable, but my notes say they sit somewhere I don't follow, so that's settled. Points come to 728 after today, from 692 plus 36. Next I'll write up the notes.\n\n"
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-1",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "regional:North",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-9",
+    "d25-7",
+    "d25-3",
+    "d25-6",
+    "d25-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 24: pool 3000, traced 53. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 728 at the start of day 25. Day 25: 9 kills, cable skipped (d25-8 and d25-10), worth 36 at 4x, so about 764 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d25 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 6465,
+   "output_tokens": 1144,
+   "seconds": 9.4,
+   "reasoning": "I'm going with the strategy of eliminating everything except the cable targets (d25-8 and d25-10), which is nine kills and should go quickly this afternoon. Points are at 728 now, so with today's +36 they'd reach 764. The pool looks stable at 3000, so I'm updating my notes.\n\n"
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-1",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-5",
+    "d26-8",
+    "d26-10",
+    "d26-2",
+    "d26-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 25: pool 3000, traced 55. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 764 at the start of day 26. Day 26: 9 kills, cable skipped (d26-6 and d26-7), worth 36 at 4x, so about 800 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d26 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 6628,
+   "output_tokens": 1174,
+   "seconds": 8.7,
+   "reasoning": "Same approach as before: I'll take the afternoon kills on the nine non-cable criminals and leave out the two cable ones. That brings the pool to 3000 after day 25, with 55 traced. Points are at 764, and nine kills at 4x add 36, which gets me to 800. I'll update the notes.\n\n"
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-2",
+    "d27-6",
+    "d27-1",
+    "d27-9",
+    "d27-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 26: pool 3000, traced 57. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 800 at the start of day 27. Day 27: 9 kills, cable skipped (d27-7 and d27-10), worth 36 at 4x, so about 836 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d27 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 6791,
+   "output_tokens": 1167,
+   "seconds": 9.6,
+   "reasoning": "I'm going to drop every target except cable, which leaves nine kills that should go quickly. The pool is holding steady at 3000 and points are up to 800. On the regional risk, the North traced victims are already at three or more, and the foreign ones too, so I think that's fine. Next I'll update the notes.\n\n"
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-2",
+    "d28-10",
+    "d28-4",
+    "d28-3",
+    "d28-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 27: pool 3000, traced 59. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 836 at the start of day 28. Day 28: 9 kills, cable skipped (d28-5 and d28-8), worth 36 at 4x, so about 872 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Hidden reports are always in places I do not follow, so my victims never carry a hidden cable report. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nWHY MIXED VICTIMS ARE SAFE: a victim with a hidden report in another age band or region only gives L the constraint 'North or X' (or 'foreign or X'). I already satisfy that, so it adds nothing. Wire and forum victims fail to trace because those places are unreachable.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: deaths per day: d1 4, d2 4, d3 to d28 9 each. I need 40 or more deaths in the 5-day window including today for 4x. At 9 a day, the previous 4 days give 36, so I need at least 4 kills today.\n\nMONITOR: expect the pool to stay at about 3000, with the traced count rising by about 1 to 4 a day. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only. Day 30 is the last day and the catch check also applies after it, so keep the same safe rules.",
+   "error": null,
+   "input_tokens": 6954,
+   "output_tokens": 1329,
+   "seconds": 10.7,
+   "reasoning": "I'm keeping the same plan: wipe out everything except the cable victims, d28-5 and d28-8, which comes to nine kills in the afternoon. The pool sits at 3000 and looks stable. I want to check why I'm sure there's exactly one traced victim in cable, since the day 2 cable kill was traced, and the notes say to follow them. As for hidden reports, the notes say they sit in places I don't follow, which holds, because anything reported in cable would show up where I'm looking.\n\nI'm double-checking the pool math: a 55% chance of a non-day worker, then two 25% factors on 100,000, gives about 3,437, which rounds down to 3,000 and falls under the 1,000 threshold for a catch. Afterward I'll add today's points to the earlier 836 for a total of 872 and write up the notes.\n\n"
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-1",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "docket",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-1",
+    "d29-9",
+    "d29-6",
+    "d29-11",
+    "d29-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE AFTER DAY 28: pool 3000, traced 62. The pool has been stable since day 4. This matches 55k x 0.25 x 0.25 = 3.4k: afternoon kills rule out day workers, and both the North and foreign constraints are triggered. Points were 872 at the start of day 29. Day 29: 9 kills, cable skipped (d29-7 and d29-8), worth 36 at 4x, so about 908 after it.\n\nREACHABILITY: forum and sector (wire) are unreachable. Regional, age and foreign are reachable.\n\nDANGER, AGE: cable has exactly 1 traced victim (day 2). If cable reaches 3 traced victims, the pool falls to about 860 and I am caught. NEVER kill a cable criminal, including on day 30. Skipping visible cable criminals fully prevents the cable count from rising.\n\nBLOCK: always use the afternoon. Morning kills would also rule out students, leaving about 2.2k, which is too close to 1,000. Never vary the block.\n\nSTRATEGY, KEEP FOREVER: kill every national, wire, forum, foreign and North criminal, all as quick entries in the afternoon. That is usually 9 a day. If there are more than 10 safe candidates, put the extras on timed entries set to the afternoon (max 2). Always skip cable.\n\nMULTIPLIER: d3 to d29 had 9 deaths each. I need 40 or more in the 5-day window including today for 4x. The previous 4 days give 36, so I need at least 4 kills today.\n\nDAY 30 IS THE LAST DAY. The catch check still applies after it, so use the same safe rules: no cable, afternoon only. If the pool drops to 2000 or less unexpectedly, cut down to wire + national only.",
+   "error": null,
+   "input_tokens": 7147,
+   "output_tokens": 979,
+   "seconds": 8.2,
+   "reasoning": "I'm sticking with the same plan: take out everything except the cable kills (d29-7 and d29-8). That's nine kills, which should be quick for the afternoon. I'm at 872 points, so +36 brings me to 908. I also need to update my notes for day 30.\n\n"
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-1",
+     "coverage": [
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-2",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-10",
+    "d30-9",
+    "d30-7",
+    "d30-2",
+    "d30-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 is the final day. I killed 9 criminals: the national, 2 North, 2 wire, 2 forum and 2 foreign cases, all as quick entries in the afternoon. I skipped both cable criminals (d30-3 and d30-4) because cable already has 1 traced victim and must not reach 3. The 4x multiplier holds: 36 kills over the previous 4 days plus 9 today makes 45. Expected points are about 908 + 36 = 944. Game over.",
+   "error": null,
+   "input_tokens": 7132,
+   "output_tokens": 786,
+   "seconds": 8.5,
+   "reasoning": "It's the last day, and the pool is holding steady at 3000. I'm going to clear out all the cards except the cable one, which is nine kills and should be quick this afternoon, bringing the multiplier to 4x and a running total of 45. There's still some risk that something I haven't followed, like another region, age band, or sector, carries a hidden report, even though skipping the cable avoids the age constraint.\n\nI'm weighing the remaining risk: victims reported somewhere I can't reach, like a sector or forum, would make the trace fail, and the \"at least one place\" constraint might actually loosen the risk rather than tighten it. The game has run steadily like this all along, so I'm going ahead. The math works out to 36 more points at 4x, with a small chance of losing everything if caught.\n"
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 3,
+   "pool": 10000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 4,
+   "pool": 3000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 5,
+   "pool": 3000,
+   "deaths_traced": 10
+  },
+  {
+   "after_day": 6,
+   "pool": 3000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 7,
+   "pool": 3000,
+   "deaths_traced": 15
+  },
+  {
+   "after_day": 8,
+   "pool": 3000,
+   "deaths_traced": 18
+  },
+  {
+   "after_day": 9,
+   "pool": 3000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 25
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 31
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 32
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 34
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 38
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 40
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 41
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 44
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 48
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 49
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 51
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 53
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 55
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 57
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 59
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 62
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 64
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 67
+  }
+ ],
+ "effort": "high"
+}

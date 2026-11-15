@@ -1,11 +1,11 @@
 {
- "run_id": "2acc1b05-474f-47dc-830e-136f0904fe9b",
+ "run_id": "eea6be37-3392-4393-9d6e-36e0aaa459d0",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-008",
- "reward": 0.1622,
+ "reward": 0.0702,
  "exit": null,
- "agent_seconds": 258.713358558,
+ "agent_seconds": 243.408070227,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,20 +19,20 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 162,
+ "trace_chance": 0.5,
+ "points": 71,
  "caught": false,
  "days": 30,
  "final_pool": 3437,
- "kills": 114,
- "input_tokens": 117470,
- "output_tokens": 26011,
- "seconds": 253,
- "informed_best": 999,
- "tester": 858,
+ "kills": 58,
+ "input_tokens": 105352,
+ "output_tokens": 22390,
+ "seconds": 237,
+ "informed_best": 1011,
+ "tester": 763,
  "hider": 30,
- "grabber": 66,
- "score": 0.1622,
+ "grabber": 44,
+ "score": 0.0702,
  "log_trimmed": null,
  "log": [
   {
@@ -83,14 +83,6 @@
      "block": "afternoon"
     },
     {
-     "id": "d1-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d1-7",
      "coverage": [
       "hospital",
@@ -120,7 +112,7 @@
      "coverage": [
       "regional:East"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     },
     {
@@ -128,27 +120,36 @@
      "coverage": [
       "foreign"
      ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-6",
+     "coverage": [
+      "national"
+     ],
      "entry": "timed",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d1-4",
-    "d1-11",
+    "d1-1",
     "d1-2",
-    "d1-6",
+    "d1-3",
+    "d1-7",
+    "d1-8",
     "d1-10"
    ],
    "points_today": 11,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "Strategy: kill as many criminals as possible to reach the 4x multiplier (40 kills in 5 days, so about 8 or more a day). Put all quick kills in the AFTERNOON. Night, student and home routines are all free then, so L's routine filter leaves 55% of people (55k). Never kill in the morning, because that rules out students. Timed entries also go in the afternoon. The national victim is always safe. Risk: if L can reach 3 of my place kinds, his pool shrinks to about 55k x 0.25 x 0.25 x 0.2-0.25, which is under 1000 and gets me caught. Watch the pool each day. If it falls below about 5000, stop killing victims from the place kinds that seem to be traced (deaths_traced rising together with the pool dropping), and favour national plus the kinds that appear untraceable. Day 1: killed all 11 (9 quick afternoon, 2 timed afternoon).",
+   "notes_to_self": "Me: night worker (free morning+afternoon), East, blotter, radio, forum, foreign. Routine plan: put ALL kills in the afternoon. That rules out only day workers, leaving 55% of people (night, students, home). Rough pool math: if L pins 3 of my place kinds, the pool falls to about 700-860, which is under 1000 and gets me caught. L can't reach 2 of 5 kinds: regional, sector(blotter), age(radio), forum, foreign. Use the deaths_traced count to infer which kinds he can't reach: kinds whose victims never add to the traced count are unreachable, so they are safe to farm. Multiplier: 30 kills in 5 days gives x2, 40 gives x4, so aim for about 8+ a day. Day 1: killed all 11 in the afternoon (10 quick + d1-6 timed). Victims by place: foreign d1-1,d1-11; forum d1-2,d1-4; blotter d1-3,d1-9; East d1-5,d1-10; radio d1-7,d1-8; national d1-6. Next: watch the pool size and traced count. If the pool drops toward 5000 or below, stop killing from the places L has likely pinned, and keep national plus the unreachable kinds.",
    "error": null,
-   "input_tokens": 1922,
-   "output_tokens": 1499,
-   "seconds": 17.4,
-   "reasoning": "I need a plan fast. I can make at most 12 kills a day, but I've only spotted 11 criminals, and the multiplier needs 30 kills in 5 days, so about 6 a day. Since the risk drops as I kill, I'm planning quick kills in the morning and afternoon, when the night workers, people at home, and students are free.\n\nI'm working out the timing: kills in the afternoon keep the most candidates free, so the quick ones go there and the two timed kills can fall in the evening. Traces will come up at about five a day, and once one of their places has three traced victims, the pool narrows by place, and a victim reported in more than one place loosens the constraint. Over several days that narrowing compounds, and if he can reach three of the five kinds of places, the remaining pool gets small enough to be a real risk.\n\nI'm checking whether the pool can be kept from shrinking too fast: if all kills are in categories the press has already traced, the remaining pool drops quickly, so I'm considering pausing kills in those categories once the pool gets small enough to be risky, and planning day one as 11 kills in the afternoon.\n\n"
+   "input_tokens": 1934,
+   "output_tokens": 1830,
+   "seconds": 21.5,
+   "reasoning": "I'm working out a strategy fast: eleven criminals a day, at most twelve kills a day counting the two timed ones. Taking all eleven each day would reach the multiplier threshold within about four days, and the quick kills seem to fall in the free morning and afternoon blocks, which keeps the risk low. I'm checking how deaths in the morning would affect the night worker's schedule.\n\nI'm now weighing how hidden kills would interact with the day workers' and students' schedules, and settling on keeping all quick kills in the afternoon. That leaves an estimated 55% of the pool, and I'm checking how traces and reporting channels would shrink it further.\n\nI'm weighing whether being caught is worth the aggressive approach, since getting caught halves the points and ends the game early. I'm leaning toward killing from a limited set of places and using the feedback on successful traces to work out which kinds are out of reach, starting with an experiment on day one.\n\nI'm settling on going all-in today: killing the eleven afternoon quick targets plus one timed afternoon kill, accepting the faster pool shrink since I need three traces from one place to learn which places I can reach, and I'll reassess once I have notes.\n\n"
   },
   {
    "day": 2,
@@ -158,7 +159,7 @@
      "coverage": [
       "national"
      ],
-     "entry": "quick",
+     "entry": "timed",
      "block": "afternoon"
     },
     {
@@ -172,15 +173,7 @@
     {
      "id": "d2-3",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-4",
-     "coverage": [
-      "forum"
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -194,18 +187,10 @@
      "block": "afternoon"
     },
     {
-     "id": "d2-6",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d2-7",
      "coverage": [
-      "podcasts",
-      "regional:East"
+      "docket",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -213,7 +198,7 @@
     {
      "id": "d2-8",
      "coverage": [
-      "forum",
+      "blotter",
       "hospital"
      ],
      "entry": "quick",
@@ -222,7 +207,7 @@
     {
      "id": "d2-9",
      "coverage": [
-      "blotter"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -230,46 +215,52 @@
     {
      "id": "d2-10",
      "coverage": [
-      "blotter",
-      "regional:North"
+      "foreign",
+      "wire"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d2-11",
      "coverage": [
-      "foreign"
+      "blotter"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d2-3",
     "d2-5",
-    "d2-6",
-    "d2-4",
-    "d2-8",
-    "d2-11"
+    "d2-7"
    ],
-   "points_today": 11,
+   "points_today": 9,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "Strategy: kill every criminal each day to reach the 4x multiplier (40 kills in 5 days, so about 8 or more a day). Put all quick kills in the AFTERNOON. Night, student and home routines are all free then, so L's routine filter leaves 55% of people (55k). Never kill in the morning, because that rules out students. Timed entries also go in the afternoon. The national victim is always safe. Risk: if L can reach 3 of my place kinds, his pool shrinks to about 55k x 0.25 x 0.25 x 0.2-0.25, which is under 1000 and gets me caught. Watch the pool each day. If it falls below about 5000, stop killing victims from the place kinds that seem to be traced (deaths_traced rising together with the pool dropping), and favour national plus the kinds that appear untraceable. Day 1: killed all 11 (9 quick afternoon, 2 timed afternoon). Pool after day 1 was 60k with 2 traced. Day 2: killed all 11 (9 quick afternoon, 2 timed afternoon). Day 3 should reach 33 deaths in the 5-day window, giving 2x. Day 4 should reach 44, giving 4x.",
+   "notes_to_self": "Me: night worker (free morning+afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon; this rules out only day workers, leaving a pool of about 55000. Pool math: each pinned kind multiplies the pool by about 0.25 (blotter 0.2). One pinned gives about 14k, two about 3.4k (safe), three about 850 (CAUGHT). L can't reach 2 of my 5 kinds, so at most 3 are reachable. KEY PLAN: stop killing from ONE reachable kind and I am safe forever, while killing 9 a day (national + 4 kinds x2), which gives x4 once there are 40 deaths in 5 days. Must identify a reachable kind to drop. Tools: (1) the daily increase in the traced count tells which kinds are reachable, roughly half of reachable victims get traced; (2) when the pool drops to about 1e4 one kind is pinned, and to about 3000 two are pinned. When the pool hits about 3000, immediately cut down to the kinds I believe are unreachable plus national. Day 1: killed all 11 (afternoon). Traced after day 1 = 2 (out of 10 non-national). Day 2: killed 9, skipping forum (East x2, blotter x2, radio x2, foreign x2, national timed). Compare the traced increase: if the increase is about 0, the kinds killed today are mostly unreachable. Day 3 idea: skip a different kind (e.g. foreign) to compare increases. Running totals of kills by day: d1 11, d2 9.",
    "error": null,
-   "input_tokens": 2418,
-   "output_tokens": 930,
-   "seconds": 8.7,
-   "reasoning": "I'm tracking the pool at about 55k after day one and working out the multiplier: I need 30 in the last five days, and with 11 on each of the first two I'm at 22. Day three would reach 33, which doubles things, and day four at 44 would quadruple. On the risk side, I'm noting that the investigator only uses traces after three successful ones from the same place, and each trace narrows things to people who follow at least one of a victim's places. The danger is rising as that happens.\n\nI'm noting that the plan is to kill all 11 in the afternoon, and I'm keeping an eye on the rising danger as the investigator's traces narrow things down.\n\n"
+   "input_tokens": 2539,
+   "output_tokens": 2162,
+   "seconds": 23.3,
+   "reasoning": "I'm starting from a pool of about 60,000 after day one, and the afternoon kills point away from day workers, which takes it to roughly 55,000 before I round back up. Two traced so far, and I need three from the same place before I can act on it.\n\nI'm weighing how many kills I can afford: with only one reachable kind dropped, I could still keep the pool safe and reach the x4 multiplier within the five-day window.\n\nI'm weighing which kind of place to drop, since only a reachable one is safe to give up, and I don't know yet which ones those are. Two traces from day one is lower than I'd expect if three reachable kinds were feeding the count, and the extra reports may be landing in places that aren't reachable at all. So I'll vary which subsets I kill each day and watch how the pool and trace counts move, to work out which kind is the one I can afford to lose.\n\nI'm now weighing a safer route: rather than killing everything, I could test which kinds are reachable by killing only a couple on a given day and watching how the traced count moves. That costs points, but it might show which kind is the one I can afford to drop. Otherwise I could keep killing across the board until the pool signals the first pin and then the second, though that leaves me guessing which kind remains.\n\nI'm settling on an experiment for today: kill everything except the forum, so I can see which of the other kinds actually raise the traced count. Pinning needs three traced from one place, and after day one I have at most two traced overall, so nothing can be pinned yet; today's kills could still produce pins, and tomorrow's pool should tell me.\n\n"
   },
   {
    "day": 3,
    "kills": [
     {
-     "id": "d3-1",
+     "id": "d3-9",
      "coverage": [
       "national"
+     ],
+     "entry": "timed",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -277,7 +268,7 @@
     {
      "id": "d3-2",
      "coverage": [
-      "foreign"
+      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -293,7 +284,7 @@
     {
      "id": "d3-4",
      "coverage": [
-      "foreign"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -309,8 +300,7 @@
     {
      "id": "d3-6",
      "coverage": [
-      "cable",
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -318,7 +308,7 @@
     {
      "id": "d3-7",
      "coverage": [
-      "radio"
+      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -326,15 +316,7 @@
     {
      "id": "d3-8",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-9",
-     "coverage": [
-      "blotter"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -342,201 +324,116 @@
     {
      "id": "d3-10",
      "coverage": [
+      "podcasts",
       "regional:East"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d3-11",
      "coverage": [
-      "blotter"
+      "forum"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d3-5",
-    "d3-11",
-    "d3-4",
+    "d3-9",
+    "d3-1",
+    "d3-3",
     "d3-8",
-    "d3-2"
+    "d3-11"
    ],
    "points_today": 22,
    "multiplier": 2,
-   "pool": 13750,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: kill every criminal each day to reach the 4x multiplier (40 kills in 5 days, so about 8 or more a day). Put ALL kills, quick and timed, in the AFTERNOON. Night, student and home routines are free then, so the routine filter leaves 55k, which shows as 60k. The national victim is always safe to kill.\n\nCatch model: L cannot reach 2 of my 5 place kinds (regional, sector=blotter, age=radio, forum, foreign), so 3 kinds are reachable. Once a reachable kind has 3 successful traces, the pool is multiplied by about 0.2 (sector) or 0.25 (others). The 1st constrained kind takes the pool to about 10k, the 2nd to about 3k. A 3rd would take it under 1k, which means CAUGHT. Catching needs at least 9 successful traces, and I have 3 so far, so I am safe for now.\n\nPLAN: keep killing everything until the pool reaches about 3k, meaning 2 kinds are constrained. Then the single remaining reachable kind is unknown among the other 3. Use the per-day kill mix and the deaths_traced increases to guess which kinds are reachable. A kind whose victims I killed heavily on days when traced jumped is likely reachable. After the pool hits about 3k, if that third kind cannot be identified, kill only national plus kinds believed unreachable. Accept dropping the multiplier if needed. Being caught ends the game and halves my points, so near the end (day 28 to 30) risk matters less: I lose half of the total but no further days are lost.\n\nLog: Day 1: all 11 killed (2 of each kind plus national). Pool 60k, traced 2. Day 2: all 11 killed (2 of each kind plus national). Pool 60k, traced 3. Day 3: all 11 killed (2 of each kind plus national), 33 in the window, 2x. Day 4 should reach 44, 4x.",
+   "notes_to_self": "Me: night worker (free morning+afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. That rules out only day workers, leaving a pool of about 55k (shown as 60000). Pool math: each pinned kind multiplies the pool by about 0.25 (blotter 0.2). One pinned gives about 14k, two about 3.4k (still safe), three about 850 (CAUGHT). L can't reach 2 of my 5 kinds, so at most 3 are reachable. PLAN: once the pool shows a pin (about 1e4), pick the kind I think is reachable and stop killing from it. Better still, when the pool drops to about 3000, immediately drop to the suspected unreachable kinds plus national. Each pinned kind needs 3 traced victims from the same place. MULTIPLIER: deaths in the 5-day window, counting today, must reach 30 for x2 and 40 for x4. Kills by day: d1 11, d2 9, d3 11 (so the 5-day total after d3 = 31, which made d3 x2). Day 4 window = d1..d4: 31 + up to 11 = 42, so killing 9+ on d4 gives x4 (31+9=40). Day 5 window = d1..d5. Day 6 window drops d1. Traced counts: after d1 2, after d2 4 (d2 skipped forum). Use quick for up to 10 kills and timed for national, all afternoon.",
    "error": null,
-   "input_tokens": 2700,
-   "output_tokens": 2052,
-   "seconds": 22.0,
-   "reasoning": "I'm weighing whether the 60k pool is really 55k rounded, and concluding it doesn't trigger any trace constraint yet. Traces only matter once three traced victims share a location, and so far the three I've got may be spread out. I'm also weighing the daily odds: about five traced deaths out of roughly eleven, with the national one giving nothing, and each trace only works if the lead can reach every reported place.\n\nI'm working out which kinds of trace are actually reachable: the lead can only follow three of the five kinds, so only those can build up to a constraint. Even so, I'd expect to be caught within a month if I keep killing, since each reachable kind should narrow the pool fast. The pool drops might reveal which kinds are reachable, though a drop to 10k doesn't tell the 20% and 25% cases apart.\n\nI'm working out whether restricting to a safe set of kinds is viable, since national kills alone wouldn't trigger the multiplier, which needs about six deaths a day over five days. I'm also wondering whether my own kills are the ones counted. The pool drop magnitudes barely distinguish the kinds, so I'll track kills by kind and the traced count each day to infer which ones are reachable, and for now keep killing across all of them.\n\nI'm still weighing whether to keep killing across every kind today, since a caught outcome would need three constrained kinds and I only have three successful traces so far, so that can't happen yet. A victim reported in two places only adds a weaker either-or constraint, which doesn't change the picture. So I'll keep killing across all kinds today and update my notes with the inference plan.\n\n"
+   "input_tokens": 2812,
+   "output_tokens": 1339,
+   "seconds": 13.2,
+   "reasoning": "I'm checking the pool size after the afternoon kills: the 45% day workers are ruled out, which brings it to about 55,000 and rounds to 60,000. Next I'm looking at the traced counts, 2 of 10 on day one and 2 more of 8 on day two, and estimating how many traced victims to expect from the reachable ones. That comes out roughly consistent, but it doesn't tell me much.\n\nEvery kill today counts double, since 31 deaths in the last five days clears the threshold, so 11 kills bring 22 points. Pinning would need three traced victims from one place, and I've only found four traced so far, so I'll take all 11 today and then check the numbers again.\n\n"
   },
   {
    "day": 4,
    "kills": [
     {
-     "id": "d4-1",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-2",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-3",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-4",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-5",
-     "coverage": [
-      "radio",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-6",
-     "coverage": [
-      "cable",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-7",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-8",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-9",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d4-10",
-     "coverage": [
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d4-11",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "timed",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d4-9",
-    "d4-2",
-    "d4-10",
-    "d4-8",
-    "d4-5"
-   ],
-   "points_today": 44,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "Strategy: kill every criminal each day to reach the 4x multiplier (40 kills in 5 days, so about 8 or more a day). Put ALL kills, quick and timed, in the AFTERNOON. Night, student and home routines are free then, so the routine filter leaves 55k, which shows as 60k. The national victim is always safe to kill.\n\nCatch model: L cannot reach 2 of my 5 place kinds, so 3 are reachable. Each constrained kind multiplies the pool by about 0.2 to 0.25. The 1st constrained kind gives about 10k, the 2nd about 3k, and a 3rd means under 1k, CAUGHT.\n\nSTATUS after day 3: the pool is 10k with 6 traced, so 1 kind is already constrained. The remaining 3 successful traces are split among the other 2 reachable kinds (likely 2+1 or similar).\n\nPLAN: keep killing all 11 daily while the pool is about 10k. When the pool drops to about 3k, only one reachable kind remains unconstrained. Guess which kind it is from the kill mix and traced jumps, then stop killing that kind (keep national and the kinds believed unreachable). If it cannot be identified, cut back to national only plus the safest kinds. Near days 28 to 30, risk matters less.\n\nLog: Days 1 to 3: all 11 killed each day (2 of each kind plus national). Pool 60k/60k/10k, traced 2/3/6. Day 3 had 33 kills in the window, 2x. Day 4: all 11 killed (2 of each kind plus national), which should reach 4x.",
-   "error": null,
-   "input_tokens": 3143,
-   "output_tokens": 1466,
-   "seconds": 14.2,
-   "reasoning": "The pool dropped to 10k after day 3, which means one kind is now constrained. I've traced six so far and still need to work out which kind it is. The drop from 60k is ambiguous: a factor of 0.2 or 0.25 both round to 10k. And since the victim was reported in other places too, the constraint is looser, so the factor is probably larger.\n\nI'm weighing one more constraint, which would bring the pool to about 3k, with two more catching the player. Five traces a day is the cap, and they only succeed for kinds that are reachable. Killing all 11 today would net 44 points. The risk is that the other two reachable kinds both reach three traces today, which would get me caught and cost about half the pool. I estimate that at roughly 10%, so I'll keep following the plan and kill all 11 this afternoon.\n\n"
-  },
-  {
-   "day": 5,
-   "kills": [
-    {
-     "id": "d5-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d5-10"
-   ],
-   "points_today": 4,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: L cannot reach 2 of my 5 place kinds, so 3 kinds are reachable. Each constrained kind multiplies the pool by about 0.2 to 0.25. 1 constrained kind gives about 10k, 2 give about 3k, 3 means under 1k and I am CAUGHT, losing half my points.\n\nSTATUS: after day 4 the pool is 3k with 9 traced, so 2 kinds are already constrained. The third reachable kind is unknown and may already have 1 or 2 traces toward the 3 that L needs. Any non-national kill risks getting me caught.\n\nPLAN from day 5: kill ONLY the national victim each day, in the afternoon. That is 1 safe point a day; the multiplier is lost. Do not risk the banked points. If the pool ever shows 3k with traced unchanged for a long time, keep doing the same. Do not resume other kinds.\n\nLog: Days 1 to 4: all 11 killed each day. Pool 60k/60k/10k/3k, traced 2/3/6/9. Points 88 after day 4. Day 5: national only (at 4x).",
-   "error": null,
-   "input_tokens": 3225,
-   "output_tokens": 1191,
-   "seconds": 14.4,
-   "reasoning": "I've got the pool at 3000 and have traced 9 so far. Two kinds are already constrained, and one more would mean getting caught. I still don't know which of the reachable kinds is the remaining one.\n\nThe multiplier is already at 4 today, so each kill is worth that much. Still, there's a real risk of losing half of the 88-plus I'm holding.\n\nI'm weighing whether to cash in a few safe national kills now or go after more, since each additional trace would halve the points I'm holding. The third reachable kind may already have a couple of traces against it, so I'm treating the remaining kills as a real gamble.\n\nI'm weighing a gamble against a safe play: going after everything today could net 132 points, but with roughly a 50-60% chance of getting caught, which would cut me to 66, below the 88 I hold now. The constrained kinds aren't identifiable, so national-only kills look like the safer choice, landing at 92 points with no clear way to learn more.\n\n"
-  },
-  {
-   "day": 6,
-   "kills": [
-    {
-     "id": "d6-4",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d6-4"
+    "d4-11"
    ],
    "points_today": 2,
    "multiplier": 2,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: L cannot reach 2 of my 5 place kinds, so 3 kinds are reachable. Each constrained kind multiplies the pool by about 0.2 to 0.25. 1 constrained kind gives about 10k, 2 give about 3k, 3 means under 1k and I am CAUGHT, losing half my points.\n\nSTATUS: the pool has been 3k since day 4, so 2 kinds are constrained. The third reachable kind may already have 1 or 2 traces toward the 3 L needs. Any non-national kill risks getting me caught.\n\nPLAN: kill ONLY the national victim each day, quick, in the afternoon. That is 1 safe point a day. Do not resume other kinds, even on the last days, because L also checks after the final day.\n\nLog: Days 1 to 4: all 11 killed each day. Pool 60k/60k/10k/3k, traced 2/3/6/9. Points 88 after day 4. Day 5: national only, at 4x (92 points). Day 6: national only, at 4x.",
+   "notes_to_self": "Me: night worker (free morning+afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon, which rules out only day workers (pool about 55k).\n\nSTATUS: after d3 the pool shows 3000, so TWO kinds are already pinned. A third pin would take the pool to about 700 and I would be CAUGHT. L reaches 3 of my 5 kinds, so 2 are pinned and 1 reachable kind is still unpinned. I don't know which. Each of my 5 places had about 4-6 kills on d1-d3, and only 7 deaths were traced in total. The unpinned reachable place may already have 2 traced victims, so one more traced kill there could catch me.\n\nKills by day: d1 11, d2 9, d3 11, d4 1 (national only, playing safe).\n\nPLAN: national-only kills are always safe, at 1 per day.\n\nIdea for later: probe one place at a time with a single kill and watch the traced count and the pool. If the traced count rises and the pool stays the same, that place is reachable and was probably already pinned, so it is safe to keep using. If the pool falls to 700, the game is lost.\n\nA kind whose victims never raise the traced count is probably unreachable, so it is safe.\n\nAt the d3 press conference the traced count was 7. Compare later counts with 7 (national victims are not counted).\n\nThe x2 multiplier needs 30 deaths in the 5-day window; that window ends after d5, when the d1-d3 kills start dropping out.",
    "error": null,
-   "input_tokens": 3168,
-   "output_tokens": 752,
-   "seconds": 8.4,
-   "reasoning": "I'm working out the current multiplier, which looks like 4 based on the recent deaths, though my sum doesn't quite match that. Tomorrow's window drops some of the earlier deaths, so the multiplier will likely fall. I'm weighing whether to take the risk with my 92 points.\n\nI'm leaning toward sticking with the national-only plan, since killing only national victims means a traced victim reveals nothing new, so the pool stays safe. I'm also weighing the other option of killing more, but the chance of being traced on each non-national kill is too high, so I'll hold to the plan.\n\n"
+   "input_tokens": 2959,
+   "output_tokens": 1559,
+   "seconds": 19.2,
+   "reasoning": "I'm working out the pool size after day 3, and it comes to about 3000 under a couple of different kind-pinning combinations, so I'm checking which arithmetic holds up.\n\nI'm going back over whether the traced counts can pin a third kind without me killing more from places already pinned. Most of the pinning hinges on how many traces actually survive, since reports from unreachable places break them. Over the first three days that seems to be only about one or two traced victims per place, so adding a couple of kills today probably won't push any unpinned place to a third trace.\n\nI'm weighing whether to kill only national today, since any extra kills from a reachable kind could push it to a third pin and end the game. Probing a kind with two kills might reveal reachability, but a pinned kind's traced count rises too, so the probe can't tell me what I need to know. I'm leaning toward the conservative option and keeping my points safe for now.\n\nI'm leaning toward killing only national today, since the forum probe carries too much risk with its four kills and possible traces. That keeps things simple while I decide how to handle the rest.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-9"
+   ],
+   "points_today": 2,
+   "multiplier": 2,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced as of d4.\n\nKills by day: d1 11, d2 9, d3 11, d4 1, d5 1 (national only). Points 44 before d5, about 46 after.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 25 more.\n\nMaybe later: probe single non-national kills only if near the end (the last day or two). Even then, being caught halves everything, so this is probably not worth it.\n\nThe x2/x4 multiplier no longer applies from d6 on (the window drops d1-d3).",
+   "error": null,
+   "input_tokens": 3058,
+   "output_tokens": 927,
+   "seconds": 11.1,
+   "reasoning": "I'm at 44 points with 3000 in the pool on day 5. The window's deaths already total 32, past the 30 threshold for a x2 multiplier, so adding 8 more would push it to x4. But a third pin could drop the pool to about 700 and get me caught, losing half. Against that, the national-only option is worth roughly 25 more points over time.\n\nI'm weighing a riskier play of killing 10 today at x4 for about 40 points, but a catch would halve my total, so it only works if the risk is low. Since I can't tell which places are pinned and the numbers don't separate the possibilities, I'll stick with the national-only plan and add a quick timed national hit in the d5-9 afternoon.\n\n"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-2"
+   ],
+   "points_today": 1,
+   "multiplier": 1,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced as of d5.\n\nKills by day: d1 11, d2 9, d3 11, d4 1, d5 1, d6 1 (national only each day from d4). Points 46 before d6.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 24 more.\n\nThe x2 multiplier no longer matters once d2-d3 leave the window. Don't chase it: about 10 non-national kills would mean about 5 traces, which risks pinning a third kind.",
+   "error": null,
+   "input_tokens": 2964,
+   "output_tokens": 865,
+   "seconds": 8.9,
+   "reasoning": "I'm tracking the pool at 3000 now, and the afternoon kills are ruling out day workers, since the routine filter leaves night workers, students, and home folks free in the afternoon. Night, student, and home together come to about 55%, which roughly matches the 60,000 pool after the first step, so I'm moving on from there.\n\nI'm weighing whether to kill only the national one today. The deaths over the last five days add to 22, and if I kill all eleven today the window clears 30 for a double multiplier, but the tracing risk on the non-national kills is high, so I'm keeping the plan and just killing the day-two through day-six ones.\n\n"
   },
   {
    "day": 7,
@@ -550,25 +447,23 @@
      "block": "afternoon"
     }
    ],
-   "traced": [
-    "d7-6"
-   ],
+   "traced": [],
    "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: L cannot reach 2 of my 5 place kinds, so 3 kinds are reachable. Each constrained kind multiplies the pool by about 0.2 to 0.25. 1 constrained kind gives about 10k, 2 give about 3k, 3 means under 1k and I am CAUGHT, losing half my points.\n\nSTATUS: the pool has been 3k since day 4, so 2 kinds are constrained. The third reachable kind may already have 1 or 2 traces toward the 3 L needs. Any non-national kill risks getting me caught.\n\nPLAN: kill ONLY the national victim each day, quick, in the afternoon. That is 1 safe point a day. Do not resume other kinds, even on the last days, because L also checks after the final day.\n\nLog: Days 1 to 4: all 11 killed each day. Pool 60k/60k/10k/3k, traced 2/3/6/9. Points 88 after day 4. Day 5: national only, at 4x (92 points). Day 6: national only, at 4x (94 points). Day 7: national only, at 2x. After day 7 the multiplier will drop to 1x.",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced as of d6, unchanged since d3.\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4 1, d5 1, d6 1, d7 1). Points 47 before d7.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 23 more.\n\nThe x2 multiplier is gone. Don't chase it: about 10 non-national kills would mean about 5 traces, which risks pinning a third kind.",
    "error": null,
-   "input_tokens": 3199,
-   "output_tokens": 840,
-   "seconds": 8.0,
-   "reasoning": "I'm sticking with national data only, and checking the multiplier: the last few days' deaths add up to 24, so reaching \"at least 30\" for a 2x figure would need about six more from today. The stated \"2\" doesn't quite line up with that window, so I'm wondering whether the count includes today or covers a different span.\n\nI'm weighing whether to add any non-national kills, since the third kind might still have traces, but the risk to roughly 96 points outweighs a small gain, so I'll keep to national only. Over the remaining 24 days that yields about 24 points, and switching to an unreachable kind is too uncertain, so I'll stay with the safer plan.\n\n"
+   "input_tokens": 3007,
+   "output_tokens": 500,
+   "seconds": 4.7,
+   "reasoning": "I'm keeping the plan to targeting only the national level, scheduled for the afternoon. The points total is 47 now, and the 3000 pool means two kinds are already pinned, so a third would get caught, which is why I'm sticking to national alone. I'm also weighing whether the afternoon timing works, and it seems to fit around students being home.\n\n"
   },
   {
    "day": 8,
    "kills": [
     {
-     "id": "d8-9",
+     "id": "d8-1",
      "coverage": [
       "national"
      ],
@@ -576,867 +471,495 @@
      "block": "afternoon"
     }
    ],
-   "traced": [
-    "d8-9"
-   ],
+   "traced": [],
    "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: L cannot reach 2 of my 5 place kinds, so 3 kinds are reachable. Each constrained kind multiplies the pool by about 0.2 to 0.25. 1 constrained kind gives about 10k, 2 give about 3k, 3 means under 1k and I am CAUGHT, losing half my points.\n\nSTATUS: the pool has been 3k since day 4, so 2 kinds are constrained. The third reachable kind may already have 1 or 2 traces toward the 3 L needs. Any non-national kill risks getting me caught.\n\nPLAN: kill ONLY the national victim each day, quick, in the afternoon. That is 1 safe point a day. Do not resume other kinds, even on the last days, because L also checks after the final day.\n\nLog: Days 1 to 4: all 11 killed each day. Pool 60k/60k/10k/3k, traced 2/3/6/9. Points 88 after day 4. Days 5 to 7: national only (95 points after day 7). Day 8: national only, at 1x. Pool still 3k, traced 9.",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d7).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d8 1 each). Points 48 before d8.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 22 more.\n\nThe x2 multiplier is gone. Don't chase it: about 10 non-national kills would mean about 5 traces, which risks pinning a third kind.",
    "error": null,
-   "input_tokens": 3295,
-   "output_tokens": 702,
-   "seconds": 6.9,
-   "reasoning": "I'm weighing whether killing more could be done safely, but the risk of being caught grows with each extra kill. Over the remaining 23 days that adds only about 23 points, while getting caught could cost roughly half of my current 95. I'll stick with the plan.\n\nI'm also asking whether kills in a kind that's already under scrutiny would add much risk, since traces there might add nothing new. But I can't tell which kinds are already constrained, and victims may be reported in other places too, so I'll keep my focus on the national picture.\n\n"
+   "input_tokens": 3079,
+   "output_tokens": 578,
+   "seconds": 5.8,
+   "reasoning": "I'm checking whether a pool of about 3000 can come out of the 55% afternoon share of 60000, using a couple of multiplier combinations. A third pin would drop the pool well under 1000 and get caught, so I'm keeping the plan to kill only the national target. That leaves days 8 through 30, roughly 23 days and about 23 points to work with.\n\nBeing caught would cost about 24 points or more, so I'm sticking with the plan.\n\n"
   },
   {
    "day": 9,
    "kills": [
     {
-     "id": "d9-8",
+     "id": "d9-7",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d9-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d9-8",
-    "d9-1",
-    "d9-2"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, so 2 kinds are constrained. Of my 5 kinds, 1 is reachable but not yet constrained. Killing from that kind is the danger.\n\nPROBE (started day 9): today I killed national plus 2 forum victims, which were all of today's forum cases. With 3 deaths, all of them get traced. Traced count was 9 after day 8.\n- If the traced count stays at 9 and the pool stays at 3k, forum is likely UNREACHABLE. Keep killing forum every day; it is safe.\n- If the count rises and the pool stays at 3k, forum is reachable: either constrained (safe) or the dangerous kind with fewer than 3 traces. Ambiguous. Lean toward stopping forum and probing another kind (foreign next), unless the count rose by 2 and later forum kills keep the pool at 3k.\n- If the pool drops below 3k but I am not caught, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Points 88. Days 5 to 8: national only, 96 points after day 8. Pool 3k, traced 9 after day 8. Day 9: national plus forum x2 (d9-1, d9-2).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d8).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d9 1 each). Points 49 before d9.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 21 more.\n\nThe x2 multiplier is gone. Don't chase it: about 10 non-national kills would mean about 5 traces, which risks pinning a third kind.",
    "error": null,
-   "input_tokens": 3337,
-   "output_tokens": 1543,
-   "seconds": 17.9,
-   "reasoning": "I'm sitting at 96 points with a pool of about 3k, and getting caught would cost me 48. Killing more might add roughly 10 points a day at 1x, but the catch risk makes that a real gamble. I'm wondering whether there's a safer kind to target, and which kinds are actually constrained, which I don't know yet.\n\nI'm working out whether one of the kinds I'm still killing is safe to target. Two kinds are already constrained, and if I keep killing a constrained kind I just add traces without narrowing the pool further. The unreachable kind is safe forever. The one dangerous kind is the reachable but unconstrained one, so with five kinds a random pick is a 1-in-5 gamble.\n\nI'm weighing whether to probe one of the kinds I'm still killing by watching whether its trace count rises. A kind that never traces would be unreachable and so safe, and the expected value of a random pick still comes out positive despite the roughly 1-in-5 chance it's the dangerous one.\n\nI'm going with the forum kind for the next two kills, since nothing I know separates the kinds and both of today's deaths already went there. The one risk is if the forum is the dangerous kind that already has a trace, which would get me caught on the third.\n\n"
+   "input_tokens": 3133,
+   "output_tokens": 504,
+   "seconds": 4.7,
+   "reasoning": "I'm sticking with the plan to kill only the national target, since the afternoon routine pool still leaves about 55% of people free. I'm wondering whether non-national kills could be safe, but that only works if nothing traces back to the records, and that's risky, so I'll keep the plan as it is.\n\n"
   },
   {
    "day": 10,
    "kills": [
     {
-     "id": "d10-4",
+     "id": "d10-5",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-8",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d10-8",
-    "d10-2",
-    "d10-4"
+    "d10-5"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, so 2 kinds are constrained. Of my 5 kinds, 1 is reachable but not yet constrained. Killing from that kind is the danger.\n\nPROBE RESULT (day 9): I killed national plus 2 forum. All 3 deaths were traced, yet the traced count stayed at 9 and the pool at 3k. So forum is very likely UNREACHABLE. If forum were reachable, both traces would only fail if each victim was also reported in an unreachable place, about 9%. From day 10, kill national plus all forum victims daily.\n- If the traced count rises after a day of forum kills, forum was reachable: stop forum at once.\n- If the pool drops below 3k, stop forum at once.\nIf forum stays clean for several days, consider probing one other kind (foreign next) with a single victim, but that is risky. 1 to 2 earlier traces of that kind may already exist, and a third would let L act on them.\n\nLog: Days 1 to 4: all 11 killed each day. Points 88. Days 5 to 8: national only, 96 points after day 8. Pool 3k, traced 9 after day 8. Day 9: national plus forum x2. Afterwards traced was still 9 and the pool 3k, 99 points. Day 10: national plus forum x2 (d10-4, d10-2, d10-8).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d9).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d10 1 each). Points 50 before d10.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 20 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 3490,
-   "output_tokens": 1038,
-   "seconds": 10.4,
-   "reasoning": "I'm checking the day 9 probe: three killed, all traced, but the forum victims are the unclear case, since their trace only succeeds if every report location is reachable. The count staying at 9 for both points to the forum being unreachable, or to both having extra unreachable places, which looks less likely.\n\nI'm weighing whether to probe the foreign victims as well, since three traced foreign kills could constrain a reachable kind and expose me. The pool is about 3k and each extra kind shrinks it, so I'm leaning toward keeping today to national plus the two forum kills.\n\n"
+   "input_tokens": 3194,
+   "output_tokens": 675,
+   "seconds": 6.5,
+   "reasoning": "I'm sorting out the 3000 pool: afternoon kills go to the routine filter, and the 55% who are free in the afternoon gives 55k. Both pins land near 3000, and a third pin drops to roughly 700 to 860, so it gets caught. Now I'm weighing whether to take on more risk, since the remaining 21 days of national play are worth about 21 points against my current 50.\n\nEven if the trace catches about five of the ten non-national kills, the pool would still be well above a thousand, and the third pin's odds of landing in the risky range stay high. I'm going to keep the current plan rather than stack more risk onto it. A morning kill would narrow the routine pool to about 35% and drop it to roughly 1900, which still clears the threshold, but I'd rather keep the afternoon block.\n\n"
   },
   {
    "day": 11,
    "kills": [
     {
-     "id": "d11-2",
+     "id": "d11-4",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-5",
-     "coverage": [
-      "forum",
-      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d11-2",
-    "d11-5",
-    "d11-1"
+    "d11-4"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: on days 9 and 10 I killed 4 forum victims and the traced count stayed at 9. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool by about 4 to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. The extra points are tiny next to the risk.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 and 10: national plus forum x2 each day, 102 points after day 10. Pool 3k, traced 9. Day 11: national plus forum x2 (d11-2, d11-1, d11-5).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d10).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d11 1 each). Points 51 before d11.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 19 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 3618,
-   "output_tokens": 943,
-   "seconds": 9.7,
-   "reasoning": "Day 10 is done: three killed, traced count still at 9, and the pool sits at 3k. The forum is unreachable again, so I'm continuing with the national and forum work. A larger play would need 30 deaths over five days, which tops out around 11 victims, so it isn't feasible without taking on too much risk, and I'm keeping things safe.\n\nI'm working through the pool size: a 3k total fits two constrained victim kinds, which leaves one reachable kind unconstrained. Probing it would risk a third trace that cuts the pool to about 700, so the payoff isn't worth it. I'm staying safe and logging the day 11 kills.\n\n"
+   "input_tokens": 3266,
+   "output_tokens": 537,
+   "seconds": 5.3,
+   "reasoning": "I'm sticking with the plan to target only the national pool. Going after criminals in the other kinds is risky, since a trace from an unpinned kind tells me nothing and each non-national kill carries about a 50% chance of tracing. The traced count is still at 7, so I'm holding steady on the checks.\n\n"
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-10",
+     "id": "d12-11",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d12-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d12-9",
-    "d12-10",
-    "d12-3"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: on days 9, 10 and 11 I killed 6 forum victims and the traced count stayed at 9. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool by about 4 to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 11: national plus forum x2 each day, 105 points after day 11. Pool 3k, traced 9. Day 12: national plus forum x2 (d12-10, d12-3, d12-9).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d11).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d12 1 each). Points 52 before d12.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 18 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 3645,
-   "output_tokens": 703,
-   "seconds": 6.2,
-   "reasoning": "I've logged forum kills on day 11 and the trace still sits at 9 with a pool of 3k, so I'll keep the same plan for day 12: national and forum, with the afternoon kept short. I want to rule out a forum victim being reported somewhere I'm not tracking, like another regional; if that's possible and forum isn't reachable, the trace would fail, but this approach looks safe. The kills I'm lining up are d12-10, d12-3, and d12-9.\n\n"
+   "input_tokens": 3327,
+   "output_tokens": 702,
+   "seconds": 6.6,
+   "reasoning": "I'm checking the pool numbers: 3000 victims, with afternoon-only kills reaching night workers, students, and people at home, which comes to 55%. Two pins land the count near 3000, while a third would drop it to around 700\u2013860 and get caught. I'm also weighing whether any kill outside the national scope is worth the risk, since each traced victim and the lead's response after three traces matter here.\n\nI'm weighing whether a kill outside the national scope adds enough risk to be worth it, since some victims may only be reported in places already pinned, which would make another trace pointless. I don't know which places are pinned, and hidden reports elsewhere could add further constraints, so I'm sticking with national kills only. I'm also noting the score is now 52.\n\n"
   },
   {
    "day": 13,
    "kills": [
     {
-     "id": "d13-1",
+     "id": "d13-2",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-6",
-     "coverage": [
-      "forum",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-11",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d13-6",
-    "d13-11",
-    "d13-1"
+    "d13-2"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: on days 9 to 12 I killed 8 forum victims and the traced count stayed at 9 (L traces 5 a day, so every death was traced). Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool by about 4 to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 12: national plus forum x2 each day, 108 points after day 12. Pool 3k, traced 9. Day 13: national plus forum x2 (d13-1, d13-6, d13-11).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d12).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d13 1 each). Points 53 before d13.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 17 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 3719,
-   "output_tokens": 917,
-   "seconds": 8.4,
-   "reasoning": "I'm checking the forum logic against the day-12 traced count, which stayed at 9 after the forum kills. Each day has 3 deaths and the traced count is 5, so all 3 deaths are traced, and the national victim doesn't count. That leaves 8 forum victims over 4 days, none of whom succeeded, which points toward forum being unreachable.\n\nI'm weighing whether to try for more than about three kills a day. The pool is 3k, and one reachable kind is unconstrained while the other two are constrained. Targeting the already-constrained kinds wouldn't add anything new, but I can't tell which kinds those are, so I'll stick with the plan and kill d13-1, d13-6 and d13-11 in the afternoon.\n\n"
+   "input_tokens": 3388,
+   "output_tokens": 590,
+   "seconds": 6.2,
+   "reasoning": "I'm sticking with the plan to kill only the national pin, done quickly in the afternoon. I'm checking whether a wider kill would be safe: the pool of 3000 is about 55000 of the routine fraction, which works out to roughly 0.055, or around 0.25 times 0.2 or 0.25. A third pin would push that below 1000, so I'm weighing what a kill from a non\n\nI'm settling on the plan to take out only the national pin, and I'm weighing whether a wider kill is safer, since any kill from a non-national place risks tracing back to me. I'm sticking with the plan, and I'm noting the score is now at 53 points.\n\n"
   },
   {
    "day": 14,
    "kills": [
     {
-     "id": "d14-5",
+     "id": "d14-11",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d14-8",
-     "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d14-5",
-    "d14-9",
-    "d14-8"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: on days 9 to 13 I killed 10 forum victims and the traced count stayed at 9. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool by about 4 to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. A last-day burst is not worth it either: the bonus does not cover losing half my points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 13: national plus forum x2 each day, 111 points after day 13. Pool 3k, traced 9. Day 14: national plus forum x2 (d14-5, d14-8, d14-9).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (about 55k x 0.25 x 0.25 or x 0.2). A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d13).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d14 1 each). Points 54 before d14.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 16 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 3818,
-   "output_tokens": 696,
-   "seconds": 6.6,
-   "reasoning": "I'm sticking with the plan: national and forum twice each. Traced has stayed at 9 since day 13, and I'm at 111 points. I'll cut the afternoon quick runs on d14-5, d14-8 and d14-9. I briefly wondered about a big burst on the final day, since getting caught there halves the points, but that's not worth the risk, so the plan stays.\n\n"
+   "input_tokens": 3449,
+   "output_tokens": 656,
+   "seconds": 6.2,
+   "reasoning": "I'm working out the pool size first: 3000. The routines allowed come to 55%, and a free afternoon would be the night, students and home shares together, which leaves the afternoon still to cover. Checking the product, 55000 times 0.25 times 0.25 gives about 3437, and that rounds to 3000 either way, so the third pin would land somewhere around 700 to 860 and get caught. Next I'm turning to the remaining days 14 to 30, which is 17 days at one point each, and I'm starting to test what a big day of 11 would do.\n\nI'm weighing the ten non-national victims, each traced at 50%, and noting that L only uses traced victims from a place once three of them are traced from it. A third pin looks likely, and some places already have counts, so I'll stick with the plan.\n\n"
   },
   {
    "day": 15,
    "kills": [
     {
-     "id": "d15-2",
+     "id": "d15-5",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-1",
-     "coverage": [
-      "forum",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-11",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d15-11",
-    "d15-1",
-    "d15-2"
+    "d15-5"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 14 despite 12 forum kills. Any victim reported in forum cannot be traced, even if he was also reported somewhere else. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 14: national plus forum x2 each day, 114 points after day 14. Pool 3k, traced 9. Day 15: national plus forum x2 (d15-1, d15-2, d15-11).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d14).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d14 1 each, d15 1). Points 55 before d15.\n\nPLAN: kill only the national criminal each day, quick, afternoon. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 15 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 3913,
-   "output_tokens": 734,
-   "seconds": 6.1,
-   "reasoning": "I'm keeping the plan of national plus two forum kills. Traced has held at 9 since day 14 with a pool of 3k, and the points still add up to 114. Forum victims can't be traced, since a trace needs every place reachable and the forum isn't, so that part is safe. Next I'll take out d15-1, d15-2 and d15-11 in the afternoon.\n\n"
+   "input_tokens": 3510,
+   "output_tokens": 485,
+   "seconds": 4.9,
+   "reasoning": "I'm sticking with the plan to kill only the national target, which should be quick for the afternoon. That brings my points to 55, and the pool is at 3000 after two pins, so a third pin would get caught. I'm checking whether any non-national kill could be safe, but any trace might add that third pin, so I'm keeping the plan as it is.\n\n"
   },
   {
    "day": 16,
    "kills": [
     {
-     "id": "d16-1",
+     "id": "d16-6",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-4",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-10",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d16-4",
-    "d16-10",
-    "d16-1"
+    "d16-6"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 15 despite 14 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 130 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 15: national plus forum x2 each day, 117 points after day 15. Pool 3k, traced 9. Day 16: national plus forum x2 (d16-1, d16-4, d16-10).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d15).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d16 1 each). Points 56 before d16.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 14 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4001,
-   "output_tokens": 735,
-   "seconds": 6.4,
-   "reasoning": "I'm sticking with the plan to hit the national and the two forum victims with quick entries in the afternoon. The traced count is still 9 after day 15, with the pool at 3k. A last-day burst isn't worth it: getting caught halves the points, and the risk of losing about 65 outweighs the roughly 22 I could gain. So I'm counting 117 after day 15, plus today's 3 kills, for 120.\n\n"
+   "input_tokens": 3553,
+   "output_tokens": 719,
+   "seconds": 7.1,
+   "reasoning": "I'm double-checking the pool estimate: 100,000 times 0.55 for the afternoon-free group, then times a quarter twice, which comes to roughly 3,000. With two pinned, a third pin by sector would cut it to about 690, and any of the other attributes at 0.25 would leave about 860.\n\nI'm weighing whether killing the non-national victims would be safe, since some kinds are unreachable for L. But I don't know which ones, and with seven traced it's unclear, so the risk isn't worth it. I'll stick to the plan: 15 points remain against the 56 being halved, and days 16 to 30 add another 15.\n\n"
   },
   {
    "day": 17,
    "kills": [
     {
-     "id": "d17-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d17-3",
      "coverage": [
-      "docket",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-9",
-     "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d17-9",
-    "d17-3",
-    "d17-8"
+    "d17-3"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 16 despite 16 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 130 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 16: national plus forum x2 each day, 120 points after day 16. Pool 3k, traced 9. Day 17: national plus forum x2 (d17-8, d17-3, d17-9).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d16).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d17 1 each). Points 57 before d17, so 58 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 13 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4075,
-   "output_tokens": 688,
-   "seconds": 6.0,
-   "reasoning": "I'm carrying on with the plan for the national and forum sessions, two each. The traced count is still nine after day sixteen, with a pool of about three thousand, so I'm dropping day seventeen's items eight, three and nine. The model check at a 55k routine looks fine against the constraints, so I'll stick with the notes, and the score goes from 120 to 123.\n\n"
+   "input_tokens": 3615,
+   "output_tokens": 445,
+   "seconds": 4.1,
+   "reasoning": "I'm going with the plan: dropping the national d17-3 quick afternoon session. That brings the total to 57 points, since d16 already gave 56 and this adds one. Next I'll update the notes to match.\n\n"
   },
   {
    "day": 18,
    "kills": [
     {
-     "id": "d18-9",
+     "id": "d18-11",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d18-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-11",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d18-3",
-    "d18-9",
-    "d18-11"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 17 despite 18 forum kills. A forum victim also reported elsewhere still cannot be traced, because a trace needs every place reachable. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 130 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 17: national plus forum x2 each day, 123 points after day 17. Pool 3k, traced 9. Day 18: national plus forum x2 (d18-9, d18-3, d18-11).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d17).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d18 1 each). Points 58 before d18, so 59 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total, and the steady 1 per day adds about 12 more.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4160,
-   "output_tokens": 715,
-   "seconds": 5.8,
-   "reasoning": "I'm checking the plan: 9 is still the trace count after day 17, so I'll cut the national and forum-times-two items this afternoon. Forum victims might also be reported somewhere reachable, 3 in 10 of them, but an unreachable forum would still break the trace since every place has to be reachable, so that's fine.\n\n"
+   "input_tokens": 3683,
+   "output_tokens": 516,
+   "seconds": 5.2,
+   "reasoning": "I'm sticking with the plan to kill only national targets in a quick afternoon run. I'm weighing a mixed approach, but non-national kills add risk to the third pin, and the expected 10 points from kills don't outweigh the roughly 34 points at risk, so I'll keep it to the original plan.\n\n"
   },
   {
    "day": 19,
    "kills": [
     {
-     "id": "d19-9",
+     "id": "d19-10",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d19-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-11",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d19-11",
-    "d19-7",
-    "d19-9"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 18 despite 20 forum kills. A forum victim also reported elsewhere still cannot be traced, because a trace needs every place reachable. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 130 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises after a day of forum kills, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day, 88 points. Days 5 to 8: national only, 96 points. Days 9 to 18: national plus forum x2 each day, 126 points after day 18. Pool 3k, traced 9. Day 19: national plus forum x2 (d19-9, d19-7, d19-11).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55000/16 = about 3400). A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d18).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d19 1 each). Points 59 before d19, so 60 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4278,
-   "output_tokens": 770,
-   "seconds": 6.8,
-   "reasoning": "I'm sticking with the plan: the national sector at d19-9 plus the forum spots d19-7 and d19-11 in the afternoon. The trace count is still 9 with a pool of 3k. Forum victims can't trace because the forum sits in a sector I can't reach, so that's safe. Scaling up to the multiplier would need 30 deaths over five days, which isn't feasible safely, so I'll keep to the current plan.\n\n"
+   "input_tokens": 3744,
+   "output_tokens": 575,
+   "seconds": 5.8,
+   "reasoning": "I'm dropping the d19-10 national quick-afternoon option. Checking the pool: 55% of 100,000 is about 55,000, so the 3,000 figure holds once two kinds are pinned at 1/4 each. A third pin would change that.\n\nStaying with national only, since a third pin would push the pool under 1,000. Points come to 60 after today.\n\n"
   },
   {
    "day": 20,
    "kills": [
     {
-     "id": "d20-4",
+     "id": "d20-11",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d20-5",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-8",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d20-8",
-    "d20-5",
-    "d20-4"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 19 despite more than 20 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 130 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 19: national plus forum x2 each day, 129 points after day 19. Pool 3k, traced 9. Day 20: national plus forum x2 (d20-4, d20-5, d20-8).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55000/16 = about 3400). A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d19).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d20 1 each). Points were 60 before d20, so 61 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: being caught halves my total.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4363,
-   "output_tokens": 717,
-   "seconds": 6.6,
-   "reasoning": "I'm settling on a plan of national d20-4, forum d20-5, and d20-8, and keeping the afternoon quick. I'm checking whether the pool of 3k could do better, since the afternoon routine filter leaves 55k. The forum looks unreachable: the trace stayed at 9 across 22 forum kills, and I've confirmed that, so I'm going ahead.\n\n"
+   "input_tokens": 3799,
+   "output_tokens": 516,
+   "seconds": 5.3,
+   "reasoning": "I'm sticking with the plan to kill only national targets this afternoon. I considered a risk analysis for the remaining days, but my notes say to stay safe. Killing non-national targets could get me traced and pinned as a third kind, and a batch of ten would carry high catching risk for about +10 points. I'm keeping the plan.\n\n"
   },
   {
    "day": 21,
    "kills": [
     {
-     "id": "d21-3",
+     "id": "d21-10",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-5",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-11",
-     "coverage": [
-      "forum",
-      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d21-3",
-    "d21-5",
-    "d21-11"
+    "d21-10"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 through days 9 to 20 despite more than 20 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 130 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 20: national plus forum x2 each day, 132 points after day 20. Pool 3k, traced 9. Day 21: national plus forum x2 (d21-3, d21-5, d21-11).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55000/16 = about 3400). A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d20).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d21 1 each). Points 61 before d21, so 62 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: one extra point per kill against the risk of losing about 35 points if caught.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4399,
-   "output_tokens": 635,
-   "seconds": 5.6,
-   "reasoning": "I'm sticking with the plan: national plus two forum runs, keeping it quick in the afternoon, and working through d21-3, d21-5, and d21-11. The traced count is still 9, so the forum run is still safe, and the points should come to 135.\n\n"
+   "input_tokens": 3861,
+   "output_tokens": 647,
+   "seconds": 6.8,
+   "reasoning": "I'm weighing whether more kills would be worth it, since the current count is 61 and only national targets in the remaining 10 days would bring it to 71. I'm working through the risk: a non-national criminal has a 50% chance of being traced, and the trace only succeeds if L can reach all the places involved. I'm also checking whether the two pinned kinds are the reachable ones, given that L can't reach two kinds and three are reachable.\n\nI'm judging the extra kills not worth the risk: each gives one point, while a pin could cost around 35, and I can't tell which unpinned kind is reachable. So I'll stick with the plan.\n\n"
   },
   {
    "day": 22,
    "kills": [
     {
-     "id": "d22-7",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d22-2",
      "coverage": [
-      "docket",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-11",
-     "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-2",
-    "d22-7",
-    "d22-11"
+    "d22-2"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 135 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 21: national plus forum x2 each day, 135 points after day 21. Pool 3k, traced 9. Day 22: national plus forum x2 (d22-7, d22-2, d22-11).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35%, dropping the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55000/16 = about 3400). A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d21).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d22 1 each). Points 62 before d22, so 63 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: one extra point per kill against the risk of losing about 35 points if caught.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4484,
-   "output_tokens": 567,
-   "seconds": 4.5,
-   "reasoning": ""
+   "input_tokens": 3936,
+   "output_tokens": 525,
+   "seconds": 5.2,
+   "reasoning": "I'm sticking with the plan to kill the national d22-2 in the quick afternoon slot. I'm weighing whether to take on an extra kill, but a non-national one would only add value if it's in a place I can reach with three traced kills, and some of those places may already have one or two, so it's too risky. I'll keep the plan.\n\n"
   },
   {
    "day": 23,
    "kills": [
     {
-     "id": "d23-9",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d23-8",
      "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-10",
-     "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d23-10",
-    "d23-8",
-    "d23-9"
+    "d23-8"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 135 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 22: national plus forum x2 each day, 138 points after day 22. Pool 3k, traced 9. Day 23: national plus forum x2 (d23-9, d23-8, d23-10).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35% and drop the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned (55000/16 = about 3400, or 55000/20 = 2750 if one is sector). A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d22).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d23 1 each). Points 63 before d23, so 64 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. Risky big days are not worth it: a few extra points against the risk of losing about 35 points if caught.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4567,
-   "output_tokens": 696,
-   "seconds": 6.4,
-   "reasoning": "I'm planning day 23: killing the national, forum, and second forum targets, with the afternoon kept quick. I'm also checking whether the forum is really unreachable, since traces stayed at 9 despite 28 forum kills, and I'm noting that the score is 138 after day 22.\n\n"
+   "input_tokens": 3997,
+   "output_tokens": 967,
+   "seconds": 11.1,
+   "reasoning": "I need to settle this quickly: the pool is at 3000 after day 3 with 7 traced, and eight days remain. The current plan is national-only for 8 more points, and I'm weighing that against going for big kills. I'm checking the routine math, which puts the afternoon free at about 55%, and whether the pool figure holds up against that.\n\nWorking through the pin math: 55000 split by 16 or by 20 both round to 3000, so either way a third pin would land me near 700 and get me caught. Kills from places I already have pinned add nothing new, so the real question is the reachable kinds I haven't pinned yet. Seven traced since day 3 and the count hasn't moved, which makes the third reachable kind a risky bet at roughly even odds. The bonus multiplier would need far more points than I can realistically reach in five days, so the gain is small against about half of roughly 70 points at risk. I'll stick with the plan.\n\n"
   },
   {
    "day": 24,
    "kills": [
     {
-     "id": "d24-6",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d24-4",
      "coverage": [
-      "docket",
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d24-4",
-    "d24-6",
-    "d24-3"
+    "d24-4"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 140 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 23: national plus forum x2 each day, 141 points after day 23. Pool 3k, traced 9. Day 24: national plus forum x2 (d24-6, d24-3, d24-4).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35% and drop the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d23).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d24 1 each). Points 64 before d24, so 65 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. I re-checked on d24: a big final day might add about 10 points but risks losing about 35. Not worth it.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4652,
-   "output_tokens": 624,
-   "seconds": 5.3,
-   "reasoning": "I'm continuing with the national and forum items (d24-3, d24-4, d24-6), and the points total is now 141. The traced count is still 9, and the pool is at 3k, so I'll keep going.\n\n"
+   "input_tokens": 4073,
+   "output_tokens": 772,
+   "seconds": 8.6,
+   "reasoning": "I'm weighing whether to keep the safe plan, which adds 7 points to reach 71. The alternative is one big kill on day 30 with all 11, but getting caught would halve everything, so I'm checking how likely a trace is and whether L can reach the victims' locations.\n\nI'm weighing a single big kill of all 11 on day 30 against the safe plan, but a trace would halve everything. Two kinds are already pinned, so one more pinned kind would get me caught. I'm leaning toward sticking with the plan, since the expected gain of about +10 is far smaller than the 35 I could lose.\n\n"
   },
   {
    "day": 25,
    "kills": [
     {
-     "id": "d25-4",
+     "id": "d25-9",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d25-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d25-4",
-    "d25-9",
-    "d25-7"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Any victim reported in forum cannot be traced, because a trace needs every outlet that victim was reported in. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 140 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 24: national plus forum x2 each day, 144 points after day 24. Pool 3k, traced 9. Day 25: national plus forum x2 (d25-4, d25-7, d25-9).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35% and drop the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d24).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d25 1 each). Points 65 before d25, so 66 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. A big final day might add about 10 points but risks losing about 35. Not worth it.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4737,
-   "output_tokens": 748,
-   "seconds": 6.6,
-   "reasoning": "I'm moving on to the national victims and both forum victims. The traced count is still 9 and the pool is still 3k. Forum victims who were also reported to a reachable outlet might still get traced, but a trace needs every outlet of that victim to be reachable, and the forum isn't, so those traces fail and forum kills are safe. I'll kill d25-4, d25-7 and d25-9.\n\n"
+   "input_tokens": 4108,
+   "output_tokens": 561,
+   "seconds": 5.5,
+   "reasoning": "I'm sticking with the plan to kill the national d25-9 quickly this afternoon, though I'm weighing whether the pool math still holds. A third pin would likely get caught, and non-national kills carry about a 50% trace chance, so the risk depends on whether some places already have one or two traces.\n\nChecking the point total again: it's at 65, so I'll keep track of the notes.\n\n"
   },
   {
    "day": 26,
    "kills": [
     {
-     "id": "d26-11",
+     "id": "d26-4",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-9",
-     "coverage": [
-      "forum",
-      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d26-11",
-    "d26-9",
-    "d26-7"
+    "d26-4"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Any victim reported in forum cannot be traced, because a trace needs every outlet that victim was reported in. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 140 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 25: national plus forum x2 each day, 147 points after day 25. Pool 3k, traced 9. Day 26: national plus forum x2 (d26-11, d26-7, d26-9).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35% and drop the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d25).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d26 1 each). Points 66 before d26, so 67 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. A big final day might add about 10 points but risks losing about 35. Not worth it.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4856,
-   "output_tokens": 661,
-   "seconds": 5.3,
-   "reasoning": "I'm keeping the plan as it is: national and forum, twice each. I'm at 147 points with days 26 to 30 still left. I briefly wondered whether a last-day push would be worth it, but my notes already say no, so I'm leaving it alone.\n\n"
+   "input_tokens": 4160,
+   "output_tokens": 500,
+   "seconds": 5.1,
+   "reasoning": "I'm checking where the points stand, and my notes say 66 after d25. The plan is to kill d26-4, a national, which should be quick in the afternoon. I'm weighing extra kills, but with a pool of 3000 and a third pin getting me caught, and each non-national kill carrying a 50% trace chance that could pin, the risk outweighs the +1 each, so I'll stay with the plan.\n\n"
   },
   {
    "day": 27,
    "kills": [
     {
-     "id": "d27-5",
+     "id": "d27-4",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d27-2",
-     "coverage": [
-      "forum",
-      "regional:West"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-8",
-     "coverage": [
-      "forum",
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d27-5",
-    "d27-2",
-    "d27-8"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Any victim reported in forum cannot be traced, because a trace needs every outlet that victim was reported in. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 150 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 26: national plus forum x2 each day, 150 points after day 26. Pool 3k, traced 9. Day 27: national plus forum x2 (d27-5, d27-2, d27-8).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35% and drop the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d26).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d27 1 each). Points 67 before d27, so 68 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. A big final day might add about 10 points but risks losing about 35. Not worth it.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 4941,
-   "output_tokens": 661,
-   "seconds": 5.8,
-   "reasoning": "I'm sticking with the plan: national on d27-5, then the forum on d27-2 and d27-8, with the afternoon kept quick. I'm weighing a final-day burst, but my notes already advise against it, so I'll stay with the current schedule.\n\n"
+   "input_tokens": 4221,
+   "output_tokens": 487,
+   "seconds": 5.4,
+   "reasoning": "I'm sticking with the plan and dropping the national d27-4 quick afternoon. Day 3 points toward doubling up on day 3, given 31 deaths across 5 days, and that works for me. I briefly wondered whether the final day should change, with the pool at 3000 and two pinned, but my notes already said it isn't worth it, so I'm keeping the plan.\n\n"
   },
   {
    "day": 28,
@@ -1448,128 +971,73 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d28-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d28-5",
-    "d28-2",
-    "d28-6"
+    "d28-5"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Any victim reported in forum cannot be traced, because a trace needs every outlet that victim was reported in. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 150 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 27: national plus forum x2 each day, 153 points after day 27. Pool 3k, traced 9. Day 28: national plus forum x2 (d28-5, d28-2, d28-6).",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows from 55% to 35% and drop the pool to about 1900. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT. I don't know which kinds are pinned. 7 deaths traced, unchanged since d3 (checked through d27).\n\nKills by day: d1 11, d2 9, d3 11, then national only from d4 (d4-d28 1 each). Points 68 before d28, so 69 after it.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. This is safe because national victims tell L nothing. A big final day might add about 10 points but risks losing about 35. Not worth it.\n\nThe x2 multiplier is gone. Don't chase it.",
    "error": null,
-   "input_tokens": 5026,
-   "output_tokens": 769,
-   "seconds": 6.8,
-   "reasoning": "I'm going with the national and forum plan for days 28 and 5, then 2 and 6, keeping it quick in the afternoon. I considered a last-day burst on all 11 targets, but the multiplier needs 30 deaths over five days, which isn't reachable, so it would only yield about 33 points and risk losing roughly 75. That's why I'm keeping the plan, and I'm at 153 points after day 27.\n\nToday's 3 points bring the total to 156.\n\n"
+   "input_tokens": 4282,
+   "output_tokens": 391,
+   "seconds": 3.4,
+   "reasoning": ""
   },
   {
    "day": 29,
    "kills": [
     {
-     "id": "d29-11",
+     "id": "d29-5",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-6",
-     "coverage": [
-      "forum",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-7",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-7",
-    "d29-6",
-    "d29-11"
+    "d29-5"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Strategy: put all kills in the AFTERNOON (the routine filter leaves about 55k). The national victim is always safe to kill.\n\nCatch model: 2 of my 5 kinds are unreachable by L. The pool has been 3k since day 4, which fits 0.55 x 0.25 x 0.2 = about 2.75k, so 2 kinds are constrained. Forum is confirmed UNREACHABLE: the traced count stayed at 9 from day 9 onward despite more than 20 forum kills. Any victim reported in forum cannot be traced, because a trace needs every outlet that victim was reported in. Exactly one of regional, blotter, radio and foreign is reachable but not yet constrained. A third trace from that kind would cut the pool to roughly 700, and I would be caught and lose half my points. So never kill regional, blotter, radio or foreign. No last-day burst: the gain is too small against losing half of more than 150 points.\nDaily plan: kill national plus all forum victims, quick entries, afternoon.\n- If the traced count rises, stop forum at once.\n- If the pool drops below 3k, stop forum at once.\n\nLog: Days 1 to 4: all 11 killed each day. Days 5 to 8: national only. Days 9 to 28: national plus forum x2 each day, 156 points after day 28. Pool 3k, traced 9. Day 29: national plus forum x2 (d29-11, d29-6, d29-7). Day 30 is the last day: same plan.",
+   "notes_to_self": "Me: night worker (free morning and afternoon), East, blotter, radio, forum, foreign. Put ALL kills in the afternoon. A morning kill would cut the routines L allows and shrink the pool. Avoid it.\n\nSTATUS: the pool has been 3000 since d3, so TWO kinds are pinned. A third pin would bring the pool to about 700-860 and I would be CAUGHT, losing half my points. I don't know which kinds are pinned. Traced deaths have stayed at 7 since d3.\n\nPoints: 69 before d29, 70 after the d29 national kill.\n\nPLAN: kill only the national criminal each day, quick, afternoon, through d30. National victims tell L nothing. On d30 (the last day) do the same: one national kill, quick, afternoon. A big final day risks losing about 35 points to gain about 10. Not worth it.",
    "error": null,
-   "input_tokens": 5111,
-   "output_tokens": 665,
-   "seconds": 5.3,
-   "reasoning": "Day 29, so I'm sticking with the plan: no national or forum runs, just the two that are left. With two days to go, I'm weighing whether a last-day push would pay off, and my notes say it wouldn't, so I'll keep things as they are.\n\n"
+   "input_tokens": 4343,
+   "output_tokens": 408,
+   "seconds": 4.1,
+   "reasoning": "I'm sticking to the plan and dropping the national day 29-5 quick afternoon. Day 30 is still open, and I considered whether the final day needs a risk check, but my notes say it doesn't. Points are at 69, which looks fine, so I'll write up the notes.\n\n"
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-6",
+     "id": "d30-8",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-4",
-     "coverage": [
-      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-4",
-    "d30-2",
-    "d30-6"
+    "d30-8"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Day 30 (last day): national plus forum x2 (d30-6, d30-2, d30-4), quick entries, afternoon. No burst on the last day: the risk of losing half of about 160 points outweighs the small gain.",
+   "notes_to_self": "Day 30 is the final day. I killed only the national criminal, quick entry, afternoon. Final points should be 71. National victims tell L nothing, so the pool stays near 3000 and I am not caught.",
    "error": null,
-   "input_tokens": 5210,
-   "output_tokens": 354,
-   "seconds": 4.7,
-   "reasoning": "It's the last day and I'm at 159 points. The safe plan adds 3 for 162, while bursting would kill all 11 and gain 8 extra points but risk losing about 81. Deaths over the last five days total 23, which is under 30, so there's no multiplier. I'm now weighing the chance of getting caught, which depends on whether the unconstrained kind picks up a third trace.\n\nThe bursting option still looks like a bad trade: the risk of being caught comes out significant, so it isn't worth it. I'll stick with the safe plan.\n\n"
+   "input_tokens": 4358,
+   "output_tokens": 452,
+   "seconds": 6.2,
+   "reasoning": "I'm on the last day with 70 points, considering whether to kill more people today. My multiplier from the last five days of deaths is 4 plus today, which can't reach 30, so each kill is worth 1 point. The risk is that a third pin gets me caught and I lose about half. The pool is around 3000, roughly 55% from the afternoon-free routines (night, students, home), which I'm still weighing.\n\nI'm checking whether the numbers hold up: the pool comes out to roughly 3,000 after the first day's cut, and two 25% pins would leave about 3,400, but a third one drops it to around 860 and gets me caught. Killing people in regions I haven't pinned yet is too uncertain, and the possible gain is tiny next to losing half my points, so I'll stick to national targets.\n\n"
   }
  ],
  "briefings": [
@@ -1586,147 +1054,147 @@
   {
    "after_day": 2,
    "pool": 60000,
-   "deaths_traced": 3
+   "deaths_traced": 4
   },
   {
    "after_day": 3,
-   "pool": 10000,
-   "deaths_traced": 6
+   "pool": 3000,
+   "deaths_traced": 7
   },
   {
    "after_day": 4,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 5,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 6,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 7,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 8,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 9,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 10,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 11,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 15,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 16,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 17,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 18,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 19,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 20,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 21,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 22,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 23,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 24,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 25,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 26,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 27,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 28,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 29,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   },
   {
    "after_day": 30,
    "pool": 3000,
-   "deaths_traced": 9
+   "deaths_traced": 7
   }
  ],
  "effort": "low"

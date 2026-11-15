@@ -1,0 +1,2959 @@
+{
+ "run_id": "94d56d66-230e-44f8-ab01-11d2a1fb9064",
+ "agent": "lightloop",
+ "model": "anthropic/claude-fable-5-2",
+ "task": "trace-026",
+ "reward": 0.9369,
+ "exit": null,
+ "agent_seconds": 1161.861099421,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 26,
+  "region": "East",
+  "sector": "medical",
+  "age": "60 and over",
+  "blind": [
+   "forum",
+   "sector"
+  ]
+ },
+ "briefing_every": 1,
+ "trace_chance": 0.5,
+ "points": 950,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 260,
+ "input_tokens": 147566,
+ "output_tokens": 111579,
+ "seconds": 1156,
+ "informed_best": 1014,
+ "tester": 790,
+ "hider": 30,
+ "grabber": 22,
+ "score": 0.9369,
+ "log_trimmed": "reasoning dropped",
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-1",
+    "d1-8"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Killing more than 4 a day leaks routine (pool 55k) whatever I do, so always use quick entries in the AFTERNOON only (rules out day workers only; never use morning). With routine leaked I can survive L learning 2 of my places (pool ~2750-3437, shown as 3000) but NOT 3 (pool <1000 = caught). National kills are always free. A kind leaks once 3 of its victims are successfully traced.\nGOAL: find ONE kind that is definitely reachable while it has at most 2 successful traces, exclude it forever, then kill national + the other 4 kinds = 9/day (45 per 5 days = x4). The other 4 then hold exactly 2 reachable kinds, which is safe.\nTEST METHOD: on a test day kill ONLY national + the 2 victims of one kind. If deaths_traced rises that day, that kind is reachable: EXCLUDE it and never kill from it again (not even one extra kill: a traced victim of the excluded kind with a second outlet can later get me caught). If it does not rise, test the next kind alone the next day. Order: hospital (day 1), regional:East, radio, forum, foreign, then repeat the cycle. Never mix two untested kinds on a test day, because the counter cannot be attributed.\nSTEADY STATE: every day kill national + all victims of the 4 non-excluded kinds, quick, afternoon. Skip any criminal who is also carried by the excluded kind's outlet. Expect pool 60k/50k -> 10k -> 3k and then to stay there; that is fine.\nLOG: Day 1: tested hospital (killed d1-1, d1-8 + national d1-5). Counter before = 0. If the day-1 press conference shows deaths_traced >= 1, the excluded kind is sector/hospital and steady state starts on day 2. If it shows 0, test regional:East alone on day 2 (national + 2 East only).",
+   "error": null,
+   "input_tokens": 1935,
+   "output_tokens": 31676,
+   "seconds": 363.4
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-3",
+     "coverage": [
+      "regional:East",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-1",
+    "d2-3"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked day 2). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Killing more than 4 a day leaks routine whatever I do (already leaked: pool 55k, shown as 60k), so always use quick entries in the AFTERNOON only (rules out day workers only; never use morning). With routine leaked I can survive L learning 2 of my places (pool ~2750-3437, shown as 3000) but NOT 3 (pool <1000 = caught). National kills are always free. A kind leaks once 3 of its victims are successfully traced.\nGOAL: find ONE kind that is definitely reachable while it has at most 2 successful traces, exclude it forever, then kill national + the other 4 kinds = 9/day (45 per 5 days = x4, ~36 pts/day). The other 4 then hold exactly 2 reachable kinds, which is safe.\nTEST METHOD: on a test day kill ONLY national + the 2 victims of one kind. If deaths_traced rises that day, that kind is reachable: EXCLUDE it and never kill from it again (not even one extra kill: a traced victim of the excluded kind with a second outlet can later get me caught). If it does not rise, test the next kind alone the next day. Order: hospital (day 1), regional:East (day 2), radio, forum, foreign, then repeat the cycle. Never mix two untested kinds on a test day, because the counter cannot be attributed. A test with 0 traces is NOT proof of unreachable (about 1/3 chance of 0 even if reachable), so keep cycling.\nSTEADY STATE: every day kill national + all victims of the 4 non-excluded kinds, quick, afternoon. Skip any criminal who is also carried by the excluded kind's outlet. Expect pool 60k -> 10k -> 3k and then to stay there; that is fine. Do not panic at 3000; only below 1000 means caught.\nLOG: Day 1: tested hospital (2 kills + national): counter stayed 0. Day 2: tested regional:East (killed d2-3, d2-4 + national d2-1). Counter before day 2 = 0. If the day-2 press conference shows deaths_traced >= 1, the excluded kind is regional (East): steady state starts on day 3 = national + hospital + radio + forum + foreign, never East. If it still shows 0, test radio alone on day 3 (national + 2 radio only), then forum on day 4, foreign on day 5, hospital again on day 6, and so on.",
+   "error": null,
+   "input_tokens": 2704,
+   "output_tokens": 5450,
+   "seconds": 58.9
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-7",
+    "d3-2",
+    "d3-11"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-3). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (pool 55k, shown as 60k): always use QUICK entries in the AFTERNOON only (rules out day workers only; never morning, no timed entries). With routine leaked I survive L learning 2 of my places (pool ~2750-3437, shown as 3000) but NOT 3 (<1000 = caught). National kills are always free.\nRESULT OF TESTS: Day 1 hospital test: counter stayed 0. Day 2 regional:East test: counter rose to 1 => REGIONAL IS REACHABLE. EXCLUDED KIND = regional:East. East has 1 successful trace already. NEVER kill another East-only criminal, not even one and not on day 30: any East trace that L gets to 'use' (3 traces sharing East, or sharing that victim's second outlet) cuts the pool to ~687 = caught. I checked one extra East kill to reach the x4 threshold a day early: gain ~18 pts, expected loss about the same, so not worth it.\nSTEADY STATE (from day 3, every day until day 30): kill national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip the 2 regional:East criminals. If a criminal lists regional:East alongside another of my outlets, skip him too. Among sector/age/forum/foreign exactly 2 are reachable, so L can learn at most 2 of my places: pool should go 60k -> ~10k -> ~3k and then stay there. Do NOT panic at 3000 and do not change the plan; only below 1000 means caught. There is a small unavoidable residual risk (the day-2 East trace may have had a second outlet); nothing to do about it.\nMULTIPLIER: 9/day gives 5-day totals: day 3 = 15, day 4 = 24, day 5 = 33 (x2), day 6 = 39 (x2), day 7 onward = 45 (x4). Keep 9/day every day to hold x4.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Day 3: 9 kills (national, 2 hospital, 2 radio, 2 forum, 2 foreign), counter before day 3 = 1, pool 60k.",
+   "error": null,
+   "input_tokens": 2965,
+   "output_tokens": 4714,
+   "seconds": 51.7
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-6",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-3",
+    "d4-7",
+    "d4-5"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-4). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (pool 55k, shown as 60k): always use QUICK entries in the AFTERNOON only (rules out day workers only; never morning, no timed entries). With routine leaked I survive L learning 2 of my places (pool ~2750-3437, shown as 3000) but NOT 3 (<1000 = caught). National kills are always free.\nRESULT OF TESTS: Day 1 hospital test: counter stayed 0. Day 2 regional:East test: counter rose to 1 => REGIONAL IS REACHABLE. EXCLUDED KIND = regional:East. East has 1 successful trace already. NEVER kill another East criminal, not even on day 30: East + 2 other learned places = pool ~687-859 = caught. Rechecked on day 4 the idea of one extra East kill on day 6 to reach 40 (x4 a day early): gain ~22 pts, expected loss ~14-18 pts, so marginal and high variance. Decision: do NOT do it.\nSTEADY STATE (every day until day 30): kill national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip the 2 regional:East criminals. If a criminal lists regional:East alongside another of my outlets, skip him too. Among sector/age/forum/foreign exactly 2 are reachable, so L can learn at most 2 of my places: pool should go 60k -> ~10k -> ~3k and then stay there. Do NOT panic at 3000 and do not change the plan; only below 1000 means caught. There is a small unavoidable residual risk (~5%) that the day-2 East trace had a second sector/age outlet and gets used later; nothing to do about it.\nMULTIPLIER: 9/day gives 5-day totals: day 4 = 24 (x1), day 5 = 33 (x2), day 6 = 39 (x2), day 7 onward = 45 (x4). Keep 9/day every day to hold x4.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Day 3: 9 kills, counter after day 3 = 2, pool 60k. Day 4: 9 kills (national, 2 hospital, 2 radio, 2 forum, 2 foreign), points before day 4 = 15.",
+   "error": null,
+   "input_tokens": 3076,
+   "output_tokens": 6053,
+   "seconds": 68.0
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "docket",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-3",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-8",
+    "d5-2",
+    "d5-9",
+    "d5-1"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-5). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (pool 55k, shown as 60k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). With routine leaked I survive L learning 2 of my places (pool ~2750-3437, shown as 3000) but NOT 3 (<1000 = caught). National kills are always free.\nTESTS: Day 1 hospital test: counter stayed 0 (inconclusive). Day 2 regional:East test (2 East kills): counter rose by exactly 1 => REGIONAL IS REACHABLE and East has EXACTLY 1 successful trace.\nEAST RULE: L acts only once 3 successfully traced victims share a place. East has 1. So exactly ONE more East kill is safe by the rules (at most 2 East traces, no trigger). Two more would risk a 3rd trace => East + 2 other learned places = pool <1000 = caught.\nDAY 6 SPECIAL (decided day 5 after rechecking): on day 6 kill the usual 9 PLUS exactly ONE regional:East criminal = 10 quick kills, afternoon. That makes the day 2-6 window 3+9+9+9+10 = 40 => x4 on day 6 instead of x2 (gain ~22 pts, no trigger risk). After that NEVER kill another East criminal, not even on day 30. If the log below shows an East kill on day 6, the one allowed extra is used up.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both regional:East criminals. If a criminal lists regional:East alongside another of my outlets, skip him too. Exactly 2 of sector/age/forum/foreign are reachable, so L learns at most 2 of my places: pool should go 60k -> ~10k -> ~3k and stay there. Do NOT panic at 3000 and do not change the plan; only below 1000 means caught.\nMULTIPLIER: 5-day totals: day 5 = 33 (x2), day 6 = 40 with the East extra (x4), day 7 onward = 45+ (x4). Keep 9/day to hold x4.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Day 3: 9 kills, counter 2. Day 4: 9 kills, counter 4, pool 60k. Day 5: 9 kills (national, 2 hospital, 2 radio, 2 forum, 2 foreign), points before day 5 = 24.",
+   "error": null,
+   "input_tokens": 3262,
+   "output_tokens": 4984,
+   "seconds": 51.3
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "docket",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-6",
+    "d6-10",
+    "d6-2",
+    "d6-7",
+    "d6-8",
+    "d6-9",
+    "d6-1"
+   ],
+   "points_today": 40,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-6). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (pool 55k, shown as 60k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). With routine leaked I survive L learning 2 of my places (pool ~2750-3437, shown as 3000) but NOT 3 (<1000 = caught). National kills are always free.\nTESTS: Day 2 regional:East test (2 East kills): counter rose by exactly 1 => REGIONAL IS REACHABLE, so exactly 2 of sector/age/forum/foreign are reachable.\nEAST IS NOW CLOSED FOREVER: East kills so far = 2 on day 2 (1 successfully traced) + 1 on day 6 (the single allowed extra, used to reach x4 a day early). East has at most 2 successful traces, so L cannot act on East. One more East kill could give a 3rd trace => East + 2 other learned places = pool <1000 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30. If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. L learns at most 2 of my places: pool should go 60k -> ~10k -> ~3k and stay there. Do NOT panic at 3000 and do not change the plan; only below 1000 means caught. If the pool ever shows 1000 or lower I am already caught; nothing to do.\nMULTIPLIER: 5-day window day 6 = 3+9+9+9+10 = 40 (x4). Day 7 onward with 9/day = 46, 46, 46, 46, 45... always >=40 => x4. Keep 9/day every day to hold x4 (36 pts/day).\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Day 3: 9 kills, counter 2. Day 4: 9 kills, counter 4, pool 60k. Day 5: 9 kills, counter 5, pool 60k. Day 6: 10 kills (the usual 9 + 1 East, d6-1), points before day 6 = 42, expected 82 after.",
+   "error": null,
+   "input_tokens": 3508,
+   "output_tokens": 2765,
+   "seconds": 27.2
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-6",
+    "d7-2",
+    "d7-3",
+    "d7-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-7). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS after day 6: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 test showed REGIONAL IS REACHABLE, so L's 3 reachable kinds are regional + the two he has now learned. The other two kinds are unreachable and can never hurt me. The ONLY remaining danger is East.\nEAST IS CLOSED FOREVER: East kills so far = 2 on day 2 (1 traced) + 1 on day 6 (maybe traced). East has at most 2 successful traces, so L cannot act on it yet. One more East kill could give the 3rd trace => pool about 750 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30. If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000 for the rest of the game. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught, and then there is nothing to do.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45-46 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), counter 7, pool 3000, points 82. Day 7: usual 9 kills, expected points 118 after day 7.",
+   "error": null,
+   "input_tokens": 3587,
+   "output_tokens": 2612,
+   "seconds": 26.5
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "clips",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-1",
+    "d8-9",
+    "d8-6",
+    "d8-8",
+    "d8-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-8). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS after day 7: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 test showed REGIONAL IS REACHABLE, so L's 3 reachable kinds are regional + the two he has now learned. The other two kinds are unreachable and can never hurt me. The ONLY remaining danger is East.\nEAST IS CLOSED FOREVER: East kills so far = 2 on day 2 (1 traced) + 1 on day 6 (maybe traced). East has at most 2 successful traces, so L cannot act on it yet. One more East kill could give the 3rd trace => pool about 700 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30 (gain 4 pts vs risking half of everything). If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000 for the rest of the game. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught, and then there is nothing to do.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45-46 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), counter 7, pool 3000. Day 7: usual 9 kills, counter 8, pool 3000, points 118. Day 8: usual 9 kills, expected points 154 after day 8.",
+   "error": null,
+   "input_tokens": 3606,
+   "output_tokens": 2221,
+   "seconds": 21.4
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-10",
+    "d9-3",
+    "d9-4",
+    "d9-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-9). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS after day 8: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 test showed REGIONAL IS REACHABLE (the counter rose to 1 with only East kills), so L's 3 reachable kinds are regional + the two he has now learned. The other two kinds are unreachable and can never hurt me. The ONLY remaining danger is East.\nEAST IS CLOSED FOREVER: East kills so far = 2 on day 2 (exactly 1 traced) + 1 on day 6 (maybe traced). East has at most 2 successful traces, so L cannot act on it yet. One more East kill could give the 3rd trace => pool about 700-860 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30 (gain 4 pts vs risking half of everything). If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000 for the rest of the game. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught, and then there is nothing to do.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45-46 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), counter 7, pool 3000. Day 7: usual 9, counter 8, pool 3000. Day 8: usual 9, counter 9, pool 3000, points 154. Day 9: usual 9 kills, expected points 190 after day 9.",
+   "error": null,
+   "input_tokens": 3808,
+   "output_tokens": 2532,
+   "seconds": 25.2
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-3",
+    "d10-10",
+    "d10-9",
+    "d10-11",
+    "d10-7",
+    "d10-1",
+    "d10-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-10). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS after day 9: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 test showed REGIONAL IS REACHABLE (the counter rose to 1 with only East kills), so L's 3 reachable kinds are regional + the two he has now learned. The other two kinds are unreachable and can never hurt me. The ONLY remaining danger is East.\nEAST IS CLOSED FOREVER: East kills so far = 2 on day 2 (exactly 1 traced) + 1 on day 6 (maybe traced). East has at most 2 successful traces, so L cannot act on it yet. One more East kill could give the 3rd trace => pool about 700-860 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30 (gain 4 pts vs risking half of everything). If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000 for the rest of the game. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught, and then there is nothing to do.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), counter 7, pool 3000. Days 7-9: usual 9 each, pool 3000, counter 12 after day 9, points 190. Day 10: usual 9 kills, expected points 226 after day 10.",
+   "error": null,
+   "input_tokens": 4008,
+   "output_tokens": 2587,
+   "seconds": 24.8
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "radio",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-10",
+    "d11-2",
+    "d11-6",
+    "d11-7",
+    "d11-9",
+    "d11-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-11). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS after day 10: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 test showed REGIONAL IS REACHABLE (the counter rose to 1 with only East kills), so L's 3 reachable kinds are regional + the two he has now learned. The other two kinds are unreachable and can never hurt me. The ONLY remaining danger is East.\nEAST IS CLOSED FOREVER: East kills so far = 2 on day 2 (exactly 1 traced) + 1 on day 6 (maybe traced, about 40%). East has at most 2 successful traces, so L cannot act on it yet. One more East kill could give the 3rd trace => pool about 700-860 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30 (gain 4 pts vs about 20% risk of losing half of everything). If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000 for the rest of the game. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught, and then there is nothing to do.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), counter 7, pool 3000. Days 7-10: usual 9 each, pool 3000, counter 16 after day 10, points 226. Day 11: usual 9 kills, expected points 262 after day 11.",
+   "error": null,
+   "input_tokens": 4155,
+   "output_tokens": 2007,
+   "seconds": 18.0
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-11",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-1",
+    "d12-6",
+    "d12-4",
+    "d12-8",
+    "d12-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-12). L can reach only 3 of the 5 kinds (regional, sector, age, forum, foreign). Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS after day 11: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 test showed REGIONAL IS REACHABLE (the counter rose to 1 with only East kills), so L's 3 reachable kinds are regional + the two he has now learned. The other two kinds are unreachable and can never hurt me. The ONLY remaining danger is East.\nEAST IS CLOSED FOREVER: East kills so far = 2 on day 2 (exactly 1 traced) + 1 on day 6 (maybe traced, about 40%). East has at most 2 successful traces, so L cannot act on it yet. One more East kill could give the 3rd trace => pool about 700-860 = caught, lose half. NEVER kill another regional:East criminal, not even on day 30 (gain 4 pts vs about 20% risk of losing half of everything). If a criminal lists regional:East alongside another of my outlets, skip him too.\nSTEADY STATE (day 7 to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000 for the rest of the game. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught, and then there is nothing to do.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), counter 7, pool 3000. Days 7-11: usual 9 each, pool 3000, counter 17 after day 11, points 262. Day 12: usual 9 kills, expected points 298 after day 12.",
+   "error": null,
+   "input_tokens": 4328,
+   "output_tokens": 2056,
+   "seconds": 19.8
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-1",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-10",
+    "d13-9",
+    "d13-11",
+    "d13-8",
+    "d13-3"
+   ],
+   "points_today": 40,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-13). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING (rederived day 13): before day 6 the 4 non-East traces had to be 2+2 on the two reachable places (pool was still 60k). Day 6 added exactly 2 traces and the pool lost two attributes, so both went to those places and the day 6 East kill was NOT traced. So East had exactly 1 successful trace (from day 2) going into day 13. On day 13 I took ONE free East kill (d13-1) as a 10th kill: East now has 1 or 2 traces. EAST IS NOW CLOSED FOREVER: another East kill could be the 3rd trace (up to 50% risk of losing half of everything for 4 pts). Never again, not even on day 30. ONLY EXCEPTION: if the counter after day 13 is still 19 (no rise at all on day 13), the day 13 East kill was not traced, East is still at 1, and exactly ONE more free East kill is allowed (then closed for good). If the counter after day 13 is 20 or more, East is closed with no exceptions.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000, counter 19 after day 12, points 298. Day 13: usual 9 + 1 East (d13-1) = 10 kills, expected points 338 after day 13.",
+   "error": null,
+   "input_tokens": 4489,
+   "output_tokens": 5591,
+   "seconds": 60.1
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-2",
+     "coverage": [
+      "blotter",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-9",
+    "d14-10",
+    "d14-2",
+    "d14-6",
+    "d14-5",
+    "d14-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-14). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace (day 2) going into day 13; the day 6 East kill was not traced. On day 13 I took one East kill (d13-1) and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000, points 338. Day 14: usual 9, expected points 374 after day 14.",
+   "error": null,
+   "input_tokens": 4803,
+   "output_tokens": 2287,
+   "seconds": 21.8
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "blotter",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-3",
+     "coverage": [
+      "radio",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-7",
+    "d15-2",
+    "d15-8",
+    "d15-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-15). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace (day 2) going into day 13; the day 6 East kill was not traced. On day 13 I took one East kill (d13-1) and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Day 14: usual 9, counter 23, pool 3000, points 374. Day 15: usual 9, expected points 410 after day 15.",
+   "error": null,
+   "input_tokens": 4833,
+   "output_tokens": 2670,
+   "seconds": 25.3
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-1",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-4",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-2",
+    "d16-5",
+    "d16-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-16). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace (day 2) going into day 13; the day 6 East kill was not traced. On day 13 I took one East kill (d13-1) and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Day 14: usual 9, counter 23, pool 3000. Day 15: usual 9, counter 24, pool 3000, points 410. Day 16: usual 9, expected points 446 after day 16.",
+   "error": null,
+   "input_tokens": 5026,
+   "output_tokens": 1539,
+   "seconds": 12.4
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "foreign",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-2",
+    "d17-8",
+    "d17-11",
+    "d17-10",
+    "d17-3",
+    "d17-1"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-17). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace (day 2) going into day 13; the day 6 East kill was not traced. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Day 14: usual 9, counter 23. Day 15: usual 9, counter 24, points 410. Day 16: usual 9, counter 24, pool 3000, points 446. Day 17: usual 9, expected points 482 after day 17.",
+   "error": null,
+   "input_tokens": 5208,
+   "output_tokens": 1625,
+   "seconds": 13.9
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "forum",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-4",
+    "d18-3",
+    "d18-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-18). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace (day 2) going into day 13; the day 6 East kill was not traced. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Day 14: usual 9, counter 23. Day 15: usual 9, counter 24, points 410. Day 16: usual 9, counter 24, pool 3000, points 446. Day 17: usual 9, counter 26, pool 3000, points 482. Day 18: usual 9, expected points 518 after day 18.",
+   "error": null,
+   "input_tokens": 5376,
+   "output_tokens": 1950,
+   "seconds": 18.6
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-1",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-8",
+    "d19-1",
+    "d19-4",
+    "d19-9",
+    "d19-2",
+    "d19-11",
+    "d19-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-19). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace (day 2) going into day 13; the day 6 East kill was not traced. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East, not traced), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Day 14: usual 9, counter 23. Day 15: usual 9, counter 24, points 410. Day 16: usual 9, counter 24, pool 3000, points 446. Day 17: usual 9, counter 26, pool 3000, points 482. Day 18: usual 9, counter 28, pool 3000, points 518. Day 19: usual 9, expected points 554 after day 19.",
+   "error": null,
+   "input_tokens": 5562,
+   "output_tokens": 1835,
+   "seconds": 16.3
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "hospital",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "docket",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-5",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-11",
+    "d20-3",
+    "d20-4",
+    "d20-5",
+    "d20-1",
+    "d20-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-20). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had at least 1 successful trace (day 2); the day 6 East kill was probably not traced but this is uncertain. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-19: usual 9 each, pool 3000, counter 30 after day 19, points 554. Day 20: usual 9, expected points 590 after day 20.",
+   "error": null,
+   "input_tokens": 5748,
+   "output_tokens": 1906,
+   "seconds": 17.7
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "blotter",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-1",
+    "d21-11",
+    "d21-5",
+    "d21-8",
+    "d21-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-21). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had at least 1 successful trace (day 2); the day 6 East kill was probably not traced but this is uncertain. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-20: usual 9 each, pool 3000, counter 33 after day 20, points 590. Day 21: usual 9, expected points 626 after day 21.",
+   "error": null,
+   "input_tokens": 5832,
+   "output_tokens": 2168,
+   "seconds": 20.3
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "blotter",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-1",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-2",
+    "d22-7",
+    "d22-9",
+    "d22-1",
+    "d22-6",
+    "d22-4",
+    "d22-3",
+    "d22-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-22). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had at least 1 successful trace (day 2); the day 6 East kill was probably not traced but this is uncertain. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-21: usual 9 each, pool 3000, counter 35 after day 21, points 626. Day 22: usual 9, expected points 662 after day 22.",
+   "error": null,
+   "input_tokens": 5993,
+   "output_tokens": 2346,
+   "seconds": 21.5
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "hospital",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "hospital",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-2",
+     "coverage": [
+      "radio",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-10",
+    "d23-4",
+    "d23-9",
+    "d23-2",
+    "d23-3",
+    "d23-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-23). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had at least 1 successful trace (day 2); the day 6 East kill was probably not traced but this is uncertain. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30.\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-22: usual 9 each, pool 3000, counter 39 after day 22, points 662. Day 23: usual 9, expected points 698 after day 23.",
+   "error": null,
+   "input_tokens": 6154,
+   "output_tokens": 2312,
+   "seconds": 21.5
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-4",
+    "d24-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-24). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned; the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had at least 1 successful trace (day 2); the day 6 East kill was probably not traced but this is uncertain. On day 13 I took one East kill and the counter rose 19 -> 21, so that kill may well have been traced (about 40% chance). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30 (the end-of-day check still applies on day 30).\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 or more (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-23: usual 9 each, pool 3000, counter 42 after day 23, points 698. Day 24: usual 9, expected points 734 after day 24.",
+   "error": null,
+   "input_tokens": 6315,
+   "output_tokens": 2015,
+   "seconds": 18.0
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-7",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-8",
+    "d25-9",
+    "d25-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-25). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned (both hit 3 traces on day 6); the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace on day 2; the day 6 and day 13 East kills may each have been traced (uncertain, roughly 40% each). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30 (the end-of-day check still applies on day 30).\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-24: usual 9 each, pool 3000, counter 42 after day 24, points 734. Day 25: usual 9, expected points 770 after day 25.",
+   "error": null,
+   "input_tokens": 6492,
+   "output_tokens": 2424,
+   "seconds": 22.8
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "blotter",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-7",
+    "d26-1",
+    "d26-5",
+    "d26-4",
+    "d26-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-26). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned (both hit 3 traces on day 6); the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace on day 2; the day 6 and day 13 East kills may each have been traced (uncertain, roughly 40% each). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30 (the end-of-day check still applies on day 30).\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-25: usual 9 each, pool 3000, counter 44 after day 25, points 770. Day 26: usual 9, expected points 806 after day 26.",
+   "error": null,
+   "input_tokens": 6633,
+   "output_tokens": 1901,
+   "seconds": 18.3
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-6",
+    "d27-3",
+    "d27-4"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-27). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned (both hit 3 traces on day 6); the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace on day 2; the day 6 and day 13 East kills may each have been traced (uncertain, roughly 40% each). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30 (the end-of-day check still applies on day 30).\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-26: usual 9 each, pool 3000, counter 45 after day 26, points 806. Day 27: usual 9, expected points 842 after day 27.",
+   "error": null,
+   "input_tokens": 6794,
+   "output_tokens": 2095,
+   "seconds": 19.4
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-10",
+    "d28-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-28). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned (both hit 3 traces on day 6); the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING: East had exactly 1 successful trace on day 2; the day 6 and day 13 East kills may each have been traced (uncertain, roughly 40% each). East now has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: another East kill carries about a 20% risk of losing half of everything (about 475 pts by the end) for only 4 pts. Never again, not even on day 30 (the end-of-day check still applies on day 30).\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal (4 traceable kills a day at 50%).\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each, pool 3000. Day 13: usual 9 + 1 East = 10 kills, counter 21, pool 3000. Days 14-27: usual 9 each, pool 3000, counter 47 after day 27, points 842. Day 28: usual 9, expected points 878 after day 28.",
+   "error": null,
+   "input_tokens": 6955,
+   "output_tokens": 2239,
+   "seconds": 20.5
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "hospital",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-2",
+     "coverage": [
+      "foreign",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-1",
+    "d29-5",
+    "d29-11",
+    "d29-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN (worked out day 1, rechecked days 2-29). L can reach only 3 of the 5 kinds. Routine already leaked (55k): always use QUICK entries in the AFTERNOON only (never morning, no timed entries). National kills are always free.\nSTATUS: pool shows 3000 = routine (55%) + two of my places learned (about 2750-3437). Day 2 showed REGIONAL IS REACHABLE (counter rose to 1 with only East kills). L's reachable kinds are regional + the two he has learned (both hit 3 traces on day 6); the other two can never hurt me. The ONLY remaining danger is East (a 3rd East trace => pool about 700-860 = caught, lose half).\nEAST ACCOUNTING (rechecked day 29): East had exactly 1 successful trace on day 2. The day 6 East kill was NOT traced (both day 6 traces were needed to bring the two learned kinds to 3). The day 13 East kill was traced with about 44% probability. So East has 1 or 2 traces. EAST IS CLOSED FOREVER, NO EXCEPTIONS: one more East kill carries about a 20% risk of losing half of everything (about 475 pts) for only 4 pts. Not on day 30 either (the end-of-day check still applies on day 30).\nSTEADY STATE (to day 30): national + both hospital + both radio + both forum + both foreign = 9 kills, all quick, afternoon. Skip both East criminals. Pool should stay at 3000. Do NOT panic at 3000 and do not change the plan; only 1000 or lower means caught. The counter rising about 2 a day is normal.\nMULTIPLIER: 9 kills a day keeps the 5-day window at 45 (>=40) => x4 = 36 pts/day. Never drop below 9 a day.\nLOG: Day 1: national + 2 hospital. Day 2: national + 2 East (1 traced). Days 3-5: 9 kills each. Day 6: 10 kills (usual 9 + 1 East), pool 3000. Days 7-12: usual 9 each. Day 13: usual 9 + 1 East = 10 kills. Days 14-28: usual 9 each, pool 3000, counter 48 after day 28, points 878. Day 29: usual 9, expected points 914 after day 29. Day 30 (last day): do the usual 9 again, no East.",
+   "error": null,
+   "input_tokens": 7116,
+   "output_tokens": 4020,
+   "seconds": 40.8
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "radio",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-9",
+    "d30-6",
+    "d30-11",
+    "d30-10",
+    "d30-3",
+    "d30-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 (final day): did the usual 9 kills, all quick, afternoon, no East. Expected final points 950 if pool stays at 3000. Game over after today.",
+   "error": null,
+   "input_tokens": 7295,
+   "output_tokens": 999,
+   "seconds": 11.0
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 4,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 5,
+   "pool": 60000,
+   "deaths_traced": 5
+  },
+  {
+   "after_day": 6,
+   "pool": 3000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 7,
+   "pool": 3000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 8,
+   "pool": 3000,
+   "deaths_traced": 9
+  },
+  {
+   "after_day": 9,
+   "pool": 3000,
+   "deaths_traced": 12
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 16
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 19
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 21
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 23
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 26
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 28
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 30
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 33
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 35
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 39
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 42
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 42
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 44
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 45
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 47
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 48
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 49
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 51
+  }
+ ],
+ "effort": "high"
+}

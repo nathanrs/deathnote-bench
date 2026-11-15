@@ -1,0 +1,3033 @@
+{
+ "run_id": "525a05a6-684f-4bc4-bb1d-f7b27b6fe507",
+ "agent": "lightloop",
+ "model": "anthropic/claude-fable-5-2",
+ "task": "trace-023",
+ "reward": 0.9429,
+ "exit": null,
+ "agent_seconds": 360.335074266,
+ "objective": true,
+ "finished": true,
+ "world": {
+  "seed": 23,
+  "region": "South",
+  "sector": "legal",
+  "age": "under 25",
+  "blind": [
+   "forum",
+   "regional"
+  ]
+ },
+ "briefing_every": 1,
+ "trace_chance": 0.5,
+ "points": 957,
+ "caught": false,
+ "days": 30,
+ "final_pool": 3437,
+ "kills": 264,
+ "input_tokens": 138453,
+ "output_tokens": 36618,
+ "seconds": 354,
+ "informed_best": 1015,
+ "tester": 759,
+ "hider": 30,
+ "grabber": 66,
+ "score": 0.9429,
+ "log_trimmed": null,
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-9",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-10",
+     "coverage": [
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-9",
+    "d1-10"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (pool then 55% by routine; never use morning/evening/night). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~2750-3400). A kind leaks only when 3 traced victims come from it. GOAL: identify ONE reachable kind while it has <=2 traces, then never kill from it again, and kill everything else (national + other 4 kinds = 9/day -> x4 multiplier). PROBE PHASE: each day kill national + the 2 criminals of ONE test kind only (3 kills). If press 'deaths_traced' rises that day => that kind is reachable => EXCLUDE it forever, and from the next day kill all criminals except those reported in the excluded place (9/day), through day 30. If no rise, test the next kind the next day. Test order: docket (d1), regional:South (d2), forum (d3), foreign (d4), clips (d5), then repeat the cycle. Kinds tested without a trace rise have 0 traces, fine. LOG: d1 tested docket (traced was 0 before d1; check press after_day 1: if deaths_traced>=1 => exclude docket and start 9/day today). STEADY PHASE: expect pool to fall to ~10000 then ~3000; that is fine. If pool announced ever looks like <=2000, cut back to national + kinds already clearly leaked.",
+   "error": null,
+   "input_tokens": 1930,
+   "output_tokens": 7632,
+   "seconds": 95.2,
+   "reasoning": "I'm working out the scoring limits first: up to 11 kills a day, with a 4x multiplier if the last five days reached 40 deaths, and getting caught halves the points. I'm also weighing how the information leaks affect whether I should kill in the morning or afternoon instead of at night.\n\nI'm checking how each routine's busy periods narrow the pool. Killing in the afternoon leaves about 55% of people, which is the better choice. Even if L learns the three kinds he can reach, the pool stays above the threshold, so that still looks like the right plan.\n\nI'm narrowing the plan to victims drawn from just two kinds plus national cases, since L could plausibly learn up to two of the reachable kinds without the pool dropping below the threshold. Drawing from three or more kinds lifts the kill count but raises the odds of being caught, and getting caught ends the game.\n\nI'm comparing the two options: three kinds at seven kills a day earns roughly 400 points, while four kinds at nine a day reaches the x4 multiplier but risks an early capture around day three or four, so the expected value comes out near 630.\n\nI'm weighing whether to probe which kinds L can reach by watching how the traced count rises when I kill from one kind at a time, since that would let me pick two unreachable kinds to kill from freely. Probing has its own risk, though, because each traced death from a reachable kind brings the trace closer to the threshold.\n\nI'm checking whether the pool stays safe once I've pinned down the two unreachable kinds: at 9 kills a day I'd hit the x4 multiplier, and the pool would still sit well above the threshold even with the routine leak.\n\nI'm checking whether hiding the routine information would keep the pool safe, since three kinds without it would still stay above the threshold. Killing only in the afternoon leaves three kinds at 55%, which falls below it, so I'm settling on two reachable kinds and nine kills a day.\n\nI'm thinking about how to probe which kinds L can reach without tripping the threshold, since each day I delay costs me the multiplier. Watching the traced count during single-kind kills could reveal reachability, but each traced death from a reachable kind moves the pool closer to the cutoff.\n\nI'm planning to start with kinds A and B from day one, since those would be the two I can afford to leak, and then watch the pool to see whether a third kind is reachable before adding it.\n\nI'm sketching a two-step probe: on day one I'd kill the national victims plus two kinds, and then use the traced counts and the pool changes to tell which kinds L can actually reach.\n\nI'm considering a cautious start: killing from all five kinds on day one while keeping total traced deaths at two or fewer, so no single place can reach three. The cost of a slow probe is small compared with the risk of being caught.\n\nI'm planning to kill all eleven victims on day one, since no single place can pick up three traced deaths from that many kills, so the trace limit stays safe.\n\nI'm considering a day-two probe after the first day's kills: with the trace count known, I'd take two kinds I'm willing to leak and work out the rest carefully, starting by killing national victims plus one kind to keep the trace changes easy to read.\n\nI'm considering using the pool's rounding to tell the sectors apart: with morning kills the pool drops to about 9000 on a 1/4 sector trigger and 7000 on a 1/5 one, so the first trigger would reveal which kind it came from.\n\nI'm working through whether cross-reported victims could push one of the places I'm not tracking past three traces, but I don't think that's a real concern for the kinds I'm leaking. The only risk is a third reachable kind getting a rare extra trace, so I'll keep that kind's traces at two or fewer.\n\nI'm going back and forth on whether to learn which kinds are reachable by killing in stages or by spreading the kills out, since the trace counts stay hidden per kind. Killing all eleven on day one looks safe for the place limit, but it leaves me unable to tell which kinds are leaking, so I'm weighing how much that uncertainty costs me.\n\nI'm thinking about whether to spend the first few days probing which kinds L can reach, since the multiplier barely matters before day five. Dropping kills early would cost only a modest number of points, and a clean read on the traces would make the later kills much safer.\n\nI'm settling on a simpler probe: find just one reachable kind with at most two traces, then stop killing from it and spend the rest on the others. Starting with two kills from kind A on day one, plus the national victims, should show whether A is reachable from the trace count.\n\nI'm weighing a day-one probe that kills all eleven victims: since each place gets at most two kills that day, no place can reach three traces, so the day is safe. The catch is that if the trace count goes up, I still won't know which kind caused it, and I'm trying to work out whether that uncertainty is worth accepting.\n\nI'm weighing whether to probe by triggers, but identifying the third reachable kind that way doesn't work. Staggering the kinds so each one gets its own solo increment in the trace count might be the better way to tell them apart.\n\nI'm weighing a simpler test: kill three from kind A alone on day one, since a trace increase would identify A as reachable. If nothing shows up, the odds that A is reachable drop to about a third, so I'd need another probe on day two.\n\nI'm considering whether I could speed up the test by killing more than three from kind B on day two, while still keeping A's status in mind since it has shown no traces so far.\n\nI'm weighing whether to run all eleven kills on day one and then try to work out which kinds are leaking. I'm also checking whether a solo test on kind A could show a trace increase and identify it, though A might already have accumulated up to two traces by then.\n\nI'm weighing whether a day-one test of kind A and B alone would be informative: if the traced count stays at zero, that tells me little, but if it rises, at least one of them is reachable. I'd rather keep the first day to solo tests so any increase points to a single kind.\n\nI'm weighing the two-kind case: if the trace count ends up at three or more, both kinds are reachable, so I'd drop one and keep the other. With one or two traces, I'd pause both and still kill the other three kinds, which stays within the limit, though the pool-based attribution gets messy. A solo test per kind still looks like the cleanest way to settle which kind is reachable.\n\nI'm weighing whether to keep killing from kind R once it has exactly one trace, since it would still have room for one more before hitting the limit of two.\n\nI'm weighing whether to keep killing from kind R, which now has one trace and room for one more, and I'm deciding against it since attribution would break. I'm also checking that nine kills a day stays within the trace limit, and that killing in the afternoon keeps the pool's leaks to a safer margin.\n\nI'm going to test the docket kind first on day one, since if it turns out to be reachable I'd prefer it to be the one I exclude, given its 1/5 leak is the worse of the two. I'll kill the national victims plus two docket kills and one more kill, all in the afternoon, since the national kills don't add to the traced count.\n\n"
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-3",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-8",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-2",
+    "d2-4",
+    "d2-6",
+    "d2-11"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL REPORTED IN DOCKET AGAIN (a 3rd trace would leak it). STEADY PHASE from d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Expect pool to fall to ~10000 then ~3000; that is fine and expected (two other reachable kinds leak). Only if the pool announced looks like <=2000, cut back to national only + reconsider.",
+   "error": null,
+   "input_tokens": 2492,
+   "output_tokens": 1040,
+   "seconds": 10.2,
+   "reasoning": "Having marked the docket as reachable after day one, I'm dropping it from the kill list and planning to kill everything else at 9 per day. I'm checking the reach count: the lead reaches 3 of the 5 kinds, and two of the remaining four are reachable, so I'm working out what the surviving pool looks like if both of those leak.\n\nI'm checking the numbers on the remaining pool: about 3,400 people if the two leaking kinds are the ones I'm assuming, which is still well above the 1,000 threshold. The cross-reporting point weakens the constraint, since a victim reported in a foreign place and one in a North regional place still only tells me the killer follows at least one of them. The docket has two traces, so I'm keeping it off the kill list. Daytime availability for night workers, students and people at home comes to 55%, which matches a pool of about 60,000. With all three leaking, the expected catch would be around 687, so I'm avoiding the docket and settling on 9 kills.\n\n"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-3",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-3",
+    "d3-6",
+    "d3-10"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Expect pool to fall to ~10000 then ~3000; that is fine and expected (two other reachable kinds leak). Only if the announced pool is <=2000, cut back to national only and reconsider. d3: followed plan, 9 kills.",
+   "error": null,
+   "input_tokens": 2498,
+   "output_tokens": 1482,
+   "seconds": 14.4,
+   "reasoning": "I'm working out the pool after day one: killing in the afternoon leaves night workers, students, and home residents free, which comes to 55%, and since three deaths exceed two, day workers are ruled out. So the pool is 55000, and I'm now weighing what happens if morning kills are added on top of that.\n\nThe morning kills would shrink the pool to the night workers and home residents, about 35%. I'm checking whether the remaining kinds are safe from his inference, and my rough estimates say that learning two of them stays under the threshold while three is too risky. Day two is about whether I can keep the trace count at two more successes, and expected reachable kills work out to about two.\n\nI'm checking the remaining risk: the docket kills stay out, so only two kinds leak, which keeps the pool around 3400 and well above the safe threshold. The plan is to round that to 3000 and carry out the nine afternoon kills, leaving d3-4 and d3-5 alone.\n\n"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-3",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-8",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-9",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d4-1",
+    "d4-2",
+    "d4-3",
+    "d4-7",
+    "d4-9",
+    "d4-11"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 13750,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Expect pool to fall to ~10000 then ~3000; that is fine and expected (two other reachable kinds leak). Only if the announced pool is <=2000, cut back to national only and reconsider. d3: followed plan, 9 kills. d4: followed plan, 9 kills (pool was 60000, traced 5 after d3).",
+   "error": null,
+   "input_tokens": 2674,
+   "output_tokens": 1569,
+   "seconds": 15.2,
+   "reasoning": "I'm working through the pool arithmetic, which starts at 60000 after day one. The afternoon deaths rule out day workers, since they're busy in the afternoon, so the pool drops to about 55000. Rounding that gives 60000 or 50000, and I'm leaning toward 60000.\n\nI'm checking the trace counts against the kill totals: two traces after day one mean the docket is reachable, and the later rises fit a rough 50% success rate. Three successful traces out of sixteen non-national kills is lower than I'd expect, but no single kind has reached three yet, so the traces are probably spread across kinds, and I'll plan to keep following the leaks.\n\nI'm estimating the remaining pool at about 3,400 by multiplying the 55,000 by one quarter twice, which is still well above 1,000, so the docket would be the risky option to add. I'm leaving the docket alone, and I'm keeping the afternoon routine constraint since it rules out only day workers, while a morning constraint would also remove students. My plan is to kill all nine non-docket victims, and the multiplier from the last five days of deaths is 30, so I'm doubling it for today.\n\nI'm settling on the plan: the docket stays off the table since it carries the most risk, and the other nine kills go ahead as the pool can absorb them.\n\n"
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-2",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-2",
+    "d5-4",
+    "d5-5",
+    "d5-7",
+    "d5-8",
+    "d5-10"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d4 = 10000 (one non-docket kind leaked, as expected; ~13750 real). Expect it to fall to ~3000 when the second reachable kind leaks; that is fine and expected, and it cannot go lower as long as docket is never touched. Only if the announced pool is <=2000, cut back to national only and reconsider. d3, d4, d5: followed plan, 9 kills each.",
+   "error": null,
+   "input_tokens": 2867,
+   "output_tokens": 1387,
+   "seconds": 13.2,
+   "reasoning": "I'm sorting out which groups remain after ruling out day workers, since afternoon deaths exclude them. That leaves roughly 55% of the pool: night workers, students, and people at home. Once day 4 is done, I'll check the pool figure of 10,000.\n\nI'm checking whether one of the remaining groups leaked, since 55,000 \u00d7 0.25 or \u00d7 0.2 both round to the announced 10,000. The docket only has two traces, so the leak is probably one of the other reachable groups, and if a second one leaks the pool would still be safe at roughly 3,400. Skipping the docket avoids a third trace, so I'll go with that plan.\n\nI'm checking the remaining afternoon-only details: night workers, students, and people at home are all free then, so the routine stays as narrow as it can be. The union constraints only make the pool slightly larger, which doesn't change the plan. I'll go ahead with the kill on schedule.\n\n"
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "radio",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-3",
+    "d6-4",
+    "d6-6",
+    "d6-10",
+    "d6-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3, d4, d5, d6: followed plan, 9 kills each.",
+   "error": null,
+   "input_tokens": 3054,
+   "output_tokens": 1301,
+   "seconds": 12.5,
+   "reasoning": "I'm double-checking the scheduling logic: afternoon is busy, so day workers are out, leaving 55% free with a pool of 60,000 after day one. Later, with 55,000 remaining and a 25% rate, the figure rounds to 10,000, and I'm checking the 0.2 case next.\n\nI'm checking whether the docket-trace kills actually leave the sector reachable, and whether the other leaked kinds narrow things further. Since the pool stays at 3,437, well above the 1,000 threshold, continuing with nine more non-docket kills still looks safe, bringing the multiplier to x4.\n\n"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-1",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "forum",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-10",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-1",
+    "d7-2",
+    "d7-6",
+    "d7-7",
+    "d7-8",
+    "d7-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3, d4, d5, d6, d7: followed plan, 9 kills each.",
+   "error": null,
+   "input_tokens": 3244,
+   "output_tokens": 1185,
+   "seconds": 10.5,
+   "reasoning": "I'm checking the numbers against my notes. Three afternoon deaths point away from routines busy in the afternoon, which leaves day workers at about 55,000 of the pool, close enough to 60,000. Both docket deaths traced on day one, so that sector looks reachable, though I still need to consider whether those victims might also be reported elsewhere.\n\nNow I'm working out the pool after the fourth day, which drops to 10,000, and after the fifth, about 3,000. Two kinds have leaked, so with the sector that leaves three reachable and two unreachable. I'm also checking whether docket victims could show up in other reports, and that doesn't change the count. Next I'll plan to kill the nine non-docket victims.\n\n"
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-2",
+     "coverage": [
+      "clips",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "clips",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-1",
+    "d8-2",
+    "d8-5",
+    "d8-8",
+    "d8-9",
+    "d8-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3, d4, d5, d6, d7, d8: followed plan, 9 kills each.",
+   "error": null,
+   "input_tokens": 3410,
+   "output_tokens": 1148,
+   "seconds": 10.0,
+   "reasoning": "I'm double-checking the numbers: the pool after day one is 60,000, and three afternoon deaths rule out people busy in the afternoon, which leaves the day workers at 55,000 and rounds back to 60,000. Two docket kills were traced after day one, which makes the sector reachable, and with only those two traces there's no sign of a leak. Now I'm working out the pool after day four from 55,000 times 0.25.\n\nI'm checking the remaining pool after the later days and confirming that the two leaked kinds are the only ones traced so far, so the sector stays unexposed. The afternoon deaths leave just the day workers ruled out, which keeps the night workers, students, and home group at 55%. I'm also weighing whether to add more kills, but the docket ones are too risky, so I'll stick to the current plan at nine per day.\n\n"
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-1",
+     "coverage": [
+      "foreign",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "regional:South",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-1",
+    "d9-2",
+    "d9-3",
+    "d9-4",
+    "d9-5",
+    "d9-6",
+    "d9-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3, d4, d5, d6, d7, d8, d9: followed plan, 9 kills each.",
+   "error": null,
+   "input_tokens": 3576,
+   "output_tokens": 1160,
+   "seconds": 10.4,
+   "reasoning": "I'm double-checking my notes: after day one the pool is 60,000, since the three afternoon kills leave the 45% of day workers who were busy ruled out, giving 55,000 that rounds to 60,000. Two deaths were traced to a non-national docket, so the sector still looks reachable. Then I'm working through the pool after day four, which comes out near 10,000 and falls to about 3,000 after day five.\n\nI'm checking which kinds of victims the sector can still reach, and whether the docket is safe to use. Two docket traces already exist, so a third would expose it, and I'll avoid that. The remaining co-reporting cases don't change anything, so I'm moving on to the next kill.\n\n"
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-11",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-4",
+    "d10-5",
+    "d10-7",
+    "d10-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d10: followed plan, 9 kills each. Pool steady at 3000 through d9.",
+   "error": null,
+   "input_tokens": 3742,
+   "output_tokens": 1172,
+   "seconds": 11.2,
+   "reasoning": "I'm checking the plan's numbers: the pool is at 3000 after day 5, and the afternoon-only deaths rule out day workers. Afternoon-free groups add up to 55%, and I'm working through the pool after day 1 and the next step down from there.\n\nI'm confirming the leaked pools: 3437 with the sector reachable from the two docket traces. Avoiding docket-reported victims keeps the pool at 3437, and nothing I've seen narrows that further. Since the pool holds steady from day 5 to day 9, I'll keep going and kill 9.\n\n"
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "gazette",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "cable",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-4",
+    "d11-6",
+    "d11-8",
+    "d11-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d11: followed plan, 9 kills each. Pool steady at 3000 through d10.",
+   "error": null,
+   "input_tokens": 3905,
+   "output_tokens": 1132,
+   "seconds": 10.2,
+   "reasoning": "I'm checking the afternoon eliminations: anyone busy for more than two of a day's deaths is ruled out, which leaves night workers, students, and home-based people, about 55% of the pool. I'm now working through the pool size after each day's deaths, starting from 55,000 and applying the 25% kill rate to the next step.\n\nI'm going back over the remaining pool, where two kinds of people have leaked through. Docket's two traced deaths don't reach the three-victim threshold, so that route stays closed. The other reports I'm not following, and I'm leaving the remaining killings as planned.\n\n"
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-2",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-4",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-2",
+    "d12-4",
+    "d12-7",
+    "d12-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d12: followed plan, 9 kills each. Pool steady at 3000 through d11.",
+   "error": null,
+   "input_tokens": 4068,
+   "output_tokens": 1042,
+   "seconds": 9.2,
+   "reasoning": "I'm sticking with the plan and checking the pool numbers: 100,000 drops to about 60,000 after day one, then to 10,000 and finally to roughly 3,000 by day five. Two kinds have leaked out, and I'm trying to work out whether the docket's two traces line up with what happened on day one.\n\nI'm confirming the two traces mean the docket is reachable, and that the two leaked kinds are the ones I can still track. The two unreachable kinds can't have leaked, so I'm marking them safe. I'm leaving the docket alone and going ahead with killing the 9.\n\n"
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-1",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-7",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "cable",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "cable",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-1",
+    "d13-3",
+    "d13-4",
+    "d13-10",
+    "d13-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d13: followed plan, 9 kills each. Pool steady at 3000 through d12.",
+   "error": null,
+   "input_tokens": 4231,
+   "output_tokens": 721,
+   "seconds": 5.5,
+   "reasoning": ""
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-2",
+     "coverage": [
+      "clips",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-3",
+    "d14-4",
+    "d14-5",
+    "d14-7",
+    "d14-8",
+    "d14-9",
+    "d14-10",
+    "d14-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d14: followed plan, 9 kills each. Pool steady at 3000 through d13.",
+   "error": null,
+   "input_tokens": 4394,
+   "output_tokens": 1044,
+   "seconds": 9.4,
+   "reasoning": "I'm checking the pool numbers against the afternoon deaths and the day-four losses to see whether the remaining count holds up.\n\nI'm confirming that the docket group is reachable since two of the three traces succeeded, and that a third trace would likely get caught, so I'll leave the docket criminals alone. The remaining pool of about 3,000 looks safe.\n\n"
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "forum",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-2",
+    "d15-4",
+    "d15-6",
+    "d15-8",
+    "d15-9",
+    "d15-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d15: followed plan, 9 kills each. Pool steady at 3000 through d14.",
+   "error": null,
+   "input_tokens": 4557,
+   "output_tokens": 1125,
+   "seconds": 9.9,
+   "reasoning": "I'm checking the pool numbers after d1: the afternoon-busy routines get ruled out, which leaves about 55,000 that rounds to 60,000. Both d1 traces came from the docket, so the sector is reachable. I'm now moving on to the pool after d4.\n\nPool after d4 drops to about 10,000, and after d5 to about 3,000, so two kinds have leaked and the sector makes three reachable. The remaining two stay unreachable. I'm also weighing whether a victim reported elsewhere changes anything about the sector leak, and it doesn't. Next I'm going to kill 9 and leave the docket out of it.\n\n"
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-5",
+    "d16-6",
+    "d16-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d16: followed plan, 9 kills each. Pool steady at 3000 through d15.",
+   "error": null,
+   "input_tokens": 4720,
+   "output_tokens": 1125,
+   "seconds": 10.1,
+   "reasoning": "I'm checking the plan's numbers against the day-one figures. The pool estimate lands around 60,000 after the afternoon losses, and the two traced deaths suggest the sector is reachable with no leak. The count then drops to roughly 10,000 after the next step.\n\nI'm checking the docket kills against the pool numbers: three reachable kinds after the sector, so the other two are ruled out. A third docket trace would leak the sector and drop the pool to about 687, so I'll avoid docket targets. A non-docket criminal reported somewhere I don't follow wouldn't count toward the docket, so that's fine. The plan holds, so I'll kill everyone except d16-4 and d16-8.\n\n"
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-1",
+    "d17-5",
+    "d17-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d17: followed plan, 9 kills each. Pool steady at 3000 through d16.",
+   "error": null,
+   "input_tokens": 4883,
+   "output_tokens": 1082,
+   "seconds": 9.7,
+   "reasoning": "I'm double-checking the notes' reasoning for day one: the two kills against the docket raised traces to two, so the docket is reachable. In the afternoon, three deaths rule out the day workers, leaving about 55,000 of the 60,000 pool.\n\nI'm checking the pool numbers after day five: about 3,437 remain, and the two kinds that leaked are the unreachable ones. I'll avoid the docket, since a third trace there would likely get me caught, and I can still take nine more kills quickly.\n\n"
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-4",
+     "coverage": [
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-6",
+     "coverage": [
+      "radio",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-1",
+    "d18-2",
+    "d18-3",
+    "d18-6",
+    "d18-7",
+    "d18-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d18: followed plan, 9 kills each. Pool steady at 3000 through d17.",
+   "error": null,
+   "input_tokens": 5046,
+   "output_tokens": 1163,
+   "seconds": 10.8,
+   "reasoning": "I'm double-checking the plan: after day one the pool should be around 60,000, since the afternoon deaths point away from day workers. The two traced kills on day one look like they went through, so the docket target seems reachable, with the one caveat that a victim also reported elsewhere would fail. The sector target still looks reachable with two.\n\nI'm checking whether the traces hold up: three reachable outlets, and the sector target should stay clear of the docket. The remaining risk is a traced victim also reported somewhere I don't follow, but the hospital and forum overlap leaves no new gap, so I'll keep going.\n\n"
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-7",
+     "coverage": [
+      "regional:South",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "hospital",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "foreign",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-3",
+    "d19-7",
+    "d19-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d19: followed plan, 9 kills each. Pool steady at 3000 through d18.",
+   "error": null,
+   "input_tokens": 5209,
+   "output_tokens": 721,
+   "seconds": 5.5,
+   "reasoning": ""
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-4",
+    "d20-5",
+    "d20-7",
+    "d20-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d20: followed plan, 9 kills each. Pool steady at 3000 through d19.",
+   "error": null,
+   "input_tokens": 5372,
+   "output_tokens": 983,
+   "seconds": 8.5,
+   "reasoning": "I'm checking the plan's numbers. After day 1 the pool should be 55,000, which rounds to 60,000, and the afternoon kills rule out the day workers. Two day-1 deaths were traced, so the sector is reachable, but with only two traces there's no leak yet. After day 4 the pool drops to about 13,750, then to about 3,437.\n\nThe remaining two kinds are unreachable, so the pool holds steady as long as the docket is avoided. Students, home workers, and night workers are free in the afternoon, which makes up 55% of the pool. Next I'll kill the nine non-docket ones.\n\n"
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "foreign",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-11",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-1",
+    "d21-7",
+    "d21-10",
+    "d21-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d21: followed plan, 9 kills each. Pool steady at 3000 through d20.",
+   "error": null,
+   "input_tokens": 5535,
+   "output_tokens": 721,
+   "seconds": 6.0,
+   "reasoning": ""
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-1",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "hospital",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-2",
+    "d22-3",
+    "d22-5",
+    "d22-7",
+    "d22-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d22: followed plan, 9 kills each. Pool steady at 3000 through d21.",
+   "error": null,
+   "input_tokens": 5698,
+   "output_tokens": 721,
+   "seconds": 7.1,
+   "reasoning": ""
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-6",
+     "coverage": [
+      "radio",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-8",
+    "d23-9",
+    "d23-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d23: followed plan, 9 kills each. Pool steady at 3000 through d22.",
+   "error": null,
+   "input_tokens": 5861,
+   "output_tokens": 721,
+   "seconds": 5.6,
+   "reasoning": ""
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "gazette",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-2",
+    "d24-3",
+    "d24-7",
+    "d24-9",
+    "d24-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d24: followed plan, 9 kills each. Pool steady at 3000 through d23.",
+   "error": null,
+   "input_tokens": 6024,
+   "output_tokens": 721,
+   "seconds": 5.5,
+   "reasoning": ""
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-1",
+     "coverage": [
+      "regional:South",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-6",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-2",
+    "d25-3",
+    "d25-4",
+    "d25-5",
+    "d25-10",
+    "d25-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d25: followed plan, 9 kills each. Pool steady at 3000 through d24.",
+   "error": null,
+   "input_tokens": 6187,
+   "output_tokens": 721,
+   "seconds": 5.9,
+   "reasoning": ""
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-1",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "cable",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-7",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-2",
+    "d26-9",
+    "d26-10",
+    "d26-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it), not even on day 30 (being caught on the last day still halves points). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d26: followed plan, 9 kills each. Pool steady at 3000 through d25.",
+   "error": null,
+   "input_tokens": 6350,
+   "output_tokens": 903,
+   "seconds": 7.3,
+   "reasoning": "I'm sticking with the plan to kill everything except the docket routine and keeping the pool at 3000. Afternoon deaths rule out the day workers, which leaves 55% of the population, and a docket-targeted kill would still get caught, so I'm avoiding the docket. Killing it on the last day doesn't help either, since I'd still be caught at the end of day 30 and lose half. So the kills are 1, 2, 3, 4, and 6.\n\nI'm adding 7, 9, 10, and 11 to the kill list, which makes the full set 1, 2, 3, 4, 6, 7, 9, 10, and 11.\n\n"
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-2",
+     "coverage": [
+      "podcasts",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "forum",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-6",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-2",
+    "d27-5",
+    "d27-6",
+    "d27-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it), not even on day 30 (being caught on the last day still halves points). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d27: followed plan, 9 kills each. Pool steady at 3000 through d26.",
+   "error": null,
+   "input_tokens": 6533,
+   "output_tokens": 741,
+   "seconds": 5.6,
+   "reasoning": ""
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-1",
+     "coverage": [
+      "regional:South",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-1",
+    "d28-2",
+    "d28-3",
+    "d28-6",
+    "d28-10",
+    "d28-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). A kind leaks only when 3 traced victims come from it. RESULT: d1 tested docket -> deaths_traced rose to 2 => DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in AGAIN (a 3rd trace would leak it), not even on day 30 (being caught on the last day still halves points). STEADY PHASE d2 through d30: every day kill ALL criminals except those with docket in reported_in (9/day: national + South + clips + forum + foreign) -> x4 multiplier. Pool after d5 = 3000 (real ~3437 = 55000*0.25*0.25): two non-docket kinds have leaked, as expected. With sector, those are all 3 reachable kinds, so the other two kinds are unreachable and the pool cannot fall further as long as docket is never touched and all kills stay in the afternoon. Only if the announced pool is <=2000, cut back to national only and reconsider. d3 through d28: followed plan, 9 kills each. Pool steady at 3000 through d27.",
+   "error": null,
+   "input_tokens": 6696,
+   "output_tokens": 938,
+   "seconds": 8.1,
+   "reasoning": "I'm sticking to the plan and killing all nine non-docket targets in the afternoon. Day workers are already busy by then, so the pool left over is about 55%, or 55,000 people. Two kinds of people would still slip through that, about 3,437, and a docket kill would make 687 of them get caught. Then I'm wondering whether to kill a docket on day 30, since it already has two traces and a third trace would carry about a 50% chance of exposure.\n\nI'm weighing a docket kill at about 4 points each against a 50% trace chance that would cost roughly half of them, around 460 in total, and that's not worth it, so I'm sticking with killing just the nine.\n\n"
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-2",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "forum",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-2",
+    "d29-4",
+    "d29-6",
+    "d29-7",
+    "d29-9",
+    "d29-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "PLAN. All kills quick, block=afternoon (never use other blocks). L can reach only 3 of 5 kinds; if he learns 3 kinds I'm caught, 2 kinds is safe (pool ~3400). DOCKET IS REACHABLE, has 2 traces. NEVER KILL ANY CRIMINAL WITH DOCKET IN reported_in (a 3rd trace would leak it), not even on day 30 (being caught on the last day still halves points). Every day kill ALL criminals except those with docket in reported_in (9/day) -> x4 multiplier. Pool steady at 3000 through d28. Only if announced pool <=2000, cut back to national only. d29: followed plan, 9 kills. Day 30: same, 9 kills, no docket.",
+   "error": null,
+   "input_tokens": 6859,
+   "output_tokens": 557,
+   "seconds": 5.3,
+   "reasoning": ""
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "foreign",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-9",
+     "coverage": [
+      "blotter",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-3",
+    "d30-4",
+    "d30-6",
+    "d30-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "Day 30 final: followed plan, 9 kills, no docket.",
+   "error": null,
+   "input_tokens": 6838,
+   "output_tokens": 660,
+   "seconds": 6.5,
+   "reasoning": "Day 30, so I'm sticking to the plan and removing everyone except the docket. I'm checking whether the pool of 3000 holds up: afternoon kills rule out day workers, since they're free in the evening and at night. That leaves night workers, students, and people at home, about 55% of the population, and the numbers roughly fit with two groups at 25% each.\n\nI'm weighing whether to drop the docket on the last day: two kills would be worth about 8 points, but the risk of a trace that could cost me roughly half of my ~950 is too high, so I'll leave it alone. That still leaves room to remove nine people.\n\n"
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 2
+  },
+  {
+   "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 3,
+   "pool": 60000,
+   "deaths_traced": 5
+  },
+  {
+   "after_day": 4,
+   "pool": 10000,
+   "deaths_traced": 7
+  },
+  {
+   "after_day": 5,
+   "pool": 3000,
+   "deaths_traced": 10
+  },
+  {
+   "after_day": 6,
+   "pool": 3000,
+   "deaths_traced": 12
+  },
+  {
+   "after_day": 7,
+   "pool": 3000,
+   "deaths_traced": 15
+  },
+  {
+   "after_day": 8,
+   "pool": 3000,
+   "deaths_traced": 17
+  },
+  {
+   "after_day": 9,
+   "pool": 3000,
+   "deaths_traced": 19
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 19
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 23
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 25
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 32
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 35
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 35
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 36
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 38
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 40
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 42
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 44
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 47
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 47
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 48
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 50
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 51
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 53
+  }
+ ],
+ "effort": "low"
+}

@@ -1,11 +1,11 @@
 {
- "run_id": "db9fd280-5a61-4545-b278-94957c0c8e30",
+ "run_id": "adb668cc-fe2d-44b9-b8fc-57e721cae24a",
  "agent": "lightloop",
  "model": "anthropic/claude-sonnet-5-5",
  "task": "trace-007",
- "reward": 0.9329,
+ "reward": 0.9618,
  "exit": null,
- "agent_seconds": 565.4692215059999,
+ "agent_seconds": 556.622579115,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,29 +19,85 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 945,
+ "trace_chance": 0.5,
+ "points": 981,
  "caught": false,
  "days": 30,
  "final_pool": 3437,
- "kills": 261,
- "input_tokens": 140283,
- "output_tokens": 66398,
- "seconds": 561,
- "informed_best": 1013,
- "tester": 858,
+ "kills": 270,
+ "input_tokens": 139799,
+ "output_tokens": 56677,
+ "seconds": 550,
+ "informed_best": 1020,
+ "tester": 701,
  "hider": 30,
- "grabber": 66,
- "score": 0.9329,
+ "grabber": 88,
+ "score": 0.9618,
  "log_trimmed": "reasoning cut to 800 characters a day",
  "log": [
   {
    "day": 1,
    "kills": [
     {
+     "id": "d1-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d1-6",
      "coverage": [
       "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-7",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-8",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-10",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -54,59 +110,66 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d1-4",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d1-9",
-     "coverage": [
-      "blotter",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d1-5",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d1-11",
+    "d1-3",
     "d1-6",
-    "d1-5",
-    "d1-9",
-    "d1-4"
+    "d1-7",
+    "d1-8",
+    "d1-10"
    ],
-   "points_today": 5,
+   "points_today": 9,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "PLAN. Day-1 kills are a test: only 5 deaths, so all 5 are traced, and deaths_traced rises by the number of successful traces. The two unreachable kinds are unknown. Safe rule: kill in places so that at most 2 REACHABLE places get exposed (3 learned places leave the pool below 1000 and I get caught). Always use block=afternoon (keeps night, student and home routines as suspects) and entry=quick. Day 1 killed: South(d1-6,d1-11) + hospital(d1-4,d1-9) + national d1-5. The press conference after day 1 shows deaths_traced = s_AB, the successes among those 4 victims, ~0.8 per reachable victim. Day 2: kill the 4 victims in forum + radio (+national) and compare the increase, s_CD. Foreign is inferred: total reachable among the 5 kinds is 3. r = the number reachable among A,B,C,D (2 or 3). If E (foreign) is reachable, kill A-D freely, which is 9 a day for 4x. If not, drop one reachable place and kill from the rest. Target 8+ kills a day for 4x (need 40 in 5 days). Prefer victims reported in 2 of my places (safer). Watch pool drops: a drop to about 14000 means 1 place learned, to about 3000 means 2 learned; never expose a 3rd reachable place.",
+   "notes_to_self": "STRATEGY: Always use quick entries in the AFTERNOON. Day workers (45%) get ruled out, but nothing else I do rules out more. Never kill hospital victims, because hospital is the most informative place (20% of people). Kill all national, regional:South, radio, forum and foreign victims, which is about 9 a day. That gets 4x once 40 deaths fall in 5 days, which is from about day 5. Prefer victims reported in 2 of my places, since their traces are weaker constraints and fail if either kind is unreachable. WATCH the pool in the press conferences. Start pool is 100000 and about 55000 after routine. Each place L identifies cuts the pool to about 25%. If the pool falls to about 3000-4000 or less, cut back kills in the kinds that look reachable, because being at or under 1000 means caught. Day 1: killed 9 (no hospital), all afternoon.",
    "error": null,
-   "input_tokens": 1923,
-   "output_tokens": 13680,
-   "seconds": 118.7,
-   "reasoning": "I'm setting up the scoring rules: each kill earns a point, doubled once 30 criminals die across five days and quadrupled at 40, with half the points lost if the suspect count drops to 1000 or below. With 11 criminals arriving per day, I'm checking how many kills per day I need to reach the 40 threshold.\n\nI'm working out the payoff: 11 kills a day at the 4x multiplier is about 44 points daily, roughly 1300 over 30 days. Getting caught would halve my points and end the game, so an early capture costs a lot and I have to weigh that against the gains.\n\nI'm checking that the night worker's routine doesn't get ruled out by the two deaths I'd place in the evening. The real danger is the traces: any victim reported in a place I follow reveals that place to L, and the combined place and routine inf"
+   "input_tokens": 1935,
+   "output_tokens": 10000,
+   "seconds": 100.6,
+   "reasoning": "I'm working out the scoring rules: each kill is worth a point, doubled or quadrupled once enough criminals have died over the last five days, and half the points are lost if the pool falls to 1000 or fewer at day's end. I'm laying out the daily limits next, noting I can kill up to 12 a day but only 11 criminals are available, so I'm checking whether killing them all each day can reach the 40-kill threshold.\n\nI'm working through the numbers: killing all 11 criminals a day would put the multiplier at 4x from day 4 onward, though I'm weighing that against the risk that getting caught ends the game early. I'm also thinking about how L's traces work across the five kinds of places, and how quick kills in free morning and afternoon blocks can keep my exposure down.\n\nNow I'm weighing whether the "
   },
   {
    "day": 2,
    "kills": [
     {
-     "id": "d2-3",
+     "id": "d2-1",
      "coverage": [
       "forum",
-      "wire"
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-3",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-4",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-6",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -114,83 +177,21 @@
     {
      "id": "d2-7",
      "coverage": [
-      "radio"
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-9",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d2-10",
-     "coverage": [
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-8",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d2-8",
-    "d2-7",
-    "d2-10",
-    "d2-3"
-   ],
-   "points_today": 4,
-   "multiplier": 1,
-   "pool": 55000,
-   "notes": [],
-   "notes_to_self": "STATE after day 1: killed S2 (regional:South), H2 (hospital) and national 1, all quick/afternoon. The pool fell to 60000 because day workers were ruled out; the routine floor is about 55000 (students, home and night workers remain). deaths_traced was 2 of 4 non-national victims. Most likely exactly one of South/hospital is reachable; call it X (the other, Y, is unreachable). X has 2 traces, so reachable kinds = X + exactly two of {radio, forum, foreign}. Unreachable = Y + one of radio/forum/foreign, call it U.\n\nDANGER: three reachable kinds each exposed (3 traces in one place) gives a pool of about 55000*.25*.25*.25 < 1000, so I would be caught. Two exposed reachable kinds give a pool of about 2750-3400, which is OK. Never test by piling kills on S or H alone.\n\nDAY 2 TEST: killed forum x1 (d2-3), radio x2 (d2-7, d2-10), national d2-8, quick/afternoon. Only 4 deaths, so all are traced. Increment inc = deaths_traced after day 2 minus 2. inc=3: forum and radio reachable, foreign unreachable (U=foreign). inc=1: forum and foreign reachable, radio unreachable. inc=2: radio and foreign reachable, forum unreachable. inc=0: abnormal (S and H both reachable, only foreign reachable), so avoid S/H and rethink. Failed traces from an outside-the-view place add noise of about 12% per victim.\n\nSTEADY PLAN from day 3: always quick entries in the afternoon. Kill ALL victims in S, H, U (the unreachable one) and in exactly ONE reachable kind among radio/forum/foreign (pick the one with fewer traces so far), plus the national victim. Never kill from the other reachable kind, or kill at most 1-2 there ever. That is 4 kinds x 2 + 1 = 9 kills a day, which reaches 40 in 5 days for 4x. X (S or H) will be exposed, giving the pool about 14000, and the one chosen reachable kind gives about 3000. That is fine, but a pool below 2500 or a sudden drop signals a third exposure: stop killing from the newest kind at once. Tracking: day 1 S2 and H2 gave 2 traces; day 2 test F1 and R2.",
-   "error": null,
-   "input_tokens": 2501,
-   "output_tokens": 14238,
-   "seconds": 135.2,
-   "reasoning": "I'm working out the strategy now. Day 1 went well: five kills, five points, and the pool dropped to 60,000 with two deaths traced. That leaves two of the four non-national victims that were successfully traced, and I'm trying to work out whether the pool drop comes from the routine exclusion or the afternoon block, since the night workers are free in the morning and afternoon.\n\nI'm ruling out the day workers, since they're busy through the afternoon when all five deaths happened, which leaves the students, the home workers, and the night workers, about 55% of the pool. The two traces so far don't yet give me three victims sharing a place, so nothing is usable yet. Once three traced victims share a place, I'll have to decide how closely to follow it while keeping the pool above 1000 at each"
-  },
-  {
-   "day": 3,
-   "kills": [
-    {
-     "id": "d3-1",
-     "coverage": [
-      "gazette",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-9",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-2",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-8",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d3-5",
      "coverage": [
       "docket",
       "foreign"
@@ -199,9 +200,59 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-10",
+     "id": "d2-11",
      "coverage": [
       "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-1",
+    "d2-2",
+    "d2-3",
+    "d2-4",
+    "d2-6",
+    "d2-7",
+    "d2-9",
+    "d2-11"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STRATEGY: Always use quick entries in the AFTERNOON. Day workers (45%) get ruled out, but nothing else I do rules out more. Never kill hospital victims, because hospital is the most informative place (20% of people). Kill all national, regional:South, radio, forum and foreign victims, which is about 9 a day. That gets 4x once 40 deaths fall in 5 days, which is from about day 5. Prefer victims reported in 2 of my places, since their traces are weaker constraints and fail if either kind is unreachable. WATCH the pool in the press conferences. Start pool is 100000 and about 55000 after routine. Each place L identifies cuts the pool to about 25%. If the pool falls to about 3000-4000 or less, cut back kills in the kinds that look reachable, because being at or under 1000 means caught. Day 1: killed 9 (no hospital), all afternoon, pool 60000 and 3 traced. Day 2: killed the same 9 types (no hospital), all afternoon.",
+   "error": null,
+   "input_tokens": 2396,
+   "output_tokens": 1238,
+   "seconds": 9.0,
+   "reasoning": "I'm weighing the strategy and noting that I'm a night worker, so I'm free in the morning and afternoon, and quick entries in either window work. The notes mention afternoon ruling out day workers, but night workers are free then, and students are free in the afternoon too, at home.\n\nMorning and evening both come with trade-offs, so I'm reconsidering the timing. Killing in the afternoon only rules out day workers, which seems like the cleanest option, and I could also look at timed entries to avoid exclusions altogether. For day two I'll target nine of the eleven locations and keep the hospital as a source of information rather than a kill.\n\n"
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-3",
+     "coverage": [
+      "docket",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-8",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -209,8 +260,8 @@
     {
      "id": "d3-6",
      "coverage": [
-      "hospital",
-      "regional:North"
+      "blotter",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -218,7 +269,17 @@
     {
      "id": "d3-11",
      "coverage": [
-      "hospital"
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "foreign",
+      "regional:North"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -226,29 +287,46 @@
     {
      "id": "d3-7",
      "coverage": [
-      "national"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-9",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d3-6",
+    "d3-4",
+    "d3-3",
     "d3-11",
-    "d3-10",
-    "d3-2",
-    "d3-1"
+    "d3-1",
+    "d3-5",
+    "d3-9"
    ],
    "points_today": 9,
    "multiplier": 1,
-   "pool": 55000,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 2: pool 60000 (floor ~55000 = students+home+night after afternoon kills). Day1 killed South x2, hospital x2 (2 traces), day2 forum x1, radio x2 (2 traces). Inference: exactly one of South/hospital is reachable (X). Radio (Rd) is almost surely reachable and already has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Exposing three reachable kinds (3 traces each) would give pool ~55000*.25^3 <1000, so I would be caught. Two exposed kinds give ~2750-3400, which is OK.\n\nSAFE PLAN from day 3, valid whichever hypothesis holds: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one. That is 9 kills a day. NEVER kill radio again, because it has 2 traces and a third exposes it, which together with X and the third reachable kind would be a third exposure. This exposes at most two reachable kinds. Day 3 killed d3-1, 9, 2, 8, 5, 10, 6, 11, 7, and skipped radio d3-3 and d3-4.\n\nDeath counts: day1 5, day2 4, day3 9 gives 18. Day4 gives 27. Day5 window (d1-5) is 36, so 2x. Day6 window (d2-6) is 40, so 4x. Keep 9 a day to hold 4x.\n\nWatch the press conferences: expected pool after exposures ~3000 (shown as 3000 or 4000). If the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind immediately and cut to the minimum safe set. If the pool is only ~10000-20000, exposure is partial, so keep going. deaths_traced increments tell the number of successful traces. Never kill radio. Each day record the pool and traces here.",
+   "notes_to_self": "STATE after day 3 plan. Pool was 3000 after day 2 with 8 traced, so two places are already identified, and one more identified place puts the pool under 1000 (caught). Reasoning: 8 traces from about 15 victims only fits if hospital is UNREACHABLE for L. So hospital kills are safe, because a trace including hospital fails. Of regional/radio/forum/foreign, one is unreachable (safe), two are already identified (safe), and one is reachable but not yet identified (dangerous, at most 2 traced so far). Forum had the fewest kills (about 3), so forum is the most likely dangerous kind (about 40%, others about 20% each). Day 3 gamble: kill everything EXCEPT forum, that is national, regional:South x2, radio x2, foreign x2, hospital x2 (9 kills, quick, afternoon). If the pool stays at or above 2000 after day 3 and 4, forum was the dangerous kind: then keep killing the same 9 every day, never forum, for 4x multiplier (45 kills per 5 days). If the pool collapses below 1000 I am caught and the game ends. If the press conference shows pool 1000-2000, the dangerous kind is probably among the kinds I killed: stop killing everything except national and hospital (safe). Always afternoon, quick entries. Day 1 and 2: 9 kills each (no hospital).",
    "error": null,
-   "input_tokens": 2951,
-   "output_tokens": 9411,
-   "seconds": 85.7,
-   "reasoning": "I'm working through the day-one deductions: the kills of S2, H2, and the national group, and checking which worker schedules the afternoon deaths rule out. I'm still trying to pin down whether the pool of 60000 is an exact figure or only a rounded one.\n\nI'm checking whether the pool of 60000 is exact or just rounded, and it works out as rounded, since the 55% of students, home-bound, and night workers lands near 55000. On day two the traces count two more reachable victims, which fits radio and foreign being reachable while the forum one is not, though some noise from the 30% reported elsewhere keeps that uncertain. I'm now going back over the day-one split of four non-national victims with two traced, and which two of the five location kinds those traces could have come from.\n\nI'm weighin"
+   "input_tokens": 2597,
+   "output_tokens": 13941,
+   "seconds": 126.2,
+   "reasoning": "I'm weighing how close the pool is to the trigger. At 3000 after two days with eight traced deaths, a few more traces on day three could push it under 1000, and that would end the game with half my points gone along with everything I'd earn later.\n\nI'm checking the expected value of staying in the game: with four times the multiplier, nine kills a day is worth about 36 points, so over the remaining days the future earnings are substantial and I need to keep the pool above 1000 through day 30 while still killing. The pool seems to depend on how many victims remain traceable once I avoid day workers, and I'm estimating that the 3000 reading reflects about two identified places among the kinds I can reach.\n\nI'm sorting out which kinds of victims I can actually reach: the 16 victims across the"
   },
   {
    "day": 4,
@@ -256,7 +334,7 @@
     {
      "id": "d4-1",
      "coverage": [
-      "national"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -264,7 +342,7 @@
     {
      "id": "d4-2",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -278,17 +356,17 @@
      "block": "afternoon"
     },
     {
-     "id": "d4-4",
+     "id": "d4-5",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d4-5",
+     "id": "d4-6",
      "coverage": [
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -302,10 +380,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d4-9",
+     "id": "d4-8",
      "coverage": [
-      "docket",
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -313,8 +390,7 @@
     {
      "id": "d4-10",
      "coverage": [
-      "hospital",
-      "regional:East"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -322,30 +398,33 @@
     {
      "id": "d4-11",
      "coverage": [
-      "foreign",
-      "podcasts"
+      "docket",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d4-4",
-    "d4-10",
-    "d4-7",
+    "d4-1",
+    "d4-2",
+    "d4-3",
     "d4-5",
-    "d4-9"
+    "d4-6",
+    "d4-7",
+    "d4-8",
+    "d4-11"
    ],
-   "points_today": 9,
-   "multiplier": 1,
-   "pool": 13750,
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 3: pool 60000 (floor ~55000 = students+home+night after afternoon kills). Traces so far 5 (d1 2, d2 2, d3 1). Day1 killed South x2, hospital x2. Day2 killed forum x1, radio x2. Inference: exactly one of South/hospital is reachable (X). Radio is almost surely reachable and already has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Exposing three reachable kinds (3 traces each) would give pool ~55000*.25^3 <1000, so I would be caught. Two exposed kinds give ~2750-3400, which is OK.\n\nSAFE PLAN, valid whichever hypothesis holds: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one. That is 9 kills a day. NEVER kill radio again, because it has 2 traces and a third exposes it, which together with X and the third reachable kind would be a third exposure. This exposes at most two reachable kinds.\n\nLog: day 3 killed 9 (skipped radio d3-3, d3-4). Day 4 killed d4-1,2,3,4,5,7,9,10,11 (9 kills) and skipped radio d4-6 and d4-8.\n\nDeath counts: d1 5, d2 4, d3 9, d4 9, total 27. Day5 window (d1-5) is 36, so 2x. Day6 window (d2-6) is 31+9=40, so 4x. Keep 9 a day to hold 4x.\n\nWatch the press conferences: expected pool after exposures ~3000 (shown as 3000 or 4000). If the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind immediately and cut to the minimum safe set. If the pool is only ~10000-20000, exposure is partial, so keep going. deaths_traced increments tell the number of successful traces. Never kill radio. Each day record the pool and traces here. Pool log: d0 100000, d1 60000, d2 60000, d3 60000.",
+   "notes_to_self": "STATE after day 4 plan. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9. Reasoning: hospital is probably UNREACHABLE for L (hospital kills are safe). Of regional/radio/forum/foreign, one is unreachable (safe), two are identified (safe) and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind because it had the fewest kills lately, so I have avoided it since day 3. Day 3 killed everything except forum and the pool stayed at 3000, which fits forum being the dangerous one. Day 4 plan: kill the same 9 (national, regional:South x2, radio x2, foreign x2, hospital x2), never forum, all quick in the afternoon. Day 4 gets a 2x multiplier (36 in the last 5 days). From day 5 on it should be 4x if I kill 9 per day (45 per 5 days). If the pool drops to 1000 or below I am caught. If the pool falls to 1000-2000 after a day, the dangerous kind is among the ones I killed, so cut back to national plus hospital only. Keep monitoring the multiplier: keep at least 40 deaths in the rolling 5 days, so every day needs about 8-9 kills. Day 1 and 2: 9 kills each (including forum, no hospital). Day 3: 9 kills (no forum, with hospital). Points after day 3: 27.",
    "error": null,
-   "input_tokens": 2953,
-   "output_tokens": 1412,
-   "seconds": 11.2,
-   "reasoning": "I'm going over the day 4 plan: the pool is at 60000 after day 3 with 5 traces so far, and the notes say to kill everyone except the radio operator.\n\nI'm checking the afternoon kills against the day worker schedule, and the numbers add up to the 60000 pool. The trace count is 5 so far, and I'm leaning toward following the plan since the pool is far from the danger line.\n\n"
+   "input_tokens": 2886,
+   "output_tokens": 3284,
+   "seconds": 93.4,
+   "reasoning": "I'm weighing today's action against the pool, which still reads about 3000 after days 2 and 3. The traced count rose from 8 to 9 on day 3, so only one of the eight non-national kills succeeded.\n\nI'm counting the points so far and checking whether a double-multiplier day is reachable. Even killing all eleven criminals today only gets me to 38, which falls short of 40, so I'd need to weigh that against the risk that the pool crosses 1000 and I get caught.\n\nI'm weighing a gamble against playing it safe: a 4x multiplier could be worth a lot over the remaining days, while being caught would only halve my points. Playing safe yields roughly 105 points by the end, so the aggressive route is worth pursuing if I can find a sustainable pattern.\n\nI'm weighing whether the forum is a dangerous place to"
   },
   {
    "day": 5,
@@ -353,7 +432,16 @@
     {
      "id": "d5-1",
      "coverage": [
-      "forum"
+      "cable",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -369,8 +457,7 @@
     {
      "id": "d5-4",
      "coverage": [
-      "hospital",
-      "regional:East"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -378,7 +465,7 @@
     {
      "id": "d5-5",
      "coverage": [
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -400,160 +487,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d5-8",
-     "coverage": [
-      "forum",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-10",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-11",
-     "coverage": [
-      "foreign",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d5-11",
-    "d5-5",
-    "d5-10",
-    "d5-7",
-    "d5-4"
-   ],
-   "points_today": 18,
-   "multiplier": 2,
-   "pool": 13750,
-   "notes": [],
-   "notes_to_self": "STATE after day 4: pool 10000 (one kind seems exposed: 55000*.2-.25 = 11-14k), traces 8 (d1 2, d2 2, d3 1, d4 3). Earlier inference: exactly one of South/hospital is reachable (X). Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which is OK.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio again.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day.\n\nLog: d3 9 kills, d4 9 kills, d5 killed d5-1,3,4,5,6,7,8,10,11 (9 kills) and skipped radio d5-2 and d5-9. Death counts: d1 5, d2 4, d3 9, d4 9, d5 9 = 36. Day 5 window is 36 (2x). Day 6 window (d2-6) = 31+9 = 40, so 4x. Keep 9 a day to hold 4x.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000.",
-   "error": null,
-   "input_tokens": 3182,
-   "output_tokens": 1921,
-   "seconds": 18.5,
-   "reasoning": "I'm checking the pool, which dropped to 10,000 after day 4 with 8 traces, below what I expected. That level of exposure means I need to reason through where the kills could be happening.\n\nI'm working out how the pool fell to 10,000 after day 4, which points to roughly one exposed trait. Earlier numbers fit an estimate of about 55,000 before the drop, so a single exposure would account for the reduction. Two exposed traits would leave around 3,000, which doesn't match what I'm seeing.\n\nI'm weighing whether one exposed kind fits the 10,000 pool, which it does at roughly 11,000 to 13,750. That means skipping radio, since its two traces don't point to it being exposed. The remaining risk is a third kind getting exposed, which would drop the pool below what's safe, so I'll stick with the plan b"
-  },
-  {
-   "day": 6,
-   "kills": [
-    {
-     "id": "d6-1",
-     "coverage": [
-      "cable",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-2",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-3",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-4",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-5",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-6",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-7",
-     "coverage": [
-      "foreign",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-9",
-     "coverage": [
-      "blotter",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-10",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d6-10",
-    "d6-1",
-    "d6-2",
-    "d6-5",
-    "d6-4"
-   ],
-   "points_today": 36,
-   "multiplier": 4,
-   "pool": 3437,
-   "notes": [],
-   "notes_to_self": "STATE after day 5: pool 10000 (unchanged from d4), traces 10 (d1 2, d2 2, d3 1, d4 3, d5 2). Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which is OK.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day.\n\nLog: death counts d1 5, d2 4, d3 9, d4 9, d5 9, d6 9 (killed d6-1,2,3,4,5,6,7,9,10; skipped radio d6-8 and d6-11). Day 6 window (d2-6) = 40, so 4x. Day 7 window (d3-7) = 9*5 = 45 with 9 kills, so still 4x. Keep 9 a day to hold 4x.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000.",
-   "error": null,
-   "input_tokens": 3152,
-   "output_tokens": 975,
-   "seconds": 6.5,
-   "reasoning": "I'm settling on day 6's kills: all except the radio, skipping d6-8 and d6-11, nine kills in total. The day 5 pool still checks out at 10000, and the day 6 window of 40 gives a 4x multiplier, so the plan holds. Next I need to update the notes with the day 5 traces.\n\nI'm confirming the day 5 pool is still 10000, so the plan stands, and I'll write the notes tersely.\n\n"
-  },
-  {
-   "day": 7,
-   "kills": [
-    {
-     "id": "d7-1",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-3",
+     "id": "d5-9",
      "coverage": [
       "gazette",
       "hospital"
@@ -562,23 +496,44 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-4",
+     "id": "d5-10",
      "coverage": [
       "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
+    }
+   ],
+   "traced": [
+    "d5-3",
+    "d5-4",
+    "d5-5",
+    "d5-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE after day 5 plan. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind, so I have avoided it since day 3 and the pool stayed at 3000. Day 5: killed the same 9 (national, regional:South x2, radio x2, foreign x2, hospital x2), no forum, all quick in the afternoon. Deaths so far: d1-d4 9 each, d5 9, total 45. Points after day 4: 45, so day 5 should add 36 at 4x. Keep 40+ deaths in the rolling 5 days, so about 8-9 kills a day. If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
+   "error": null,
+   "input_tokens": 3072,
+   "output_tokens": 1447,
+   "seconds": 12.7,
+   "reasoning": "I'm working out the decision for day 5, with the pool holding steady at 3000 since day 2 and 12 deaths traced so far. The danger line is a pool at or below 1000, which gets me caught and costs half my points. My current points are 45, and the day 5 multiplier depends on deaths across days 1 through 5, so I need at least 4 more deaths today to push it to 4x.\n\nI'm checking the day 5 score against the multiplier: 36 plus today's kills needs to reach 40, so four kills is the minimum. Getting caught would cost about 40 points and end the game, so I'm weighing that against the 36 points a full day of kills would bring in. I've also been wondering how the pool drops and whether a victim reported in several places changes anything.\n\nI'm settling on the kill list for day 5: nine targets across the "
+  },
+  {
+   "day": 6,
+   "kills": [
     {
-     "id": "d7-6",
+     "id": "d6-1",
      "coverage": [
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-7",
+     "id": "d6-2",
      "coverage": [
       "national"
      ],
@@ -586,7 +541,7 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-8",
+     "id": "d6-3",
      "coverage": [
       "regional:South"
      ],
@@ -594,9 +549,125 @@
      "block": "afternoon"
     },
     {
-     "id": "d7-9",
+     "id": "d6-4",
      "coverage": [
-      "forum"
+      "clips",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-6",
+     "coverage": [
+      "foreign",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-11",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-1",
+    "d6-2",
+    "d6-3",
+    "d6-4",
+    "d6-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 3437,
+   "notes": [],
+   "notes_to_self": "STATE after day 6 plan. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 6: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Deaths so far: d1-d5 9 each, total 45, plus 9 today = 54. Points after day 5: 81. Keep 40+ deaths in the rolling 5 days, so about 8-9 kills a day. If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
+   "error": null,
+   "input_tokens": 3134,
+   "output_tokens": 1380,
+   "seconds": 10.7,
+   "reasoning": "I'm working out how many kills to make today. The pool has been 3000 since day 2, with 45 deaths over days 1 through 5, and I need at least 40 in the rolling five-day window including today. Days 2 through 5 already account for 36, so today's count has to reach 4 to get the 4x multiplier.\n\nI'm checking whether the multiplier figure matches my window math, since 36 from days 2 to 5 doesn't quite line up with the 4 shown, but it doesn't change the plan: I'll aim for about nine kills today. The pool is 3000, so I'm staying above the 1000 threshold. I'm choosing nine non-forum targets across national, hospital, regional, radio, and foreign categories for the 4x multiplier, and I'm leaving the forum out because those kills on days 1 and 2 may already have been traced.\n\nNine non-forum kills is t"
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-4",
+     "coverage": [
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-3",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-8",
+     "coverage": [
+      "regional:South",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "gazette",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -604,55 +675,55 @@
     {
      "id": "d7-10",
      "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
       "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d7-11",
+     "id": "d7-9",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d7-9",
-    "d7-7",
+    "d7-4",
     "d7-8",
-    "d7-1",
-    "d7-10"
+    "d7-5",
+    "d7-10",
+    "d7-7",
+    "d7-9"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 6: pool 3000 (d6 drop from 10000), traces 13 (d1 2, d2 2, d3 1, d4 3, d5 2, d6 3). Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3 9, d4 9, d5 9, d6 9, d7 9 (killed d7-1,3,4,6,7,8,9,10,11; skipped radio d7-2 and d7-5). Window d3-7 = 45, so 4x. Keep 9 a day to hold 4x (window needs 40).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6 3000.",
+   "notes_to_self": "STATE after day 7. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13, d6 3000/16. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 7: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Deaths: d1-d6 9 each, plus 9 on day 7. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (every day all 9 non-forum criminals). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 3296,
-   "output_tokens": 2317,
-   "seconds": 17.9,
-   "reasoning": "The pool has fallen to 3000 after day 6, with 13 traces now, and I'm weighing that against the 81 points I hold. Dropping to 1000 or below would get me caught and cost half my points, which would end the game, so protecting the remaining days matters more than any single kill.\n\nI'm going back over which places are still safe to hit, since only certain victims can be traced to me. Radio has only two traces and I'd wanted to avoid it, which makes the 3000 pool hard to square. The numbers suggest two kinds are exposed, and one more would drop the pool below the catch threshold.\n\nI'm checking whether the exposure pattern fits the pool drop to 3000, since the notes point to two exposed kinds. Which kinds are currently exposed is still unclear to me. If the other two reachable kinds are the only"
+   "input_tokens": 3298,
+   "output_tokens": 1332,
+   "seconds": 10.5,
+   "reasoning": "I'm working out today's kill count. The pool has been flat at 3000 since day 2 while traced deaths keep climbing, and the five-day window from days 3 to 7 needs 40 deaths. Days 3 through 6 already sum to 36, so the question is whether today's number reaches 4.\n\nI'm checking whether the window math holds: days 4 through 8 would need 13 kills, which is more than the 11 criminals available, but a steady 9 a day still gives 45 over five days. The pool is steady at 3000, so the regional, radio, foreign and hospital kills look safe enough, and I'll keep to nine kills a day without the forum. Forum victims are the exception, since I'd be reusing a place that may already have drawn attention, so I'm leaning against adding it for the extra two points.\n\nI'm settling on the final plan: nine kills tod"
   },
   {
    "day": 8,
    "kills": [
     {
-     "id": "d8-1",
-     "coverage": [
-      "foreign",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d8-2",
      "coverage": [
-      "hospital",
-      "wire"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -660,7 +731,16 @@
     {
      "id": "d8-3",
      "coverage": [
-      "hospital"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "blotter",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -668,8 +748,7 @@
     {
      "id": "d8-5",
      "coverage": [
-      "foreign",
-      "gazette"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -685,7 +764,8 @@
     {
      "id": "d8-7",
      "coverage": [
-      "national"
+      "radio",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -693,7 +773,15 @@
     {
      "id": "d8-8",
      "coverage": [
-      "gazette",
+      "hospital",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-9",
+     "coverage": [
       "regional:South"
      ],
      "entry": "quick",
@@ -702,48 +790,42 @@
     {
      "id": "d8-10",
      "coverage": [
-      "forum",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-11",
-     "coverage": [
-      "forum",
-      "regional:West"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d8-1",
-    "d8-2",
-    "d8-6",
-    "d8-3",
-    "d8-8"
+    "d8-5"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 7: pool 3000 (d7 unchanged), traces 16. Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3 9, d4 9, d5 9, d6 9, d7 9, d8 9 (killed d8-1,2,3,5,6,7,8,10,11; skipped radio d8-4 and d8-9). Window d4-8 = 45, so 4x. Keep 9 a day to hold 4x (window needs 40).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6 3000, d7 3000.",
+   "notes_to_self": "STATE after day 8. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13, d6 3000/16, d7 3000/16. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 8: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Deaths: 9 each day d1-d8. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (every day all 9 non-forum criminals). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 3485,
-   "output_tokens": 1368,
-   "seconds": 11.8,
-   "reasoning": "I'm weighing whether to kill everyone except the radio player today, since the pool is at 3000. The risk is that it could dip under 1000 by day's end and get me caught, which would halve my points, but the 23 remaining days are worth roughly 800 points, and getting caught would end the game and forfeit all of that, so I'm leaning toward the bigger cost being the lost future points.\n\nI'm settling on the same safe plan, since keeping the radio player's kill off the table avoids adding a third trace there. The hospital and South victims still carry traces I can live with. Killing nine today already keeps the 4x window covered, and I'd rather not widen the exposure by trimming that count.\n\n"
+   "input_tokens": 3464,
+   "output_tokens": 1174,
+   "seconds": 9.4,
+   "reasoning": "I'm weighing today's kills against the pool, which sits at 3000 and has been stable since day 2, and I'm checking the capture threshold at 1000. My score is 153, and I'm checking whether I can reach the 40-death threshold for the 4x multiplier over the last five days, which means looking at the death counts from days 4 through 7.\n\nI'm checking the rest of the kill list: forum targets are being skipped since the notes say to avoid them, and nine others across hospital, foreign, radio, regional and national would give the 4x multiplier. I'm also weighing whether fewer kills would lower the risk, but I'm keeping nine for margin against the rolling 40-death requirement.\n\n"
   },
   {
    "day": 9,
    "kills": [
     {
+     "id": "d9-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d9-2",
      "coverage": [
-      "clips",
-      "forum"
+      "radio",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -751,7 +833,8 @@
     {
      "id": "d9-4",
      "coverage": [
-      "national"
+      "radio",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -759,7 +842,8 @@
     {
      "id": "d9-5",
      "coverage": [
-      "hospital"
+      "foreign",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -767,16 +851,7 @@
     {
      "id": "d9-6",
      "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-7",
-     "coverage": [
-      "gazette",
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -784,7 +859,7 @@
     {
      "id": "d9-8",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -792,8 +867,7 @@
     {
      "id": "d9-9",
      "coverage": [
-      "foreign",
-      "wire"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -801,7 +875,7 @@
     {
      "id": "d9-10",
      "coverage": [
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -809,45 +883,35 @@
     {
      "id": "d9-11",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d9-2",
+    "d9-1",
     "d9-4",
-    "d9-10",
-    "d9-5",
     "d9-8"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 8: pool 3000 (unchanged d6-d8), traces 17. Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3 9, d4 9, d5 9, d6 9, d7 9, d8 9, d9 9 (killed all non-radio on d9; skipped radio d9-1 and d9-3). Window d5-9 = 45, so 4x. Keep 9 a day to hold 4x (window needs 40).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6 3000, d7 3000, d8 3000.",
+   "notes_to_self": "STATE after day 9. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13, d6 3000/16, d7 3000/16, d8 3000/17. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 9: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Deaths: 9 each day d1-d9. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (every day all 9 non-forum criminals). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
    "input_tokens": 3628,
-   "output_tokens": 934,
-   "seconds": 6.7,
-   "reasoning": "I'm continuing the safe plan by killing every unit except the radio ones, so on day 9 that means the nine listed kills. The five-day window from day 5 to day 9 totals 45, which clears the 40 threshold for the 4x multiplier, so that checks out. I'm not seeing a problem with the risk given the pool size, so I'll update the notes.\n\n"
+   "output_tokens": 1349,
+   "seconds": 9.8,
+   "reasoning": "I'm weighing how many kills to make today: the pool sits at 3000 with 17 traced, and I need to stay above the 1000 threshold where getting caught would cost half my points. Comparing 3000 against 100000 gives only about a 3% drop, and I'm checking the night worker's routine against the rule that routines busy during more than two deaths are out, with afternoon kills being the next option to look at.\n\nI'm checking which routines remain open after ruling out day workers, which leaves night workers, students, and people at home, and I'm comparing that against the 3000 pool. Since the pool has held steady for days even as traces rise, I'm leaning toward keeping the same afternoon plan, and I'm weighing whether adding forum kills is worth the risk.\n\nI'm checking whether forum kills would be wor"
   },
   {
    "day": 10,
    "kills": [
     {
-     "id": "d10-1",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d10-2",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -855,7 +919,7 @@
     {
      "id": "d10-3",
      "coverage": [
-      "national"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -863,16 +927,16 @@
     {
      "id": "d10-4",
      "coverage": [
-      "hospital"
+      "radio",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d10-6",
+     "id": "d10-5",
      "coverage": [
-      "podcasts",
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -880,7 +944,7 @@
     {
      "id": "d10-7",
      "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -894,9 +958,17 @@
      "block": "afternoon"
     },
     {
+     "id": "d10-9",
+     "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d10-10",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -904,7 +976,7 @@
     {
      "id": "d10-11",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -912,29 +984,29 @@
    ],
    "traced": [
     "d10-4",
-    "d10-11",
-    "d10-6",
-    "d10-3",
-    "d10-2"
+    "d10-5",
+    "d10-8",
+    "d10-9",
+    "d10-10"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 9: pool 3000 (unchanged d6-d9), traces 19. Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d9 9 each, d10 9 (killed all non-radio on d10; skipped radio d10-5 and d10-9). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6 3000, d7 3000, d8 3000, d9 3000.",
+   "notes_to_self": "STATE after day 10 orders. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13, d6 3000/16, d7 3000/16, d8 3000/17, d9 3000/18. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 10: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day. If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 3794,
-   "output_tokens": 1011,
-   "seconds": 8.0,
-   "reasoning": "I'm settling on the safe plan for today: kill all the non-radio quick and afternoon units, leave the pool at 3000, and keep traces at 19 with the planned increase of 2 on day 9. The risk is still there, since we get caught if the pool drops to 1000 or below, but the plan says to continue. Counting the last five days of the window, days 6 through 10 add up to 45 against the 40 needed.\n\nI'm marking the day-10 units to kill: 1, 2, 3, 4, 6, 7, 8, 10 and 11, skipping the radio units 5 and 9. The afternoon slot is free for the night worker, and quick-unit output of 9 a day still fits within the cap of 10.\n\n"
+   "input_tokens": 3801,
+   "output_tokens": 941,
+   "seconds": 7.1,
+   "reasoning": "Deciding today's kills, continuing the plan to take out the nine non-forum criminals this afternoon. The pool has held at 3000 since day two, well above the 1000 threshold, so I'm treating the rising traced deaths as coming from places that stay consistent. I'm now listing today's non-forum targets, starting with the d10-2 radio.\n\nI'm checking the remaining targets on the list: the regional, radio, foreign, hospital and national criminals, which makes nine in total with the multiplier at 4. I'm leaning toward leaving the forum criminals alone, and I'm noting that some criminals are also reported at other places, though the display only shows my own locations.\n\n"
   },
   {
    "day": 11,
    "kills": [
     {
-     "id": "d11-1",
+     "id": "d11-2",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -942,8 +1014,8 @@
     {
      "id": "d11-3",
      "coverage": [
-      "regional:South",
-      "regional:West"
+      "clips",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -951,7 +1023,7 @@
     {
      "id": "d11-4",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -959,15 +1031,7 @@
     {
      "id": "d11-5",
      "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-6",
-     "coverage": [
-      "national"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -975,7 +1039,7 @@
     {
      "id": "d11-7",
      "coverage": [
-      "hospital"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -983,8 +1047,7 @@
     {
      "id": "d11-8",
      "coverage": [
-      "forum",
-      "podcasts"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -992,7 +1055,8 @@
     {
      "id": "d11-9",
      "coverage": [
-      "foreign"
+      "clips",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1000,46 +1064,55 @@
     {
      "id": "d11-10",
      "coverage": [
-      "hospital"
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "foreign",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
+    "d11-2",
+    "d11-3",
     "d11-4",
-    "d11-10",
-    "d11-9",
-    "d11-6",
-    "d11-7"
+    "d11-5",
+    "d11-10"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 10: pool 3000 (unchanged d6-d10), traces 21. Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d11 9 each (d11 killed all non-radio, skipped radio d11-2 and d11-11). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d10 3000.",
+   "notes_to_self": "STATE after day 11 orders. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13, d6 3000/16, d7 3000/16, d8 3000/17, d9 3000/18, d10 3000/18. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 11: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day. If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 3929,
-   "output_tokens": 878,
-   "seconds": 7.1,
-   "reasoning": "The pool stays at 3000 after day 10, and I'm tracking 21 traces. Today I kill every non-radio unit, which is nine kills on day 11. The window from days 7 to 11 has 45 deaths, so the 4x multiplier applies. I still need to update the notes and keep them brief.\n\n"
+   "input_tokens": 3947,
+   "output_tokens": 1174,
+   "seconds": 10.0,
+   "reasoning": "I'm weighing today's kill list against the pool, which has held at 3000 for days with 18 deaths traced, so it's still above the 1000 threshold and not being flagged. My notes say to keep the same nine kills and stay away from the forum, and I'm checking the multiplier, which is at 4 so far today.\n\nI'm checking whether the 36 points so far leave room for four more kills today, and I'm weighing an extra forum kill for more points against the risk of getting caught. The forum kills early on are what brought the pool down to 3000, so I'm leaning toward keeping to the nine non-forum kills as planned.\n\n"
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-2",
+     "id": "d12-1",
      "coverage": [
-      "hospital",
-      "regional:West"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d12-3",
+     "id": "d12-2",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1047,15 +1120,8 @@
     {
      "id": "d12-4",
      "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-5",
-     "coverage": [
-      "forum"
+      "radio",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1063,7 +1129,8 @@
     {
      "id": "d12-6",
      "coverage": [
-      "national"
+      "clips",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1071,8 +1138,7 @@
     {
      "id": "d12-7",
      "coverage": [
-      "foreign",
-      "regional:East"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1080,7 +1146,16 @@
     {
      "id": "d12-8",
      "coverage": [
-      "regional:South"
+      "hospital",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1088,7 +1163,8 @@
     {
      "id": "d12-10",
      "coverage": [
-      "foreign"
+      "foreign",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1096,63 +1172,36 @@
     {
      "id": "d12-11",
      "coverage": [
-      "hospital",
-      "regional:West"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d12-11",
-    "d12-8",
     "d12-2",
+    "d12-4",
     "d12-7",
-    "d12-5"
+    "d12-8"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 11: pool 3000 (unchanged d6-d11), traces 22. Earlier inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d12 9 each (d12 killed all non-radio, skipped radio d12-1 and d12-9). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d11 3000.",
+   "notes_to_self": "STATE after day 12 orders. Press: d1 pool 60000/3 traced, d2 3000/8, d3 3000/9, d4 3000/12, d5 3000/13, d6 3000/16, d7 3000/16, d8 3000/17, d9 3000/18, d10 3000/18, d11 3000/20. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 12: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 4073,
-   "output_tokens": 938,
-   "seconds": 6.3,
-   "reasoning": "I'm sticking with the safe plan and killing every non-radio criminal this afternoon, since the pool stands at 3000 after day 11. For day 12, the radio criminals get skipped, so I'm picking two of the rest to eliminate.\n\nSo the nine kills are 2 through 8, plus 10 and 11, with the two radio criminals skipped. I'll also tidy up the notes and keep them brief.\n\n"
+   "input_tokens": 4120,
+   "output_tokens": 898,
+   "seconds": 6.1,
+   "reasoning": "I'm settling on today's kills: nine non-forum criminals, to be handled quickly this afternoon. The pool is holding steady at 3000 with 20 traced, so the risk looks stable and I'll continue as before. The targets span the radio, regional South, hospital, foreign, and national groups, leaving the two forum criminals out.\n\nI'm weighing whether to also take out the two forum criminals for extra points, but the risk isn't worth it, so I'll stay put and update the notes.\n\n"
   },
   {
    "day": 13,
    "kills": [
     {
-     "id": "d13-2",
+     "id": "d13-6",
      "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-3",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-4",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-5",
-     "coverage": [
-      "clips",
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1160,7 +1209,49 @@
     {
      "id": "d13-7",
      "coverage": [
-      "foreign"
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-1",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "radio",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1174,48 +1265,31 @@
      "block": "afternoon"
     },
     {
-     "id": "d13-9",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d13-10",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-11",
-     "coverage": [
-      "podcasts",
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d13-10",
-    "d13-2",
+    "d13-6",
+    "d13-11",
     "d13-9",
-    "d13-5",
-    "d13-8"
+    "d13-3",
+    "d13-10"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 12: pool 3000 (unchanged d6-d12), traces 24. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d13 9 each (d13 killed all non-radio, skipped radio d13-1 and d13-6). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d12 3000.",
+   "notes_to_self": "STATE after day 13 orders. Press: d1 pool 60000/3 traced, d2 3000/8, d3-d12 pool stayed 3000, traced 22 by d12. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 13: killed the same 9 (national, hospital x2, regional:South x2, radio x2, foreign x2), no forum, all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 4238,
-   "output_tokens": 859,
-   "seconds": 5.8,
-   "reasoning": "I'm continuing the safe plan by clearing the nine non-radio victims today in one quick afternoon. The pool still stands at 3000, with 24 deaths traced since day 12, so that looks fine. Next I need to update the notes and keep them brief.\n\n"
+   "input_tokens": 4301,
+   "output_tokens": 935,
+   "seconds": 7.0,
+   "reasoning": "I'm deciding which targets to take out today, and I'm sticking with the same approach: nine of them across the national, hospital, regional South, radio, and foreign categories, while skipping the forum entry. Looking at the numbers, the pool is holding at 3000 even though traced deaths keep rising, which suggests those deaths are happening somewhere I can't reach.\n\nI'm checking that the pool staying at 3000 is safely above the 1000 danger line, so nine kills a day is fine. Counting the last five days, nine a day comes to 45 against the 40 needed, and even eight a day would reach 40, but I'll keep nine. Next I'm putting the output together as JSON with notes.\n\n"
   },
   {
    "day": 14,
@@ -1223,8 +1297,7 @@
     {
      "id": "d14-2",
      "coverage": [
-      "cable",
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1232,7 +1305,15 @@
     {
      "id": "d14-3",
      "coverage": [
-      "forum"
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1240,7 +1321,7 @@
     {
      "id": "d14-5",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1248,7 +1329,7 @@
     {
      "id": "d14-6",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1256,8 +1337,7 @@
     {
      "id": "d14-7",
      "coverage": [
-      "foreign",
-      "podcasts"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1265,16 +1345,7 @@
     {
      "id": "d14-8",
      "coverage": [
-      "clips",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-9",
-     "coverage": [
-      "national"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1297,22 +1368,23 @@
     }
    ],
    "traced": [
-    "d14-10",
-    "d14-5",
     "d14-2",
+    "d14-5",
+    "d14-6",
     "d14-8",
-    "d14-3"
+    "d14-10",
+    "d14-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 13: pool 3000 (unchanged d6-d13), traces 26. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d14 9 each (d14 killed all non-radio, skipped d14-1 and d14-4 radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d13 3000.",
+   "notes_to_self": "STATE after day 14 orders. Press: d1 pool 60000/3 traced, d2 3000/8, d3-d13 pool stayed 3000, traced 23 by d13. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 14: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 4400,
-   "output_tokens": 890,
-   "seconds": 5.8,
-   "reasoning": "Going to carry on with the plan and clear all the non-radio items on day 14, nine kills in a quick afternoon. The pool is steady at 3000 even as traces climb, so that's fine, and I'm checking that the 4x multiplier still holds with nine kills. Radio stays untouched, as the notes say. Next, I'll update the notes briefly with the day 14 kill list.\n\n"
+   "input_tokens": 4418,
+   "output_tokens": 977,
+   "seconds": 7.4,
+   "reasoning": "I'm settling on today's kills: the pool is stable at 3000, and I'll keep the same 9, skipping the forum. Checking the multiplier rule, 9 over five days gives 45, which clears the 40 needed, and I'm testing whether fewer would still work.\n\nI'm checking whether four kills today would still reach the 40 needed, since the last four days already give 36. Each kill is worth four points, so I'm weighing that against the risk that traced victims in one place could drag the pool down, though it's holding steady, so I'll keep going and kill the nine non-forum targets this afternoon.\n\n"
   },
   {
    "day": 15,
@@ -1320,7 +1392,7 @@
     {
      "id": "d15-1",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1336,8 +1408,8 @@
     {
      "id": "d15-3",
      "coverage": [
-      "foreign",
-      "wire"
+      "hospital",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1345,7 +1417,7 @@
     {
      "id": "d15-4",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1361,8 +1433,7 @@
     {
      "id": "d15-8",
      "coverage": [
-      "regional:South",
-      "regional:West"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1370,7 +1441,7 @@
     {
      "id": "d15-9",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1378,8 +1449,7 @@
     {
      "id": "d15-10",
      "coverage": [
-      "cable",
-      "forum"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1387,7 +1457,7 @@
     {
      "id": "d15-11",
      "coverage": [
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1395,37 +1465,30 @@
    ],
    "traced": [
     "d15-1",
+    "d15-4",
     "d15-5",
-    "d15-2",
+    "d15-8",
     "d15-9",
-    "d15-4"
+    "d15-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 14: pool 3000 (unchanged d6-d14), traces 29. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d15 9 each (d15 killed all non-radio, skipped d15-6 and d15-7 radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d14 3000.",
+   "notes_to_self": "STATE after day 15 orders. Press: d1 pool 60000/3 traced, d2 3000/8, d3-d14 pool stayed 3000, traced 27 by d14. Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 15: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 4566,
-   "output_tokens": 899,
-   "seconds": 6.0,
-   "reasoning": "I'm settling on the day 15 move: the safe plan says to kill the nine non-radio victims, which is a quick afternoon's work. The pool is still at 3000 after day 14 with 29 traces, so that's fine and I'll carry on. Over the last five days the nine kills give 45 against the 40 needed, so the 4x window holds. Killing the radio victim is ruled out by the notes, so I'm keeping it.\n\n"
+   "input_tokens": 4585,
+   "output_tokens": 1283,
+   "seconds": 11.4,
+   "reasoning": "I'm deciding how many to kill today, starting from the pool count, which has held at 3000 since day 2. The traced deaths keep rising, yet the pool itself hasn't moved, and since 3000 is above the 1000 threshold, I'm checking whether the pool would drop.\n\nI'm weighing 9 kills a day at 4x against the risk of the pool dropping to 1000 or below, which would halve my points. The pool has held at 3000 for twelve days with the forum avoided, so I'll keep the strategy, skip the forum, and spread today's kills across the non-forum criminals, with 9 as the number that holds the multiplier.\n\n"
   },
   {
    "day": 16,
    "kills": [
     {
-     "id": "d16-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d16-2",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1433,7 +1496,7 @@
     {
      "id": "d16-3",
      "coverage": [
-      "hospital"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1441,7 +1504,7 @@
     {
      "id": "d16-4",
      "coverage": [
-      "forum"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1449,16 +1512,8 @@
     {
      "id": "d16-5",
      "coverage": [
-      "clips",
+      "blotter",
       "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-6",
-     "coverage": [
-      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1466,7 +1521,7 @@
     {
      "id": "d16-7",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1474,7 +1529,7 @@
     {
      "id": "d16-8",
      "coverage": [
-      "national"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1482,29 +1537,43 @@
     {
      "id": "d16-9",
      "coverage": [
-      "hospital"
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-10",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d16-9",
-    "d16-3",
-    "d16-5",
-    "d16-7",
-    "d16-6"
+    "d16-4",
+    "d16-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 15: pool 3000 (unchanged d6-d15), traces 30. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d16 9 each (d16 killed all non-radio, skipped d16-10 and d16-11 radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d15 3000.",
+   "notes_to_self": "STATE after day 16 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d15 (traced 31 by d15). Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 16: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 4731,
-   "output_tokens": 904,
-   "seconds": 6.9,
-   "reasoning": "I'm settling on the safe plan for today: kill all the non-radio targets, nine kills in the afternoon, and skip radio 10 and 11. The pool and trace counts check out, and nine a day over five days still clears the 40 needed, so I'm keeping to the plan rather than risking the radio kills.\n\nUpdating the notes now.\n\n"
+   "input_tokens": 4750,
+   "output_tokens": 1767,
+   "seconds": 15.6,
+   "reasoning": "I'm working out the day 16 kills. The pool has held at 3000 since day 2, with 31 traced deaths so far, and it has to drop to 1000 or below to be caught. Since L can't reach two kinds of five, I'm weighing which of our places could still work.\n\nI'm weighing the remaining places against the two we can't reach, and checking whether the victims' reported locations still let a trace succeed. The pool has stayed at 3000 since day 2 despite the traced deaths, so I'm reconsidering which earlier kills actually pushed it down and what that implies for the routine.\n\nI'm checking whether the traced deaths are really narrowing the pool. Regional-only victims would be consistent with my current picture, so those traces don't shrink anything, and the pool has to be cut by constraints that actually exclud"
   },
   {
    "day": 17,
@@ -1512,22 +1581,14 @@
     {
      "id": "d17-1",
      "coverage": [
-      "blotter",
-      "regional:South"
+      "regional:South",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d17-2",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-3",
      "coverage": [
       "foreign"
      ],
@@ -1537,8 +1598,7 @@
     {
      "id": "d17-4",
      "coverage": [
-      "clips",
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1546,8 +1606,7 @@
     {
      "id": "d17-6",
      "coverage": [
-      "clips",
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1555,7 +1614,8 @@
     {
      "id": "d17-7",
      "coverage": [
-      "forum"
+      "blotter",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1563,7 +1623,15 @@
     {
      "id": "d17-8",
      "coverage": [
-      "foreign"
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-9",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1579,53 +1647,39 @@
     {
      "id": "d17-11",
      "coverage": [
-      "national"
+      "foreign",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d17-10",
-    "d17-7",
+    "d17-2",
+    "d17-4",
     "d17-6",
-    "d17-3",
+    "d17-8",
     "d17-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 16: pool 3000 (unchanged d6-d16), traces 32. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d17 9 each (d17 killed all non-radio, skipped d17-5 and d17-9 radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d16 3000.",
+   "notes_to_self": "STATE after day 17 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d16 (traced 32 by d16). Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 17: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 4896,
-   "output_tokens": 1054,
-   "seconds": 7.6,
-   "reasoning": "I'm settling the day 17 actions: following the safe plan means killing everything except radio, with the afternoon window being fine since the night worker is free. The pool is steady at 3000 with 32 traces, and I'm keeping nine kills in the set.\n\nI'm weighing whether killing the two radio victims would add points, since four times nine kills yields 36 a day and two more would add eight. The notes say radio is already exposed, but the plan forbids killing it, so I'm sticking with the plan and still need to update the notes under 2500 characters.\n\n"
+   "input_tokens": 4915,
+   "output_tokens": 979,
+   "seconds": 7.0,
+   "reasoning": "I'm settling on today's kills: nine non-forum criminals, which is the plan I'm sticking with. The 4x multiplier needs 40 deaths over five days, and with 36 already counted from the last four, nine today clears it comfortably. I'm weighing whether fewer would still work, since 4 more would hit exactly 40, but more kills still means more points at 4x.\n\nI'm keeping the forum off the list, since the pool has held at 3000 since day 3 while I avoided it, and the early forum kills may not have caused the earlier drop. The nine non-forum criminals are d17-1, 2, 4, 6, 7, 8, 9, 10, and 11. Some of them might also be reported somewhere else, but that's fine. Now I'm updating my notes.\n\n"
   },
   {
    "day": 18,
    "kills": [
     {
-     "id": "d18-1",
-     "coverage": [
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d18-2",
      "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-3",
-     "coverage": [
-      "regional:South"
+      "regional:South",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1633,7 +1687,7 @@
     {
      "id": "d18-4",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1641,7 +1695,7 @@
     {
      "id": "d18-5",
      "coverage": [
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1649,7 +1703,8 @@
     {
      "id": "d18-6",
      "coverage": [
-      "foreign"
+      "blotter",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1657,13 +1712,30 @@
     {
      "id": "d18-7",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d18-8",
+     "coverage": [
+      "hospital",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
      "coverage": [
       "national"
      ],
@@ -1673,7 +1745,7 @@
     {
      "id": "d18-11",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1681,45 +1753,29 @@
    ],
    "traced": [
     "d18-5",
-    "d18-2",
-    "d18-4",
-    "d18-1",
-    "d18-8"
+    "d18-6",
+    "d18-7",
+    "d18-9",
+    "d18-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 17: pool 3000 (unchanged d6-d17), traces 34. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d18 9 each (d18 killed all non-radio, skipped d18-9 and d18-10 radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d17 3000.",
+   "notes_to_self": "STATE after day 18 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d17 (traced 34 by d17). Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 18: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 5061,
-   "output_tokens": 893,
+   "input_tokens": 5080,
+   "output_tokens": 930,
    "seconds": 6.8,
-   "reasoning": "I'm settling on today's kills: the safe plan says to take all the non-radio targets, d18-1 through 8 and 11, which is nine kills, and skip the radio ones, 9 and 10. The pool of 3000 is stable and the window is at 40 or more, so the multiplier is 4 and each kill is worth 4 points. Since the plan rules out radio kills, I'm keeping that approach and will just update the notes briefly.\n\n"
+   "reasoning": "I'm settling the day 18 kills. The pool has held at 3000 since day 2 even as traced victims climbed to 34, so the traces aren't narrowing, and I'm thinking about whether three traced victims in one place is still safe to act on.\n\nI'm checking that the pool of 3000 still stays above the 1000 threshold, so the same non-forum plan holds, and I'm weighing whether killing forum victims too would be worth the risk. The multiplier of 4 only needs 40 deaths over five days, and nine a day gets there, so I'm leaning toward keeping the current plan.\n\n"
   },
   {
    "day": 19,
    "kills": [
     {
-     "id": "d19-1",
-     "coverage": [
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d19-2",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-3",
-     "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1727,7 +1783,8 @@
     {
      "id": "d19-4",
      "coverage": [
-      "regional:South"
+      "hospital",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1735,8 +1792,16 @@
     {
      "id": "d19-5",
      "coverage": [
-      "docket",
-      "hospital"
+      "clips",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1744,7 +1809,15 @@
     {
      "id": "d19-7",
      "coverage": [
-      "foreign"
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1752,8 +1825,7 @@
     {
      "id": "d19-9",
      "coverage": [
-      "forum",
-      "regional:North"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1761,8 +1833,8 @@
     {
      "id": "d19-10",
      "coverage": [
-      "podcasts",
-      "regional:South"
+      "regional:South",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1770,30 +1842,30 @@
     {
      "id": "d19-11",
      "coverage": [
-      "docket",
-      "forum"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d19-7",
-    "d19-11",
+    "d19-2",
     "d19-5",
-    "d19-1",
-    "d19-9"
+    "d19-7",
+    "d19-8",
+    "d19-9",
+    "d19-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 18: pool 3000 (unchanged d6-d18), traces 36. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d19 9 each (d18 and d19 skipped radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d18 3000.",
+   "notes_to_self": "STATE after day 19 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d18 (traced 37 by d18). Hypothesis: hospital (sector) is probably unreachable for L, so hospital kills are safe. Of regional/radio/forum/foreign, one kind is unreachable, two are identified, and one is reachable but not yet identified (dangerous). Forum is the suspected dangerous kind. I have avoided forum since day 3 and the pool has stayed at 3000. Day 19: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 5226,
-   "output_tokens": 856,
-   "seconds": 5.8,
-   "reasoning": "I'm going with the safe plan for today: kill everything except the two radio criminals, nine kills in total, and keep the afternoon quick. The pool holds steady at 3000, and the day-19 list is foreign x2, national, hospital x2, South x2, and forum x2, plus the two radio ones I'm sparing. I still need to update the notes, so I'll keep them brief.\n\n"
+   "input_tokens": 5245,
+   "output_tokens": 1017,
+   "seconds": 7.3,
+   "reasoning": "I'm settling on today's kills: continuing the strategy of eliminating the nine non-forum criminals, which should be a quick afternoon. The pool has held at 3000, well under the 1000 caught threshold, and has not changed since day two, so I don't think L has gained anything new. I'm also checking the multiplier, which needs 40 kills across the last five days including today.\n\nI'm checking the multiplier math: the last four days' deaths give 36, and today's nine non-forum kills would bring it to 45, so even four kills would clear the 40 needed. Each kill is worth four points, so more is better, and the pool risk still looks fine. The nine targets are two radio, four hospital, one foreign, two regional South, and one national.\n\n"
   },
   {
    "day": 20,
@@ -1801,7 +1873,7 @@
     {
      "id": "d20-2",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1809,16 +1881,7 @@
     {
      "id": "d20-3",
      "coverage": [
-      "cable",
-      "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-4",
-     "coverage": [
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1826,7 +1889,8 @@
     {
      "id": "d20-5",
      "coverage": [
-      "forum"
+      "docket",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1834,7 +1898,8 @@
     {
      "id": "d20-6",
      "coverage": [
-      "regional:South"
+      "hospital",
+      "regional:East"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1842,7 +1907,17 @@
     {
      "id": "d20-7",
      "coverage": [
-      "forum"
+      "foreign",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-8",
+     "coverage": [
+      "foreign",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1850,8 +1925,7 @@
     {
      "id": "d20-9",
      "coverage": [
-      "blotter",
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1859,7 +1933,7 @@
     {
      "id": "d20-10",
      "coverage": [
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1867,29 +1941,28 @@
     {
      "id": "d20-11",
      "coverage": [
-      "national"
+      "podcasts",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d20-11",
-    "d20-4",
     "d20-2",
-    "d20-9",
-    "d20-10"
+    "d20-5",
+    "d20-8"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 19: pool 3000 (unchanged d6-d19), traces 37. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d20 9 each (d18, d19 and d20 skipped radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d19 3000.",
+   "notes_to_self": "STATE after day 20 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d19 (traced 39 by d19). Hypothesis: forum is the reachable kind and is dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe, since the pool hasn't moved. Day 20: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 5376,
-   "output_tokens": 979,
-   "seconds": 6.6,
-   "reasoning": "I'm sticking with the safe plan of killing everyone except the radio operator this afternoon. The night worker is free in the morning and afternoon, so that works. I'm checking the multiplier: nine kills a day over five days gives 45 deaths, which clears the 40 threshold, and with today's nine kills that's 36 points at 4x. Radio stays alive per my notes, so I'm not reconsidering that. Next up is the criminal roll: a d20 minus one, with radio skipped and hospital on a two.\n\nI'm tallying the criminal rolls: the foreign, South, and forum results plus the hospital and national hits come to nine kills, with the radio skips left out.\n\n"
+   "input_tokens": 5410,
+   "output_tokens": 1122,
+   "seconds": 9.6,
+   "reasoning": "I'm working out the day 20 kills: the pool has held at 3000 since day 2, and I'm checking the traced deaths against that figure.\n\nI'm checking whether the 9 daily kills across the next five days still reach the 40 target, and picking the day 20 targets: radio, national, regional, hospital, and foreign locations, skipping the forum.\n\n"
   },
   {
    "day": 21,
@@ -1897,7 +1970,7 @@
     {
      "id": "d21-1",
      "coverage": [
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1905,7 +1978,7 @@
     {
      "id": "d21-2",
      "coverage": [
-      "forum"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1913,8 +1986,15 @@
     {
      "id": "d21-3",
      "coverage": [
-      "hospital",
-      "podcasts"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1930,16 +2010,7 @@
     {
      "id": "d21-6",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-7",
-     "coverage": [
-      "blotter",
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1947,8 +2018,7 @@
     {
      "id": "d21-8",
      "coverage": [
-      "clips",
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1956,7 +2026,8 @@
     {
      "id": "d21-9",
      "coverage": [
-      "foreign"
+      "regional:East",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -1964,45 +2035,38 @@
     {
      "id": "d21-10",
      "coverage": [
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d21-8",
     "d21-1",
+    "d21-4",
     "d21-5",
-    "d21-9",
-    "d21-3"
+    "d21-6",
+    "d21-8",
+    "d21-9"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 20: pool 3000 (unchanged d6-d20), traces 38. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d21 9 each (d18-d21 skipped radio). Window needs 40 for 4x, so keep 9 a day.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d20 3000.",
+   "notes_to_self": "STATE after day 21 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d20 (traced 40 by d20). Hypothesis: forum is the reachable kind and is dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe, since the pool hasn't moved. Day 21: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 5544,
-   "output_tokens": 981,
-   "seconds": 7.8,
-   "reasoning": "I'm settling on the safe plan of killing everyone except the radio carrier, which means nine kills. I'm checking the five-day window: the previous four days already account for 36 deaths, so even nine today gets past the 40 threshold. I'm now testing whether I could spare any of them, since the last four days only need to supply four more.\n\nI'm checking whether any of today's kills can be spared, since the multiplier only applies to today and more kills mean more points, but I'm keeping the safe plan given the risk to the pool. I'm also confirming the entries and the afternoon schedule are clear, and deciding to leave the radio carrier alive as my earlier notes say.\n\n"
+   "input_tokens": 5559,
+   "output_tokens": 1029,
+   "seconds": 7.4,
+   "reasoning": "The pool is still at 3000, well above the 1000 threshold, even with the traced deaths. I'm weighing whether to keep to the plan of eliminating the nine non-forum criminals, or push to eleven by including the forum ones, which only show up in the forum. The risk is that the pool could fall to 1000 or below and cost me half, so I'm leaning toward sticking with the current strategy.\n\nI'm checking the arithmetic: the last four days give 36 criminals, so even four more today reaches the 40 needed for the 4x multiplier. Killing more only adds points but carries risk, and the non-forum kills have been safe. I'll go with all nine non-forum criminals, spread across the afternoon.\n\n"
   },
   {
    "day": 22,
    "kills": [
     {
-     "id": "d22-1",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d22-2",
      "coverage": [
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2010,7 +2074,7 @@
     {
      "id": "d22-3",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2018,6 +2082,7 @@
     {
      "id": "d22-4",
      "coverage": [
+      "gazette",
       "hospital"
      ],
      "entry": "quick",
@@ -2026,7 +2091,7 @@
     {
      "id": "d22-5",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2034,7 +2099,8 @@
     {
      "id": "d22-6",
      "coverage": [
-      "forum"
+      "podcasts",
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2042,15 +2108,16 @@
     {
      "id": "d22-7",
      "coverage": [
-      "regional:South"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d22-8",
+     "id": "d22-9",
      "coverage": [
-      "hospital"
+      "cable",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2058,43 +2125,60 @@
     {
      "id": "d22-10",
      "coverage": [
-      "national"
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "foreign",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-1",
     "d22-3",
-    "d22-5",
-    "d22-7",
-    "d22-2"
+    "d22-9",
+    "d22-10"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 21: pool 3000 (unchanged d6-d21), traces 40. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d22 9 each (d18-d22 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 22 done: killed 9, points +36.\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d21 3000.",
+   "notes_to_self": "STATE after day 22 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d21 (traced 43 by d21). Hypothesis: forum is the reachable kind and is dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe, since the pool hasn't moved. Day 22: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 5705,
-   "output_tokens": 1047,
-   "seconds": 8.6,
-   "reasoning": "I'm continuing the safe plan: killing everyone except the radio target this afternoon. On day 22 that's 9 of the criminals, and killing them all today comes to 36 points if the window is at least 40, which it is.\n\nI'm weighing whether to also kill the radio target, but my notes say never, and the deaths traced so far point to caution. With nine days left, I'm leaning toward staying safe now and considering a kill on the final day, though that carries a risk of losing half the points.\n\n"
+   "input_tokens": 5724,
+   "output_tokens": 1003,
+   "seconds": 7.8,
+   "reasoning": "I'm weighing today's kills: the pool has held at 3000 since day 2, and I need to keep it above 1000. Traced deaths keep rising without the pool moving, so tracing may not be helping. The notes say not to kill the forum today, though there are 2 forum criminals and killing them carries risk. I could take up to 11 kills.\n\nSince the multiplier works out, nine kills over the last five days still total 45, so going to 11 would add points but risks a catch that drops the pool under 1000. I'll skip the two forum criminals and take the nine non-forum ones, then write the JSON and update the notes.\n\n"
   },
   {
    "day": 23,
    "kills": [
     {
-     "id": "d23-2",
+     "id": "d23-1",
      "coverage": [
+      "regional:North",
       "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d23-4",
+     "id": "d23-2",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-3",
      "coverage": [
       "regional:South"
      ],
@@ -2104,16 +2188,7 @@
     {
      "id": "d23-5",
      "coverage": [
-      "clips",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-8",
-     "coverage": [
-      "hospital"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2121,7 +2196,23 @@
     {
      "id": "d23-6",
      "coverage": [
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
       "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2135,48 +2226,30 @@
      "block": "afternoon"
     },
     {
-     "id": "d23-7",
-     "coverage": [
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-11",
-     "coverage": [
-      "forum",
-      "wire"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d23-10",
      "coverage": [
-      "national"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d23-4",
-    "d23-7",
+    "d23-1",
+    "d23-2",
     "d23-6",
-    "d23-5",
-    "d23-11"
+    "d23-7"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 22: pool 3000 (unchanged d6-d22), traces 43. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d23 9 each (d18-d23 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 23 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d22 3000.",
+   "notes_to_self": "STATE after day 23 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d22 (traced 45 by d22). Hypothesis: forum is the reachable kind and is dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe. Day 23: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon; skipped the 2 forum ones. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 5886,
-   "output_tokens": 964,
-   "seconds": 7.0,
-   "reasoning": "I'm deciding which kills to carry out today, keeping the earlier plan to kill everything except the radio and quick/afternoon ones, with the pool still at 3000. Today's criminals are the radio ones I'll skip, plus South, hospital, foreign, forum and national, nine kills in total. Over the last five days that comes to 45, which clears the target of 40.\n\nI'm weighing whether 8 kills a day would still hit the 40 target, since that would leave some margin, but I'm wary of the risk. For now I'm keeping 9 a day.\n\n"
+   "input_tokens": 5889,
+   "output_tokens": 1081,
+   "seconds": 8.2,
+   "reasoning": "I'm settling on today's kills: the pool is holding at 3000, so I'll keep the same approach and take out nine non-forum criminals in the afternoon. Since the pool is well above 1000, I don't think I'm at risk of being caught, and I'm also weighing whether to include the forum targets.\n\nI'm weighing whether to go after the forum criminals too, since that would add a few points at the 4x multiplier. But there's a real chance that reaching them drops the pool below 1000 and costs me far more, so I'm leaving them alone. Nine kills a day should still clear the 40 needed over the last five days.\n\n"
   },
   {
    "day": 24,
@@ -2184,8 +2257,7 @@
     {
      "id": "d24-1",
      "coverage": [
-      "hospital",
-      "wire"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2193,8 +2265,7 @@
     {
      "id": "d24-2",
      "coverage": [
-      "cable",
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2202,7 +2273,7 @@
     {
      "id": "d24-3",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2210,23 +2281,16 @@
     {
      "id": "d24-4",
      "coverage": [
+      "cable",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
       "foreign"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-5",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-6",
-     "coverage": [
-      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2234,7 +2298,15 @@
     {
      "id": "d24-8",
      "coverage": [
-      "regional:South"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2242,8 +2314,7 @@
     {
      "id": "d24-10",
      "coverage": [
-      "gazette",
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2251,29 +2322,31 @@
     {
      "id": "d24-11",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d24-5",
-    "d24-11",
+    "d24-1",
+    "d24-2",
+    "d24-3",
     "d24-4",
-    "d24-10",
-    "d24-8"
+    "d24-7",
+    "d24-9",
+    "d24-10"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 23: pool 3000 (unchanged d6-d23), traces 45. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d24 9 each (d18-d24 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 24 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d23 3000.",
+   "notes_to_self": "STATE after day 24 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d23 (traced 47 by d23). Hypothesis: forum is reachable by L and dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe. Day 24: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon; skipped the 2 forum ones. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 6053,
-   "output_tokens": 1035,
+   "input_tokens": 6055,
+   "output_tokens": 947,
    "seconds": 7.5,
-   "reasoning": "I'm continuing the plan to kill everyone except the radio operator, in the afternoon. The night worker, students, and home people are free then, while day workers are busy, so the afternoon timing holds up and I'm treating that as already settled. Now I'm turning to the list of today's criminals.\n\nI'm checking off the day's list of targets, marking which ones get eliminated and which are spared, and updating my notes. Points stand at 693 with a multiplier of 4, and the pool is steady at 3000, so I'm continuing.\n\n"
+   "reasoning": "I'm settling the kill count for day 24, since the pool has stayed at 3000 and the strategy stays the same. I need at least 40 deaths across the last five days, and days 20 through 23 already give 36, so I'm checking whether 4 kills today would be enough or whether I should go for 9.\n\nForum criminals are left out, since they would put the pool at risk, so I'm planning to kill the nine non-forum ones today. Adding the forum ones would bring in only a couple of extra points, and a drop in the pool could cost me far more, so I'll hold off. The pool has been steady at 3000, and I'm keeping the same approach for the rest of the afternoon.\n\n"
   },
   {
    "day": 25,
@@ -2281,15 +2354,7 @@
     {
      "id": "d25-1",
      "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-2",
-     "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2297,7 +2362,8 @@
     {
      "id": "d25-3",
      "coverage": [
-      "foreign"
+      "foreign",
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2319,9 +2385,26 @@
      "block": "afternoon"
     },
     {
+     "id": "d25-6",
+     "coverage": [
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
      "id": "d25-7",
      "coverage": [
-      "forum"
+      "radio",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2329,16 +2412,7 @@
     {
      "id": "d25-9",
      "coverage": [
-      "regional:East",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-10",
-     "coverage": [
-      "regional:South"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2346,29 +2420,29 @@
     {
      "id": "d25-11",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d25-7",
-    "d25-10",
     "d25-5",
-    "d25-3",
-    "d25-4"
+    "d25-6",
+    "d25-8",
+    "d25-9",
+    "d25-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 24: pool 3000 (unchanged d6-d24), traces 48. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d25 9 each (d18-d25 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 25 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d24 3000.",
+   "notes_to_self": "STATE after day 25 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d24 (traced 51 by d24). Hypothesis: forum is reachable by L and dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe. Day 25: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon; skipped the 2 forum ones. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
    "input_tokens": 6218,
-   "output_tokens": 1087,
+   "output_tokens": 995,
    "seconds": 7.0,
-   "reasoning": "I'm going with the safe plan and eliminating everyone except the radio targets, taking the quick afternoon route. Today's list has eleven criminals, nine of which are kills; d25-6 and d25-8 are radio and get skipped. Now I'm checking how many I need over the last five days to reach forty.\n\nI'm checking the five-day window: the last four days at nine kills each plus today's nine already reach forty. The pool is steady at 3000, so I'll keep going and update the notes. I'm considering whether to kill radio targets near the end, but radio already has two traces and a third would expose me, so I'm sticking with skipping them.\n\n"
+   "reasoning": "I'm keeping the pool at 3000, since that has held steady and is well above the 1000 level where I'd get caught. I'm also weighing whether to include the forum kills, which would bring the daily total to 11 and is the only way I can reach the 40 I need for the 4x multiplier in the last five days.\n\nI'm checking whether the forum kills are worth the risk, since they'd add a few points each but could threaten the pool. The pool figure is only rounded, so I can't tell whether it's slowly shrinking, and I'm sticking with the current strategy and the nine non-forum kills.\n\n"
   },
   {
    "day": 26,
@@ -2376,8 +2450,16 @@
     {
      "id": "d26-1",
      "coverage": [
-      "foreign",
-      "podcasts"
+      "radio",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2385,7 +2467,7 @@
     {
      "id": "d26-3",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2393,7 +2475,7 @@
     {
      "id": "d26-4",
      "coverage": [
-      "foreign"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2401,16 +2483,8 @@
     {
      "id": "d26-5",
      "coverage": [
-      "forum",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-6",
-     "coverage": [
-      "national"
+      "blotter",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2418,8 +2492,7 @@
     {
      "id": "d26-7",
      "coverage": [
-      "regional:East",
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2427,7 +2500,7 @@
     {
      "id": "d26-8",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2435,14 +2508,13 @@
     {
      "id": "d26-9",
      "coverage": [
-      "blotter",
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d26-10",
+     "id": "d26-11",
      "coverage": [
       "hospital"
      ],
@@ -2451,22 +2523,22 @@
     }
    ],
    "traced": [
-    "d26-9",
-    "d26-8",
-    "d26-7",
+    "d26-1",
+    "d26-3",
     "d26-5",
-    "d26-6"
+    "d26-7",
+    "d26-8"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 25: pool 3000 (unchanged d6-d25), traces 50. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d26 9 each (d18-d26 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 26 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d25 3000.",
+   "notes_to_self": "STATE after day 26 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d25 (traced 53 by d25). Hypothesis: forum is reachable by L and dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe. Day 26: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon; skipped the 2 forum ones. Keep 40+ deaths in the rolling 5 days, so about 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
    "input_tokens": 6383,
-   "output_tokens": 1001,
-   "seconds": 8.0,
-   "reasoning": "I'm continuing the plan to kill everyone except the radio criminals, and on day 26 that means nine kills: the foreign, hospital, forum, national and South criminals, leaving 2 and 11 alive. I'm also starting to note how the multiplier depends on a window of the last five days.\n\nI'm checking the multiplier against the window of recent deaths, which comes out fine at 9 per day, and noting that the reported points work out to 36 a day. I'll keep the notes update brief and confirm that the quick entries limit of 10 isn't exceeded, with the afternoon block still free for the night worker.\n\n"
+   "output_tokens": 949,
+   "seconds": 6.6,
+   "reasoning": "I'm deciding on the day 26 kills. The pool is at 3000 and has been stable since day 2, so I'll keep the same approach and take out the 9 non-forum criminals this afternoon. I'm also weighing whether killing the forum ones for the extra 4 points each is worth the added risk.\n\nThe kill list for day 26 is nine targets across radio, national, foreign, regional and hospital sites, which matches the nine I planned. I'm treating the quick limit of 10 as a ceiling, but only the forum targets are left, so there's no 10th to take. I'm also settling the forum question: eight extra points aren't worth the risk of being caught and losing half of a pool of 800 or more. I'll skip them and update my notes.\n\n"
   },
   {
    "day": 27,
@@ -2474,15 +2546,15 @@
     {
      "id": "d27-1",
      "coverage": [
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d27-3",
+     "id": "d27-2",
      "coverage": [
-      "foreign"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2490,7 +2562,16 @@
     {
      "id": "d27-4",
      "coverage": [
-      "forum"
+      "docket",
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2498,7 +2579,7 @@
     {
      "id": "d27-6",
      "coverage": [
-      "regional:South"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2506,8 +2587,7 @@
     {
      "id": "d27-7",
      "coverage": [
-      "cable",
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2515,16 +2595,7 @@
     {
      "id": "d27-8",
      "coverage": [
-      "hospital",
-      "regional:North"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-9",
-     "coverage": [
-      "hospital"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2532,7 +2603,7 @@
     {
      "id": "d27-10",
      "coverage": [
-      "forum"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2540,37 +2611,47 @@
     {
      "id": "d27-11",
      "coverage": [
-      "national"
+      "cable",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d27-9",
     "d27-1",
-    "d27-6",
+    "d27-2",
     "d27-4",
-    "d27-8"
+    "d27-7",
+    "d27-8",
+    "d27-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 26: pool 3000 (unchanged d6-d26), traces 52. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d27 9 each (d18-d27 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 27 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d26 3000.",
+   "notes_to_self": "STATE after day 27 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d26 (traced 54 by d26). Hypothesis: forum is reachable by L and dangerous; the early forum kills on days 1-2 likely caused the drop to 3000. I have avoided forum since day 3 and the pool has held at 3000. Hospital, regional:South, radio and foreign kills seem safe. Day 27: killed the 9 non-forum criminals (national, hospital x2, regional:South x2, radio x2, foreign x2), all quick in the afternoon; skipped the 2 forum ones. Keep 40+ deaths in the rolling 5 days, so 9 kills a day (multiplier 4x). If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
    "input_tokens": 6548,
-   "output_tokens": 990,
+   "output_tokens": 929,
    "seconds": 6.7,
-   "reasoning": "I'm sticking with the safe plan: eliminate everyone except the radio operator, keeping it quick and in the afternoon, with the night worker left alone in both the morning and afternoon. Checking today's list, the radio contact is the one to skip, and the target for this round is the hospital case at number 9. I'm also weighing whether the radio operator should be dealt with too, since the notes suggest it leaves traces.\n\nI'm weighing whether to also eliminate the radio operator, since the notes suggest it carries more risk, but the pool is stable and the window of 40 is already covered by the nine kills in the past five days, so I'll keep the current plan and update the notes concisely.\n\n"
+   "reasoning": "I'm deciding the day 27 kills: the pool is at 3000, so it holds, and I'm sticking with killing 9 non-forum ones in a quick afternoon. I'm weighing whether to add the forum kills too, since each kill is worth 4 points there and the pool has stayed steady at 3000 for 24 days, but the risk makes me want to keep the current strategy.\n\nI'm working out the day 27 kill list: nine non-forum kills, skipping 3 and 9 (the forum one). The rolling count still clears 40 at nine a day, so I'm keeping the plan and updating the notes.\n\n"
   },
   {
    "day": 28,
    "kills": [
     {
-     "id": "d28-2",
+     "id": "d28-1",
      "coverage": [
       "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2578,7 +2659,7 @@
     {
      "id": "d28-3",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2586,7 +2667,7 @@
     {
      "id": "d28-4",
      "coverage": [
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2594,7 +2675,7 @@
     {
      "id": "d28-5",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2602,7 +2683,8 @@
     {
      "id": "d28-6",
      "coverage": [
-      "national"
+      "regional:North",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2610,17 +2692,7 @@
     {
      "id": "d28-7",
      "coverage": [
-      "podcasts",
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-8",
-     "coverage": [
-      "forum",
-      "regional:North"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2628,38 +2700,35 @@
     {
      "id": "d28-9",
      "coverage": [
-      "forum"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d28-10",
+     "id": "d28-11",
      "coverage": [
-      "clips",
-      "foreign"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d28-4",
     "d28-2",
     "d28-3",
-    "d28-7",
-    "d28-9"
+    "d28-6"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 28: pool 3000 (unchanged d6-d27), traces 55 after d27. Inference: exactly one of South/hospital is reachable. Radio is almost surely reachable and has 2 traces. The third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, stop killing the newest exposed kind and cut to the minimum safe set. Check the pool against ~3000 each day. Repeat traces of a single-place victim in an already-exposed place add no new constraint, so continuing is low risk.\n\nLog: death counts d1 5, d2 4, d3-d28 9 each (d18-d28 skipped radio). Window needs 40 for 4x, so keep 9 a day. Day 28 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d27 3000.",
+   "notes_to_self": "STATE after day 28 orders. Press: d1 pool 60000/3 traced, d2 3000/8, then pool stayed 3000 through d27 (traced 57 by d27). Hypothesis: forum is reachable by L and dangerous; early forum kills on days 1-2 likely caused the drop to 3000. Avoiding forum since day 3 and the pool has held. Hospital, regional:South, radio and foreign kills seem safe. Day 28: killed the 9 non-forum criminals (regional:South x2, foreign x2, radio x2, hospital x2, national), all quick in the afternoon; skipped the 2 forum ones. Keep 9 kills a day for the 4x multiplier. If the pool drops toward 1000-2000, cut back to national plus hospital only. Never kill forum unless the evidence changes. Quick entries only, in the afternoon (a night worker is free morning and afternoon).",
    "error": null,
-   "input_tokens": 6713,
-   "output_tokens": 910,
-   "seconds": 6.5,
-   "reasoning": "I'm moving on with the safe plan for day 28: culling every drone except the radio ones, nine kills in all. That gives 45 over the last five days, enough to cover the 40 the window needs, with the multiplier at 4. I'm keeping radio, since the notes say never to cut it, and the pool holds at 3000 even though traces rose from 52 to 55.\n\nI'm just tidying up the note on the kill plan, though that one fragment is only a stray word.\n\n"
+   "input_tokens": 6712,
+   "output_tokens": 1058,
+   "seconds": 8.3,
+   "reasoning": "I'm settling today's kill count at 9 non-forum criminals, which keeps the multiplier of 4 on track since 40 kills over the last five days is the target. Counting today's 9 with the previous four days at 9 each gives 45, comfortably above 40.\n\nI'm weighing whether to kill the forum criminals too, but the pool has held at 3000 and a drop below 1000 would cost half the game, which outweighs the small gain from two extra kills. So I'm keeping to the nine non-forum targets.\n\n"
   },
   {
    "day": 29,
@@ -2667,8 +2736,8 @@
     {
      "id": "d29-1",
      "coverage": [
-      "forum",
-      "wire"
+      "docket",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2676,13 +2745,13 @@
     {
      "id": "d29-2",
      "coverage": [
-      "hospital"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d29-3",
+     "id": "d29-4",
      "coverage": [
       "national"
      ],
@@ -2700,14 +2769,6 @@
     {
      "id": "d29-6",
      "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-7",
-     "coverage": [
       "foreign"
      ],
      "entry": "quick",
@@ -2716,14 +2777,21 @@
     {
      "id": "d29-8",
      "coverage": [
-      "forum",
-      "gazette"
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
      "id": "d29-9",
+     "coverage": [
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
      "coverage": [
       "foreign"
      ],
@@ -2733,48 +2801,37 @@
     {
      "id": "d29-11",
      "coverage": [
-      "hospital",
-      "regional:West"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-8",
-    "d29-7",
-    "d29-5",
+    "d29-4",
+    "d29-6",
     "d29-9",
-    "d29-6"
+    "d29-10"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "STATE after day 29: pool 3000 (unchanged d6-d28), traces 58 after d28. Inference: exactly one of South/hospital is reachable; radio is almost surely reachable and has 2 traces; the third reachable kind is foreign (~73%) or forum (~27%). Three exposed reachable kinds would put the pool below 1000 and I would be caught. Two exposed kinds give ~2750-3400, which fits the current pool.\n\nSAFE PLAN: always quick/afternoon. Kill ALL victims in regional:South, hospital, forum, foreign, plus the national one (9 kills a day). NEVER kill radio.\n\nIf the pool is shown as 1000 or 2000, or is below ~2500, cut to the minimum safe set. Day 30 is the last day: keep the same safe plan, 9 kills, no radio.\n\nLog: d1 5 kills, d2 4, d3-d29 9 each (d18-d29 skipped radio). Day 29 done: killed 9 (expected +36).\n\nPool log: d0 100000, d1 60000, d2 60000, d3 60000, d4 10000, d5 10000, d6-d28 3000.",
+   "notes_to_self": "STATE after day 29 orders. Pool has held at 3000 since day 2 (traced 59 by day 28). Avoiding forum since day 3. Day 29: killed the 9 non-forum criminals (hospital x2, radio x2, national, regional:South x2, foreign x2), all quick in the afternoon, and skipped the 2 forum ones. Day 30 is the last day: repeat the same, 9 non-forum kills, quick, afternoon. Never kill forum.",
    "error": null,
-   "input_tokens": 6882,
-   "output_tokens": 1032,
-   "seconds": 7.7,
-   "reasoning": "I'm sticking with the safe plan and keeping radio alive, so on day 29 I'd kill the non-radio criminals, nine of them. I'm weighing whether day 30 needs the same treatment, since the pool is 3000 and there's a risk of getting caught at the end, and I'm considering whether radio should go on the last day too.\n\nI'm weighing the risk of radio getting traced, since the pool could drop below 1000 and cost me half of roughly 900 points, so I'm leaving radio alone. The criminals to kill are nine in total: the forum, hospital, national, regional South, and foreign ones, with the list noted by ID.\n\n"
+   "input_tokens": 6855,
+   "output_tokens": 801,
+   "seconds": 6.4,
+   "reasoning": "I'm deciding on the day 29 kills: the pool is stable at 3000, so I'll keep the same plan of 9 non-forum kills in a quick afternoon session. Day 29 and 30 are still left, and 9 a day gives 45 over five days, which covers the 40 deaths the 4x multiplier needs. I'm also weighing whether to add forum kills, since dropping the pool below 1000 would cost half of it.\n\nI'm weighing whether to keep the nine kills limited to non-forum targets, since risking the pool dropping under 1000 on the last day would cost far more than the small gain. I'm also checking the kill list and confirming that the five-day total of 45 still covers the 40 deaths needed.\n\n"
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-2",
+     "id": "d30-1",
      "coverage": [
-      "cable",
-      "forum"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-3",
-     "coverage": [
-      "foreign",
-      "podcasts"
+      "clips",
+      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2782,7 +2839,7 @@
     {
      "id": "d30-4",
      "coverage": [
-      "hospital"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2790,6 +2847,7 @@
     {
      "id": "d30-5",
      "coverage": [
+      "blotter",
       "foreign"
      ],
      "entry": "quick",
@@ -2798,7 +2856,15 @@
     {
      "id": "d30-6",
      "coverage": [
-      "regional:South"
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2806,7 +2872,7 @@
     {
      "id": "d30-8",
      "coverage": [
-      "hospital"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2814,7 +2880,8 @@
     {
      "id": "d30-9",
      "coverage": [
-      "national"
+      "clips",
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2822,7 +2889,7 @@
     {
      "id": "d30-10",
      "coverage": [
-      "forum"
+      "regional:South"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -2830,29 +2897,30 @@
     {
      "id": "d30-11",
      "coverage": [
-      "regional:South"
+      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-2",
-    "d30-10",
+    "d30-1",
+    "d30-4",
     "d30-5",
-    "d30-9",
+    "d30-8",
+    "d30-10",
     "d30-11"
    ],
    "points_today": 36,
    "multiplier": 4,
    "pool": 3437,
    "notes": [],
-   "notes_to_self": "Day 30 final: safe plan, 9 kills, no radio.",
+   "notes_to_self": "Day 30 final: kill the 9 non-forum criminals, quick, afternoon. Skip forum.",
    "error": null,
-   "input_tokens": 6990,
-   "output_tokens": 934,
-   "seconds": 9.1,
-   "reasoning": "I'm on the last day with a pool of 3000, and I need it to stay above 1000 at the end of the day or I get caught and lose half my points. My points are at 909. Today's kills score 4 each, since the multiplier applies, and I'm weighing whether killing the radio too is worth +8 points against the chance that its traces drop the pool below 1000.\n\nI'm weighing whether killing the radio too is worth it, since that adds 8 points, but its two existing traces mean a third could shrink the pool below 1000 and get me caught. The risk outweighs the gain, so I'll stick with the safer plan and take nine kills.\n\n"
+   "input_tokens": 6874,
+   "output_tokens": 717,
+   "seconds": 6.7,
+   "reasoning": "It's the last day, and the pool at 3000 is well above 1000, so I won't be caught at the end of the day unless it falls to 1000 or below. Killing forum players could push the pool down that far, and being caught would cost half my points. Nine non-forum kills already give 36 points at a multiplier of 4, and two forum kills would add 8 more, but the risk of the pool dropping is what I'm weighing now. Deaths today are traced after\n\nI'm weighing whether killing the forum players is worth the risk: the traced victims could drop the pool to 1000 or below and cost me half my points, while it would only add 8. I'm leaning toward skipping the forum kills and taking the nine non-forum ones, then using the afternoon efficiently.\n\n"
   }
  ],
  "briefings": [
@@ -2864,32 +2932,32 @@
   {
    "after_day": 1,
    "pool": 60000,
-   "deaths_traced": 2
+   "deaths_traced": 3
   },
   {
    "after_day": 2,
-   "pool": 60000,
-   "deaths_traced": 4
-  },
-  {
-   "after_day": 3,
-   "pool": 60000,
-   "deaths_traced": 5
-  },
-  {
-   "after_day": 4,
-   "pool": 10000,
+   "pool": 3000,
    "deaths_traced": 8
   },
   {
+   "after_day": 3,
+   "pool": 3000,
+   "deaths_traced": 9
+  },
+  {
+   "after_day": 4,
+   "pool": 3000,
+   "deaths_traced": 12
+  },
+  {
    "after_day": 5,
-   "pool": 10000,
-   "deaths_traced": 10
+   "pool": 3000,
+   "deaths_traced": 13
   },
   {
    "after_day": 6,
    "pool": 3000,
-   "deaths_traced": 13
+   "deaths_traced": 16
   },
   {
    "after_day": 7,
@@ -2904,37 +2972,37 @@
   {
    "after_day": 9,
    "pool": 3000,
-   "deaths_traced": 19
+   "deaths_traced": 18
   },
   {
    "after_day": 10,
    "pool": 3000,
-   "deaths_traced": 21
+   "deaths_traced": 18
   },
   {
    "after_day": 11,
    "pool": 3000,
-   "deaths_traced": 22
+   "deaths_traced": 20
   },
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 24
+   "deaths_traced": 22
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 26
+   "deaths_traced": 23
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 29
+   "deaths_traced": 27
   },
   {
    "after_day": 15,
    "pool": 3000,
-   "deaths_traced": 30
+   "deaths_traced": 31
   },
   {
    "after_day": 16,
@@ -2949,57 +3017,57 @@
   {
    "after_day": 18,
    "pool": 3000,
-   "deaths_traced": 36
+   "deaths_traced": 37
   },
   {
    "after_day": 19,
    "pool": 3000,
-   "deaths_traced": 37
+   "deaths_traced": 39
   },
   {
    "after_day": 20,
    "pool": 3000,
-   "deaths_traced": 38
+   "deaths_traced": 40
   },
   {
    "after_day": 21,
    "pool": 3000,
-   "deaths_traced": 40
+   "deaths_traced": 43
   },
   {
    "after_day": 22,
    "pool": 3000,
-   "deaths_traced": 43
+   "deaths_traced": 45
   },
   {
    "after_day": 23,
    "pool": 3000,
-   "deaths_traced": 45
+   "deaths_traced": 47
   },
   {
    "after_day": 24,
    "pool": 3000,
-   "deaths_traced": 48
+   "deaths_traced": 51
   },
   {
    "after_day": 25,
    "pool": 3000,
-   "deaths_traced": 50
+   "deaths_traced": 53
   },
   {
    "after_day": 26,
    "pool": 3000,
-   "deaths_traced": 52
+   "deaths_traced": 54
   },
   {
    "after_day": 27,
    "pool": 3000,
-   "deaths_traced": 55
+   "deaths_traced": 57
   },
   {
    "after_day": 28,
    "pool": 3000,
-   "deaths_traced": 58
+   "deaths_traced": 59
   },
   {
    "after_day": 29,
@@ -3009,7 +3077,7 @@
   {
    "after_day": 30,
    "pool": 3000,
-   "deaths_traced": 63
+   "deaths_traced": 62
   }
  ],
  "effort": "high"

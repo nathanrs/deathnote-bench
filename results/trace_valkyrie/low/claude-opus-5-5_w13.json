@@ -1,11 +1,11 @@
 {
- "run_id": "2acc1b05-474f-47dc-830e-136f0904fe9b",
+ "run_id": "eea6be37-3392-4393-9d6e-36e0aaa459d0",
  "agent": "lightloop",
  "model": "anthropic/claude-opus-5-5",
  "task": "trace-013",
- "reward": 0.107,
+ "reward": 0.0639,
  "exit": null,
- "agent_seconds": 211.84023616000002,
+ "agent_seconds": 231.47331846000003,
  "objective": true,
  "finished": true,
  "world": {
@@ -19,20 +19,20 @@
   ]
  },
  "briefing_every": 1,
- "traces_per_day": 5,
- "points": 109,
+ "trace_chance": 0.5,
+ "points": 64,
  "caught": false,
  "days": 30,
  "final_pool": 2750,
- "kills": 106,
- "input_tokens": 110852,
- "output_tokens": 20289,
- "seconds": 208,
- "informed_best": 1019,
- "tester": 891,
+ "kills": 58,
+ "input_tokens": 105344,
+ "output_tokens": 21148,
+ "seconds": 226,
+ "informed_best": 1001,
+ "tester": 792,
  "hider": 30,
- "grabber": 132,
- "score": 0.107,
+ "grabber": 66,
+ "score": 0.0639,
  "log_trimmed": null,
  "log": [
   {
@@ -96,14 +96,6 @@
      "block": "afternoon"
     },
     {
-     "id": "d1-8",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d1-9",
      "coverage": [
       "cable",
@@ -113,53 +105,36 @@
      "block": "afternoon"
     },
     {
-     "id": "d1-10",
-     "coverage": [
-      "regional:South"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d1-11",
      "coverage": [
       "podcasts"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d1-7",
-    "d1-8",
-    "d1-5",
     "d1-1",
-    "d1-11"
+    "d1-3",
+    "d1-4",
+    "d1-7"
    ],
-   "points_today": 11,
+   "points_today": 9,
    "multiplier": 1,
    "pool": 55000,
    "notes": [],
-   "notes_to_self": "Plan: always kill in AFTERNOON (only day workers are busy then, so the pool stays at 55%). Use 10 quick + 1 timed per day. Kill all 11 early to reach the 4x multiplier (needs 40 deaths in 5 days). Watch the pool each day: it starts at 55k after routine is fixed. Cuts per kind: regional 1/4, sector(blotter) 1/5, age(podcasts) 1/4, forum 1/4, foreign 1/4. If the pool drops by a factor of ~4-5, infer which kind L can trace and STOP killing criminals reported only in that kind once the pool is near 4000. National victims are always safe. Caught if pool <=1000 at the end of any day, including day 30. Day1: killed all 11 in the afternoon.",
+   "notes_to_self": "STRATEGY: Always kill the national criminal. Also kill everyone from forum, foreign, podcasts and blotter. NEVER kill regional:South criminals, so the regional kind can never constrain me. That gives about 9 kills a day, and 40 in 5 days means the 4x multiplier from day 4 onward. Use quick entries in the AFTERNOON only: this rules out only day workers, so night+student+home = 55% of people stay in the pool. Use a timed entry (afternoon) only if there are more than 10 kills. RISK: if all three kinds L can reach are among the four I use (40% chance), three constraints could push the pool near or below 1000. Watch the pool. If it falls below about 5000, drop one more kind (prefer dropping whichever drop coincided with the traced count rising), even if I lose the 4x. If the pool is below about 2000, kill national only. Day 1: killed 9 (all except d1-8 and d1-10, the regional ones).",
    "error": null,
-   "input_tokens": 1929,
-   "output_tokens": 1564,
-   "seconds": 18.5,
-   "reasoning": "I need a plan fast. With 11 kills available each day, hitting the 30-death mark in 5 days means averaging 6 a day, and 40 would mean 8 a day. Taking all 11 daily would get the 4x multiplier around day 4, but that carries a real risk of getting caught. Next I'm checking L's routine: the night worker is free in the morning and afternoon, while the day workers are busy then and free in the evening and night.\n\nI'm weighing the afternoon as the safest window, since L's night worker and the students are free then and only the day workers are busy, which leaves a pool of about 55,000. Trace risk is the bigger problem: each place reported cuts the pool by a factor of four or five, so I'd need to shrink it to around 1,000, and stacking forum, foreign, and region would get me caught. Over 30 days L will likely learn the three kinds he can reach.\n\nI'm weighing the kill-everything approach against the trace risk: with the four- and five-fold reductions per attribute, any three reachable kinds push the pool down to about 860, so being caught is likely if L learns all three. My plan is to kill heavily early, watch the pool for signs of which kinds are traced, and drop those kinds once it gets dangerous, since national victims are untraceable. Being caught only halves the score, so an aggressive start still looks worth it, and I'll start by killing all 11 in the afternoon.\n\nI'm settling on a quick afternoon run: up to 10 quick kills, plus one timed kill also set for the afternoon.\n\n"
+   "input_tokens": 1941,
+   "output_tokens": 3067,
+   "seconds": 37.2,
+   "reasoning": "I'm weighing how many kills per day would reach the multiplier thresholds, since there are only 11 criminals available, and the bigger payoff is worth the higher risk of getting caught.\n\nNow I'm working out how the routine schedules limit which victims could be killed in the morning without exposing the killer, since day workers and students are busy then and the remaining pool comes out to about 35%. I'm also checking whether timed kills in the evening would help hide anything, but night workers are busy then, so that doesn't hold. Home residents are free all day, so they stay a consistent part of the pool, with night workers and home residents together giving roughly 35,000.\n\nI'm checking whether constraints from three reachable categories would push the remaining pool below the safe threshold, since the products land around 500 against a 1,000 limit. I'm then looking at whether restricting to two categories keeps things safe, but that leaves only 25 kills over five days, short of the 30 needed for the multiplier.\n\nI'm now checking whether spreading quick kills into the afternoon only would keep the pool larger, since that rules out just the day workers and leaves about 55,000 victims. Even so, three constraints would still land near 860, just under the safe threshold, so I'm weighing whether dilution from unseen reports could close that gap.\n\nI'm considering a plan to kill all eleven criminals in the afternoon on day one, since that reaches the fourfold multiplier fast, but getting caught would cut the score in half. I'm weighing whether the three-constraint risk would close in quickly, given how fast traces build up across many victims.\n\nI'm estimating whether a middle approach using four categories, dropping the regional South constraint, would give nine kills a day for a fourfold multiplier, with only about a 40% chance that the three reachable categories all fall inside the set I'm using.\n\nI'm considering whether the pool can be kept safe by adapting over time: watching how the pool shrinks after a few days of kills from a mix of categories, and using that drop to infer which constraints are active. The hard part is that the pool alone doesn't reveal which specific categories are reachable, so I'd need to work out a way to tell them apart, possibly from when the traced counts appear.\n\nI'm planning to kill all eleven criminals in the afternoon on day one, and then go for nine kills a day using four place categories and leaving out the regional South constraint, since that keeps a safe margin for the multiplier.\n\nI'm weighing the greedy four-category plan against a conservative three-category one: the first could reach roughly 1000 points with about a 40% chance of being caught early, while the second yields about 390 at around 10% risk. Adaptive tracking seems to favor the greedy version, so I'm leaning toward dropping the regional category and keeping four. Even with all five categories in use, the risk is effectively certain, so trimming to four is the main lever, and a forum victim reported in a regional place elsewhere would still require that regional trace to be reachable.\n\nI'm now settling the day-one plan: nine kills, all in the afternoon, spread across the selected victims, which stays within the quick-kill limit of ten.\n\n"
   },
   {
    "day": 2,
    "kills": [
     {
-     "id": "d2-1",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-2",
+     "id": "d2-3",
      "coverage": [
       "national"
      ],
@@ -167,9 +142,9 @@
      "block": "afternoon"
     },
     {
-     "id": "d2-3",
+     "id": "d2-2",
      "coverage": [
-      "foreign"
+      "podcasts"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -177,7 +152,8 @@
     {
      "id": "d2-4",
      "coverage": [
-      "foreign"
+      "podcasts",
+      "wire"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -185,7 +161,8 @@
     {
      "id": "d2-5",
      "coverage": [
-      "regional:South"
+      "cable",
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -193,8 +170,7 @@
     {
      "id": "d2-6",
      "coverage": [
-      "forum",
-      "wire"
+      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -202,7 +178,7 @@
     {
      "id": "d2-7",
      "coverage": [
-      "forum"
+      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -210,7 +186,7 @@
     {
      "id": "d2-8",
      "coverage": [
-      "podcasts"
+      "foreign"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -218,15 +194,7 @@
     {
      "id": "d2-9",
      "coverage": [
-      "podcasts"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d2-10",
-     "coverage": [
-      "regional:South"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -234,33 +202,57 @@
     {
      "id": "d2-11",
      "coverage": [
-      "blotter"
+      "forum"
      ],
-     "entry": "timed",
+     "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d2-9",
-    "d2-8",
-    "d2-7",
+    "d2-3",
+    "d2-5",
     "d2-6",
-    "d2-3"
+    "d2-11"
    ],
-   "points_today": 11,
+   "points_today": 9,
    "multiplier": 1,
-   "pool": 13750,
+   "pool": 55000,
    "notes": [],
-   "notes_to_self": "Plan: always kill in AFTERNOON (only day workers are busy then, so the pool stays at 55%). Use 10 quick + 1 timed per day. Kill all 11 early to reach the 4x multiplier (needs 40 deaths in 5 days, so day 4 onward is 4x if I kill 11 every day). Watch the pool each day. Cut factors per kind: regional 1/4, sector(blotter) 1/5, age(podcasts) 1/4, forum 1/4, foreign 1/4. Three reachable kinds together could take 55k to about 700, which means caught. If the pool drops by a factor of ~4-5, infer the kind (look at what I killed recently) and STOP killing victims reported only in that kind once the pool is near 4000. Never let the pool risk going to 1000 or below. National victims are always safe. Day1: killed all 11 in the afternoon, pool after day 1 = 60k (55k), 3 traced. Day2: killed all 11 in the afternoon (2 blotter, 2 foreign, 2 South, 2 forum, 2 podcasts, 1 national).",
+   "notes_to_self": "STRATEGY: Always kill the national criminal. Also kill everyone from forum, foreign, podcasts and blotter. NEVER kill regional:South criminals, so the regional kind can never constrain me. That gives about 9 kills a day, and 40 in 5 days means the 4x multiplier from day 4 onward. Use quick entries in the AFTERNOON only: this rules out only day workers, so night+student+home = 55% of people stay in the pool. Use a timed entry (afternoon) only if there are more than 10 kills. RISK: if all three kinds L can reach are among the four I use (40% chance), three constraints could push the pool near or below 1000. For example 55000 x 0.25 x 0.2 x 0.25 is about 700, which means caught. Watch the pool. If it falls below about 5000, drop one more kind (prefer dropping whichever drop coincided with the traced count rising), even if I lose the 4x. If the pool is below about 2000, kill national only. Day 1: killed 9 (all except the regional ones); pool 60k (the afternoon routine cut), traced 1. Day 2: killed 9 (all except d2-1 and d2-10, the regional ones).",
    "error": null,
-   "input_tokens": 2386,
-   "output_tokens": 972,
-   "seconds": 8.9,
-   "reasoning": "I'm checking the pool count after day one, which comes to about 60k, and noting that three traced victims haven't been acted on yet since none share a location. My plan is to keep going through the remaining eleven in the afternoon, mostly quick kills with one timed. The real risk is that once three traced victims end up in the same place, the pool drops, and with roughly five traces a day minus national ones, that could happen fast.\n\nI'm weighing the risk that the pool could drop quickly if three traced victims land in the same place, since only a fraction of the traces are actually reachable. Even under rough estimates it's a meaningful but manageable risk, so I'll keep monitoring it while continuing the plan.\n\n"
+   "input_tokens": 2426,
+   "output_tokens": 997,
+   "seconds": 9.3,
+   "reasoning": "I'm checking the pool size after day one, and a routine constraint about afternoon kills puts the day workers out, so 55% of 60000 lands on 55000 and rounds to 60000. That checks out, with one trace so far and no constraint triggered yet. Next I'm weighing the risk of the three-victims rule: the killer has to follow at least one place each victim was reported, and a victim might show up in the forum plus another region.\n\nNow I'm weighing how the risk grows when a victim also appears in another region, since that makes each constraint broader, and the pool shrinks by about a quarter for each constraint. I'll keep the plan as it stands and adjust it as I learn more, and today I'm aiming to kill 9.\n\n"
   },
   {
    "day": 3,
    "kills": [
+    {
+     "id": "d3-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-2",
+     "coverage": [
+      "podcasts",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
     {
      "id": "d3-3",
      "coverage": [
@@ -270,54 +262,98 @@
      "block": "afternoon"
     },
     {
-     "id": "d3-5",
+     "id": "d3-4",
      "coverage": [
-      "blotter"
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d3-9",
+     "id": "d3-5",
      "coverage": [
-      "national"
+      "foreign",
+      "gazette"
      ],
      "entry": "quick",
      "block": "afternoon"
-    }
-   ],
-   "traced": [
-    "d3-5",
-    "d3-3",
-    "d3-9"
-   ],
-   "points_today": 3,
-   "multiplier": 1,
-   "pool": 2750,
-   "notes": [],
-   "notes_to_self": "Plan: kill in the AFTERNOON only (only day workers are busy then). Cut factors per kind: regional 1/4, sector (blotter) 1/5, age (podcasts) 1/4, forum 1/4, foreign 1/4. History: Day1 killed all 11 and the pool went to 60k. Day2 killed all 11 and the pool went to 10k (about 55k divided by 5.5, so ONE kind was cut, probably sector/blotter since that cut is 1/5, but I'm not sure). A second cut would take the pool to about 2.5k, and a third to under 1k, which means CAUGHT. Day3 test: killed ONLY blotter x2 + national (d3-3, d3-5, d3-9) in the afternoon. Reading the day 3 result: if the pool stays around 10k, blotter was already used or is unreachable, so keep killing blotter + national daily (safe). If the pool drops to about 2-3k, blotter was a NEW cut, so stop blotter; after that kill ONLY national (any further kind could reach 1k or below). Never risk an unknown kind once the pool is under 5k.",
-   "error": null,
-   "input_tokens": 2684,
-   "output_tokens": 1242,
-   "seconds": 14.5,
-   "reasoning": "The pool has dropped to about 10,000 after day two, roughly a fivefold cut from 55,000. That fits either one kind of trace at a 1-in-5 rate, or one at 1-in-4, or a weaker factor if some traces are unions.\n\nI'm weighing a middle path: keep killing only national each day, which is safe but slow, versus going aggressive and accepting being caught later. Rough comparisons favor the safe route over a short horizon, since getting caught halves the points. I'm leaning toward a middle option that adds one kind from the reachable set, but I still don't know which kind was the actionable one.\n\nI'm thinking the pool could drop to roughly 2.5k if I add one more factor, and the press conference would show it. If the 10k came from forum and I keep killing forum, nothing more falls, so I'd keep one kind going across days: a stable pool means I can kill two a day safely, while a drop to 2.5k means I have to stop that kind too. Even then, 2k is still above 1000. Five traces against three deaths means all three get traced, so I'll pick blotter, which fits the 1/5 factor, and kill d3-3, d3-5, and d3-9 in the afternoon.\n\n"
-  },
-  {
-   "day": 4,
-   "kills": [
+    },
     {
-     "id": "d4-3",
+     "id": "d3-7",
      "coverage": [
-      "blotter",
+      "podcasts",
       "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     },
     {
-     "id": "d4-6",
+     "id": "d3-8",
      "coverage": [
-      "blotter"
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-11",
+     "coverage": [
+      "blotter",
+      "cable"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-1",
+    "d3-2",
+    "d3-3",
+    "d3-4",
+    "d3-8"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 11000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: Always kill the national criminal. Also kill everyone from forum, foreign, podcasts and blotter. NEVER kill regional:South criminals, so the regional kind can never constrain me. That gives about 9 kills a day. The 5-day count reaches 36 on day 4 (2x) and 45 on day 5 (4x), and stays at 4x after that if I keep 9 a day. Use quick entries in the AFTERNOON only: this rules out only day workers, so night+student+home = 55% of people stay in the pool. Use a timed entry (afternoon) only if there are more than 10 kills. RISK: if all three kinds L can reach are among the four I use (40% chance), three constraints could push the pool near or below 1000. For example 55000 x 0.25 x 0.2 x 0.25 is about 700, which means caught. Watch the pool. If it falls below about 5000, drop one more kind (prefer dropping whichever kind coincided with the traced count rising), even if I lose the 4x. If the pool is below about 2000, kill national only. Day 1: killed 9; pool 60k, traced 1. Day 2: killed 9; pool 60k, traced 3. Day 3: killed 9 (all except d3-6 and d3-10, the regional ones).",
+   "error": null,
+   "input_tokens": 2665,
+   "output_tokens": 869,
+   "seconds": 7.7,
+   "reasoning": "I'm sticking with the strategy: today is day 3, so I'll kill the 9 non-regional targets. Counting the last five days, the total is still under 30 through today, so no multiplier applies yet. Tomorrow's count would reach 36, which triggers the 2x multiplier.\n\n"
+  },
+  {
+   "day": 4,
+   "kills": [
+    {
+     "id": "d4-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-5",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d4-4",
+     "coverage": [
+      "forum"
      ],
      "entry": "quick",
      "block": "afternoon"
@@ -325,50 +361,34 @@
     {
      "id": "d4-9",
      "coverage": [
-      "national"
+      "forum",
+      "regional:West"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d4-9",
-    "d4-6",
-    "d4-3"
+    "d4-7",
+    "d4-1",
+    "d4-5"
    ],
-   "points_today": 3,
-   "multiplier": 1,
+   "points_today": 10,
+   "multiplier": 2,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 4 status: the pool reached 3k after day 3, so blotter (sector) WAS a new cut, and I've now used it. Since then the blotter constraint is already applied, so more blotter kills should not shrink the pool further. One other kind was cut on day 2, but I don't know which. Any new kind would take the pool to about 750 or lower, which means CAUGHT. Rule from now on: each day kill ONLY the national criminal plus the blotter criminals, all quick entries in the AFTERNOON. Never kill regional, podcasts, forum or foreign. Check the pool daily. If it ever drops below about 2k, kill only national. Day 4: killed both blotter + national.",
+   "notes_to_self": "STRATEGY UPDATE (day 4): After day 3 the pool fell 60k to 10k, so one kind L can reach is now constraining me. I don't know which: 0.2 fits blotter, 0.25 fits the others, and rounding hides the difference. From day 4: kill national + forum + foreign only (5 kills/day), quick entries, afternoon. Do NOT kill blotter, podcasts or regional:South. Using 2 kinds means at most 2 constraints from them, worst case 55k x .25 x .25 = 3400, which is safe IF the constraint already active is forum or foreign. If it is blotter or podcasts, a 3rd constraint is possible. RULE: if the pool drops to 3000 or below, cut to national + ONE kind (keep the one whose kills did not coincide with the drop), or national only if the pool is below 2000. If the pool stays at 10k for several days, keep 5/day. Day 1: killed 9; pool 60k, traced 1. Day 2: killed 9; pool 60k, traced 3. Day 3: killed 9; pool 10k, traced 6. Day 4: killed 5 (national, foreign x2, forum x2).",
    "error": null,
-   "input_tokens": 2776,
-   "output_tokens": 745,
-   "seconds": 11.7,
-   "reasoning": "The pool fell to 3000 after day three, so the blotter counted as a fresh cut. At that level, any further cut of a quarter would drop the victim below the threshold and get caught. I've already applied the sector constraint, and more blotter traces wouldn't narrow things further since the killer already follows the blotter. I'm now wondering whether the one place hidden from me could narrow the field.\n\nI'm checking whether the blotter-only constraint is really safe, and it holds since the blotter is already in use. The day-3 drop from 10k to 3k is consistent with two blotter traces, so the blotter cut is applied. The remaining open question is the day-2 kill of unknown kind, which I can't pin down, but the blotter and national places still cover what I need.\n\n"
+   "input_tokens": 2859,
+   "output_tokens": 1735,
+   "seconds": 20.0,
+   "reasoning": "The pool has dropped from 60k to 10k, which is roughly a factor of 0.18 once the routine constraint is accounted for. That fits a single 0.2 cut from the sector, or a 0.25 cut plus something else, and one kind L can reach is now active. I'm working out which kind that is.\n\nI'm checking whether the 0.2 sector cut and the 0.25 cut both land on 10k, and they do, so the data can't tell them apart. Using only one kind keeps the pool above 1000 in the worst case, while using two could leave it near 600 and get me caught. The trade-off is between running four kinds for a higher payoff, which risks an early catch, and a safer national-plus-one setup.\n\nI'm weighing whether to keep two kinds instead of one. Two kinds alone would only cut the pool to about 2750, which is still above 1000. The catch is that the kind already constraining the pool might not be one of the two I keep, so a third constraint could push it near 700, and I can't tell which kind caused the drop.\n\nI'm settling on two kinds rather than all four, since with only one active constraint known, two keeps the pool safely above 1000 while still giving a useful payoff. If the pool falls to around 2-3k, I'll cut back to a single kind. I'm leaning toward forum and foreign plus national for today.\n\nI'll go with five kills today, using the afternoon to carry it out.\n\n"
   },
   {
    "day": 5,
    "kills": [
     {
-     "id": "d5-1",
-     "coverage": [
-      "blotter",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d5-7",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d5-10",
      "coverage": [
       "national"
      ],
@@ -377,511 +397,292 @@
     }
    ],
    "traced": [
-    "d5-1",
-    "d5-7",
-    "d5-10"
+    "d5-7"
    ],
-   "points_today": 6,
+   "points_today": 2,
    "multiplier": 2,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 5 status: the pool has stayed at 3k since day 3, so the blotter (sector) cut is already applied. One other kind was cut on day 2, but I don't know which. Any new kind would take the pool to about 750 or lower, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, all quick entries in the AFTERNOON (afternoon keeps the routine cut at 50%; never use the morning, which would cut it further). Never kill regional, podcasts, forum or foreign. Check the pool daily. If it ever drops below about 2k, kill only national. Day 5: killed d5-1, d5-7 (blotter) and d5-10 (national).",
+   "notes_to_self": "DAY 5 UPDATE: After day 4 the pool fell to 3000 (traced 8). Likely history: the afternoon routine filter gave 55k (shown as 60k). Day 3 added one place constraint (to about 11-14k). Day 4 added another, almost surely from forum or foreign, giving about 2750-3400. One more constraint of about 0.25 would put the pool near 700-850, and I would be CAUGHT. I cannot tell whether forum or foreign is the active one, and blotter or podcasts may still be live. Decision: NATIONAL ONLY from day 5, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign again. Only reconsider if the pool stays at 3000 for many days, and even then stay national-only, because the downside is losing half my points (about 20+). Points: 37 after day 4. Day 1: killed 9; pool 60k, traced 1. Day 2: killed 9; pool 60k, traced 3. Day 3: killed 9; pool 10k, traced 6. Day 4: killed 5 (national, foreign x2, forum x2); pool 3k, traced 8. Day 5: killed national only.",
    "error": null,
-   "input_tokens": 2714,
-   "output_tokens": 581,
-   "seconds": 6.5,
-   "reasoning": "I'm checking the plan against the numbers. Afternoon kills only free night workers, students, and home people, so that cut is just to half. Doing all the kills in the morning would leave only 35% free, which still leaves about 2100, but it gains nothing and adds risk, so I'll stick with the afternoon.\n\nI'm checking whether a blotter victim who was also reported in forum would add a constraint. If the trace succeeds, L would know the killer follows blotter or forum, but that's already covered, so the risk stays low and the pool remains at 3k.\n\n"
+   "input_tokens": 2939,
+   "output_tokens": 1459,
+   "seconds": 17.6,
+   "reasoning": "I'm working out what the 3000 drop means: the pool fell after day 4, which suggests a new constraint from either the forum or the foreign kills, and I'm checking whether 10k times about 0.25 lands on that number.\n\nI'm checking whether the 3000 drop is a 0.25 multiplier on 10k, and if so, one of forum or foreign kills is now constraining the pool. Killing more of that same kind adds nothing, but the other kind could cut it again, and I can't tell which one is active yet.\n\nI'm weighing whether the forum and foreign kills both already triggered their constraints, since each had about eight kills over four days and the traced count should have passed the threshold of three, though it's unclear which one caused the day-three and day-four drops. Blotter and podcasts each got six kills and may simply be unreachable, and that uncertainty is what makes the risk hard to judge. Holding to national-only kills for the remaining 25 days would yield roughly 25 points, while a riskier play might do better but could get caught.\n\nI'm settling on national-only kills for the rest of the game, since both forum and foreign have probably already triggered their constraints and I can't tell which one dropped the pool.\n\n"
   },
   {
    "day": 6,
    "kills": [
     {
-     "id": "d6-8",
+     "id": "d6-2",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d6-9",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d6-11",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d6-8",
-    "d6-11",
-    "d6-9"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 6 status: the pool has held at 3k since day 3, so the blotter (sector) cut is already applied. One other kind was cut on day 2, but I don't know which. Any new kind would bring the pool to about 750 or lower, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals. Use quick entries in the AFTERNOON only; the afternoon keeps the routine cut at 50%, and the morning would cut it further. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it ever drops below about 2k, kill only the national criminal. Day 6: killed d6-8 (national), d6-9 and d6-11 (blotter).",
+   "notes_to_self": "DAY 6 UPDATE: The pool was still 3000 after day 5 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign. Every non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750 and I would be CAUGHT, losing half my points. Points: 39 after day 5. Days 1-3: killed 9 per day; pool went 60k, 60k, 10k; traced 1, 3, 6. Day 4: killed 5 (national, foreign x2, forum x2); pool 3k, traced 8. Day 5: national only (2 points, doubled). Day 6: national only (d6-2).",
    "error": null,
-   "input_tokens": 2809,
-   "output_tokens": 538,
-   "seconds": 5.8,
-   "reasoning": "I'm going with the plan: the national-level and blotter actions on days 6\u20138 and 6\u201311, plus a quick afternoon pass. On the multiplier, I'm going back and forth over whether it counts others' deaths, since the totals don't quite line up with the two I had in mind, so I'm leaving that aside for now. I'm also wondering whether there's room to take out a few more.\n\nI'm estimating the pool at around 3,000, so any further cut would catch roughly a quarter, about 750 people. That reinforces sticking to the plan.\n\n"
+   "input_tokens": 3022,
+   "output_tokens": 633,
+   "seconds": 8.0,
+   "reasoning": "I'm checking whether killing a few Regional South victims would break any constraint, since none have been killed there yet and the count is at zero.\n\nI'm keeping the kills to the national count, since a South victim could also show up in forum's reports, and forum's count may already be at 3 or more. The doubling still holds today, so each kill is worth 2 if I reach 30 points.\n\n"
   },
   {
    "day": 7,
    "kills": [
     {
-     "id": "d7-1",
+     "id": "d7-5",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-9",
-     "coverage": [
-      "blotter",
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d7-10",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d7-10",
-    "d7-1",
-    "d7-9"
+    "d7-5"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 7 status: the pool has held at 3k since day 3. The blotter (sector) cut is already applied, and one other unknown kind was cut on day 2. Cutting any new kind would bring the pool to about 750, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. Day 7: killed d7-1 (national), d7-9 and d7-10 (blotter).",
+   "notes_to_self": "DAY 7 UPDATE: Pool still 3000 after day 6 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign. Every non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750 and I would be CAUGHT, losing half my points. Points: 40 after day 6. Days 1-3: killed 9 per day; pool went 60k, 60k, 10k; traced 1, 3, 6. Day 4: killed 5 (national, foreign x2, forum x2); pool 3k, traced 8. Day 5: national only (2 points, doubled). Day 6: national only. Day 7: national only (d7-5). Afternoon quick kills keep the routine constraint unchanged: day workers are already excluded.",
    "error": null,
-   "input_tokens": 2902,
-   "output_tokens": 390,
-   "seconds": 4.0,
-   "reasoning": "I'm applying the rule to drop the national and blotter sources for the afternoon, and the pool holds steady at 3k. A quick check on the routine cut: 50% should leave the afternoon free for students, home, and night workers, roughly 55%, which looks fine, so I'll keep going.\n\n"
+   "input_tokens": 2954,
+   "output_tokens": 618,
+   "seconds": 6.5,
+   "reasoning": "I'm checking whether the afternoon kills are already narrowing the pool: with over two deaths every day, the day workers drop out, leaving about 55% of the 3000. I'm also weighing whether timed entries could hide the activity, since the routine question doesn't settle that.\n\nI'm weighing the remaining options against the risk: a non-national kill gets traced half the time and only succeeds if the entries reach every place, so a missed trace could cost about 20 points to gain one. Sticking with national kills looks right, and I'm fine with afternoon timing.\n\n"
   },
   {
    "day": 8,
    "kills": [
     {
-     "id": "d8-5",
+     "id": "d8-7",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-1",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d8-4",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d8-5",
-    "d8-4",
-    "d8-1"
+    "d8-7"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 8 status: the pool has held at 3k since day 3. The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. Day 8: killed d8-5 (national), d8-1 and d8-4 (blotter).",
+   "notes_to_self": "DAY 8 UPDATE: Pool still 3000 after day 7 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign. Every non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750 and I would be CAUGHT, losing half my points. A late burst of kills is not worth it either: being caught at the end of day 30 still halves ALL points. Points: 41 before day 8, so about 42 after today; staying safe gives roughly 64 at the end. Days 1-3: killed 9 per day; pool went 60k, 60k, 10k; traced 1, 3, 6. Day 4: killed 5 (national, foreign x2, forum x2); pool 3k, traced 8. Days 5-8: national only (day 8: d8-7). Afternoon quick kills keep the routine constraint unchanged: day workers are already excluded.",
    "error": null,
-   "input_tokens": 2953,
-   "output_tokens": 736,
-   "seconds": 8.6,
-   "reasoning": "I'm checking the pool math: the 3000 figure comes from 100000 times a routine factor times the cuts. For the afternoon-only routines I'm adding up the free-time shares, which gives 55%, and that puts day one at 60000. On day two I'm applying a 20% sector cut to 10000, and on day three a 25% cut to land near 3000, with another 25% cut starting.\n\nI'm confirming the leftover pool figures line up, and the day-five point tally is off from the day-one and day-two deaths, though I'll set that aside as likely other criminals. For the kills, I'm looking at the national and blotter targets, and whether the blotter victims could also show up under an unfollowed regional location. The blotter cut is already applied, so that doesn't change anything new.\n\n"
+   "input_tokens": 3053,
+   "output_tokens": 647,
+   "seconds": 7.2,
+   "reasoning": "I'm weighing a pool of 3000 against the risk of getting caught. With 23 days left, staying national-only adds 23 points, bringing it to 64. Mass killing would likely get me caught soon and cost half my score, and recent deaths over the last five days have been low, so I'm leaning away from it.\n\nI'm settling on staying national-only, since a big final burst on day 30 would get me caught and cost half of everything. The afternoon block also works out: students are free in the afternoon, home people are free all day, and night workers are free in the mornings and afternoons.\n\n"
   },
   {
    "day": 9,
    "kills": [
     {
-     "id": "d9-3",
+     "id": "d9-8",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d9-6",
-     "coverage": [
-      "blotter",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d9-7",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d9-6",
-    "d9-3",
-    "d9-7"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 9 status: the pool has held at 3k since day 3. The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. Day 5 got x2 because days 1-5 had 31 deaths in total. Day 9: killed d9-3 (national), d9-6 and d9-7 (blotter).",
+   "notes_to_self": "DAY 9 UPDATE: Pool still 3000 after day 8 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign. Every non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750 and I would be CAUGHT, losing half my points. A late burst of kills is not worth it either: being caught at the end of day 30 still halves ALL points. Points: 42 before day 9, so 43 after today; about 64 at the end of day 30. Days 1-3: killed 9 per day; pool went 60k, 60k, 10k; traced 1, 3, 6. Day 4: killed 5 (national, foreign x2, forum x2); pool 3k, traced 8. Days 5-9: national only (day 9: d9-8). Afternoon quick kills keep the routine constraint unchanged: day workers are already excluded. Check each press conference: if the pool drops below 3000, stay national only.",
    "error": null,
-   "input_tokens": 3106,
-   "output_tokens": 633,
-   "seconds": 6.0,
-   "reasoning": "I'm checking the scoring: 6 points for 3 kills on day 5 looks like a doubling, probably from a multiplier tied to the 31 deaths over days 1 through 5. That seems right. I'm also weighing a risk: blotter victims are sometimes reported in a second place too, so if that gets traced, the killer could be pinned down further than just the blotter pattern.\n\nI'm checking whether the constraint still holds: if he had already narrowed things to the blotter, then any current suspect who follows the blotter still fits a constraint that includes it, so the pool is intact. Since it has held so far, I'll keep going.\n\n"
+   "input_tokens": 3153,
+   "output_tokens": 484,
+   "seconds": 4.8,
+   "reasoning": ""
   },
   {
    "day": 10,
    "kills": [
     {
-     "id": "d10-7",
+     "id": "d10-5",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d10-4",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d10-9",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d10-9",
-    "d10-4",
-    "d10-7"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 10 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Day 10: killed d10-7 (national), d10-4 and d10-9 (blotter).",
+   "notes_to_self": "DAY 10 UPDATE: Pool still 3000 after day 9 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750 and I would be CAUGHT, losing half my points. A late burst is not worth it either: being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would also rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills keep the routine constraint unchanged: day workers are already excluded. Points: 43 before day 10, so 44 after today; about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-10 national only (day 10: d10-5). Check each press conference: if the pool drops below 3000, stay national only.",
    "error": null,
-   "input_tokens": 3219,
-   "output_tokens": 695,
-   "seconds": 7.0,
-   "reasoning": "I'm verifying that the deaths traced rise by about two per day, which fits the three daily blotter deaths when national traces are excluded. The pool is holding steady, though some blotter victims may also appear in other reports, so traces could reduce it further. I also need to note that blotter-traced victims show up in the same place, and that some are reported at another location like an age outlet, which would point to the killer following either the blotter or that place.\n\nI'm checking whether the remaining blotter cut is enough, and I don't think a further reduction is needed here. Days 6 through 10 add up to 15 deaths, so there's no multiplier to account for. I'll keep the current strategy and go after the three targets: d10-7, d10-4, and d10-9 in the afternoon.\n\n"
+   "input_tokens": 3232,
+   "output_tokens": 622,
+   "seconds": 5.8,
+   "reasoning": "I'm checking the pool of 3000 against the afternoon-kill constraint, which leaves night, student, and home workers at about 55% of the total. I'm also considering whether to use morning kills to exclude students, but that would shrink the pool, so I'll keep the current setup.\n\nI'm sticking with the afternoon kills for now and keeping the search limited to national data. I'll also kill d10-5.\n\n"
   },
   {
    "day": 11,
    "kills": [
     {
-     "id": "d11-4",
+     "id": "d11-1",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-5",
-     "coverage": [
-      "blotter",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d11-6",
-     "coverage": [
-      "blotter",
-      "radio"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d11-6",
-    "d11-4",
-    "d11-5"
+    "d11-1"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 11 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Day 11: killed d11-4 (national), d11-5 and d11-6 (blotter).",
+   "notes_to_self": "DAY 11 UPDATE: Pool still 3000 after day 10 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it either, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 44 before day 11, so 45 after today, and about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-11 national only (day 11: d11-1). Check each press conference. If the pool stays at 3000, keep going national only. If it drops below 3000, still stay national only.",
    "error": null,
-   "input_tokens": 3327,
-   "output_tokens": 545,
-   "seconds": 4.5,
-   "reasoning": "I'm going to kill the national d11-4 and the blotter d11-5 and d11-6, which should make for a quick afternoon. Checking the math: five traced against three deaths means every death is traced, and the blotter traces should go through since that sector is reachable. That holds up, so I'll keep going.\n\n"
+   "input_tokens": 3311,
+   "output_tokens": 576,
+   "seconds": 5.7,
+   "reasoning": "I'm going with the policy of killing d11-1 nationally, done quickly in the afternoon. On day 4, 10 points for 5 kills works out to a multiplier of 2, which checks out. I'm also wondering whether timed entries in the evening could keep the routine, leaving afternoons free for night workers, students, and people at home. I'll keep the notes updated.\n\n"
   },
   {
    "day": 12,
    "kills": [
     {
-     "id": "d12-5",
+     "id": "d12-3",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d12-10",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d12-11",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d12-11",
-    "d12-5",
-    "d12-10"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 12 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Day 12: killed d12-5 (national), d12-10 and d12-11 (blotter).",
+   "notes_to_self": "DAY 12 UPDATE: Pool still 3000 after day 11 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it either, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 45 before day 12, so 46 after today, and about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-12 national only (day 12: d12-3). Check each press conference. If the pool stays at 3000, keep going national only. If it drops below 3000, still stay national only.",
    "error": null,
-   "input_tokens": 3414,
-   "output_tokens": 638,
-   "seconds": 6.5,
-   "reasoning": "Pooling 3000 and the death count is rising about 2 a day, which still holds. Day 5's six points look odd, maybe a multiplier, but I'll set that aside for now. Next I'm weighing whether to take out d12-5, d12-10 and d12-11 in a quick afternoon run, while also considering that blotter victims may have been reported in other places, which could reveal a new kind if L can reach those records.\n\nThe constraint only says the killer must have followed at least one of the places the victim was reported, and since the blotter is one of them, that already holds, so with an OR condition the pool barely shrinks. That's fine, so I'll keep going.\n\n"
+   "input_tokens": 3390,
+   "output_tokens": 571,
+   "seconds": 5.1,
+   "reasoning": "I'm sticking with the national-only policy for the afternoon quick. Adding timed national doesn't work since there's only one national per day, and dropping non-national for timed wouldn't help with tracing either. A late burst on day 30 isn't worth it, since it would only catch half of everything, so I'm cutting the d12-3 quick afternoon.\n\n"
   },
   {
    "day": 13,
    "kills": [
     {
-     "id": "d13-5",
+     "id": "d13-6",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d13-1",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d13-6",
-     "coverage": [
-      "blotter",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d13-5",
-    "d13-6",
-    "d13-1"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 13 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Even on the last day, do not go big, because being caught halves all points. Day 13: killed d13-5 (national), d13-1 and d13-6 (blotter).",
+   "notes_to_self": "DAY 13 UPDATE: Pool still 3000 after day 12 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it either, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 46 before day 13, so 47 after today, and about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-13 national only (day 13: d13-6). Check each press conference. If the pool stays at 3000, keep going national only. If it drops below 3000, still stay national only.",
    "error": null,
-   "input_tokens": 3501,
-   "output_tokens": 797,
-   "seconds": 7.7,
-   "reasoning": "The six points for three kills on day 5 look odd at first, but the window from days 1 through 5 adds up to 31, which clears the threshold of 30, so the multiplier probably applies. That's fine. The pool sits at 3k, and the traced count is climbing by two a day from the blotter victims, which is a constraint I already knew about, so I'll stick with the plan and check whether a better option exists for the remaining 18 days.\n\nI'm weighing whether the blotter victims might also be reported somewhere unreachable, since that would break the trace, but the pool has held so far, so I'll keep the current plan. Near the end, a big final strike could pay off, but getting caught would halve everything, so I'm leaning toward sticking with the plan and maybe reconsidering around day 30.\n\n"
+   "input_tokens": 3451,
+   "output_tokens": 582,
+   "seconds": 5.2,
+   "reasoning": "I'm planning to continue with the national d13-6 kill policy, focusing on quick afternoon kills, and I'm checking whether timed entries would change anything there. I'm keeping notes on the pool of 3000 and the current constraints, since the afternoon kills already leave out the day workers.\n\n"
   },
   {
    "day": 14,
    "kills": [
     {
-     "id": "d14-11",
+     "id": "d14-4",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-2",
-     "coverage": [
-      "blotter",
-      "hospital"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d14-7",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d14-2",
-    "d14-7",
-    "d14-11"
+    "d14-4"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 14 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Even on the last day, do not go big, because being caught halves all points. Day 14: killed d14-11 (national), d14-2 and d14-7 (blotter).",
+   "notes_to_self": "DAY 14 UPDATE: Pool still 3000 after day 13 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it either, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 47 before day 14, so 48 after today, and about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-14 national only (day 14: d14-4). Check each press conference. Whether the pool stays at 3000 or drops below it, stay national only.",
    "error": null,
-   "input_tokens": 3609,
-   "output_tokens": 583,
-   "seconds": 5.7,
-   "reasoning": "I'm going to kill d14-11, d14-2, and d14-7 this afternoon, per the rule. Day 5's points of 6 look odd, but the blotter traces succeed and the sector constraint is already in the pool, so extra blotter kills won't shrink it further.\n\n"
+   "input_tokens": 3512,
+   "output_tokens": 544,
+   "seconds": 5.8,
+   "reasoning": "I'm going with the plan to kill d14-4 in a national, quick, afternoon operation. I'm weighing whether timed entries would help, but evening kills offer no advantage and the routine constraints rule that out. I'm also checking whether timed entry could conceal the action, and any kill outside a national operation still risks a trace, so I'm holding to the current course.\n\n"
   },
   {
    "day": 15,
    "kills": [
     {
-     "id": "d15-5",
+     "id": "d15-9",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d15-9",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d15-10",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d15-9",
-    "d15-10",
-    "d15-5"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 15 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Even on the last day, do not go big, because being caught halves all points. Day 15: killed d15-5 (national), d15-9 and d15-10 (blotter).",
+   "notes_to_self": "DAY 15 UPDATE: Pool still 3000 after day 14 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it either, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 48 before day 15, so 49 after today, and about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-15 national only (day 15: d15-9). Check each press conference. Whether the pool stays at 3000 or drops below it, stay national only.",
    "error": null,
-   "input_tokens": 3696,
-   "output_tokens": 598,
-   "seconds": 6.1,
-   "reasoning": "I'm going to stick with the plan and drop the three targets: the national one and the two blotter entries, using quick entries in the afternoon. Day 5's six points for three kills looks like a double count, but it doesn't change the plan. I also wondered whether blotter victims might show up in places I don't track and reveal something new, but their traces already count and the pool has been stable, so I'll leave it.\n\n"
+   "input_tokens": 3565,
+   "output_tokens": 532,
+   "seconds": 4.6,
+   "reasoning": "I'm going ahead with the plan to take out d15-9 during the afternoon, keeping it to a national-only quick strike. My pool is at 3000 against a 1000 threshold, but any kill outside national territory would expose me to a trace, so I'm staying put. Points move from 48 to 49.\n\n"
   },
   {
    "day": 16,
    "kills": [
     {
-     "id": "d16-3",
+     "id": "d16-7",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-5",
-     "coverage": [
-      "blotter",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d16-9",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d16-3",
-    "d16-9",
-    "d16-5"
+    "d16-7"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 16 status: the pool has held at 3k since day 3, and deaths traced rise by 2 a day (the blotter victims). The arithmetic: afternoon-free routines are 55%, so 100k became 55k (shown as 60k). The blotter (sector) cut of 0.2 gave 11k (shown as 10k). One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable at 3 kills a day, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 16: killed d16-3 (national), d16-5 and d16-9 (blotter).",
+   "notes_to_self": "DAY 16 UPDATE: Pool still 3000 after day 15 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any non-national victim may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it either, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 49 before day 16, so 50 after today, and about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-16 national only (day 16: d16-7). Check each press conference. Whether the pool stays at 3000 or drops below it, stay national only.",
    "error": null,
-   "input_tokens": 3783,
-   "output_tokens": 552,
-   "seconds": 5.1,
-   "reasoning": "I'm continuing with the strategy that targets national d16-3 and blotter d16-5 and d16-9, prioritizing quick and afternoon. I'm keeping a rule that blotter victims also reported in an unreachable place fail to trace, even though traces rise by 2, since the sector cut already covers that.\n\n"
+   "input_tokens": 3626,
+   "output_tokens": 455,
+   "seconds": 4.2,
+   "reasoning": ""
   },
   {
    "day": 17,
@@ -893,171 +694,95 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d17-5",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d17-6",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
    "traced": [
-    "d17-9",
-    "d17-5",
-    "d17-6"
+    "d17-9"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 17 status: the pool has held at 3k since day 3. Deaths traced rose by 2 a day until day 16, when it rose by only 1 (to 33). That probably means one blotter victim was also reported somewhere L cannot reach, which is harmless. The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 17: killed d17-9 (national, major), d17-5 and d17-6 (blotter).",
+   "notes_to_self": "DAY 17 UPDATE: Pool still 3000 after day 16 (traced 8). Policy: NATIONAL ONLY, 1 kill per day, quick entry, afternoon. National kills reveal nothing. Do not kill regional, blotter, podcasts, forum or foreign victims. Any of them may also have been reported in a hidden place whose count may already be near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it, because being caught at the end of day 30 still halves ALL points. Never kill in the morning: that would rule out students (free afternoon, evening) and shrink the pool. Afternoon quick kills leave the routine constraint unchanged, since day workers are already excluded. Points: 50 before day 17, 51 after today, about 64 at the end of day 30. History: days 1-3 killed 9 per day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-17 national only (day 17: d17-9). Check each press conference. Whether the pool stays at 3000 or drops, stay national only.",
    "error": null,
-   "input_tokens": 3874,
-   "output_tokens": 600,
-   "seconds": 5.5,
-   "reasoning": "Day 16 only turned up one more trace, likely a blotter victim who reported somewhere else that can't be followed up. The pool is still at 3000, so I'll keep going with the plan. Day 5's 6 points look off, so maybe a major case is weighted double. Next I'm dropping d17-9, d17-5, and d17-6, and keeping the quick and afternoon ones.\n\n"
+   "input_tokens": 3687,
+   "output_tokens": 450,
+   "seconds": 4.3,
+   "reasoning": ""
   },
   {
    "day": 18,
    "kills": [
     {
-     "id": "d18-9",
+     "id": "d18-4",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d18-1",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d18-7",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d18-7",
-    "d18-1",
-    "d18-9"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 18 status: the pool has held at 3k since day 3. Deaths traced rises by about 2 a day (35 after day 17). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 18: killed d18-9 (national), d18-1 and d18-7 (blotter).",
+   "notes_to_self": "DAY 18 UPDATE: After day 17 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. Any of them may also be reported in a hidden place whose traced count is already near 3. One more place constraint of about 0.25 would cut the pool to about 750, which means CAUGHT and losing half my points. A late burst is not worth it: being caught at the end of day 30 still halves ALL points, and the expected value is negative unless the chance of staying safe is above about 0.75. Never kill in the morning. That would rule out students and shrink the pool. Afternoon quick kills are safe because day workers are already excluded. POINTS: 51 before day 18, 52 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-18 national only (day 18: d18-4). Check each press conference. Whether the pool stays at 3000 or drops, stay national only.",
    "error": null,
-   "input_tokens": 3983,
-   "output_tokens": 573,
-   "seconds": 5.8,
-   "reasoning": "I'm going with the rule: the national d18-9 and the blotter criminals d18-1 and d18-7 get eliminated, all as quick afternoon entries. The pool looks stable. Day 5's 6 points look odd, maybe a major case counted double, but it doesn't matter. Then I notice the deaths traced figure only counts non-national victims, while the blotter victims keep being traced and all tell L about the sector, which is already known, so that's fine.\n\n"
+   "input_tokens": 3740,
+   "output_tokens": 644,
+   "seconds": 6.6,
+   "reasoning": "I'm sticking with the national-only policy and skipping the quick afternoon kill on d18-4. A late burst on the last day would get me caught and halve everything, and the small gain of around nine points doesn't justify the risk at the safety odds I'd need.\n\nI'm checking whether a single national entry could be timed to get extra kills, but there's only one national slot, so that's not an option. I'll keep the national-only plan.\n\n"
   },
   {
    "day": 19,
    "kills": [
     {
-     "id": "d19-9",
+     "id": "d19-8",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d19-10",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d19-11",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d19-10",
-    "d19-11",
-    "d19-9"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 19 status: the pool has held at 3k since day 3. Deaths traced rises by about 2 a day (37 after day 18). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 19: killed d19-9 (national), d19-10 and d19-11 (blotter).",
+   "notes_to_self": "DAY 19 UPDATE: After day 18 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. Never kill in the morning, because that would rule out students. POINTS: 52 before day 19, 53 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-19 national only (day 19: d19-8). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4027,
-   "output_tokens": 556,
-   "seconds": 4.8,
-   "reasoning": "I'm deciding whether the plan needs changing: the pool is down to about 3k after the afternoon, blotter, and one other cut, and one of the day 1-2 kill categories got removed, though I don't know which. I'll stick with the plan and kill d19-9, d19-10, and d19-11 in a quick afternoon pass.\n\n"
+   "input_tokens": 3823,
+   "output_tokens": 362,
+   "seconds": 3.9,
+   "reasoning": ""
   },
   {
    "day": 20,
    "kills": [
     {
-     "id": "d20-6",
+     "id": "d20-11",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-2",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d20-8",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d20-6",
-    "d20-8",
-    "d20-2"
+    "d20-11"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 20 status: the pool has held at 3k since day 3. Deaths traced rises by about 2 a day (39 after day 19). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block, because morning-free routines are only 35% and that would shrink the pool. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 20: killed d20-6 (national), d20-2 and d20-8 (blotter).",
+   "notes_to_self": "DAY 20 UPDATE: After day 19 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. Never kill in the morning, because that would rule out students. POINTS: 53 before day 20, 54 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-20 national only (day 20: d20-11). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4114,
-   "output_tokens": 816,
-   "seconds": 7.9,
-   "reasoning": "Checking whether the traced death count leaves out national cases, and whether the pool of 3000 still holds after the 0.2 and 0.25 cuts. Blotter victims also show up in one other place, so if that source can't be reached the trace would fail, and I'm still working out how the traced deaths keep climbing.\n\nI'm weighing whether the remaining kills can be taken from the morning block too. Morning-free people would leave the pool around 1,750, which is still above the 1,000 target, but since the block doesn't change points per kill, there's no gain, so I'll keep the original plan.\n\n"
+   "input_tokens": 3774,
+   "output_tokens": 487,
+   "seconds": 4.6,
+   "reasoning": "I'm sticking with the policy and targeting the national d20-11 afternoon window. Timed entries could hide the routine, and afternoon kills still fit the night-worker, student, and at-home pattern. Killing more would risk the 3000-person pool shrinking to 750 and getting caught, losing half. The expected gain is small, so I'll hold to the policy.\n\n"
   },
   {
    "day": 21,
@@ -1069,443 +794,243 @@
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d21-5",
-     "coverage": [
-      "blotter",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d21-9",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d21-5",
-    "d21-9",
-    "d21-3"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 21 status: the pool has held at 3k since day 3. Deaths traced rises by about 2 a day (41 after day 20). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block, because morning-free routines are only 35%. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 21: killed d21-3 (national), d21-5 and d21-9 (blotter).",
+   "notes_to_self": "DAY 21 UPDATE: After day 20 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. Never kill in the morning, because that would rule out students. POINTS: 54 before day 21, 55 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-21 national only (day 21: d21-3). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4231,
-   "output_tokens": 693,
-   "seconds": 6.4,
-   "reasoning": "I'm keeping the strategy going, and the \"deaths traced\" counter rising by two a day while the pool stays flat fits with the blotter traces adding nothing new. Today's entries are d21-3 as national and d21-5 and d21-9 as blotter. I'm also wondering whether some blotter victims could appear under another place, though a sector victim can't sit in a different sector, so I'm looking at whether a regional or age grouping is what I'm missing.\n\nI'm checking whether the killer could be using a foreign outlet or forum, since a trace succeeding only tells me they follow at least one of blotter or X, which is weaker evidence. Day 5 also scored 6 points, probably a multiplier, but that doesn't matter for the current step, so I'm moving on.\n\n"
+   "input_tokens": 3835,
+   "output_tokens": 506,
+   "seconds": 5.5,
+   "reasoning": "I'll keep the current policy and go after the national criminal d21-3 with a quick afternoon entry. Since the game is ending, a risky big kill isn't worth it: 30 deaths in five days isn't feasible, and with the pool at 3000 a single extra place constraint would leave me caught at around 750 points. I'm sticking with the safe play.\n\n"
   },
   {
    "day": 22,
    "kills": [
     {
-     "id": "d22-8",
+     "id": "d22-9",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-1",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d22-7",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d22-8",
-    "d22-1",
-    "d22-7"
+    "d22-9"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 22 status: the pool has held at 3k since day 3. Deaths traced rises by about 2 a day (42 after day 21). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block, because morning-free routines are only 35%. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 22: killed d22-8 (national), d22-1 and d22-7 (blotter).",
+   "notes_to_self": "DAY 22 UPDATE: After day 21 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. Never kill in the morning, because that would rule out students. POINTS: 55 before day 22, 56 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-22 national only (day 22: d22-9). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4309,
-   "output_tokens": 558,
-   "seconds": 5.1,
-   "reasoning": "I'm dropping the national entries d22-8, d22-1 and d22-7 from the blotter, keeping the afternoon short. The pool sits at about 3k and is stable, and the death trace already excludes national, so that checks out. For the afternoon block I'm applying L's routine filter: students, home and night workers come to 55%, which is fine.\n\n"
+   "input_tokens": 3896,
+   "output_tokens": 462,
+   "seconds": 4.5,
+   "reasoning": "The day-4 numbers look like 10 points from 5 kills, and I'm guessing the multiplier is 2 since the total is 32 over five days. Either way I'm sticking with national-only. Reaching a multiplier of 30 in five days doesn't look safe, so I'll keep to the policy and kill d22-9 in the quick afternoon slot.\n\n"
   },
   {
    "day": 23,
    "kills": [
     {
-     "id": "d23-7",
+     "id": "d23-4",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d23-3",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d23-8",
-     "coverage": [
-      "blotter",
-      "regional:East"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d23-7",
-    "d23-8",
-    "d23-3"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 23 status: the pool has held at 3k since day 3. Deaths traced rises by about 2 a day (44 after day 22). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block, because morning-free routines are only 35%. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 23: killed d23-7 (national), d23-3 and d23-8 (blotter).",
+   "notes_to_self": "DAY 23 UPDATE: After day 22 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. Never kill in the morning, because that would rule out students. POINTS: 56 before day 23, 57 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-23 national only (day 23: d23-4). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4396,
-   "output_tokens": 605,
-   "seconds": 5.2,
-   "reasoning": "I'm going with the established safe pattern: taking out the national d23-7, the blotter d23-3, and d23-8 in the afternoon quick round. I'm noting that d5 scored 6 points from 3 kills, which looks odd but I'll accept it and keep going. I'm also checking whether a blotter victim who reported somewhere I'm not tracking could lead back to the killer; a blotter victim's trace would show the blotter plus maybe one other place, and since L only knows the killer follows at least one, that fits. The pool still holds.\n\n"
+   "input_tokens": 3957,
+   "output_tokens": 436,
+   "seconds": 4.2,
+   "reasoning": "I'm going with the policy of killing the national d23-4 quick afternoon. Then I wonder whether the last day could be exploited, but the catch check at day 30's end would cost half of whatever I gained, so unless the payoff is large I'll keep the policy as it is.\n\n"
   },
   {
    "day": 24,
    "kills": [
     {
-     "id": "d24-7",
+     "id": "d24-4",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d24-2",
-     "coverage": [
-      "blotter",
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d24-10",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d24-7",
-    "d24-10",
-    "d24-2"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 24 status: the pool has held at 3k since day 3. Deaths traced rises by about 1-2 a day (45 after day 23). The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block, because morning-free routines are only 35%. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on the last day (day 30), do not go big, because being caught halves all points. Day 24: killed d24-7 (national), d24-2 and d24-10 (blotter).",
+   "notes_to_self": "DAY 24 UPDATE: After day 23 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. The catch check also runs at the end of day 30, so stay national only through the last day. Never kill in the morning, because that would rule out students. POINTS: 57 before day 24, 58 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-24 national only (day 24: d24-4). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4483,
-   "output_tokens": 571,
-   "seconds": 4.9,
-   "reasoning": "I'm applying the rule to drop the d24-7 national, d24-2, d24-10 blotter, and afternoon quick cases. The traced deaths count only covers non-national victims, and some blotter victims also show up elsewhere about 30% of the time. If that other location is reachable and the pattern is a new kind, I'd still be fine, since things have held steady for 20 days, so I'll keep going.\n\n"
+   "input_tokens": 4018,
+   "output_tokens": 499,
+   "seconds": 5.0,
+   "reasoning": "I'm dropping the d24-4 quick afternoon kill from the plan and keeping only the national option. Day 30 also needs the catch check at its end, so I can't take that risk on the final day either. Next I'm asking whether cutting quick afternoon kills would shrink the pool, since afternoon availability covers night workers, students, and people at home, and day workers are probably already ruled out.\n\n"
   },
   {
    "day": 25,
    "kills": [
     {
-     "id": "d25-11",
+     "id": "d25-2",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d25-8",
-     "coverage": [
-      "blotter",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d25-10",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d25-10",
-    "d25-11",
-    "d25-8"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 25 status: the pool has held at 3k since day 3. Deaths traced: 47 after day 24. The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on day 30, do not go big, because being caught halves all points. Day 25: killed d25-11 (national), d25-8 and d25-10 (blotter).",
+   "notes_to_self": "DAY 25 UPDATE: After day 24 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. The catch check also runs at the end of day 30, so stay national only through the last day. Never kill in the morning, because that would rule out students. The x2 multiplier is unreachable now (it needs 30 deaths in 5 days), so do not try for it. POINTS: 58 before day 25, 59 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-25 national only (day 25: d25-2). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4572,
-   "output_tokens": 567,
-   "seconds": 4.9,
-   "reasoning": "I'm going to drop the d25-11 national, d25-8 and d25-10 blotter cases and the afternoon quick one, keeping the pool at 3000. The trace only counts non-national victims, and about 30% of blotter victims are also reported elsewhere, so if L can't reach that other source the trace fails. Pool looks steady. On day 30, ending a catch halves points, so that rule stays.\n\n"
+   "input_tokens": 4104,
+   "output_tokens": 632,
+   "seconds": 6.5,
+   "reasoning": "I'm checking the pool size of 3000 against the day 4 points, which would mean a multiplier of 2 from the 30+ deaths over five days. Then I'm weighing a single national kill in the afternoon, where the pool could fall anywhere from 2500 to 3499, and I'm looking at whether a non-national kill with timed entry at a particular block could work instead.\n\nI'm ruling out the non-national option with timed entry, since the place would reveal itself regardless, so I'm keeping to the policy. I'm also noting that an afternoon kill would likely leave night workers, students, and people at home as the free group, with day workers probably already excluded.\n\n"
   },
   {
    "day": 26,
    "kills": [
     {
-     "id": "d26-5",
+     "id": "d26-7",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d26-2",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d26-6",
-     "coverage": [
-      "blotter",
-      "gazette"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d26-5",
-    "d26-6",
-    "d26-2"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 26 status: the pool has held at 3k since day 3. Deaths traced: 49 after day 25. The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on day 30, do not go big, because being caught halves all points. Day 26: killed d26-5 (national), d26-2 and d26-6 (blotter).",
+   "notes_to_self": "DAY 26 UPDATE: After day 25 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. The catch check also runs at the end of day 30, so stay national only through the last day. Never kill in the morning, because that would rule out students. The x2 multiplier is unreachable (it needs 30 deaths in 5 days), so do not try for it. POINTS: 59 before day 26, 60 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-26 national only (day 26: d26-7). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4632,
-   "output_tokens": 555,
-   "seconds": 5.2,
-   "reasoning": "I'm sticking with the plan and dropping the national-level item, d26-2, and the d26-6 blotter task, which should leave the afternoon light. Day 5 showing 6 points looks odd, probably a multiplier, so I'll set it aside. The traced count is coming from non-national successful traces and is now at 49, and since blotter victims are being traced through the reachable sector, that sector is already cut.\n\n"
+   "input_tokens": 4202,
+   "output_tokens": 554,
+   "seconds": 4.8,
+   "reasoning": "I'm going with the policy of killing the national d26-7 targets in the quick afternoon window. Timed evening kills came up as an option, but I'm ruling them out because a routine busy during more than two of a day's deaths is out, which leaves afternoon kills that suit students, people at home, and night workers. I'm checking whether more kills could be added safely, but non-national kills carry a tracing risk, so I'm sticking with the policy and the count goes from 59 to 60.\n\n"
   },
   {
    "day": 27,
    "kills": [
     {
-     "id": "d27-8",
+     "id": "d27-10",
      "coverage": [
       "national"
      ],
      "entry": "quick",
      "block": "afternoon"
-    },
-    {
-     "id": "d27-5",
-     "coverage": [
-      "blotter",
-      "cable"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d27-9",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
     }
    ],
-   "traced": [
-    "d27-5",
-    "d27-9",
-    "d27-8"
-   ],
-   "points_today": 3,
+   "traced": [],
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 27 status: the pool has held at 3k since day 3. Deaths traced: 51 after day 26. The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block, because that would cut the pool to the 35% of routines free then. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. The multiplier is unreachable, so ignore it. Even on day 30, do not go big, because being caught halves all points. Day 27: killed d27-8 (national), d27-5 and d27-9 (blotter).",
+   "notes_to_self": "DAY 27 UPDATE: After day 26 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. The catch check also runs at the end of day 30, so stay national only through the last day. Never kill in the morning, because that would rule out students. The x2 multiplier is unreachable, so do not try for it. POINTS: 60 before day 27, 61 after today, about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-27 national only (day 27: d27-10). Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4719,
-   "output_tokens": 647,
-   "seconds": 6.4,
-   "reasoning": "I'm checking whether the day-5 points total of 6 triggers the multiplier, and the 30 deaths over the last five days adds up to 31, so it does. Next I'm planning to cut three afternoon quick fights, and I'm weighing a morning cut, which would leave the pool at only 35% for night and home, so I'm avoiding that.\n\nI'm wondering what kind the unknown 0.25 cut is, whether regional, age, forum, or foreign, and I'm deciding that cutting more types would add risk, so I'll keep to the plan.\n\n"
+   "input_tokens": 4262,
+   "output_tokens": 545,
+   "seconds": 5.7,
+   "reasoning": "I'm checking whether the current policy holds up: with a pool of 3000, one more x0.25 constraint brings it to 750, so I'd be caught, and the remaining expected points are small either way. Taking a risky kill would add 1 point but could cost 30, so I'll stick with national targets only. I'm also confirming that the day 4 result of 10 points from 5 kills reflects a x2 multiplier, which it does. Next is the d27-10 national kill, a quick one in the afternoon.\n\n"
   },
   {
    "day": 28,
    "kills": [
     {
-     "id": "d28-1",
+     "id": "d28-11",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-2",
-     "coverage": [
-      "blotter",
-      "radio"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d28-10",
-     "coverage": [
-      "blotter"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d28-10",
-    "d28-2",
-    "d28-1"
+    "d28-11"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 28 status: the pool has held at 3k since day 3. Deaths traced: 53 after day 27. The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. Ignore the multiplier. Even on day 30, do not go big, because being caught halves all points. Day 28: killed d28-1 (national), d28-2 and d28-10 (blotter).",
+   "notes_to_self": "DAY 28 UPDATE: After day 27 the pool was still 3000 (traced 8). POLICY: NATIONAL ONLY. Make 1 kill a day, quick entry, afternoon. National kills reveal nothing about where I look. Do NOT kill regional, blotter, podcasts, forum or foreign victims. A hidden place may already have 2 traced victims, and one more place constraint (about x0.25) would take the pool to about 750, which means CAUGHT and losing half my points. The catch check also runs at the end of day 30, so stay national only through the last day. Never kill in the morning, because that would rule out students. The x2 multiplier is unreachable, so do not try for it. POINTS: 61 before day 28, 62 after today (d28-11), about 64 at the end of day 30. HISTORY: Days 1-3 killed 9 a day (pool 60k, 60k, 10k; traced 1, 3, 6). Day 4 killed 5 (pool 3k, traced 8). Days 5-28 national only. Check each press conference and stay national only.",
    "error": null,
-   "input_tokens": 4825,
-   "output_tokens": 578,
+   "input_tokens": 4308,
+   "output_tokens": 473,
    "seconds": 5.4,
-   "reasoning": "I'm working out the rule for this afternoon: the national and blotter deaths are to be dealt with first. The traced death count keeps rising by two a day even though the blotter victims are hard to reach, so I suspect they're being reached by some other route. The pool still looks stable, though one day's count is odd and I'll leave it for now. The notes need to stay under 2500 characters.\n\n"
+   "reasoning": "I'm going with the plan to take out the d28-11 national point and finish quickly this afternoon. I could add more kills for extra points, but the 61 points at stake make the risk of losing half, about 32, outweigh the small expected gain, so I'm sticking with the current approach.\n\n"
   },
   {
    "day": 29,
    "kills": [
     {
-     "id": "d29-10",
-     "coverage": [
-      "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d29-4",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
      "id": "d29-9",
      "coverage": [
-      "blotter"
+      "national"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d29-10",
-    "d29-4",
     "d29-9"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 29 status: the pool has held at 3k since day 3. Deaths traced: 55 after day 28. The arithmetic: afternoon-free routines are 55%, so 100k became 55k. The blotter (sector) cut of 0.2 gave 11k. One other unknown kind was cut by 0.25, giving about 2.75k (shown as 3k). Cutting any new kind would bring the pool to about 700, which means CAUGHT. Rule: each day kill ONLY the national criminal plus the blotter criminals, using quick entries in the AFTERNOON only. Never use the morning block. Never kill regional, podcasts, forum or foreign criminals. Check the pool every day. If it drops below about 2k, kill only the national criminal. Ignore the multiplier. Even on day 30, the last day, do not go big, because the pool is checked at the end of day 30 too and being caught halves all points. Day 29: killed d29-10 (national), d29-4 and d29-9 (blotter).",
+   "notes_to_self": "DAY 29 UPDATE: Pool was still 3000 after day 28 (traced 8). POLICY: NATIONAL ONLY. Make 1 national kill a day, quick entry, in the afternoon. The catch check also runs at the end of day 30. One more place constraint could push the pool to 1,000 or fewer, which would cost about 31 points. Extra local kills are worth only about 1 point each, so that is not worth the risk. Never kill in the morning. POINTS: 62 before day 29, 63 after today (d29-9). On day 30, kill only the national criminal, quick entry, afternoon.",
    "error": null,
-   "input_tokens": 4886,
-   "output_tokens": 548,
-   "seconds": 5.1,
-   "reasoning": "I'm going with the rule and dropping the national d29-10, the blotter d29-4 and d29-9, and the afternoon quick. I could make day 29 bigger, but there's an unknown cut already in place, and cutting from other places would shrink the pool to about 700, so I'd lose half of the roughly 110. I'll keep the plan, and the same reasoning applies to day 30.\n\n"
+   "input_tokens": 4365,
+   "output_tokens": 385,
+   "seconds": 5.6,
+   "reasoning": "Day 29, and the pool stands at 3000 with 62 points. Getting caught would cost about half of them, roughly 31, while each extra kill is only worth about 1 point, so taking risks isn't worth it. I'll stay national-only and aim for one kill this afternoon, a quick entry.\n\n"
   },
   {
    "day": 30,
    "kills": [
     {
-     "id": "d30-1",
+     "id": "d30-2",
      "coverage": [
       "national"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-6",
-     "coverage": [
-      "blotter"
-     ],
-     "entry": "quick",
-     "block": "afternoon"
-    },
-    {
-     "id": "d30-11",
-     "coverage": [
-      "blotter",
-      "hospital"
      ],
      "entry": "quick",
      "block": "afternoon"
     }
    ],
    "traced": [
-    "d30-1",
-    "d30-6",
-    "d30-11"
+    "d30-2"
    ],
-   "points_today": 3,
+   "points_today": 1,
    "multiplier": 1,
    "pool": 2750,
    "notes": [],
-   "notes_to_self": "Day 30 (final day): played safe. Killed d30-1 (national) and d30-6 and d30-11 (blotter), all quick entries in the afternoon. The pool is at 3k. Killing any other criminals would risk L cutting a new kind of place, which would take the pool to about 700 and get me caught, halving all points. Even the full 11 kills would not reach the 30-death threshold for double points, so the extra 8 points were not worth that risk.",
+   "notes_to_self": "Day 30 is the final day. I am killing only the national criminal, quick entry, in the afternoon. Local kills are worth about 1 point each, but one more traced place constraint could cut the pool from 3000 to 1,000 or fewer and cost about 32 points.",
    "error": null,
-   "input_tokens": 4993,
-   "output_tokens": 613,
-   "seconds": 7.8,
-   "reasoning": "It's the last day, and I have 3k in the pool. Getting caught would cost half of all my points, so I'm weighing whether going big by killing all 11 is worth it. The deaths over the past five days come to 23, under the threshold of 30, so no multiplier applies. The gain of 11 points is small next to the roughly 58 I'd risk losing, and with the pool around 2750 I'd likely get caught.\n\nI'm checking whether any of the remaining kills could get traced: the reachable kind would only be cut with three traced victims, and five of today's deaths are traced at random. That risk looks substantial. Even at a 30% chance of being caught, the expected loss is around 17 points against an 8-point gain, so I'll stay safe with the national kill and the two blotter kills.\n\n"
+   "input_tokens": 4274,
+   "output_tokens": 322,
+   "seconds": 5.0,
+   "reasoning": "I'm checking where things stand on the last day: 63 points, a pool of 3000, and whether adding local kills is worth it. Deaths in the last five days are about five, so no multiplier applies. Each local kill gives +1, but there's a risk of being caught that would cost about 32 points. I'm also weighing the constraints so far, with the afternoon free routines covering 55% of the pool, which leaves 3000 out of 100000 as a 3% share, and wondering whether another constraint, like the forum at 25%, could fit.\n\nI'm weighing whether to accept the extra risk: any new trace in a place that already has three would apply immediately, and that risk is real. So I'm sticking to the plan and keeping it to national kills only.\n\n"
   }
  ],
  "briefings": [
@@ -1517,152 +1042,152 @@
   {
    "after_day": 1,
    "pool": 60000,
-   "deaths_traced": 3
+   "deaths_traced": 1
   },
   {
    "after_day": 2,
+   "pool": 60000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 3,
    "pool": 10000,
    "deaths_traced": 6
   },
   {
-   "after_day": 3,
+   "after_day": 4,
    "pool": 3000,
    "deaths_traced": 8
   },
   {
-   "after_day": 4,
-   "pool": 3000,
-   "deaths_traced": 10
-  },
-  {
    "after_day": 5,
    "pool": 3000,
-   "deaths_traced": 12
+   "deaths_traced": 8
   },
   {
    "after_day": 6,
    "pool": 3000,
-   "deaths_traced": 14
+   "deaths_traced": 8
   },
   {
    "after_day": 7,
    "pool": 3000,
-   "deaths_traced": 16
+   "deaths_traced": 8
   },
   {
    "after_day": 8,
    "pool": 3000,
-   "deaths_traced": 18
+   "deaths_traced": 8
   },
   {
    "after_day": 9,
    "pool": 3000,
-   "deaths_traced": 20
+   "deaths_traced": 8
   },
   {
    "after_day": 10,
    "pool": 3000,
-   "deaths_traced": 22
+   "deaths_traced": 8
   },
   {
    "after_day": 11,
    "pool": 3000,
-   "deaths_traced": 24
+   "deaths_traced": 8
   },
   {
    "after_day": 12,
    "pool": 3000,
-   "deaths_traced": 26
+   "deaths_traced": 8
   },
   {
    "after_day": 13,
    "pool": 3000,
-   "deaths_traced": 28
+   "deaths_traced": 8
   },
   {
    "after_day": 14,
    "pool": 3000,
-   "deaths_traced": 30
+   "deaths_traced": 8
   },
   {
    "after_day": 15,
    "pool": 3000,
-   "deaths_traced": 32
+   "deaths_traced": 8
   },
   {
    "after_day": 16,
    "pool": 3000,
-   "deaths_traced": 33
+   "deaths_traced": 8
   },
   {
    "after_day": 17,
    "pool": 3000,
-   "deaths_traced": 35
+   "deaths_traced": 8
   },
   {
    "after_day": 18,
    "pool": 3000,
-   "deaths_traced": 37
+   "deaths_traced": 8
   },
   {
    "after_day": 19,
    "pool": 3000,
-   "deaths_traced": 39
+   "deaths_traced": 8
   },
   {
    "after_day": 20,
    "pool": 3000,
-   "deaths_traced": 41
+   "deaths_traced": 8
   },
   {
    "after_day": 21,
    "pool": 3000,
-   "deaths_traced": 42
+   "deaths_traced": 8
   },
   {
    "after_day": 22,
    "pool": 3000,
-   "deaths_traced": 44
+   "deaths_traced": 8
   },
   {
    "after_day": 23,
    "pool": 3000,
-   "deaths_traced": 45
+   "deaths_traced": 8
   },
   {
    "after_day": 24,
    "pool": 3000,
-   "deaths_traced": 47
+   "deaths_traced": 8
   },
   {
    "after_day": 25,
    "pool": 3000,
-   "deaths_traced": 49
+   "deaths_traced": 8
   },
   {
    "after_day": 26,
    "pool": 3000,
-   "deaths_traced": 51
+   "deaths_traced": 8
   },
   {
    "after_day": 27,
    "pool": 3000,
-   "deaths_traced": 53
+   "deaths_traced": 8
   },
   {
    "after_day": 28,
    "pool": 3000,
-   "deaths_traced": 55
+   "deaths_traced": 8
   },
   {
    "after_day": 29,
    "pool": 3000,
-   "deaths_traced": 57
+   "deaths_traced": 8
   },
   {
    "after_day": 30,
    "pool": 3000,
-   "deaths_traced": 59
+   "deaths_traced": 8
   }
  ],
  "effort": "low"
