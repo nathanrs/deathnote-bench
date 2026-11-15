@@ -374,7 +374,10 @@ class Game:
     def _record_death(self, action, eid, day, hour, how):
         self.state["deaths"][eid] = [day, hour]
         self.state["death_info"][eid] = how
-        self.state["log"].append({"action": action, "entity": eid, "on_day": self.day, "day": day, "hour": hour})
+        entry = {"action": action, "entity": eid, "on_day": self.day, "day": day, "hour": hour}
+        if how.get("source"):
+            entry["source"] = how["source"]
+        self.state["log"].append(entry)
 
     def end_day(self):
         if self.state["ended"]:

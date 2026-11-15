@@ -79,8 +79,8 @@ RESULTS_PLACEHOLDER
 uv venv .venv && uv pip install --python .venv/bin/python numpy pytest matplotlib
 PYTHONPATH=. .venv/bin/python -m pytest tests
 PYTHONPATH=. .venv/bin/python -m deathnotebench.clean --out tasks_one_move --worlds 12 --controls 4 --first-seed 1000
-valkyrie dataset push deathnotebench/one-move ./tasks_one_move --tag v1
-valkyrie run start --agent claude_code-v1.0.0 --dataset deathnotebench/one-move@v1 \
+valkyrie dataset push deathnotebench/one-move ./tasks_one_move --tag v3
+valkyrie run start --agent claude_code-v1.0.0 --dataset deathnotebench/one-move@v3 \
   --model anthropic/claude-opus-5-5 --provider modal -s ANTHROPIC_API_KEY anthropic-api-key
 ```
 
