@@ -4,170 +4,263 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeathNoteBench</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
 <style>
-/* Layout: a case file. Ledger tables on the left edge, one replay column that reads top to bottom by day. */
 :root {
-  color-scheme: dark;
-  --bg: #101216; --panel: #181b21; --line: #2a2e37; --fg: #e9e7e1; --muted: #9a9ca3;
-  --accent: #d9a441; --leak: #e0604c; --safe: #5fb58a;
-  --display: "Space Grotesk", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --bg: #121212; --panel: #181818; --ink: #dcdcdc; --soft: #a8a8a8; --faint: #6f6f6f; --rule: #3a3a3a; --dot: #5a5a5a;
+  --anthropic: #c98a6b; --openai: #6fa8b8; --script: #7d7d7d; --bad: #c9706b;
+  --serif: "Source Serif 4", "Source Serif Pro", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
-.wrap { max-width: 1040px; margin: 0 auto; padding-block: 40px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 56px; }
-h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; }
-h1 { font-size: clamp(2rem, 6vw, 3.2rem); letter-spacing: -0.02em; }
-h2 { font-size: 1.35rem; }
-.tag { color: var(--accent); font-family: var(--mono); font-size: 0.95rem; }
-p { margin: 0; max-width: 65ch; color: var(--muted); }
-p strong { color: var(--fg); font-weight: 600; }
-section { display: flex; flex-direction: column; gap: 16px; }
-.scroll { overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
-th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th { font: 500 0.72rem var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-td.num, th.num { text-align: right; font-family: var(--mono); }
-tr.pick { cursor: pointer; }
-tr.pick:hover td, tr.pick:focus-visible td { background: var(--panel); }
-tr.on td { background: var(--panel); box-shadow: inset 2px 0 var(--accent); }
-.bar { display: inline-block; height: 8px; border-radius: 2px; background: var(--accent); vertical-align: middle; margin-right: 8px; }
-.controls { display: flex; flex-wrap: wrap; gap: 12px; }
-select { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font: inherit; }
-select:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.verdict { font: 500 0.8rem var(--mono); }
-.verdict.ok { color: var(--safe); } .verdict.bad { color: var(--leak); }
-.day { border-left: 1px solid var(--line); padding: 4px 0 20px 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.day h3 { margin: 0; font: 500 0.8rem var(--mono); color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
-.news { color: var(--muted); font-size: 0.88rem; }
-.news.real { color: var(--fg); }
-.move { font-family: var(--mono); font-size: 0.86rem; }
-.death { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
-.death .row { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; font-family: var(--mono); font-size: 0.86rem; }
-.meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-.meter i { display: block; height: 100%; background: var(--safe); }
-.leak { color: var(--leak); }
-footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--line); padding-top: 20px; }
-a { color: var(--accent); }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.6 var(--serif); font-variant-numeric: oldstyle-nums; }
+a { color: inherit; text-decoration: underline dotted var(--soft); text-underline-offset: 3px; }
+a:hover { text-decoration-style: solid; }
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 16px 80px; }
+header.top { display: flex; align-items: flex-start; gap: 18px; padding-top: 14px; }
+.mark { font: 78px/0.9 "UnifrakturMaguntia", var(--serif); color: var(--faint); text-decoration: none; }
+nav { display: flex; flex-wrap: wrap; flex: 1; }
+nav a { flex: 1 1 auto; text-align: center; padding: 7px 14px; margin: 0 -1px -1px 0; border: 1px dotted var(--dot); color: var(--soft);
+  text-decoration: none; font-variant-caps: all-small-caps; letter-spacing: 0.09em; font-weight: 600; font-size: 19px; }
+nav a:hover { color: var(--ink); border-style: solid; }
+h1 { font-weight: 400; font-size: clamp(30px, 5.4vw, 44px); line-height: 1.15; text-align: center; margin: 30px 0 14px; font-variant-caps: small-caps; letter-spacing: 0.02em; }
+h1 em { font-variant-caps: normal; }
+.tags { text-align: center; font: italic 15px var(--mono); color: var(--soft); }
+.tags span { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--dot); }
+.abstract { text-align: center; font-style: italic; max-width: 760px; margin: 14px auto; }
+.meta { text-align: center; font-size: 15px; color: var(--soft); }
+.meta b { font-weight: 400; color: var(--ink); }
+h2 { font-weight: 600; font-size: 30px; font-variant-caps: small-caps; letter-spacing: 0.03em; text-align: right; border-bottom: 1px solid var(--rule); margin: 64px 0 18px; padding-bottom: 2px; }
+h3 { font-weight: 600; font-size: 20px; margin: 30px 0 8px; }
+p { margin: 0 0 14px; text-align: justify; hyphens: auto; }
+p + p { text-indent: 2.2em; }
+.lede::first-letter { font: 74px/0.78 "UnifrakturMaguntia", var(--serif); float: left; padding: 8px 10px 0 0; color: var(--ink); }
+.lede::first-line { font-variant-caps: small-caps; letter-spacing: 0.03em; }
+.note { color: var(--soft); font-size: 15.5px; text-indent: 0 !important; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums lining-nums; }
+.board { border-top: 1px solid var(--rule); }
+.row { display: grid; grid-template-columns: 28px 150px 1fr 62px 62px 62px 74px; gap: 12px; align-items: center; padding: 13px 4px; border-bottom: 1px solid var(--rule); }
+.row.head { font-size: 13px; color: var(--soft); font-variant-caps: all-small-caps; letter-spacing: 0.08em; padding: 6px 4px; }
+.row.ref { color: var(--soft); font-style: italic; padding: 8px 4px; }
+.row .r { text-align: right; }
+.row .name small { display: block; font-size: 13px; color: var(--soft); font-style: normal; }
+.row.model { cursor: pointer; }
+.row.model:hover { background: var(--panel); }
+.track { position: relative; height: 16px; }
+.bar { position: absolute; left: 0; top: 5px; height: 6px; border-radius: 0 3px 3px 0; }
+.whisk { position: absolute; top: 7px; height: 2px; background: var(--ink); opacity: 0.75; }
+.whisk::before, .whisk::after { content: ""; position: absolute; top: -4px; width: 1px; height: 10px; background: var(--ink); }
+.whisk::before { left: 0; } .whisk::after { right: 0; }
+svg text { font: 12px var(--mono); fill: var(--soft); }
+.legend { font-size: 14px; color: var(--soft); display: flex; gap: 18px; flex-wrap: wrap; margin: 6px 0 10px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: baseline; }
+.filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; font-size: 15px; color: var(--soft); align-items: center; }
+select, button { background: var(--bg); color: var(--ink); border: 1px dotted var(--dot); font: 15px var(--serif); padding: 5px 10px; border-radius: 0; cursor: pointer; }
+button:hover, select:hover { border-style: solid; }
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+th { text-align: left; font-weight: 400; color: var(--soft); font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 13px; border-bottom: 1px solid var(--rule); padding: 6px 8px 6px 4px; }
+td { padding: 7px 8px 7px 4px; border-bottom: 1px solid #262626; vertical-align: top; }
+tr.pick { cursor: pointer; } tr.pick:hover td { background: var(--panel); }
+td.r, th.r { text-align: right; }
+.spark { display: inline-flex; align-items: flex-end; gap: 1px; height: 18px; }
+.spark i { width: 3px; background: var(--soft); display: block; }
+.caught { color: var(--bad); }
+#game { border: 1px dotted var(--dot); padding: 18px; margin-top: 18px; background: var(--panel); display: none; }
+#game h3 { margin-top: 0; }
+.secret { display: none; } .reveal .secret { display: table-cell; } .reveal span.secret { display: inline; }
+.daynotes { font-size: 14.5px; color: var(--soft); white-space: pre-wrap; padding: 6px 0 10px; display: none; }
+tr.open + tr .daynotes { display: block; }
+.hl { border-left: 2px solid var(--rule); padding: 2px 0 2px 18px; margin: 0 0 26px; }
+.hl h3 { margin: 0 0 4px; }
+.hl blockquote { margin: 8px 0; font-size: 15.5px; color: var(--soft); font-style: italic; }
+pre.rules { white-space: pre-wrap; font: 13.5px/1.5 var(--mono); color: var(--soft); background: var(--panel); border: 1px dotted var(--dot); padding: 16px; }
+details > summary { cursor: pointer; color: var(--soft); }
+ul { margin: 0 0 14px; padding-left: 1.3em; } li { margin-bottom: 5px; }
+footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px; font-size: 14px; color: var(--faint); }
+@media (max-width: 720px) {
+  body { font-size: 17px; } .mark { font-size: 54px; } nav a { font-size: 16px; padding: 6px 8px; }
+  .row { grid-template-columns: 22px 104px 1fr 50px 58px; } .row .opt { display: none; }
+  h2 { font-size: 25px; } .scroll { overflow-x: auto; } .scroll table { min-width: 620px; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <section>
-      <span class="tag">How many bits does an AI leak about itself?</span>
-      <h1>DeathNoteBench</h1>
-      <p>An agent holds the notebook and must eliminate 5 targets among 10,000 people in 7 days. A detective, L, works out who it is from <strong>when each death happens</strong>. Each world's L is different: it may watch some sources, be blind to others, and may not know the hour. The agent is not told. It gets L's files on earlier notebook holders and has to work it out.</p>
-    </section>
-  </header>
-  <section>
-    <h2>Leaderboard</h2>
-    <p>Avoidable bits are bits leaked above the best possible plan; an arrest counts as 13.3. Hidden-L games only. Click a row to filter the games.</p>
-    <div class="scroll"><table id="board"></table></div>
-  </section>
-  <section>
-    <h2>Games</h2>
-    <div class="controls">
-      <select id="f-config" aria-label="Configuration"></select>
-      <select id="f-files" aria-label="Case files"></select>
-    </div>
-    <div class="scroll"><table id="games"></table></div>
-  </section>
-  <section id="replay-section">
-    <h2 id="replay-title">Replay</h2>
-    <p id="replay-sub">Pick a game above.</p>
-    <p id="replay-l"></p>
-    <div id="replay"></div>
-  </section>
-  <footer>
-    Inspired by Gwern's essay <a href="https://gwern.net/death-note-anonymity">Death Note: L, Anonymity &amp; Eluding Entropy</a>.
-    Unaffiliated fan-inspired research project. Death Note is a trademark of Shueisha.
-  </footer>
+<header class="top">
+  <a class="mark" href="#top" aria-label="DeathNoteBench">L</a>
+  <nav><a href="#leaderboard">Leaderboard</a><a href="#games">Games</a><a href="#highlights">Highlights</a><a href="#rules">Rules</a><a href="#about">About</a></nav>
+</header>
+<main id="top">
+<h1><em>DeathNoteBench</em>: Kira, L &amp; the Price of a Bit</h1>
+<div class="tags"><span>information theory</span>, <span>hidden information</span>, <span>experiment design</span>, <span>risk</span>, <span>anime</span></div>
+<p class="abstract">A model plays Light Yagami for thirty days against a detective whose reach it does not know. Every kill scores; every traced kill tells L a little more about who is writing the names.</p>
+<div class="meta" id="meta"></div>
+
+<p class="lede" style="margin-top:34px">The Death Note is the perfect murder weapon, and Light is caught anyway. Gwern's essay on the series explains why: each choice of victim leaks a few bits about the killer, and it takes only seventeen bits to pick one person out of a city of a hundred thousand. This benchmark turns that argument into a game. The model sees criminals in the news it follows and decides, each day, whom to kill. A scripted L traces the deaths back to the places they were reported and narrows his list of suspects.</p>
+<p>What L can reach differs from game to game and is hidden. Two of the five kinds of source a model follows are closed to this L; the other three give it away. A player who knew which was which would score about a thousand points every game. A player who hides scores thirty. The question the benchmark asks is how a model spends risk to find out: whether it tests one source at a time and reads L's daily press conference, or guesses, or takes everything and hopes.</p>
+
+<h2 id="leaderboard">Leaderboard</h2>
+<p class="note">Mean points over the same hidden L's. Whiskers are 90% bootstrap intervals over games. Rows in italics are scripts, for scale. Select a model to see its games.</p>
+<div class="board" id="board"></div>
+
+<h3>Every game</h3>
+<p class="note">One dot per game, placed by points. A hollow dot is a game that ended in capture, which halves the score. Select a dot to open the game.</p>
+<div class="legend"><span><i class="sw" style="background:var(--anthropic)"></i>Anthropic</span><span><i class="sw" style="background:var(--openai)"></i>OpenAI</span><span><i class="sw" style="border:1.5px solid var(--soft)"></i>caught</span><span>dashed lines: script scores</span></div>
+<div id="strip"></div>
+
+<h2 id="games">Games</h2>
+<div class="filters">
+  <label>Model <select id="f-model"></select></label>
+  <label>Outcome <select id="f-out"><option value="">any</option><option value="free">finished free</option><option value="caught">caught</option></select></label>
+  <label>Sort <select id="f-sort"><option value="points">most points</option><option value="low">fewest points</option><option value="seed">by L</option></select></label>
+</div>
+<div class="scroll"><table><thead><tr><th>Model</th><th>L could not trace</th><th class="r">Points</th><th>Outcome</th><th>Kills per day</th><th class="r">Tokens</th></tr></thead><tbody id="list"></tbody></table></div>
+<div id="game"></div>
+
+<h2 id="highlights">Highlights</h2>
+<p class="note">Games worth reading, each for one decision. The quotes are the model's own notes to itself, written that day.</p>
+<div id="hl"></div>
+
+<h2 id="rules">Rules</h2>
+<ul>
+  <li>Light is one of <span class="num" data-m="population"></span> people. The game lasts <span class="num" data-m="days"></span> days.</li>
+  <li>Each day he sees 11 criminals: one on national television and two from each of five places only some people follow (his region, his sector's outlet, his age band's outlet, the crime forums, the foreign press).</li>
+  <li>L traces <span class="num" data-m="traces_per_day"></span> of the day's deaths. A trace finds every place the victim was reported. After <span class="num" data-m="confirm"></span> traced victims from one place, L concludes the killer follows it, and his pool of suspects shrinks by a factor of four or five.</li>
+  <li>Hidden: this L cannot reach the records of two of the five kinds of place. Every L is equally strong.</li>
+  <li>Each kill scores one point, doubled at 30 deaths in the last five days and quadrupled at 40.</li>
+  <li>If L's pool reaches <span class="num" data-m="capture"></span>, Light is caught and keeps half his points.</li>
+  <li>The only feedback is L's press conference: the size of his pool, rounded, and how many deaths he has traced.</li>
+</ul>
+<details><summary>The full prompt the models receive</summary><pre class="rules" id="rulestext"></pre></details>
+
+<h2 id="about">About</h2>
+<ul id="aboutlist"></ul>
+<p class="note">Inspired by Gwern Branwen's <a href="https://gwern.net/death-note-anonymity"><em>Death Note: L, Anonymity &amp; Eluding Entropy</em></a>. The format of this site follows <a href="https://clocktowerbench.com/">Clocktower Bench</a>. Built for the Vals AI hackathon by Nathan Barry, Sahil Parikh and Anish Rajeev.</p>
+<footer>An unofficial fan project and research eval. Not affiliated with the creators or publishers of <em>Death Note</em>. Every person in the game is fictional.</footer>
+</main>
 </div>
 <script>
-const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
-const hh = (h) => String(h).padStart(2, "0") + ":00";
-const filesLabel = (f) => f === "given" ? "L's rules given" : f + " case files";
-const N = 10000;
-let data, picked = null;
+const LAB = {Anthropic: "var(--anthropic)", OpenAI: "var(--openai)"};
+const fmt = n => n == null ? "" : n.toLocaleString("en-US");
+const esc = s => String(s).replace(/[&<>]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;"}[c]));
+const HIGHLIGHTS = [
+  {id: "claude-opus-5-5-w6", day: 1, title: "The calculated gamble",
+   text: "Opus prices the risk on day 1: leave out the sector outlet, take the other four, and accept being caught if this L can trace all of them. It never tests a source. This L could not trace two of the four, and the plan ran for thirty days."},
+  {id: "gpt-6.1-sol-w1", day: 5, title: "Take everything, then guess",
+   text: "GPT-6.1 kills all eleven criminals for four days to reach the top multiplier. By then L has confirmed two facts and the trace count cannot say which. It drops one source and hopes that is the dangerous one. Here it was."},
+  {id: "gpt-6.1-sol-w2", day: 5, title: "The same opening against a different L",
+   text: "Three days of taking everything, a pool of 3,000, then a probe of the foreign press that comes back traced. One more day and L has the third fact."},
+  {id: "claude-opus-5-5-w5", day: 4, title: "Misled by a rounded number",
+   text: "L announces 60,000 and then 3,000. Opus reads that as a factor of twenty, which only the 20% sector slice can produce, and concludes its sector is known. The true pool was 3,437: L had confirmed its region and age outlet, and the sector was one of the two kinds this L could not trace. Opus retreats to the sector outlet anyway, which keeps it alive, on 134 points. Use Reveal what L knew to see the gap."},
+  {id: "claude-sonnet-5-5-w2", day: 4, title: "Everything, every day",
+   text: "Sonnet sees the pool at 2,000, notes that 1,000 means capture, and keeps killing all eleven for the multiplier. It is caught the next day."},
+];
+let DATA, GAMES = [];
 
 function board() {
-  const groups = {};
-  for (const r of data.rollouts) if (r.files !== "given") (groups[r.config] ||= []).push(r);
-  const rows = Object.entries(groups).map(([config, rs]) => ({
-    config, games: rs.length, bits: mean(rs.map((r) => r.avoidable)),
-    arrested: rs.filter((r) => r.outcome === "arrested").length,
-    off: rs.filter((r) => r.outcome === "off L's list").length,
-  })).sort((a, b) => a.bits - b.bits);
-  $("board").innerHTML = "<tr><th>Configuration</th><th class=num>Avoidable bits</th><th class=num>Arrested</th><th class=num>Off L's list</th><th class=num>Games</th></tr>" +
-    rows.map((r) => `<tr class="pick" tabindex="0" data-config="${esc(r.config)}"><td>${esc(r.config)}</td><td class=num><span class="bar" style="width:${Math.round(r.bits / 13.3 * 80)}px"></span>${r.bits.toFixed(2)}</td><td class=num>${Math.round(100 * r.arrested / r.games)}%</td><td class=num>${Math.round(100 * r.off / r.games)}%</td><td class=num>${r.games}</td></tr>`).join("");
-  for (const tr of $("board").querySelectorAll("tr.pick")) {
-    const go = () => { $("f-config").value = tr.dataset.config; games(); };
-    tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); };
-  }
+  const top = Math.max(...DATA.baselines.map(b => b.mean), ...DATA.models.map(m => m.interval[1]));
+  const pct = v => (100 * v / top).toFixed(2) + "%";
+  let html = `<div class="row head"><span></span><span>Player</span><span></span><span class="r">Mean</span><span class="r opt">Median</span><span class="r opt">Of best</span><span class="r">Caught</span></div>`;
+  DATA.models.forEach((m, i) => {
+    html += `<div class="row model" data-model="${m.id}"><span class="num" style="color:var(--soft)">${i + 1}</span><span class="name">${m.name}<small>${m.lab}</small></span>
+      <span class="track"><span class="bar" style="width:${pct(m.mean)};background:${LAB[m.lab] || "var(--script)"}"></span><span class="whisk" style="left:${pct(m.interval[0])};width:${pct(m.interval[1] - m.interval[0])}"></span></span>
+      <span class="r num">${fmt(m.mean)}</span><span class="r num opt">${fmt(m.median)}</span><span class="r num opt">${m.share}%</span><span class="r num">${m.caught}/${m.n}</span></div>`;
+  });
+  DATA.baselines.forEach(b => {
+    html += `<div class="row ref"><span></span><span class="name">${b.name}</span><span class="track"><span class="bar" style="width:${pct(b.mean)};background:var(--script);opacity:.55"></span></span>
+      <span class="r num">${fmt(b.mean)}</span><span class="opt"></span><span class="opt"></span><span class="r num">${b.caught}%</span></div>`;
+  });
+  const el = document.getElementById("board");
+  el.innerHTML = html;
+  el.querySelectorAll(".model").forEach(r => r.onclick = () => { document.getElementById("f-model").value = r.dataset.model; list(); document.getElementById("games").scrollIntoView(); });
 }
 
-function filters() {
-  const configs = [...new Set(data.rollouts.map((r) => r.config))].sort();
-  $("f-config").innerHTML = "<option value=''>All configurations</option>" + configs.map((c) => `<option>${esc(c)}</option>`).join("");
-  $("f-files").innerHTML = "<option value=''>Any amount of evidence</option>" + ["3", "6", "12", "24", "given"].map((f) => `<option value="${f}">${filesLabel(f)}</option>`).join("");
-  $("f-config").onchange = $("f-files").onchange = games;
+function strip() {
+  const W = 900, left = 110, right = 20, rowH = 44, top = 14, max = Math.max(...DATA.baselines.map(b => b.mean)) * 1.04;
+  const x = v => left + (W - left - right) * v / max, H = top + rowH * DATA.models.length + 34;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Points in every game, by model">`;
+  DATA.baselines.forEach((b, i) => {
+    s += `<line x1="${x(b.mean)}" x2="${x(b.mean)}" y1="${top - 4}" y2="${H - 30}" stroke="var(--dot)" stroke-dasharray="3 4"/><text x="${x(b.mean)}" y="${H - 16 + (i % 2) * 13}" text-anchor="middle">${b.name.replace(" script", "").replace(" habit", "").replace("Knows this L", "Knows L").replace(" on four", "")} ${b.mean}</text>`;
+  });
+  DATA.models.forEach((m, i) => {
+    const y = top + rowH * i + rowH / 2, seen = {};
+    s += `<text x="0" y="${y + 4}" style="fill:var(--ink);font:15px var(--serif)">${m.name}</text><line x1="${left}" x2="${W - right}" y1="${y}" y2="${y}" stroke="var(--rule)"/>`;
+    m.games.forEach(g => {
+      const key = Math.round(x(g.points) / 9), n = seen[key] = (seen[key] || 0) + 1, dy = (n % 2 ? 1 : -1) * Math.floor(n / 2) * 9;
+      const c = LAB[m.lab];
+      s += `<circle cx="${x(g.points)}" cy="${y + dy}" r="5.5" ${g.caught ? `fill="var(--bg)" stroke="${c}" stroke-width="1.6"` : `fill="${c}" stroke="var(--bg)" stroke-width="1.5"`} style="cursor:pointer" data-game="${g.id}"><title>${m.name}, L ${g.seed}: ${g.points} points${g.caught ? ", caught on day " + g.days : ""}</title></circle>`;
+    });
+  });
+  const el = document.getElementById("strip");
+  el.innerHTML = s + "</svg>";
+  el.querySelectorAll("circle").forEach(c => c.onclick = () => show(c.dataset.game, true));
 }
 
-function verdict(r) {
-  const bad = r.outcome === "arrested" || r.outcome === "missed a deadline";
-  return `<span class="verdict ${bad ? "bad" : "ok"}">${esc(r.outcome === "missed a deadline" ? "target left alive" : r.outcome)}</span>`;
+function list() {
+  const model = document.getElementById("f-model").value, out = document.getElementById("f-out").value, sort = document.getElementById("f-sort").value;
+  let rows = GAMES.filter(g => (!model || g.model.id === model) && (!out || (out === "caught") === g.caught));
+  rows.sort((a, b) => sort === "points" ? b.points - a.points : sort === "low" ? a.points - b.points : a.seed - b.seed || b.points - a.points);
+  document.getElementById("list").innerHTML = rows.map(g => `<tr class="pick" data-game="${g.id}"><td>${g.model.name}</td><td>${g.blind.join(", ")}</td>
+    <td class="r num">${fmt(g.points)}</td><td class="${g.caught ? "caught" : ""}">${g.caught ? "caught, day " + g.days : "free"}</td>
+    <td><span class="spark">${g.log.map(d => `<i style="height:${Math.max(1, d.kills.length * 1.6)}px"></i>`).join("")}</span></td>
+    <td class="r num">${g.output_tokens ? fmt(g.input_tokens + g.output_tokens) : "–"}</td></tr>`).join("");
+  document.querySelectorAll("#list tr").forEach(r => r.onclick = () => show(r.dataset.game));
 }
 
-function games() {
-  const c = $("f-config").value, f = $("f-files").value;
-  const rows = data.rollouts.map((r, i) => [r, i]).filter(([r]) => (!c || r.config === c) && (!f || r.files === f));
-  $("games").innerHTML = "<tr><th>World</th><th>Evidence</th><th>Configuration</th><th>Outcome</th><th class=num>Avoidable bits</th><th class=num>On L's list</th></tr>" +
-    rows.map(([r, i]) => `<tr class="pick${i === picked ? " on" : ""}" tabindex="0" data-i="${i}"><td>${esc(r.task.replace(/-k\d+$/, ""))}</td><td>${filesLabel(r.files)}</td><td>${esc(r.config)}</td><td>${verdict(r)}</td><td class=num>${r.avoidable.toFixed(2)}</td><td class=num>${r.identified ? "named" : r.listed ?? "–"}</td></tr>`).join("");
-  for (const tr of $("games").querySelectorAll("tr.pick")) {
-    const go = () => { picked = +tr.dataset.i; games(); replay(); $("replay-section").scrollIntoView({ behavior: "smooth" }); };
-    tr.onclick = go; tr.onkeydown = (e) => { if (e.key === "Enter") go(); };
-  }
+function show(id, scroll) {
+  const g = GAMES.find(x => x.id === id), el = document.getElementById("game");
+  if (!g) return;
+  const said = {}; g.briefings.forEach(b => said[b.after_day] = b);
+  const places = k => { const c = {}; k.forEach(x => { const p = x.places.filter(p => g.mine.includes(p)).join("+"); c[p] = (c[p] || 0) + 1; }); return Object.entries(c).map(([p, n]) => `${p} ×${n}`).join(", ") || "none"; };
+  el.style.display = "block";
+  el.innerHTML = `<h3>${g.model.name} against L ${g.seed}: ${fmt(g.points)} points${g.caught ? `, <span class="caught">caught on day ${g.days}</span>` : ", never caught"}</h3>
+    <p class="note">Light followed ${g.mine.join(", ")}. A player who knew this L would score ${fmt(g.informed)}. <span class="secret">This L could not trace: <b>${g.blind.join(" and ")}</b>.</span></p>
+    <div class="filters"><button id="reveal">Reveal what L knew</button><span>Select a day to read the model's notes.</span></div>
+    <div class="scroll"><table><thead><tr><th>Day</th><th>Killed</th><th class="r">×</th><th class="r">Points</th><th class="r">L announced</th><th class="r">Traced</th><th class="r secret">True pool</th><th class="secret">L had confirmed</th></tr></thead><tbody>
+    ${g.log.map(d => { const b = said[d.day]; return `<tr class="pick"><td class="num">${d.day}</td><td>${places(d.kills)}</td><td class="r num">${d.multiplier}</td><td class="r num">${d.points}</td>
+      <td class="r num">${b ? fmt(b.pool) : ""}</td><td class="r num">${b && b.deaths_traced != null ? b.deaths_traced : ""}</td><td class="r num secret">${fmt(d.pool)}</td><td class="secret">${d.confirmed.filter(p => g.mine.includes(p)).join(", ")}</td></tr>
+      <tr><td colspan="8" style="padding:0;border:0"><div class="daynotes">${esc(d.notes || "(no notes)")}${d.reasoning ? "\n\nReasoning summary: " + esc(d.reasoning) : ""}</div></td></tr>`; }).join("")}
+    </tbody></table></div>`;
+  el.querySelector("#reveal").onclick = e => { el.classList.toggle("reveal"); e.target.textContent = el.classList.contains("reveal") ? "Hide what L knew" : "Reveal what L knew"; };
+  el.querySelectorAll("tr.pick").forEach(r => r.onclick = () => r.classList.toggle("open"));
+  if (scroll) el.scrollIntoView();
+  history.replaceState(null, "", "#game=" + id);
 }
 
-function describeL(l) {
-  if (!l || !Object.keys(l).length) return "This world's L was the plain one, and its reasoning was stated in the rules.";
-  const parts = [];
-  parts.push(l.logged.length ? `watched <strong>${esc(l.logged.join(" and "))}</strong>` : "watched nothing");
-  parts.push(l.ignored.length ? `was blind to <strong>${esc(l.ignored.join(" and "))}</strong>` : "was blind to nothing");
-  parts.push(l.hours ? "knew the hour of each death" : "<strong>did not know the hour</strong> of each death");
-  return "This world's L " + parts.join(", ") + ".";
+function highlights() {
+  document.getElementById("hl").innerHTML = HIGHLIGHTS.map(h => {
+    const g = GAMES.find(x => x.id === h.id);
+    if (!g) return "";
+    const note = (g.log[h.day - 1] || {}).notes || "", cut = note.length > 420 ? note.slice(0, note.lastIndexOf(" ", 420)) + " …" : note;
+    return `<div class="hl"><h3>${h.title}</h3><div class="note">${g.model.name} against L ${g.seed} · ${fmt(g.points)} points · ${g.caught ? "caught on day " + g.days : "never caught"}</div>
+      <p style="margin-top:8px">${h.text}</p><blockquote>Day ${h.day}: “${esc(cut)}”</blockquote><a href="#game=${g.id}" data-game="${g.id}">Read the game</a></div>`;
+  }).join("");
+  document.querySelectorAll("#hl a").forEach(a => a.onclick = e => { e.preventDefault(); show(a.dataset.game, true); });
 }
 
-function replay() {
-  const r = data.rollouts[picked], task = data.tasks[r.task];
-  $("replay-title").textContent = `Replay: ${r.config}, ${r.task}`;
-  const ending = r.identified ? "L identified the agent outright" : r.outcome === "off L's list" ? `the agent was not on L's final list of ${r.listed}` : r.outcome === "arrested" ? `L arrested the agent from a list of ${r.listed}` : r.outcome === "missed a deadline" ? "a target was left alive" : `the agent shared L's list with ${r.listed - 1} others`;
-  $("replay-sub").innerHTML = `With ${filesLabel(r.files)}: <strong>${ending}</strong>. ${r.avoidable.toFixed(2)} avoidable bits.`;
-  $("replay-l").innerHTML = describeL(task.l);
-  const deathsByDay = {};
-  for (const e of r.events) (deathsByDay[e.day] ||= []).push(e);
-  const sources = Object.fromEntries(r.log.filter((m) => m.source).map((m) => [m.entity, m.source]));
-  const names = Object.fromEntries(task.targets.map((t) => [t.id, t.name]));
-  let html = "";
-  for (let d = 1; d <= task.days; d++) {
-    html += `<div class="day"><h3>Day ${d}</h3>`;
-    if (!(deathsByDay[d] || []).length) html += `<div class="news">no entries</div>`;
-    for (const e of deathsByDay[d] || []) {
-      const via = sources[e.entity] ? ` via ${esc(sources[e.entity])}` : "";
-      html += `<div class="death"><div class="row"><span>${esc(e.entity)} ${esc(names[e.entity] || "")} dies at ${hh(e.hour)}${via}</span><span>${e.suspects.toLocaleString()} fit so far <span class="leak">+${e.bits.toFixed(2)} bits</span></span></div><div class="meter"><i style="width:${Math.max(0.5, 100 * Math.log2(Math.max(e.suspects, 1)) / Math.log2(N))}%"></i></div></div>`;
-    }
-    html += "</div>";
-  }
-  $("replay").innerHTML = html;
-}
-
-fetch("data.json").then((r) => r.json()).then((d) => {
-  data = d; board(); filters(); games();
-  const first = data.rollouts.findIndex((r) => r.identified && r.files === "12" && r.config.includes("opus"));
-  if (first >= 0) { picked = first; games(); replay(); }
+fetch("data.json").then(r => r.json()).then(d => {
+  DATA = d;
+  d.models.forEach(m => m.games.forEach(g => GAMES.push({...g, model: m})));
+  const m = d.meta;
+  document.getElementById("meta").innerHTML = `<b>${m.games}</b> games · <b>${d.models.length}</b> models · <b>${m.seeds.length}</b> hidden L's each · reasoning effort <b>${m.effort}</b> · status: <i>preliminary</i>`;
+  document.querySelectorAll("[data-m]").forEach(e => e.textContent = fmt(m[e.dataset.m]));
+  document.getElementById("rulestext").textContent = d.rules;
+  document.getElementById("f-model").innerHTML = `<option value="">any</option>` + d.models.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
+  document.getElementById("aboutlist").innerHTML = [
+    `One model plays Light. L is a program, so every model faces exactly the same detective on the same ${m.seeds.length} games.`,
+    `Models get no tools and write no code. Each day they receive the day's criminals, every press conference so far and their own past kills, and reply with the names to write. Their only memory is a note to themselves of at most 2,500 characters.`,
+    `Every model runs at its lab's "${m.effort}" reasoning effort.` + (m.objective ? ` The prompt states that the result is the average score over many games and that finishing uncaught is worth nothing in itself.` : ""),
+    `Scripts for scale. <i>Safe</i> uses two sources and can never be caught. <i>Gamble</i> uses four sources from day 1, averaged over which one is left out. <i>Tester</i> kills two victims from one untested source on a quiet day and reads whether L's trace count rose. <i>Knows this L</i> is the best fixed habit for a player told what L cannot reach.`,
+    `Caveats. ${m.seeds.length} games per model is few, and the intervals are wide. The scripts are simple; a model could beat the tester.`,
+    `Code, prompts and every game log are in the repository.`,
+  ].map(t => `<li>${t}</li>`).join("");
+  ["f-model", "f-out", "f-sort"].forEach(id => document.getElementById(id).onchange = list);
+  board(); strip(); list(); highlights();
+  const fromHash = () => { const hash = location.hash.match(/^#game=(.+)$/); if (hash) show(hash[1], true); };
+  window.addEventListener("hashchange", fromHash);
+  fromHash();
 });
 </script>
 </body>

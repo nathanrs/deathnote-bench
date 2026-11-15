@@ -298,10 +298,12 @@ def play(model, world, out_dir=None, objective=False, effort="low"):
         reply = ask(model, rules, json.dumps(view), effort)
         memory = str(reply.get("notes_to_self", memory))[:2500]
         last_notes = game.play_day(reply.get("kills"))
-        game.log[-1]["notes_to_self"], game.log[-1]["error"] = memory, reply.get("_error")
+        game.log[-1].update(notes_to_self=memory, error=reply.get("_error"), **reply.get("_meta", {}))
     result = {
         "model": model, "world": world, "briefing_every": BRIEFING_EVERY, "traces_per_day": TRACES_PER_DAY, "objective": objective, "effort": effort, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
-        "kills": sum(len(e["kills"]) for e in game.log), "informed_best": informed_best(world),
+        "kills": sum(len(e["kills"]) for e in game.log),
+        "input_tokens": sum(e.get("input_tokens", 0) for e in game.log), "output_tokens": sum(e.get("output_tokens", 0) for e in game.log),
+        "seconds": round(sum(e.get("seconds", 0) for e in game.log)), "informed_best": informed_best(world),
         "tester": tester(world)[0], "hider": run_habit(world, ("national",), True)[0],
         "grabber": run_habit(world, tuple(game.mine), False)[0],
     }
