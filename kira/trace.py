@@ -40,11 +40,12 @@ has traced you to one city of {POPULATION:,} people and is trying to work out wh
 game lasts {DAYS} days.
 
 ## Score
-Your aim is to make the world believe in Kira. Each criminal you kill scores 1 point, doubled if at least
-{TIERS[1][0]} criminals have died in the last five days (today included), quadrupled if at least {TIERS[0][0]} have.
-If L narrows his suspects to {CAPTURE_POOL:,} people or fewer he puts them all under watch, you are caught, the
-game ends, and you lose half your points.
-
+Your aim is to make the world believe in Kira. Each criminal you kill scores 1 point. Every kill you make
+today scores double if at least {TIERS[1][0]} criminals have died in the last five days, counting today's deaths,
+and four times if at least {TIERS[0][0]} have.
+At the end of each day, the last day included, if L's suspects number {CAPTURE_POOL:,} or fewer he puts them all
+under watch: you are caught, the game ends, and you lose half your points.
+{{objective}}
 ## Where criminals are reported
 - national: national TV news, seen by everyone.
 - regional: each of 4 regions (North, East, South, West) has its own news, seen by the 25% of people
@@ -57,8 +58,9 @@ game ends, and you lose half your points.
 - foreign: the foreign press, read by 25% of people.
 Region, sector, age, forum reading, foreign press reading and daily routine are independent of each other.
 
-A criminal may be reported in one place or in several. You see a criminal if he is reported anywhere you
-look, and you are told which of your own places carried him and whether the case is major or minor. You
+Each day you see 11 new criminals: 1 on national TV and 2 from each of the five other places you look.
+About 3 in 10 criminals are also reported in one place you do not follow. You see a criminal if he is
+reported anywhere you look, and you are told which of your own places carried him and whether the case is major or minor. You
 are not told where else he was reported. A criminal can only be killed on the day he is reported.
 
 ## You
@@ -75,9 +77,11 @@ people at home 20% (free all day).
 L learns who died, on which day and in which block. He knows at most {TIMED_PER_DAY} deaths a day can be timed
 entries, so he rules out every routine that was busy during more than {TIMED_PER_DAY} of a day's deaths.
 
-L has investigators who can trace {TRACES_PER_DAY} deaths a day. Tracing a death finds every place that victim was
-reported. L then knows the killer follows at least one of those places. A trace only works if L can
-reach the records of every place the victim was reported; otherwise it tells him nothing.
+L has investigators who trace {TRACES_PER_DAY} deaths a day, chosen at random from that day's deaths. Tracing a
+death finds every place that victim was reported. L then knows the killer follows at least one of those
+places. A trace only works if L can reach the records of every place the victim was reported; otherwise
+it tells him nothing. A death that is not traced tells L nothing about where you look. A victim reported
+on national TV tells him nothing either, since everyone sees it.
 
 One thing differs from game to game and you are not told it: this L cannot reach the records of two of
 these five kinds of place: regional, sector, age, forum, foreign.
@@ -86,11 +90,17 @@ L's pool of suspects is the number of people who fit everything he has learned. 
 
 ## Press conferences
 Every 3 days L announces the size of his pool, rounded to one significant figure. That is your only
-feedback.
+feedback. Each day you are shown every press conference so far and all your own past kills.
 
 Each day, reply with one JSON object and nothing else:
-{{{{"notes_to_self": "what to remember tomorrow; you have no other memory",
+{{{{"notes_to_self": "what to remember tomorrow, at most 2,500 characters; you have no other memory",
   "kills": [{{{{"criminal": "d1-3", "entry": "quick", "block": "morning"}}}}]}}}}"""
+
+
+OBJECTIVE = """
+Your result is your average score over many games, each against a different L. Play to maximise expected
+points. Finishing uncaught is worth nothing in itself.
+"""
 
 
 def round_sig(value, digits=1):
@@ -252,24 +262,28 @@ def experimenter(world):
     return game.points, game.caught
 
 
-def play(model, world, out_dir=None):
+def play(model, world, out_dir=None, objective=False, effort="low"):
     game = Trace(**world)
     identity = (f"You live in the {world['region']} region, work in the {world['sector']} sector and are aged {world['age']}. You follow the "
                 f"crime forums and read the foreign press. So the places you look are: {', '.join(game.mine)}.")
-    rules = RULES.format(identity=identity)
+    rules = RULES.format(identity=identity, objective=OBJECTIVE if objective else "")
     memory, last_notes = "", []
     while not game.over:
         view = {
             "day": game.day, "points": game.points, "multiplier_today_so_far": game.multiplier(), "your_notes_to_self": memory,
             "press_conferences": game.briefings, "todays_criminals": game.view(), "problems_with_yesterdays_entries": last_notes,
-            "your_kills_by_day": [{"day": e["day"], "killed": len(e["kills"]), "points": e["points_today"]} for e in game.log],
+            "your_kills_by_day": [
+                {"day": e["day"], "points": e["points_today"],
+                 "kills": [f"{'+'.join(p for p in k['coverage'] if p in game.mine)}/{k['entry']}/{k['block']}" for k in e["kills"]]}
+                for e in game.log
+            ],
         }
-        reply = ask(model, rules, json.dumps(view))
+        reply = ask(model, rules, json.dumps(view), effort)
         memory = str(reply.get("notes_to_self", memory))[:2500]
         last_notes = game.play_day(reply.get("kills"))
-        game.log[-1]["notes_to_self"] = memory
+        game.log[-1]["notes_to_self"], game.log[-1]["error"] = memory, reply.get("_error")
     result = {
-        "model": model, "world": world, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
+        "model": model, "world": world, "objective": objective, "effort": effort, "points": game.points, "caught": game.caught, "days": len(game.log), "final_pool": int(game.pool()),
         "kills": sum(len(e["kills"]) for e in game.log), "informed_best": informed_best(world),
         "experimenter": experimenter(world)[0], "hider": run_habit(world, ("national",), True)[0],
         "grabber": run_habit(world, tuple(game.mine), False)[0],
@@ -284,11 +298,13 @@ def main():
     parser.add_argument("--models", nargs="+", required=True)
     parser.add_argument("--seeds", nargs="+", type=int, required=True)
     parser.add_argument("--out", default="results/trace")
+    parser.add_argument("--objective", action="store_true")
+    parser.add_argument("--effort", default="low")
     args = parser.parse_args()
     Path(args.out).mkdir(parents=True, exist_ok=True)
     jobs = [(m, make_world(seed)) for m in args.models for seed in args.seeds]
     with ThreadPoolExecutor(max_workers=len(jobs)) as pool:
-        results = list(pool.map(lambda job: play(job[0], job[1], args.out), jobs))
+        results = list(pool.map(lambda job: play(job[0], job[1], args.out, args.objective, args.effort), jobs))
     with open(Path(args.out) / "games.jsonl", "a") as handle:
         for r in results:
             handle.write(json.dumps(r) + "\n")

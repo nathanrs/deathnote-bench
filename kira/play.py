@@ -167,21 +167,22 @@ def parse(text):
         return {}
 
 
-def ask(model, system, user):
+def ask(model, system, user, effort="low"):
     provider, _, name = model.partition("/")
     for attempt in range(3):
         try:
             if provider == "anthropic":
                 import anthropic
-                reply = anthropic.Anthropic().messages.create(
-                    model=name, max_tokens=12000, system=system, thinking={"type": "adaptive"},
-                    output_config={"effort": "low"}, messages=[{"role": "user", "content": user}],
-                )
+                with anthropic.Anthropic().messages.stream(
+                    model=name, max_tokens=32000, system=system, thinking={"type": "adaptive"},
+                    output_config={"effort": effort}, messages=[{"role": "user", "content": user}],
+                ) as stream:
+                    reply = stream.get_final_message()
                 text = "".join(block.text for block in reply.content if block.type == "text")
             else:
                 import openai
                 reply = openai.OpenAI().responses.create(
-                    model=name, instructions=system, input=user, reasoning={"effort": "low"}, store=False,
+                    model=name, instructions=system, input=user, reasoning={"effort": effort}, store=False,
                 )
                 text = reply.output_text
             result = parse(text)
