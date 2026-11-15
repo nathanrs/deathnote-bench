@@ -3,7 +3,7 @@
 ## The population
 
 - There are 10,000 people, with ids 0 to 9999. `census.csv` has one row per person and is public:
-  L reads the same file. You are person 9705.
+  L reads the same file. You are person 7965.
 - **Region.** Each person lives in one of 16 regions, R01 to R16.
 - **Waking hours.** Each person is awake for 10 consecutive hours every day, beginning at the hour
   in their `wake_start` column. Hours are whole numbers 0 to 23; "hour 14" means the hour beginning

@@ -157,7 +157,25 @@ def evidence(world, cases):
                     survivors.append({"logged": list(watched), "ignored": [s for s in hidden if s not in watched], "hours": hours})
     mine = [s for s in _sources_of(world, world.agent) if s in GLOBAL_SOURCES]
     pinned = all(len({status(b, source) for b in survivors}) == 1 for source in mine) and len({b["hours"] for b in survivors}) == 1
-    return {"consistent": len(survivors), "pinned_for_agent": bool(pinned)}
+    possibly_watched = sorted({source for b in survivors for source in b["logged"]})
+    return {
+        "consistent": len(survivors), "pinned_for_agent": bool(pinned), "possibly_watched": possibly_watched,
+        "safe_plan_exists": safe_plan_exists(world, possibly_watched),
+    }
+
+
+def safe_plan_exists(world, possibly_watched):
+    """Can every target be written through a source that no L consistent with the files watches?"""
+    game = Game(world)
+    for entity in world.entities:
+        e = world.index[entity["id"]]
+        ok = any(
+            game.awake[h] and set(source_names(game.pm & int(game.lm[e, d, h]))) - set(possibly_watched)
+            for d in range(1, DAYS + 1) for h in range(HOURS)
+        )
+        if not ok:
+            return False
+    return True
 
 
 def generate(seed, variant=None, n=10_000):
@@ -261,7 +279,10 @@ def main():
             report = evaluate(world)
             if not acceptable(report, kind == "control"):
                 continue
-            if kind == "hidden" and not evidence(world, world.meta["cases"])["pinned_for_agent"]:
+            if kind == "hidden" and not (
+                evidence(world, world.meta["cases"])["pinned_for_agent"]
+                and evidence(world, world.meta["cases"][:min(CASE_COUNTS)])["safe_plan_exists"]
+            ):
                 continue
             made += 1
             counts = [0] if kind == "control" else CASE_COUNTS
