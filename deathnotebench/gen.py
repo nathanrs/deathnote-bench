@@ -18,20 +18,27 @@ LEVELS = {
     6: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=5, bait=2, noise=5),
     7: dict(targets=8, max_scheduled=2, max_relays=2, deadlines=True, events=12, bait=2, noise=5, days=10),
     8: dict(targets=6, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=3, decoys=3, raids=True),
-    9: dict(targets=5, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=0, cases=14),
+    9: dict(targets=5, max_scheduled=2, max_relays=2, deadlines=True, events=0, bait=0, noise=0, cases=18),
 }
-L_KINDS = ["logged_social_informants", "logged_social_relay_blind", "unknown_tempting_logged_social", "logged_tempting_informants", "sched_blind_logged_social", "standard"]
+L_KINDS = [
+    "logged_social_informants", "logged_tempting_informants", "logged_tempting_relay_blind", "unknown_tempting_logged_social",
+    "sched_blind_logged_tempting", "informants", "standard", "relay_blind_logged_social",
+]
 
 
 def _beliefs(kind, tempting):
     return {
         "logged_social_informants": {"kind": kind, "logged": ["social"], "informants": True},
-        "logged_social_relay_blind": {"kind": kind, "logged": ["social"], "max_relays": 0},
-        "unknown_tempting_logged_social": {"kind": kind, "logged": ["social"], "ignored": [tempting]},
         "logged_tempting_informants": {"kind": kind, "logged": [tempting], "informants": True},
-        "sched_blind_logged_social": {"kind": kind, "logged": ["social"], "max_scheduled": 0},
+        "logged_tempting_relay_blind": {"kind": kind, "logged": [tempting], "max_relays": 0},
+        "unknown_tempting_logged_social": {"kind": kind, "logged": ["social"], "ignored": [tempting]},
+        "sched_blind_logged_tempting": {"kind": kind, "logged": [tempting], "max_scheduled": 0},
+        "informants": {"kind": kind, "informants": True},
         "standard": {"kind": kind},
+        "relay_blind_logged_social": {"kind": kind, "logged": ["social"], "max_relays": 0},
     }[kind]
+
+
 TEMPLATES = ["small_region", "odd_hours", "insider"]
 
 NAMES = [
@@ -268,7 +275,7 @@ def _cases(rng, world, count):
     cases = []
     attempts = 0
     special = [name for name in world.beliefs.get("logged", []) + world.beliefs.get("ignored", []) if name != "social"]
-    while len(cases) < count and attempts < 400:
+    while len(cases) < count and attempts < 2000:
         attempts += 1
         killer = int(rng.integers(world.n))
         pm = int(world.pm[killer])
@@ -288,6 +295,8 @@ def _cases(rng, world, count):
         if len(state["deaths"]) < 2:
             continue
         mask, identified, deaths, _ = l_verdict(case_world, state)
+        if identified and sum(c["_flags"]["identified"] for c in cases) >= 0.4 * count:
+            continue
         suspects = [killer] if identified else [int(p) for p in mask.nonzero()[0]]
         arrested = identified or (killer in suspects and len(suspects) <= 8)
         cases.append({

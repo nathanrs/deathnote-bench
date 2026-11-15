@@ -175,39 +175,64 @@ class Planner:
         return assign(0, 0, 0)
 
 
-def off_list_plan(world, node_limit):
-    """A plan after which L's list does not contain the agent, if one death L cannot
-    explain for the agent can be completed into a full legal plan."""
-    lm = world.listing()
-    planner = Planner(world, lm)
-    a = world.agent
-    base = planner.lf.initial_state()
+def off_list_plan(world):
+    """A full legal plan after which L cannot explain the deaths for the agent, if one exists.
+
+    Only the agent's own row of L's test matters here, so the search is exact: each
+    target's death times collapse into classes by which of L's four explanations
+    fit the agent and what the death really costs the agent.
+    """
+    planner = Planner(world, world.listing())
+    lf, a = planner.lf, world.agent
+    per_target = []
     for entity in world.entities:
         if entity["is_bait"]:
             continue
         e = world.index[entity["id"]]
-        tried = set()
+        classes = {}
         for d in range(1, entity["deadline"] + 1):
             for h in range(HOURS):
-                routes = planner.agent_routes(e, d, h)
-                costs = sorted(MODE_COST[m] for m in routes if MODE_COST[m][0] <= planner.sched_left and MODE_COST[m][1] <= planner.relay_left)
-                if not costs or planner.lf.step(base, planner.lf.modes(e, d, h))[-1, -1][a]:
-                    continue
-                if costs[0] in tried:
-                    continue
-                tried.add(costs[0])
-                rest = Planner(
-                    world, lm, deaths={entity["id"]: (d, h)},
-                    sched_left=planner.sched_left - costs[0][0], relay_left=planner.relay_left - costs[0][1],
-                ).solve(node_limit=node_limit)
-                if rest is not None:
-                    return {"suspects": world.n, "plan": [(e, d, h)] + rest["plan"], "proven": True, "nodes": rest["nodes"], "off_list": True}
-    return None
+                costs = frozenset(
+                    MODE_COST[m] for m in planner.agent_routes(e, d, h)
+                    if MODE_COST[m][0] <= planner.sched_left and MODE_COST[m][1] <= planner.relay_left
+                )
+                if costs:
+                    fits = tuple(bool(mode[a]) for mode in lf.modes(e, d, h))
+                    classes.setdefault((fits, costs), (e, d, h))
+        if not classes:
+            return None
+        per_target.append(sorted(classes.items(), key=lambda item: sum(item[0][0])))
+
+    def explain(state, fits):
+        """L's budgeted test for the agent alone: state is a set of (scheduled, relays) L would need."""
+        return {
+            (s + cs, r + cr)
+            for s, r in state
+            for fit, (cs, cr) in zip(fits, MODE_COST)
+            if fit and s + cs <= lf.max_sched and r + cr <= lf.max_relay
+        }
+
+    def recurse(depth, l_state, spent, plan):
+        if depth == len(per_target):
+            return list(plan) if not l_state else None
+        for (fits, costs), death in per_target[depth]:
+            after = {(s + cs, r + cr) for s, r in spent for cs, cr in costs if s + cs <= planner.sched_left and r + cr <= planner.relay_left}
+            if not after:
+                continue
+            plan.append(death)
+            found = recurse(depth + 1, explain(l_state, fits), after, plan)
+            plan.pop()
+            if found:
+                return found
+        return None
+
+    plan = recurse(0, {(0, 0)}, {(0, 0)}, [])
+    return plan and {"suspects": world.n, "plan": plan, "proven": True, "nodes": 0, "off_list": True}
 
 
 def hindsight_optimum(world, node_limit=500_000):
     if world.beliefs:
-        escape = off_list_plan(world, min(node_limit, 50_000))
+        escape = off_list_plan(world)
         if escape:
             return escape
     return Planner(world, world.listing()).solve(node_limit=node_limit)
