@@ -80,7 +80,16 @@ tr.open + tr .daynotes { display: block; }
 .frow:first-child { border-top: 1px solid #262626; margin-top: 10px; }
 .frow .st { text-align: right; color: var(--soft); font-size: 13.5px; }
 .frow .arrow { height: 1px; background: var(--rule); position: relative; opacity: 0; transition: opacity .4s; }
-.frow .arrow.hit { opacity: 1; background: var(--bad); } .frow .arrow.miss { opacity: 1; }
+.frow .arrow.hit { opacity: 1; background: var(--bad); }
+.frow { transition: opacity .4s; } .frow.idle { opacity: .35; }
+.steps { display: flex; gap: 6px; flex-wrap: wrap; font-size: 13.5px; }
+.steps span { padding: 3px 10px; border: 1px dotted var(--dot); color: var(--faint); }
+.steps span.on { border: 1px solid var(--ink); color: var(--ink); }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+.stats div { color: var(--soft); font-size: 13.5px; }
+.stats b { display: block; font: 600 24px var(--serif); color: var(--ink); transition: color .6s; }
+.stats b.changed { color: var(--bad); }
+.legend .dot, .legend .pip { display: inline-block; vertical-align: -2px; margin-right: 7px; }
 .dots { display: flex; gap: 7px; } .dots.r { justify-content: flex-end; }
 .dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s, box-shadow .4s; }
 .dot.dead { background: var(--ink); border-color: var(--ink); }
@@ -89,7 +98,7 @@ tr.open + tr .daynotes { display: block; }
 .pip { width: 14px; height: 14px; border: 1.5px solid var(--faint); transition: background .4s, border-color .4s; }
 .pip.on { background: var(--bad); border-color: var(--bad); }
 .frow.blind .pip { border-style: dotted; opacity: .5; }
-.flowfoot { margin-top: 12px; } .flow .cap { margin: 12px 0 12px; min-height: 3.2em; text-indent: 0; text-align: left; color: var(--ink); }
+.flow .cap { margin: 12px 0 14px; min-height: 3.2em; text-indent: 0; text-align: left; color: var(--ink); font-size: 17.5px; }
 pre.rules { white-space: pre-wrap; font: 13.5px/1.5 var(--mono); color: var(--soft); background: var(--panel); border: 1px dotted var(--dot); padding: 16px; }
 details > summary { cursor: pointer; color: var(--soft); }
 ul { margin: 0 0 14px; padding-left: 1.3em; } li { margin-bottom: 5px; }
@@ -127,10 +136,12 @@ footer { margin-top: 70px; border-top: 1px solid var(--rule); padding-top: 14px;
 <details><summary>The full prompt the models receive</summary><pre class="rules" id="rulestext"></pre></details>
 <h3>One game, day by day</h3>
 <div class="flow" id="flow">
-  <div class="flowhead"><span><b>Light</b> sees 11 criminals and chooses whom to kill</span><span><b>L</b> traces deaths and counts them by place</span></div>
-  <div id="fl-rows"></div>
-  <div class="flowfoot"><span id="fl-light"></span><span id="fl-l"></span></div>
+  <div class="steps" id="fl-steps"></div>
   <p class="cap" id="fl-cap"></p>
+  <div class="flowhead"><span><b>Light</b>: today's criminals, by where he saw them</span><span><b>L</b>: traces per place, hidden from Light</span></div>
+  <div id="fl-rows"></div>
+  <div class="stats" id="fl-stats"></div>
+  <div class="legend" style="margin:12px 0"><span><i class="dot"></i> criminal</span><span><i class="dot dead"></i> killed</span><span><i class="dot dead traced"></i> traced, dead end</span><span><i class="dot hit"></i> traced, counts</span><span><i class="pip on"></i> one trace against a place; three confirm it</span></div>
   <div class="filters" style="margin:0"><button id="fl-play">Pause</button><span id="fl-src"></span></div>
 </div>
 <h3>How the models were run</h3>
@@ -285,18 +296,22 @@ function flow() {
       }).join("");
       const blind = g.blind.includes(KIND(place)), anyHit = kills.some(k => hits.includes(k)), anyTraced = kills.some(k => k.traced);
       const pips = place === "national" ? "" : [0, 1, 2].map(i => `<i class="pip ${(tally[place] || 0) > i ? "on" : ""}"></i>`).join("");
-      const status = place === "national" ? "everyone sees it" : blind ? "no records" : done.includes(place) ? `<span class="caught">confirmed</span>` : "";
-      return `<div class="frow ${blind ? "blind" : ""}"><span>${KIND_NAME[KIND(place)]}</span><span class="dots">${dots}</span>
-        <span class="arrow ${step >= 2 && anyHit ? "hit" : step >= 2 && anyTraced ? "miss" : ""}"></span><span class="dots r">${pips}</span><span class="st">${status}</span></div>`;
+      const deadEnd = step >= 2 && anyTraced && !anyHit;
+      const status = place === "national" ? (deadEnd ? "public news" : "") : blind ? (deadEnd ? "no records" : "") : done.includes(place) ? `<span class="caught">confirmed</span>` : "";
+      return `<div class="frow ${blind ? "blind" : ""} ${step >= 1 && !kills.length ? "idle" : ""}"><span>${KIND_NAME[KIND(place)]}</span><span class="dots">${dots}</span>
+        <span class="arrow ${step >= 2 && anyHit ? "hit" : ""}"></span><span class="dots r">${pips}</span><span class="st">${status}</span></div>`;
     }).join("");
     const points = g.log.slice(0, day + (step >= 1)).reduce((a, x) => a + x.points, 0), brief = g.briefings.filter(b => b.after_day <= shown + 1).pop();
-    document.getElementById("fl-light").innerHTML = `Day <b>${d.day}</b> of 30 · <b>${fmt(points)}</b> points${step >= 1 && d.multiplier > 1 ? ` · ×${d.multiplier} today` : ""}`;
-    document.getElementById("fl-l").innerHTML = `Suspects: <b>${fmt(brief.pool)}</b> · caught at ${fmt(DATA.meta.capture)}`;
+    const before = g.briefings.filter(b => b.after_day <= day).pop(), news = step === 3;
+    document.getElementById("fl-steps").innerHTML = ["1 Feed", "2 Light kills", "3 L traces", "4 Press conference"].map((t, i) => `<span class="${i === step ? "on" : ""}">${t}</span>`).join("");
+    document.getElementById("fl-stats").innerHTML = `<div><b>${d.day} / 30</b>day</div><div><b>${fmt(points)}</b>points${step >= 1 && d.multiplier > 1 ? `, ×${d.multiplier} today` : ""}</div>
+      <div><b class="${news && brief.deaths_traced > before.deaths_traced ? "changed" : ""}">${brief.deaths_traced}</b>deaths traced, as L announces</div>
+      <div><b class="${news && brief.pool < before.pool ? "changed" : ""}">${fmt(brief.pool)}</b>suspects, caught at ${fmt(DATA.meta.capture)}</div>`;
     const traced = d.kills.filter(k => k.traced).length, rose = counts(d).length;
     document.getElementById("fl-cap").textContent = [
       `Day ${d.day}. Light sees one criminal on national TV and two from each of his five other sources.`,
       `Light kills ${d.kills.length} of the 11.${d.kills.length <= 3 ? " A small day is a test: one source at a time." : " He leaves out the one source he has proven L can trace."}`,
-      `L traces each death on a coin flip: ${traced} of ${d.kills.length} today. ${rose} ${rose === 1 ? "leads" : "lead"} through records he can reach.`,
+      `L traces each death on a coin flip: ${traced} of ${d.kills.length} today. ${rose ? rose : "None"} ${rose === 1 ? "leads" : "lead"} through records he can reach.`,
       `Press conference: ${fmt(brief.pool)} suspects, ${brief.deaths_traced} deaths traced so far.${rose && d.kills.length <= 3 ? " The count rose, so Light knows this source is dangerous and drops it." : d.kills.length <= 3 ? " No change, so Light tests another source tomorrow." : ""}`,
     ][step];
   }
