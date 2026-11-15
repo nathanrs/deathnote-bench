@@ -1,0 +1,17 @@
+name: codex_dnb
+
+install_cmd: "bash setup.sh"
+
+final_output: /logs
+
+defaults:
+  model:
+    type: str
+    required: false
+    default: gpt-6.1-sol
+
+run_cmd: >-
+  bash -lc 'set -o pipefail && mkdir -p /logs &&
+  AGENT_OUTPUT_ROOT=/logs /bundle/codex_dnb/.venv/bin/python3
+  /bundle/codex_dnb/collect_outputs.py {problem_statement_path}
+  --task-id {task_id} --model {model}'
