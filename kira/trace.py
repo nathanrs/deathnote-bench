@@ -34,7 +34,7 @@ SECTORS = {"legal": "docket", "medical": "hospital", "security": "blotter", "med
 AGES = {"under 25": "clips", "25 to 39": "podcasts", "40 to 59": "cable", "60 and over": "radio"}
 FORUM_SHARE, FOREIGN_SHARE = 0.25, 0.25
 KINDS = ["regional", "sector", "age", "forum", "foreign"]
-TIERS = [(50, 4), (30, 2), (0, 1)]
+TIERS = [(40, 4), (30, 2), (0, 1)]
 
 RULES = f"""\
 You are Light. You hold a notebook that kills anyone whose name and face you have seen. A detective, L,
