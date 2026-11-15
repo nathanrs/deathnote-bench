@@ -131,15 +131,63 @@ def bits_by_config(rows, out):
     plt.close(fig)
 
 
+OUTCOMES = [("off L's list", "#1baf7a"), ("on the list, not arrested", "#2a78d6"), ("missed a deadline", "#eda100"), ("arrested", "#e34948")]
+
+
+def outcome(row):
+    if row.get("missed_targets") or row.get("error"):
+        return "missed a deadline"
+    if row.get("caught"):
+        return "arrested"
+    return "off L's list" if row.get("off_the_list") else "on the list, not arrested"
+
+
+def unknown_l_outcomes(rows, out):
+    """How games on the unknown-L levels ended, as a share of each configuration's games."""
+    counts = defaultdict(lambda: defaultdict(int))
+    for row in rows:
+        if level_of(row["task"]) >= 9:
+            counts[config_name(row)][outcome(row)] += 1
+    if not counts:
+        return ""
+    names = sorted(counts, key=lambda name: counts[name]["arrested"] / sum(counts[name].values()))
+    fig, ax = plt.subplots(figsize=(9, 0.55 * len(names) + 1.9), facecolor=SURFACE)
+    left = [0.0] * len(names)
+    for label, color in OUTCOMES:
+        shares = [counts[name][label] / sum(counts[name].values()) for name in names]
+        ax.barh(names, shares, left=left, color=color, height=0.55, label=label, edgecolor=SURFACE, linewidth=2)
+        for y, (share, start) in enumerate(zip(shares, left)):
+            if share >= 0.07:
+                ax.text(start + share / 2, y, f"{share:.0%}", ha="center", va="center", color="white", fontsize=8.5, fontweight="bold")
+        left = [a + b for a, b in zip(left, shares)]
+    style(ax, "Levels 9-10: how games end when L's methods must be inferred", "")
+    ax.grid(visible=False)
+    ax.set_xlim(0, 1)
+    ax.set_xticks([])
+    ax.invert_yaxis()
+    ax.legend(frameon=False, fontsize=8.5, labelcolor=INK, ncol=4, loc="upper left", bbox_to_anchor=(0, -0.02))
+    fig.tight_layout()
+    fig.savefig(out, dpi=170, facecolor=SURFACE)
+    plt.close(fig)
+    lines = ["| Configuration | Games | Off L's list | On the list | Missed a deadline | Arrested |", "|---|---|---|---|---|---|"]
+    for name in names:
+        c = counts[name]
+        total = sum(c.values())
+        lines.append(f"| {name} | {total} | {c[OUTCOMES[0][0]]} | {c[OUTCOMES[1][0]]} | {c[OUTCOMES[2][0]]} | {c['arrested']} ({c['arrested'] / total:.0%}) |")
+    return "\n".join(lines)
+
+
 def markdown_table(table, base):
     levels = sorted({level for scores in table.values() for level in scores})
-    lines = ["| Configuration | " + " | ".join(f"L{level}" for level in levels) + " | Mean |", "|---|" + "---|" * (len(levels) + 1)]
-    entries = sorted(table.items(), key=lambda item: -mean([s for v in item[1].values() for s in v]))
+    lines = ["| Configuration | " + " | ".join(f"L{level}" for level in levels) + " | Mean of levels run |", "|---|" + "---|" * (len(levels) + 1)]
+    def overall(scores):
+        return mean([mean(values) for values in scores.values()])
+
+    entries = sorted(table.items(), key=lambda item: -overall(item[1]))
     entries += [(label, base[name]) for name, (label, _) in REFERENCES.items() if name in base]
     for config, scores in entries:
         cells = [f"{mean(scores[level]):.2f}" if level in scores else "–" for level in levels]
-        overall = mean([s for values in scores.values() for s in values])
-        lines.append(f"| {config} | " + " | ".join(cells) + f" | {overall:.2f} |")
+        lines.append(f"| {config} | " + " | ".join(cells) + f" | {overall(scores):.2f} |")
     return "\n".join(lines)
 
 
@@ -156,8 +204,11 @@ def main():
     out = Path(args.out)
     score_by_level(table, base, out / "score_by_level.png")
     bits_by_config(rows, out / "avoidable_bits.png")
-    (out / "table.md").write_text(markdown_table(table, base) + "\n")
+    outcomes = unknown_l_outcomes(rows, out / "unknown_l_outcomes.png")
+    (out / "table.md").write_text(markdown_table(table, base) + "\n\n" + outcomes + "\n")
     print(markdown_table(table, base))
+    print()
+    print(outcomes)
 
 
 if __name__ == "__main__":
