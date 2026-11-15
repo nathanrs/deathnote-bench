@@ -1,0 +1,2872 @@
+{
+ "model": "anthropic/claude-opus-5-5",
+ "objective": true,
+ "effort": "high",
+ "world": {
+  "seed": 1,
+  "region": "East",
+  "sector": "commerce",
+  "age": "under 25",
+  "blind": [
+   "age",
+   "regional"
+  ]
+ },
+ "briefing_every": 1,
+ "traces_per_day": 5,
+ "points": 859,
+ "caught": false,
+ "days": 30,
+ "final_pool": 2750,
+ "kills": 247,
+ "input_tokens": 134926,
+ "output_tokens": 70214,
+ "seconds": 732,
+ "informed_best": 1023,
+ "tester": 858,
+ "hider": 30,
+ "grabber": 88,
+ "log": [
+  {
+   "day": 1,
+   "kills": [
+    {
+     "id": "d1-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-1",
+     "coverage": [
+      "gazette",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-6",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d1-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d1-6",
+    "d1-9",
+    "d1-3",
+    "d1-1"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 55000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can't reach 2 of the 5 kinds (regional, sector, age, forum, foreign). I follow exactly 1 place of each kind (East, gazette, clips, forum, foreign). If L pins 3 of my places, pool = 55000 x ~0.016, which is under 1000, so I'm caught. If he pins only 2, pool is about 2750-3400, which is safe. GOAL: find ONE reachable kind, DROP it forever (never kill any victim that lists that place), then kill national + all victims from the other 4 places every day = 9/day. Over 5 days that is 45, which is at least 40, so x4. A dropped place must never reach 3 successful traces (2 is ok). Always use quick entries in the AFTERNOON (night worker; this keeps students, home and night workers in the pool, so pool about 55000 before traces). Never use the morning. Timed entries also go in the afternoon. Avoid any victim that lists a dropped place, even if it also lists a kept place.\nDAY 1 TEST (all deaths traced since there are 5 or fewer): killed d1-3 national, d1-1 and d1-6 gazette (sector), d1-9 clips (age). The deaths_traced increase after day 1 decodes as: 0 means sector and age are both unreachable, so East, forum and foreign are reachable; drop one of those (e.g. forum) and keep gazette, clips and the other two. 2 or 3 means gazette (sector) is reachable, so DROP gazette and keep East, clips, forum, foreign. 1 is ambiguous: most likely clips reachable and gazette not (~80%), but possibly gazette reachable with one trace failing. In that case run another clean test (e.g. 2 gazette + national only, or 2 gazette + 2 from one other kind) before committing. Watch the pool: expect about 55000, then about 13000 after L pins 1 place, then about 3000 after 2 places. It should stay around 3000.",
+   "error": null,
+   "input_tokens": 1922,
+   "output_tokens": 12035,
+   "seconds": 136.2,
+   "reasoning": ""
+  },
+  {
+   "day": 2,
+   "kills": [
+    {
+     "id": "d2-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-6",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d2-11",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d2-3",
+    "d2-6",
+    "d2-11"
+   ],
+   "points_today": 3,
+   "multiplier": 1,
+   "pool": 11000,
+   "notes": [],
+   "notes_to_self": "STRATEGY: L can't reach 2 of the 5 kinds (regional, sector, age, forum, foreign). I follow 1 place of each kind (East, gazette, clips, forum, foreign). If L pins 3 of my places, the pool drops under 1000 and I'm caught. If he pins only 2, the pool is about 3000, which is safe. GOAL: DROP one reachable kind forever (never kill any victim listing that place, even if it also lists a kept place). Then kill national + all victims from the other 4 places = 9/day, which reaches x4 once the 5-day window holds 40 or more. Quick entries always in the AFTERNOON, never the morning. Timed entries also in the afternoon.\nDAY 1: killed national, 2 gazette, 1 clips. deaths_traced went 0 to 1. Analysis: about 76% chance this means gazette unreachable and clips reachable (case C), about 22% gazette reachable and clips unreachable (case B). Pool 60000, which is about 55000 with nothing pinned yet.\nDAY 2 CLEAN TEST: killed only national + d2-6 and d2-11 (both gazette), all quick in the afternoon. With 5 or fewer deaths, all are traced. DECODE (deaths_traced after day 2 minus 1):\n- 0 means sector (gazette) is UNREACHABLE and age (clips) is reachable. DROP CLIPS forever. Keep East, gazette, forum, foreign. 1 clips trace exists (fine, under 3).\n- 1 or 2 means gazette is REACHABLE. DROP GAZETTE forever. Keep East, clips, forum, foreign. Gazette then has up to 2-3 traces; never kill gazette again.\nFROM DAY 3: kill national + 8 victims from the 4 kept places daily (9 kills, quick, afternoon). Skip any victim that lists the dropped place. Expected pool path: about 55000, then about 13000 after 1 pin, then about 3000 after 2 pins, which is stable. If the pool ever drops toward 1000-2000, STOP killing from non-national places and reassess. Kill totals: d1=4, d2=3.",
+   "error": null,
+   "input_tokens": 2675,
+   "output_tokens": 5036,
+   "seconds": 62.1,
+   "reasoning": ""
+  },
+  {
+   "day": 3,
+   "kills": [
+    {
+     "id": "d3-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-5",
+     "coverage": [
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d3-10",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d3-10",
+    "d3-5",
+    "d3-6",
+    "d3-7"
+   ],
+   "points_today": 4,
+   "multiplier": 1,
+   "pool": 11000,
+   "notes": [],
+   "notes_to_self": "STATE after day 2: deaths_traced 1 to 3, so both day-2 gazette victims were traced. SECTOR (gazette) IS REACHABLE AND ALREADY PINNED. Pool 10000 = 55000 (afternoon routines) x 0.2 = about 11000. So gazette kills are now FREE: L already applies that constraint, and more gazette traces cost nothing. One more pin gives about 3000 (safe). Two more pins give about 700 (CAUGHT). Day-1 clips trace failed, so age is about 87% likely unreachable.\nRULES: all quick entries in the AFTERNOON. Kill national and gazette always.\nDAY 3 TEST: killed national + d3-7 (East) + d3-5 and d3-10 (forum). 4 deaths, so all are traced. Decode d = deaths_traced(after day 3) - 3:\n- d=3: age and foreign are unreachable; East and forum are reachable (East has 1 trace, forum has 2). DROP FORUM forever. Keep national, gazette, clips, foreign, East.\n- d=2: age+regional unreachable, or regional+foreign unreachable. Forum is reachable (2 traces). DROP FORUM. Keep national, gazette, clips, East, foreign. This is safe under both cases.\n- d=1: age+forum unreachable, or forum+foreign unreachable. East is reachable (1 trace). DROP EAST forever. Keep national, gazette, clips, forum, foreign. Safe under both.\n- d=0: probably regional+forum unreachable (rare), or noise. Then East and forum are likely unreachable, so clips and foreign are the reachable ones. Keep national, gazette, East, forum, and pick only ONE of clips/foreign (prefer foreign). Re-check with the pool afterwards.\nA place can read low because a victim's hidden extra place blocked the trace. After deciding, watch the pool: it should go 10000, then about 3000, and stay there. If the pool ever shows 2000 or less, STOP all non-national, non-gazette kills immediately.\nThen kill 9 a day: national + gazette 2 + the 3 kept places x2. Skip any victim that lists a dropped place. To reach x4 I need 40 kills in a 5-day window, i.e. 8 or more per day.\nKill totals: d1=4, d2=3, d3=4.",
+   "error": null,
+   "input_tokens": 2844,
+   "output_tokens": 6283,
+   "seconds": 65.9,
+   "reasoning": ""
+  },
+  {
+   "day": 4,
+   "kills": [],
+   "traced": [],
+   "points_today": 0,
+   "multiplier": 1,
+   "pool": 11000,
+   "notes": [],
+   "notes_to_self": "STATE after day 2: deaths_traced 1 to 3, so both day-2 gazette victims were traced. SECTOR (gazette) IS REACHABLE AND ALREADY PINNED. Pool 10000 = 55000 (afternoon routines) x 0.2 = about 11000. So gazette kills are now FREE: L already applies that constraint, and more gazette traces cost nothing. One more pin gives about 3000 (safe). Two more pins give about 700 (CAUGHT). Day-1 clips trace failed, so age is about 87% likely unreachable.\nRULES: all quick entries in the AFTERNOON. Kill national and gazette always.\nDAY 3 TEST: killed national + d3-7 (East) + d3-5 and d3-10 (forum). 4 deaths, so all are traced. Decode d = deaths_traced(after day 3) - 3:\n- d=3: age and foreign are unreachable; East and forum are reachable (East has 1 trace, forum has 2). DROP FORUM forever. Keep national, gazette, clips, foreign, East.\n- d=2: age+regional unreachable, or regional+foreign unreachable. Forum is reachable (2 traces). DROP FORUM. Keep national, gazette, clips, East, foreign. This is safe under both cases.\n- d=1: age+forum unreachable, or forum+foreign unreachable. East is reachable (1 trace). DROP EAST forever. Keep national, gazette, clips, forum, foreign. Safe under both.\n- d=0: probably regional+forum unreachable (rare), or noise. Then East and forum are likely unreachable, so clips and foreign are the reachable ones. Keep national, gazette, East, forum, and pick only ONE of clips/foreign (prefer foreign). Re-check with the pool afterwards.\nA place can read low because a victim's hidden extra place blocked the trace. After deciding, watch the pool: it should go 10000, then about 3000, and stay there. If the pool ever shows 2000 or less, STOP all non-national, non-gazette kills immediately.\nThen kill 9 a day: national + gazette 2 + the 3 kept places x2. Skip any victim that lists a dropped place. To reach x4 I need 40 kills in a 5-day window, i.e. 8 or more per day.\nKill totals: d1=4, d2=3, d3=4.",
+   "error": null
+  },
+  {
+   "day": 5,
+   "kills": [
+    {
+     "id": "d5-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-5",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-7",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-3",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-4",
+     "coverage": [
+      "radio",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-1",
+     "coverage": [
+      "foreign"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d5-8",
+     "coverage": [
+      "foreign",
+      "radio"
+     ],
+     "entry": "timed",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d5-3",
+    "d5-9",
+    "d5-6",
+    "d5-1",
+    "d5-5"
+   ],
+   "points_today": 11,
+   "multiplier": 1,
+   "pool": 11000,
+   "notes": [],
+   "notes_to_self": "STATE after day 5. The unreachable pair is decided by the evidence. Day-1 gazette fail plus clips fail and day-3 (1 success out of East, forum, forum) give: AF (age+forum unreachable) about 66%, RA (regional+age unreachable) about 31%, others about 3%. FFo is impossible because a gazette trace failed on day 1. Gazette is pinned, giving pool 55000 x 0.2 = 11000, shown as 10000. Under AF, East is reachable (1 trace) and foreign is reachable. Under RA, forum is reachable (1 trace) and foreign is reachable. Clips is unreachable in both. Hidden extra places are never in my own outlets, so counts at my places only grow from my own kills.\nDAY 5: killed all 11 (10 quick + 1 timed, all afternoon). This includes 2 foreign kills, which was a safe one-off: two places cannot both pin in a single day.\nPERMANENT RULES FROM DAY 6:\n- NEVER kill foreign again. It is reachable in both likely cases and its count is 0 to 2. A third trace there plus an East/forum pin would push the pool to about 700 and I would be CAUGHT.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning, because it shrinks the pool by ruling out students.\n- Skip any victim whose list includes foreign, even if it also lists a kept place.\n- Expected pool: 10000 now, then 3000 once East (AF) or forum (RA) gets 3 traces. That is 2750, which is safe. It should stay at 3000 forever.\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Deaths_traced should rise about 2 per day (gazette plus one of East/forum).\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11. With 9 a day: day 7 gives x2 (33), day 8 gives x2 (38), day 9 onward gives x4 (45 or more).",
+   "error": null,
+   "input_tokens": 3063,
+   "output_tokens": 13428,
+   "seconds": 173.5,
+   "reasoning": ""
+  },
+  {
+   "day": 6,
+   "kills": [
+    {
+     "id": "d6-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-1",
+     "coverage": [
+      "gazette",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-5",
+     "coverage": [
+      "gazette",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-9",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-3",
+     "coverage": [
+      "regional:East",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-8",
+     "coverage": [
+      "podcasts",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d6-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d6-2",
+    "d6-9",
+    "d6-10",
+    "d6-4",
+    "d6-3"
+   ],
+   "points_today": 9,
+   "multiplier": 1,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 6. The unreachable pair is decided by the evidence. Day-1 gazette fail plus clips fail and day-3 (1 success out of East, forum, forum) give: AF (age+forum unreachable) about 66%, RA (regional+age unreachable) about 31%, others about 3%. Gazette is pinned, giving pool 55000 x 0.2 = 11000, shown as 10000. Under AF, East is reachable and foreign is reachable. Under RA, forum is reachable and foreign is reachable. Clips is unreachable in both. Hidden extra places are never in my own outlets, so counts at my places only grow from my own kills.\nDAY 5: killed all 11, including 2 foreign (a one-off). DAY 6: killed 9 (no foreign).\nPERMANENT RULES:\n- NEVER kill foreign again. It is reachable in both likely cases and its count is 0 to 2. A third trace there plus an East/forum pin would push the pool to about 700 and I would be CAUGHT. On day 6 I checked whether adding foreign kills to reach x4 earlier was worth it. It was not: gain about 18 points, risk is losing half of everything.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning, because it shrinks the pool by ruling out students.\n- Skip any victim whose list includes foreign, even if it also lists a kept place.\n- Expected pool: 10000 now, then 3000 once East (AF) or forum (RA) gets 3 traces. That is 2750, which is safe. It should stay at 3000 forever.\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Deaths_traced should rise about 2 per day.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9. With 9 a day: day 7 gives x2 (33), day 8 gives x2 (38), day 9 onward gives x4 (45 or more).",
+   "error": null,
+   "input_tokens": 3172,
+   "output_tokens": 3195,
+   "seconds": 30.6,
+   "reasoning": ""
+  },
+  {
+   "day": 7,
+   "kills": [
+    {
+     "id": "d7-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-2",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-7",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-10",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d7-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d7-7",
+    "d7-11",
+    "d7-8",
+    "d7-1",
+    "d7-6"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 7. Pool 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So in either case, extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9 (x2, 18 points). Day 8: d4-8 sum = 38 with 9, so x2. Day 9 onward: about 47 or 45, so x4, as long as I keep killing 9 a day. If a day has fewer safe criminals, still never use foreign.",
+   "error": null,
+   "input_tokens": 3318,
+   "output_tokens": 2200,
+   "seconds": 22.4,
+   "reasoning": ""
+  },
+  {
+   "day": 8,
+   "kills": [
+    {
+     "id": "d8-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-10",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-11",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-1",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d8-6",
+     "coverage": [
+      "regional:East",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d8-1",
+    "d8-5",
+    "d8-4",
+    "d8-11",
+    "d8-9"
+   ],
+   "points_today": 18,
+   "multiplier": 2,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 8. Pool 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So in either case, extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9, d8=9 (x2, 18 points). Day 9: d5-9 = 11+9+9+9+9 = 47, so x4. After that, keep killing 9 a day: four days of 9 plus today's 9 is 45, which keeps x4. If a day has fewer safe criminals, the 5-day sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 3310,
+   "output_tokens": 1168,
+   "seconds": 9.8,
+   "reasoning": ""
+  },
+  {
+   "day": 9,
+   "kills": [
+    {
+     "id": "d9-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-5",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-7",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-10",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-2",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d9-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d9-7",
+    "d9-4",
+    "d9-5",
+    "d9-10",
+    "d9-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 9. Pool 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So in either case, extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9, d8=9, d9=9 (x4, 36 points; points about 103 after day 9). Day 10: d6-10 = 9x4 + 9 = 45, so x4 if I kill 9. Keep killing 9 a day to hold x4: four days of 9 plus today's 9 is 45. If a day has fewer safe criminals, the 5-day sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 3502,
+   "output_tokens": 2080,
+   "seconds": 19.0,
+   "reasoning": ""
+  },
+  {
+   "day": 10,
+   "kills": [
+    {
+     "id": "d10-4",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-2",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-9",
+     "coverage": [
+      "gazette",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d10-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d10-4",
+    "d10-6",
+    "d10-9",
+    "d10-5",
+    "d10-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 10. Pool 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So in either case, extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9, d8=9, d9=9, d10=9 (x4). Points about 139 after day 10. Day 11: d7-10 = 36 + 9 today = 45, so x4. Keep killing 9 a day to hold x4: four days of 9 plus today's 9 is 45, which is 40 or more. If a day has fewer safe criminals, the 5-day sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 3700,
+   "output_tokens": 1291,
+   "seconds": 11.6,
+   "reasoning": ""
+  },
+  {
+   "day": 11,
+   "kills": [
+    {
+     "id": "d11-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-10",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-2",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-6",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d11-7",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d11-2",
+    "d11-6",
+    "d11-7",
+    "d11-3",
+    "d11-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 11. The pool is 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9 (all x4 since d9). Points about 175 after day 11. Day 12: d8-11 = 36 + 9 today = 45, so x4. Keep killing 9 a day to hold x4 (a 5-day sum of 40 or more). If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 3864,
+   "output_tokens": 1432,
+   "seconds": 13.0,
+   "reasoning": ""
+  },
+  {
+   "day": 12,
+   "kills": [
+    {
+     "id": "d12-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-5",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-7",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-6",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-8",
+     "coverage": [
+      "docket",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-1",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d12-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d12-9",
+    "d12-10",
+    "d12-7",
+    "d12-11",
+    "d12-5"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 12. The pool is 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9, d12=9 (all x4 since d9). Points about 211 after day 12. Day 13: d9-12 = 36 + 9 today = 45, so x4. Keep killing 9 a day to hold x4 (a 5-day sum of 40 or more). If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 4020,
+   "output_tokens": 1685,
+   "seconds": 14.5,
+   "reasoning": ""
+  },
+  {
+   "day": 13,
+   "kills": [
+    {
+     "id": "d13-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-6",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-8",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d13-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d13-9",
+    "d13-11",
+    "d13-10",
+    "d13-2",
+    "d13-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 13. The pool is 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6=9, d7=9, d8=9, d9=9, d10=9, d11=9, d12=9, d13=9 (all x4 since d9). Points about 247 after day 13. Day 14: d10-13 = 36 + 9 today = 45, so x4. Keep killing 9 a day to hold x4 (a 5-day sum of 40 or more). If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 4188,
+   "output_tokens": 1769,
+   "seconds": 15.6,
+   "reasoning": ""
+  },
+  {
+   "day": 14,
+   "kills": [
+    {
+     "id": "d14-2",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-8",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-9",
+     "coverage": [
+      "podcasts",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-6",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d14-7",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d14-3",
+    "d14-8",
+    "d14-7",
+    "d14-5",
+    "d14-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 14. The pool is 3000 (2750 = 55000 x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6 through d14=9 each (all x4 since d9). Points about 283 after day 14. Day 15: d11-14 = 36 + 9 today = 45, so x4. Keep killing 9 a day to hold x4 (a 5-day sum of 40 or more). If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 4397,
+   "output_tokens": 1518,
+   "seconds": 12.9,
+   "reasoning": ""
+  },
+  {
+   "day": 15,
+   "kills": [
+    {
+     "id": "d15-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-7",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-10",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-6",
+     "coverage": [
+      "clips",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d15-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d15-11",
+    "d15-7",
+    "d15-2",
+    "d15-5",
+    "d15-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 15. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6 through d15=9 each (all x4 since d9). Points about 319 after day 15. Day 16: d12-15 = 36 + 9 today = 45, so x4. Keep killing 9 a day to hold x4 (a 5-day sum of 40 or more). If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 4530,
+   "output_tokens": 1180,
+   "seconds": 9.5,
+   "reasoning": ""
+  },
+  {
+   "day": 16,
+   "kills": [
+    {
+     "id": "d16-10",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-5",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d16-9",
+     "coverage": [
+      "regional:East",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d16-6",
+    "d16-2",
+    "d16-1",
+    "d16-8",
+    "d16-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 16. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6 through d16=9 each (all x4 since d9). Points about 355 after day 16. Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 4699,
+   "output_tokens": 1085,
+   "seconds": 9.0,
+   "reasoning": ""
+  },
+  {
+   "day": 17,
+   "kills": [
+    {
+     "id": "d17-9",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-5",
+     "coverage": [
+      "gazette",
+      "podcasts"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-8",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-1",
+     "coverage": [
+      "clips",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-3",
+     "coverage": [
+      "clips",
+      "docket"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d17-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d17-4",
+    "d17-1",
+    "d17-9",
+    "d17-11",
+    "d17-3"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 17. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6 through d17=9 each (all x4 since d9). Points about 391 after day 17. Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 4850,
+   "output_tokens": 1146,
+   "seconds": 8.5,
+   "reasoning": ""
+  },
+  {
+   "day": 18,
+   "kills": [
+    {
+     "id": "d18-5",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-3",
+     "coverage": [
+      "gazette",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-9",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-11",
+     "coverage": [
+      "cable",
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-1",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-8",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-2",
+     "coverage": [
+      "radio",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d18-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d18-2",
+    "d18-1",
+    "d18-3",
+    "d18-9",
+    "d18-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 18. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6 through d18=9 each (all x4 since d9). Points about 427 after day 18. Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 5013,
+   "output_tokens": 1070,
+   "seconds": 8.9,
+   "reasoning": ""
+  },
+  {
+   "day": 19,
+   "kills": [
+    {
+     "id": "d19-7",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-2",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-8",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-9",
+     "coverage": [
+      "clips",
+      "hospital"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-1",
+     "coverage": [
+      "cable",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d19-5",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d19-2",
+    "d19-3",
+    "d19-9",
+    "d19-7",
+    "d19-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 19. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. A victim with a hidden extra report only adds an 'X or pinned place' rule, which changes nothing, or the trace fails. Foreign is reachable in both cases. A third foreign trace would give a pool of about 690 and I would be CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000, which is needless risk).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day. If the pool shows 1000 or less, the game is already over.\nMULTIPLIER: kills per day d1=4, d2=3, d3=4, d4=0, d5=11, d6 through d19=9 each (all x4 since d9). Points about 463 after day 19 (427 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. If a day has fewer safe criminals, the sum may drop below 40. Still never use foreign.",
+   "error": null,
+   "input_tokens": 5176,
+   "output_tokens": 1276,
+   "seconds": 10.1,
+   "reasoning": ""
+  },
+  {
+   "day": 20,
+   "kills": [
+    {
+     "id": "d20-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-11",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-6",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-7",
+     "coverage": [
+      "clips",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-2",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d20-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d20-9",
+    "d20-11",
+    "d20-3",
+    "d20-10",
+    "d20-2"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 20. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 499 after day 20 (463 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign.",
+   "error": null,
+   "input_tokens": 5346,
+   "output_tokens": 1083,
+   "seconds": 9.3,
+   "reasoning": ""
+  },
+  {
+   "day": 21,
+   "kills": [
+    {
+     "id": "d21-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-2",
+     "coverage": [
+      "gazette",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-1",
+     "coverage": [
+      "forum",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-7",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-6",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d21-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d21-6",
+    "d21-4",
+    "d21-2",
+    "d21-1",
+    "d21-7"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 21. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 535 after day 21 (499 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. Adding foreign kills would gain only +8 a day and risks losing half of the total.",
+   "error": null,
+   "input_tokens": 5393,
+   "output_tokens": 1114,
+   "seconds": 10.0,
+   "reasoning": ""
+  },
+  {
+   "day": 22,
+   "kills": [
+    {
+     "id": "d22-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-6",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-11",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-5",
+     "coverage": [
+      "clips",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-9",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d22-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d22-7",
+    "d22-5",
+    "d22-4",
+    "d22-1",
+    "d22-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 22. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 571 after day 22 (535 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. Adding foreign kills would gain only +8 a day and risks losing half of the total.",
+   "error": null,
+   "input_tokens": 5583,
+   "output_tokens": 1072,
+   "seconds": 8.7,
+   "reasoning": ""
+  },
+  {
+   "day": 23,
+   "kills": [
+    {
+     "id": "d23-6",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-4",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-7",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-5",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-11",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d23-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d23-11",
+    "d23-5",
+    "d23-9",
+    "d23-7",
+    "d23-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 23. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 607 after day 23 (571 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. Adding foreign kills would gain only +8 a day and risks losing half of the total.",
+   "error": null,
+   "input_tokens": 5746,
+   "output_tokens": 1039,
+   "seconds": 8.7,
+   "reasoning": ""
+  },
+  {
+   "day": 24,
+   "kills": [
+    {
+     "id": "d24-1",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-8",
+     "coverage": [
+      "docket",
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-11",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-3",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-4",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-5",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-7",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d24-9",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d24-7",
+    "d24-3",
+    "d24-11",
+    "d24-5",
+    "d24-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 24. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 643 after day 24 (607 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. Adding foreign kills would gain only +8 a day and risks losing half of the total. The game ends after day 30.",
+   "error": null,
+   "input_tokens": 5909,
+   "output_tokens": 1169,
+   "seconds": 10.1,
+   "reasoning": ""
+  },
+  {
+   "day": 25,
+   "kills": [
+    {
+     "id": "d25-3",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-5",
+     "coverage": [
+      "gazette",
+      "radio"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-9",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-11",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-1",
+     "coverage": [
+      "forum",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d25-10",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d25-4",
+    "d25-5",
+    "d25-8",
+    "d25-3",
+    "d25-10"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 25. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 679 after day 25 (643 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. Adding foreign kills would gain only +8 a day and risks losing half of the total. The game ends after day 30.",
+   "error": null,
+   "input_tokens": 6081,
+   "output_tokens": 1076,
+   "seconds": 9.1,
+   "reasoning": ""
+  },
+  {
+   "day": 26,
+   "kills": [
+    {
+     "id": "d26-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-9",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-2",
+     "coverage": [
+      "clips",
+      "regional:West"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-5",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-10",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d26-8",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d26-10",
+    "d26-5",
+    "d26-4",
+    "d26-3",
+    "d26-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 26. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 715 after day 26 (679 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. Adding foreign kills would gain only +8 a day and risks losing half of the total. The game ends after day 30.",
+   "error": null,
+   "input_tokens": 6244,
+   "output_tokens": 1066,
+   "seconds": 8.6,
+   "reasoning": ""
+  },
+  {
+   "day": 27,
+   "kills": [
+    {
+     "id": "d27-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-5",
+     "coverage": [
+      "gazette",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-2",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-3",
+     "coverage": [
+      "forum",
+      "wire"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-10",
+     "coverage": [
+      "hospital",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d27-11",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d27-1",
+    "d27-2",
+    "d27-5",
+    "d27-7",
+    "d27-8"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 27. The pool is 3000 (2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: since d6 I have made 9 kills a day, all x4 since d9. Points about 751 after day 27 (715 + 36). Keep killing 9 a day to hold x4: the last 4 days give 36, plus today's 9 makes 45, which is 40 or more. Still never use foreign. The game ends after day 30 (days 28, 29 and 30 remain).",
+   "error": null,
+   "input_tokens": 6407,
+   "output_tokens": 989,
+   "seconds": 8.0,
+   "reasoning": ""
+  },
+  {
+   "day": 28,
+   "kills": [
+    {
+     "id": "d28-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-2",
+     "coverage": [
+      "gazette",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-3",
+     "coverage": [
+      "blotter",
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-7",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-4",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-5",
+     "coverage": [
+      "blotter",
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-6",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d28-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d28-7",
+    "d28-1",
+    "d28-10",
+    "d28-6",
+    "d28-11"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 28. The pool is 3000 (about 2750 = 55000 afternoon-free x gazette 0.2 x 0.25 for the second pin). The unreachable pair is most likely AF (age+forum, about 66%) or RA (regional+age, about 31%). Under AF, East and gazette are pinned and clips and forum traces fail. Under RA, gazette and forum are pinned and East and clips traces fail. So extra kills at gazette, clips, forum and East cannot shrink the pool. Foreign is reachable in both cases, and a third foreign trace would give a pool of about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill foreign. Skip any victim whose list includes foreign.\n- Every day kill: national, gazette x2, clips x2, forum x2, regional:East x2. That is 9 quick entries, all in the AFTERNOON. Never use morning: it rules out students (the pool would go to about 1750, shown as 2000).\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\n- Expected pool stays at 3000 forever. Deaths_traced should rise about 2 per day.\nMULTIPLIER: I have held x4 since d9 with 9 kills a day. Points about 787 after day 28 (751 + 36). Keep 9 a day: the last 4 days give 36, plus 9 makes 45, so x4. Days 29 and 30 remain (day 30 is the last; the pool check also runs after day 30, so stay safe on the last day too).",
+   "error": null,
+   "input_tokens": 6558,
+   "output_tokens": 1161,
+   "seconds": 10.2,
+   "reasoning": ""
+  },
+  {
+   "day": 29,
+   "kills": [
+    {
+     "id": "d29-11",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-1",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-3",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-8",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-9",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-6",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-10",
+     "coverage": [
+      "forum",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-4",
+     "coverage": [
+      "regional:East",
+      "regional:North"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d29-5",
+     "coverage": [
+      "regional:East",
+      "regional:South"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d29-5",
+    "d29-4",
+    "d29-10",
+    "d29-11",
+    "d29-9"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "STATE after day 29. The pool is 3000. The unreachable pair is most likely age+forum (about 66%) or regional+age (about 31%). Foreign records are reachable in both cases, and a third foreign trace would bring the pool to about 690, which means CAUGHT.\nPERMANENT RULES:\n- NEVER kill a foreign victim. Skip any criminal whose list includes foreign.\n- Every day make 9 quick kills, all in the AFTERNOON: national x1, gazette x2, clips x2, forum x2, regional:East x2. Never use the morning block.\n- If the pool ever shows 2000 or less, kill only national + gazette from then on.\nMULTIPLIER: I have held x4 since day 9 with 9 kills a day. Points about 823 after day 29 (787 + 36). Day 30 is the LAST day, and the pool check also runs after day 30. So do the same 9 safe afternoon kills (no foreign) to keep x4: last 4 days 36 + 9 = 45.",
+   "error": null,
+   "input_tokens": 6717,
+   "output_tokens": 896,
+   "seconds": 8.7,
+   "reasoning": ""
+  },
+  {
+   "day": 30,
+   "kills": [
+    {
+     "id": "d30-8",
+     "coverage": [
+      "national"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-5",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-7",
+     "coverage": [
+      "gazette"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-10",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-11",
+     "coverage": [
+      "clips"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-3",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-4",
+     "coverage": [
+      "forum"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-2",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    },
+    {
+     "id": "d30-6",
+     "coverage": [
+      "regional:East"
+     ],
+     "entry": "quick",
+     "block": "afternoon"
+    }
+   ],
+   "traced": [
+    "d30-8",
+    "d30-7",
+    "d30-3",
+    "d30-5",
+    "d30-6"
+   ],
+   "points_today": 36,
+   "multiplier": 4,
+   "pool": 2750,
+   "notes": [],
+   "notes_to_self": "Day 30 was the final day. I made the same 9 safe quick kills in the afternoon: national x1, gazette x2, clips x2, forum x2, regional:East x2. I skipped both foreign victims (d30-1, d30-9), because one more foreign trace could push the pool to 1000 or less. These kills should keep the x4 multiplier, which gives +36 and about 859 points in total. The game ends after this day.",
+   "error": null,
+   "input_tokens": 6699,
+   "output_tokens": 672,
+   "seconds": 7.6,
+   "reasoning": ""
+  }
+ ],
+ "briefings": [
+  {
+   "after_day": 0,
+   "pool": 100000,
+   "deaths_traced": 0
+  },
+  {
+   "after_day": 1,
+   "pool": 60000,
+   "deaths_traced": 1
+  },
+  {
+   "after_day": 2,
+   "pool": 10000,
+   "deaths_traced": 3
+  },
+  {
+   "after_day": 3,
+   "pool": 10000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 4,
+   "pool": 10000,
+   "deaths_traced": 4
+  },
+  {
+   "after_day": 5,
+   "pool": 10000,
+   "deaths_traced": 6
+  },
+  {
+   "after_day": 6,
+   "pool": 3000,
+   "deaths_traced": 8
+  },
+  {
+   "after_day": 7,
+   "pool": 3000,
+   "deaths_traced": 11
+  },
+  {
+   "after_day": 8,
+   "pool": 3000,
+   "deaths_traced": 13
+  },
+  {
+   "after_day": 9,
+   "pool": 3000,
+   "deaths_traced": 15
+  },
+  {
+   "after_day": 10,
+   "pool": 3000,
+   "deaths_traced": 16
+  },
+  {
+   "after_day": 11,
+   "pool": 3000,
+   "deaths_traced": 19
+  },
+  {
+   "after_day": 12,
+   "pool": 3000,
+   "deaths_traced": 20
+  },
+  {
+   "after_day": 13,
+   "pool": 3000,
+   "deaths_traced": 22
+  },
+  {
+   "after_day": 14,
+   "pool": 3000,
+   "deaths_traced": 24
+  },
+  {
+   "after_day": 15,
+   "pool": 3000,
+   "deaths_traced": 26
+  },
+  {
+   "after_day": 16,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 17,
+   "pool": 3000,
+   "deaths_traced": 29
+  },
+  {
+   "after_day": 18,
+   "pool": 3000,
+   "deaths_traced": 32
+  },
+  {
+   "after_day": 19,
+   "pool": 3000,
+   "deaths_traced": 34
+  },
+  {
+   "after_day": 20,
+   "pool": 3000,
+   "deaths_traced": 37
+  },
+  {
+   "after_day": 21,
+   "pool": 3000,
+   "deaths_traced": 38
+  },
+  {
+   "after_day": 22,
+   "pool": 3000,
+   "deaths_traced": 40
+  },
+  {
+   "after_day": 23,
+   "pool": 3000,
+   "deaths_traced": 42
+  },
+  {
+   "after_day": 24,
+   "pool": 3000,
+   "deaths_traced": 44
+  },
+  {
+   "after_day": 25,
+   "pool": 3000,
+   "deaths_traced": 45
+  },
+  {
+   "after_day": 26,
+   "pool": 3000,
+   "deaths_traced": 48
+  },
+  {
+   "after_day": 27,
+   "pool": 3000,
+   "deaths_traced": 50
+  },
+  {
+   "after_day": 28,
+   "pool": 3000,
+   "deaths_traced": 52
+  },
+  {
+   "after_day": 29,
+   "pool": 3000,
+   "deaths_traced": 52
+  },
+  {
+   "after_day": 30,
+   "pool": 3000,
+   "deaths_traced": 55
+  }
+ ]
+}
