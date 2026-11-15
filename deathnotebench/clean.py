@@ -2,6 +2,7 @@
 every source as normal, watched or blind, and may not know the hour of death. The
 agent learns which from L's past case files."""
 import argparse
+import itertools
 import json
 import shutil
 from pathlib import Path
@@ -14,7 +15,7 @@ from .solver import Planner, hindsight_optimum
 
 DAYS = 7
 TARGETS = 5
-CASE_COUNTS = [6, 12, 24]
+CASE_COUNTS = [3, 6, 12, 24]
 GLOBAL_SOURCES = ["social"] + INSTITUTIONS
 
 
@@ -106,6 +107,57 @@ def _cases(rng, world, count):
             "holder_revealed_later": holder,
         })
     return cases
+
+
+def evidence(world, cases):
+    """How far the case files pin L down. Tries every L of the family (each source normal,
+    watched or blind; hours known or not) and keeps those that reproduce every file.
+    Returns the count and whether the survivors agree on each of the agent's sources."""
+    def status(beliefs, source):
+        return "watched" if source in beliefs["logged"] else "blind" if source in beliefs["ignored"] else "normal"
+
+    fits = {}
+    for hidden_size in range(len(GLOBAL_SOURCES) + 1):
+        for hidden in itertools.combinations(GLOBAL_SOURCES, hidden_size):
+            for hours in (True, False):
+                fits[(hidden, hours)] = []
+    prepared = []
+    for case in cases:
+        holder = case["holder_revealed_later"]
+        victims = [{"id": v["id"], "name": "", "deadline": DAYS, "is_bait": False, "windows": v["listings"]} for v in case["victims"]]
+        meta = {**world.meta, "agent": holder, "entities": victims, "l": None}
+        case_world = World(meta, world.region, world.pattern, world.pm, world.cm, world.edges)
+        case_world.cache = world.cache
+        lm = case_world.listing()
+        deaths = [(case_world.index[d["id"]], d["day"], d["hour"]) for d in case["deaths"]]
+        seen = [set(source_names(int(world.pm[holder]) & int(lm[e, d, h]))) for e, d, h in deaths]
+        outright = case["arrest"] == holder and case["l_final_suspects"] == [holder]
+        prepared.append((case_world, lm, deaths, seen, outright, set(case["l_final_suspects"])))
+    survivors = []
+    for (hidden, hours), _ in fits.items():
+        lists = []
+        for case_world, lm, deaths, seen, outright, listed in prepared:
+            trial = World({**case_world.meta, "l": {"ignored": list(hidden), "hours": hours}}, world.region, world.pattern, world.pm, world.cm, world.edges)
+            trial.cache = world.cache
+            from .core import LFilter
+            lists.append(set(int(p) for p in LFilter(trial, lm).suspects(deaths).nonzero()[0]))
+        for watched_size in range(len(hidden) + 1):
+            for watched in itertools.combinations(hidden, watched_size):
+                ok = True
+                for (case_world, lm, deaths, seen, outright, listed), predicted in zip(prepared, lists):
+                    could_be_logged = any(s & set(watched) for s in seen)
+                    must_be_logged = any(s and s <= set(watched) for s in seen)
+                    if outright:
+                        ok = could_be_logged
+                    else:
+                        ok = not must_be_logged and predicted == listed
+                    if not ok:
+                        break
+                if ok:
+                    survivors.append({"logged": list(watched), "ignored": [s for s in hidden if s not in watched], "hours": hours})
+    mine = [s for s in _sources_of(world, world.agent) if s in GLOBAL_SOURCES]
+    pinned = all(len({status(b, source) for b in survivors}) == 1 for source in mine) and len({b["hours"] for b in survivors}) == 1
+    return {"consistent": len(survivors), "pinned_for_agent": bool(pinned)}
 
 
 def generate(seed, variant=None, n=10_000):
@@ -209,6 +261,8 @@ def main():
             report = evaluate(world)
             if not acceptable(report, kind == "control"):
                 continue
+            if kind == "hidden" and not evidence(world, world.meta["cases"])["pinned_for_agent"]:
+                continue
             made += 1
             counts = [0] if kind == "control" else CASE_COUNTS
             for count in counts:
@@ -219,6 +273,9 @@ def main():
                 write_task(shown, out / name)
                 (out / name / "solution" / "solve.sh").write_text(solution_script(world))
                 manifest[name] = {"seed": seed, "cases": count, **report}
+                if count:
+                    manifest[name]["evidence"] = evidence(world, world.meta["cases"][:count])
+                    print("  ", name, manifest[name]["evidence"], flush=True)
             print(kind, made, "seed", seed, json.dumps(report), flush=True)
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1, sort_keys=True))
 
